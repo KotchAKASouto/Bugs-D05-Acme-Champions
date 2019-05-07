@@ -62,7 +62,9 @@
 	
 	<security:authorize access="hasRole('COMPANY')">
 		<jstl:if test="${AmInCompanyController }" >
-		<acme:column property="finalMode" titleKey="position.finalMode" value="${row.finalMode }" />
+			<display:column titleKey="position.finalMode"> 
+						<spring:message code="position.${row.finalMode }" />
+			</display:column>
 		</jstl:if>
 	</security:authorize>
 	

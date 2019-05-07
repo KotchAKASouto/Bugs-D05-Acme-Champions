@@ -20,7 +20,9 @@
 	
 	<acme:column property="score" titleKey="audit.score" value= "${row.score}: "/>
 	
-	<acme:column property="finalMode" titleKey="audit.finalMode" value= "${row.finalMode}: "/>
+	<display:column titleKey="audit.finalMode"> 
+				<spring:message code="audit.${row.finalMode }" />
+	</display:column>
 	
 	<acme:column property="position.title" titleKey="audit.position" value= "${row.position.title}: "/>
 	
