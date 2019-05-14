@@ -47,13 +47,15 @@
 
 	<acme:column property="title" titleKey="curriculum.title" value= "${row1.title} "/>
 	
-	<acme:dateFormat titleKey="curriculum.startDate" pattern="yyyy/MM/dd" value="${row1.startDate}"/>
+	<spring:message code="dateFormat" var="format"/>
+	<display:column titleKey="curriculum.startDate"> 
+		<fmt:formatDate value="${row1.startDate }" pattern="${format}" />
+	</display:column>
 	
-	<acme:dateFormat titleKey="curriculum.startDate" pattern="yyyy/MM/dd" value="${row1.startDate}"/>
-	
-	<acme:dateFormat titleKey="curriculum.endDate" pattern="yyyy/MM/dd" value="${row1.endDate}"/>
-	
-
+	<spring:message code="dateFormat" var="format"/>
+	<display:column titleKey="curriculum.endDate"> 
+		<fmt:formatDate value="${row1.endDate }" pattern="${format}" />
+	</display:column>
 	
 	<security:authorize access="hasRole('ROOKIE')">
 		<jstl:if test="${curriculum.noCopy}">
@@ -86,9 +88,15 @@
 	
 	<acme:column property="mark" titleKey="curriculum.mark" value= "${row2.mark} "/>
 	
-	<acme:dateFormat titleKey="curriculum.startDate" pattern="yyyy/MM/dd" value="${row2.startDate}"/>
+	<spring:message code="dateFormat" var="format"/>
+	<display:column titleKey="curriculum.startDate"> 
+		<fmt:formatDate value="${row2.startDate }" pattern="${format}" />
+	</display:column>
 	
-	<acme:dateFormat titleKey="curriculum.endDate" pattern="yyyy/MM/dd" value="${row2.endDate}"/>
+	<spring:message code="dateFormat" var="format"/>
+	<display:column titleKey="curriculum.endDate"> 
+		<fmt:formatDate value="${row2.endDate }" pattern="${format}" />
+	</display:column>
 	
 	<security:authorize access="hasRole('ROOKIE')">
 		<jstl:if test="${curriculum.noCopy}">

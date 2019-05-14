@@ -50,7 +50,10 @@
 	
 	<acme:column property="title" titleKey="position.title" value= "${row.title} "/>
 	
-	<acme:dateFormat titleKey="position.deadline" value="${row.deadline }" pattern="yyyy/MM/dd" />
+	<spring:message code="dateFormat" var="format"/>
+	<display:column titleKey="position.deadline"> 
+		<fmt:formatDate value="${row.deadline }" pattern="${format}" />
+	</display:column>
 	
 	<acme:column property="profile" titleKey="position.profile" value= "${row.profile}: "/>
 	
@@ -62,7 +65,9 @@
 	
 	<security:authorize access="hasRole('COMPANY')">
 		<jstl:if test="${AmInCompanyController }" >
-		<acme:column property="finalMode" titleKey="position.finalMode" value="${row.finalMode }" />
+			<display:column titleKey="position.finalMode"> 
+						<spring:message code="position.${row.finalMode }" />
+			</display:column>
 		</jstl:if>
 	</security:authorize>
 	

@@ -14,13 +14,18 @@
 <display:table name="audits" id="row" requestURI="${requestURI }" pagesize="5">
 
 	
-	<acme:dateFormat titleKey="audit.moment" value="${row.moment }" pattern="yyyy/MM/dd" />
+	<spring:message code="dateFormat" var="format"/>
+	<display:column titleKey="audit.moment"> 
+		<fmt:formatDate value="${row.moment }" pattern="${format}" />
+	</display:column>
 	
 	<acme:column property="text" titleKey="audit.text" value= "${row.text}: "/>
 	
 	<acme:column property="score" titleKey="audit.score" value= "${row.score}: "/>
 	
-	<acme:column property="finalMode" titleKey="audit.finalMode" value= "${row.finalMode}: "/>
+	<display:column titleKey="audit.finalMode"> 
+				<spring:message code="audit.${row.finalMode }" />
+	</display:column>
 	
 	<acme:column property="position.title" titleKey="audit.position" value= "${row.position.title}: "/>
 	

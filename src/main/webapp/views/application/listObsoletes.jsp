@@ -15,9 +15,14 @@
 	
 	<acme:column property="answer" titleKey="application.answer" value= "${row.answer}: "/>
 	
-	<acme:column property="moment" titleKey="application.moment" value= "${row.moment}: "/>
+	<spring:message code="dateFormat" var="format"/>
+	<display:column titleKey="application.moment"> 
+		<fmt:formatDate value="${row.moment }" pattern="${format}" />
+	</display:column>
 	
-	<acme:column property="submitMoment" titleKey="application.submitMoment" value= "${row.submitMoment}: "/>
+	<display:column titleKey="application.submitMoment"> 
+		<fmt:formatDate value="${row.submitMoment }" pattern="${format}" />
+	</display:column>
 	
 	<acme:column property="curriculum.personalData.statement" titleKey="application.curriculum" value= "${row.curriculum.personalData.statement}: "/>
 	

@@ -24,7 +24,9 @@
 	<jstl:out value="${row.attachments}"></jstl:out><br>
 	</display:column>
 	
-	<acme:column property="finalMode" titleKey="problem.finalMode" value= "${row.finalMode}: "/>
+	<display:column titleKey="problem.finalMode"> 
+				<spring:message code="problem.${row.finalMode }" />
+	</display:column>
 	
 	<display:column titleKey="problem.positions">
 		<c:forEach items="${row.positions}" var="item">

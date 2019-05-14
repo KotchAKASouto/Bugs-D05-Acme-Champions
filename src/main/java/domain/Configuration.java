@@ -7,6 +7,8 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -107,8 +109,8 @@ public class Configuration extends DomainEntity {
 		this.finderResult = finderResult;
 	}
 
-	@Min(0)
-	@Max(1)
+	@DecimalMax(value = "1.0")
+	@DecimalMin(value = "0.0")
 	public Double getVatTax() {
 		return this.vatTax;
 	}
@@ -117,7 +119,7 @@ public class Configuration extends DomainEntity {
 		this.vatTax = vatTax;
 	}
 
-	@Min(0)
+	@DecimalMin(value = "0.0")
 	public Double getFare() {
 		return this.fare;
 	}
