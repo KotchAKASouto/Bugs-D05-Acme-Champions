@@ -57,8 +57,6 @@
 		<fmt:formatDate value="${row1.endDate }" pattern="${format}" />
 	</display:column>
 	
-
-	
 	<security:authorize access="hasRole('ROOKIE')">
 		<jstl:if test="${curriculum.noCopy}">
 			<acme:url href="positionData/rookie/edit.do?positionRecordId=${row1.id }" code="curriculum.edit"/>
