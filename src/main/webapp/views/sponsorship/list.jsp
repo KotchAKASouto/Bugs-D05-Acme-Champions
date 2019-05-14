@@ -11,11 +11,10 @@
 
 
 <display:table name="sponsorships" id="row" requestURI="${requestURI }" pagesize="5">
-
 	
-	<acme:column property="banner" titleKey="sponsorship.banner" value= "${row.banner}: "/>
-	
-	<acme:column property="target" titleKey="sponsorship.target" value= "${row.target}: "/>
+	<display:column>
+		<a target="_blank" href="${row.target }"><spring:message code="sponsorship.target"/></a>
+	</display:column>
 	
 	<acme:column property="cost" titleKey="sponsorship.cost" value= "${row.cost}: "/>
 	

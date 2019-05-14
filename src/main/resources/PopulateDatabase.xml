@@ -1629,7 +1629,7 @@
 	<bean id="sponsorship1" class="domain.Sponsorship">
 		<property name="provider" ref="provider1" />
 		<property name="creditCard" ref="creditCardSponsorship1" />
-		<property name="banner" value="https://imgur.com/gallery/CJ5yubF" />
+		<property name="banner" value="https://i.imgur.com/CJ5yubF.jpg" />
 		<property name="target" value="http://www.target.com" />
 		<property name="position" ref="position1" />
 	</bean>
@@ -1646,7 +1646,7 @@
 	<bean id="sponsorship2" class="domain.Sponsorship">
 		<property name="provider" ref="provider1" />
 		<property name="creditCard" ref="creditCardSponsorship2" />
-		<property name="banner" value="https://imgur.com/gallery/RBIkQq3" />
+		<property name="banner" value="https://i.imgur.com/RBIkQq3.jpg" />
 		<property name="target" value="http://www.target.com" />
 		<property name="position" ref="position3" />
 	</bean>
@@ -1663,7 +1663,7 @@
 	<bean id="sponsorship3" class="domain.Sponsorship">
 		<property name="provider" ref="provider2" />
 		<property name="creditCard" ref="creditCardSponsorship3" />
-		<property name="banner" value="https://imgur.com/gallery/hHZW5wL" />
+		<property name="banner" value="https://i.imgur.com/hHZW5wL.jpg" />
 		<property name="target" value="http://www.target.com" />
 		<property name="position" ref="position7" />
 	</bean>
@@ -1680,9 +1680,9 @@
 	<bean id="sponsorship4" class="domain.Sponsorship">
 		<property name="provider" ref="provider2" />
 		<property name="creditCard" ref="creditCardSponsorship4" />
-		<property name="banner" value="https://imgur.com/gallery/5e8rx" />
+		<property name="banner" value="https://i.imgur.com/6MPbHHW.png" />
 		<property name="target" value="http://www.target.com" />
-		<property name="position" ref="position10" />
+		<property name="position" ref="position1" />
 	</bean>
 	
 	<bean id="creditCardSponsorship4" class="domain.CreditCard">
