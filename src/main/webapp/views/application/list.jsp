@@ -61,9 +61,14 @@
 	
 	<acme:column property="answer" titleKey="application.answer" value= "${row2.answer}: "/>
 	
-	<acme:column property="moment" titleKey="application.moment" value= "${row2.moment}: "/>
+	<spring:message code="dateFormat" var="format"/>
+	<display:column titleKey="application.moment"> 
+		<fmt:formatDate value="${row2.moment }" pattern="${format}" />
+	</display:column>
 	
-	<acme:column property="submitMoment" titleKey="application.submitMoment" value= "${row2.submitMoment}: "/>
+	<display:column titleKey="application.submitMoment"> 
+		<fmt:formatDate value="${row2.submitMoment }" pattern="${format}" />
+	</display:column>
 	
 	<security:authorize access="hasRole('ROOKIE')">
 	
@@ -99,9 +104,14 @@
 	
 	<acme:column property="answer" titleKey="application.answer" value= "${row3.answer}: "/>
 	
-	<acme:column property="moment" titleKey="application.moment" value= "${row3.moment}: "/>
+	<spring:message code="dateFormat" var="format"/>
+	<display:column titleKey="application.moment"> 
+		<fmt:formatDate value="${row3.moment }" pattern="${format}" />
+	</display:column>
 	
-	<acme:column property="submitMoment" titleKey="application.submitMoment" value= "${row3.submitMoment}: "/>
+	<display:column titleKey="application.submitMoment"> 
+		<fmt:formatDate value="${row3.submitMoment }" pattern="${format}" />
+	</display:column>
 	
 	<security:authorize access="hasRole('ROOKIE')">
 	
@@ -149,9 +159,14 @@
 	
 	<acme:column property="answer" titleKey="application.answer" value= "${row4.answer}: "/>
 	
-	<acme:column property="moment" titleKey="application.moment" value= "${row4.moment}: "/>
+	<spring:message code="dateFormat" var="format"/>
+	<display:column titleKey="application.moment"> 
+		<fmt:formatDate value="${row4.moment }" pattern="${format}" />
+	</display:column>
 	
-	<acme:column property="submitMoment" titleKey="application.submitMoment" value= "${row4.submitMoment}: "/>
+	<display:column titleKey="application.submitMoment"> 
+		<fmt:formatDate value="${row4.submitMoment }" pattern="${format}" />
+	</display:column>
 	
 	<security:authorize access="hasRole('ROOKIE')">
 	

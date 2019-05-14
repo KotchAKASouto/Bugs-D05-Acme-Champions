@@ -50,7 +50,10 @@
 	
 	<acme:column property="title" titleKey="position.title" value= "${row.title} "/>
 	
-	<acme:dateFormat titleKey="position.deadline" value="${row.deadline }" pattern="yyyy/MM/dd" />
+	<spring:message code="dateFormat" var="format"/>
+	<display:column titleKey="position.deadline"> 
+		<fmt:formatDate value="${row.deadline }" pattern="${format}" />
+	</display:column>
 	
 	<acme:column property="profile" titleKey="position.profile" value= "${row.profile}: "/>
 	

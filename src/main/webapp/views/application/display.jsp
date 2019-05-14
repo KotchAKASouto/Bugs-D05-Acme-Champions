@@ -23,13 +23,19 @@
 <display:table name="application.problem.attachments" id="row">
 </display:table>
 
-<acme:display code="application.moment" property="${application.moment} "/>
-	
+<div><spring:message code="application.moment" />:
+<spring:message code="dateFormat" var="format"/>
+<fmt:formatDate value="${application.moment}" pattern="${format}"/>
+</div>
+
 <acme:display code="application.status" property="${application.status} "/>
 	
 <acme:display code="application.answer" property="${application.answer} "/>
 
-<acme:display code="application.submitMoment" property="${application.submitMoment} "/>
+<div><spring:message code="application.submitMoment" />:
+<spring:message code="dateFormat" var="format"/>
+<fmt:formatDate value="${application.submitMoment}" pattern="${format}"/>
+</div>
 	
 <acme:display code="application.position.ticker" property="${application.position.ticker} "/>
 	

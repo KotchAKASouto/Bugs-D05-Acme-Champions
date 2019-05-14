@@ -14,7 +14,10 @@
 
 <security:authorize access="hasRole('AUDITOR')">
 
-<spring:message code="audit.moment" />: <fmt:formatDate value="${audit.moment }" pattern="yyyy/MM/dd" />
+<div><spring:message code="audit.moment" />:
+<spring:message code="dateFormat" var="format"/>
+<fmt:formatDate value="${audit.moment}" pattern="${format}"/>
+</div>
 
 <acme:display code="audit.text" property="${audit.text }" />
 

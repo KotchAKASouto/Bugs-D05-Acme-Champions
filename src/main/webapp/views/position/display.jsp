@@ -18,7 +18,10 @@
 
 <acme:display code="position.description" property="${position.description}" />
 
-<spring:message code="position.deadline" />: <fmt:formatDate value="${position.deadline }" pattern="yyyy/MM/dd" />
+<div><spring:message code="position.deadline" />:
+<spring:message code="dateFormat" var="format"/>
+<fmt:formatDate value="${position.deadline}" pattern="${format}"/>
+</div>
 
 <acme:display code="position.profile" property="${position.profile}" />
 
