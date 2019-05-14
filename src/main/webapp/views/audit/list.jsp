@@ -14,7 +14,10 @@
 <display:table name="audits" id="row" requestURI="${requestURI }" pagesize="5">
 
 	
-	<acme:dateFormat titleKey="audit.moment" value="${row.moment }" pattern="yyyy/MM/dd" />
+	<spring:message code="dateFormat" var="format"/>
+	<display:column titleKey="audit.moment"> 
+		<fmt:formatDate value="${row.moment }" pattern="${format}" />
+	</display:column>
 	
 	<acme:column property="text" titleKey="audit.text" value= "${row.text}: "/>
 	
