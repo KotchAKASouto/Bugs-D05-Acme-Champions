@@ -49,8 +49,6 @@
 	
 	<acme:dateFormat titleKey="curriculum.startDate" pattern="yyyy/MM/dd" value="${row1.startDate}"/>
 	
-	<acme:dateFormat titleKey="curriculum.startDate" pattern="yyyy/MM/dd" value="${row1.startDate}"/>
-	
 	<acme:dateFormat titleKey="curriculum.endDate" pattern="yyyy/MM/dd" value="${row1.endDate}"/>
 	
 
