@@ -429,7 +429,10 @@ public class AdministratorService {
 	}
 
 	public List<String> topScoreCompany() {
-		return this.administratorRepository.topScoreCompany();
+		final List<String> result = this.administratorRepository.topScoreCompany();
+		if (result.size() == 0)
+			result.add(" N/A ");
+		return result;
 	}
 
 	public Double avgSalaryTopCompany() {
@@ -453,7 +456,10 @@ public class AdministratorService {
 	}
 
 	public List<String> top5Provider() {
-		return this.administratorRepository.top5Provider();
+		final List<String> result = this.administratorRepository.top5Provider();
+		if (result.size() == 0)
+			result.add(" N/A ");
+		return result;
 	}
 
 	public Double avgSponsorshipPerProvider() {
@@ -489,7 +495,10 @@ public class AdministratorService {
 	}
 
 	public List<String> superiorProviders() {
-		return this.administratorRepository.superiorProviders();
+		final List<String> result = this.administratorRepository.superiorProviders();
+		if (result.size() == 0)
+			result.add(" N/A ");
+		return result;
 	}
 
 }
