@@ -45,6 +45,9 @@ public interface ApplicationRepository extends JpaRepository<Application, Intege
 	@Query("select a from Application a where a.position.id = ?1")
 	Collection<Application> findByPositionId(final int positionId);
 
+	@Query("select a from Application a where a.problem.id = ?1")
+	Collection<Application> findByProblemId(final int problemId);
+
 	@Query("select a from Application a where a.rookie.id = ?1")
 	Collection<Application> findByRookieId(final int rookieId);
 

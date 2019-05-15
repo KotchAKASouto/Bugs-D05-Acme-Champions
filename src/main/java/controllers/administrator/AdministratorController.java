@@ -207,6 +207,7 @@ public class AdministratorController extends AbstractController {
 					this.actorService.masterDelete(actorId);
 					result = new ModelAndView("redirect:/welcome/index.do");
 				} catch (final Throwable oops) {
+					System.out.println(oops);
 					result = new ModelAndView("redirect:/actor/administrator/profile/displayActor.do?actorId=" + actorId);
 				}
 			else

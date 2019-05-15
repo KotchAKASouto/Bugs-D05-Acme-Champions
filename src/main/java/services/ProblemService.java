@@ -18,6 +18,7 @@ import org.springframework.validation.Validator;
 import repositories.ProblemRepository;
 import security.Authority;
 import domain.Actor;
+import domain.Application;
 import domain.Company;
 import domain.Position;
 import domain.Problem;
@@ -38,6 +39,9 @@ public class ProblemService {
 
 	@Autowired
 	private CompanyService		companyService;
+
+	@Autowired
+	private ApplicationService	applicationService;
 
 	@Autowired
 	private Validator			validator;
@@ -130,8 +134,16 @@ public class ProblemService {
 		final Collection<Problem> problems = this.findProblemByCompanyId(actorId);
 
 		if (!problems.isEmpty())
-			for (final Problem p : problems)
+			for (final Problem p : problems) {
+
+				final Collection<Application> apps = this.applicationService.findByProblemId(p.getId());
+				if (!apps.isEmpty())
+					for (final Application a : apps)
+						this.applicationService.delete(a);
+
 				this.problemRepository.delete(p);
+			}
+
 	}
 
 	public void checkPictures(final Collection<String> attachments) {

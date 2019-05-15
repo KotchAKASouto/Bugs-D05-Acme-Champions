@@ -382,4 +382,11 @@ public class ApplicationService {
 		return result;
 	}
 
+	public Collection<Application> findByProblemId(final int problemId) {
+
+		final Collection<Application> result = this.applicationRepository.findByProblemId(problemId);
+
+		return result;
+	}
+
 }
