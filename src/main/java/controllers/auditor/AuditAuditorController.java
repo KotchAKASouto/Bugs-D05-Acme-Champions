@@ -134,7 +134,8 @@ public class AuditAuditorController extends AbstractController {
 		ModelAndView result;
 		final String banner = this.configurationService.findConfiguration().getBanner();
 
-		if ((audit.getId() != 0 && this.auditService.findOne(audit.getId()) == null) || audit.getPosition() == null) {
+		if ((audit.getId() != 0 && this.auditService.findOne(audit.getId()) == null) || audit.getPosition() == null || audit.getPosition().getFinalMode() == false
+			|| audit.getPosition().getId() != this.auditService.findOne(audit.getId()).getPosition().getId()) {
 			result = new ModelAndView("misc/notExist");
 			result.addObject("banner", banner);
 		} else {
