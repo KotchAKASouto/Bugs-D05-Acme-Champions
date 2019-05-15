@@ -37,6 +37,8 @@
 	
 	<input type="submit" name="find" value="<spring:message code="filter.search"/>"/>
 	
+	<input type="submit" name="clear" value="<spring:message code="finder.clear"/>"/>
+	
 </form:form> 
 </security:authorize>
 </jstl:if>
@@ -67,6 +69,11 @@
 		<jstl:if test="${AmInCompanyController }" >
 			<display:column titleKey="position.finalMode"> 
 						<spring:message code="position.${row.finalMode }" />
+			</display:column>
+			
+			<spring:message code="dateFormat" var="format"/>
+			<display:column titleKey="position.dateCancel"> 
+				<fmt:formatDate value="${row.cancellation }" pattern="${format}" />
 			</display:column>
 		</jstl:if>
 	</security:authorize>

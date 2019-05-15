@@ -112,6 +112,10 @@ public class ApplicationService {
 		Assert.isTrue((actor.getUserAccount().getAuthorities().contains(authority)));
 
 		res = this.findOne(applicationId);
+
+		//comprobar que la position que aplica no está cancelada
+		Assert.isTrue(res.getPosition().getCancellation() != null);
+
 		res.setStatus("ACCEPTED");
 		this.applicationRepository.save(res);
 
@@ -131,6 +135,10 @@ public class ApplicationService {
 		Assert.isTrue((actor.getUserAccount().getAuthorities().contains(authority)));
 
 		res = this.findOne(applicationId);
+
+		//comprobar que la position que aplica no está cancelada
+		Assert.isTrue(res.getPosition().getCancellation() != null);
+
 		res.setStatus("REJECTED");
 		this.applicationRepository.save(res);
 

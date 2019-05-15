@@ -148,6 +148,10 @@ public class ProblemService {
 
 		Assert.notNull(problem);
 		Assert.notNull(position);
+
+		//un problem no puede añadirse a una position cancelada
+		Assert.isTrue(position.getCancellation() == null);
+
 		final Date currentMoment = new Date(System.currentTimeMillis() - 1000);
 		Assert.isTrue(position.getDeadline().after(currentMoment));
 		final Actor actor = this.actorService.findByPrincipal();

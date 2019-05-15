@@ -12,6 +12,7 @@ import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
@@ -31,9 +32,19 @@ public class Position extends DomainEntity {
 	private String	technologies;
 	private Double	offeredSalary;
 	private Boolean	finalMode;
+	private Date	cancellation;
 
 	private Company	company;
 
+
+	@Past
+	public Date getCancellation() {
+		return this.cancellation;
+	}
+
+	public void setCancellation(final Date cancellation) {
+		this.cancellation = cancellation;
+	}
 
 	@SafeHtml
 	@NotBlank

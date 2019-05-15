@@ -32,8 +32,11 @@
 <acme:display code="position.offeredSalary" property="${position.offeredSalary}" />
 
 <security:authorize access="hasRole('COMPANY')">
-<jstl:if test="${!position.finalMode && security}">
+<jstl:if test="${!position.finalMode && security && position.cancellation==null}">
 	<acme:button name="edit" code="position.edit" onclick="javascript: relativeRedir('position/company/edit.do?positionId=${position.id }');" />
+</jstl:if>
+<jstl:if test="${position.finalMode && position.cancellation==null }">
+	<acme:button name="edit" code="position.cancellation" onclick="javascript: relativeRedir('position/company/cancel.do?positionId=${position.id }');" />
 </jstl:if>
 </security:authorize>
 
