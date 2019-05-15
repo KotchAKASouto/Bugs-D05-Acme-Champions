@@ -68,7 +68,7 @@
 </security:authorize> 
 
 
-<spring:message code="actor.photo"/>: <br> <img src="${actor.photo }"/> <br>
+<spring:message code="actor.photo"/>: <br> <img src="${actor.photo }" width="10%" height="10%"/> <br>
 
 <acme:display code="actor.email" property="${actor.email }" />
 

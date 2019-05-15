@@ -23,7 +23,7 @@
 <spring:message code="item.pictures" />: <br>
 <c:forEach items="${item.pictures}" var="item">
     		<fieldset>
-				<img src="${item}" alt="pictures" width="200" height="100"/>
+				<img src="${item}" alt="pictures" width="10%" height="10%"/>
 			</fieldset>
     		<br>
 </c:forEach>
