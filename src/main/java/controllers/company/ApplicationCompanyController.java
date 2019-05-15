@@ -132,7 +132,8 @@ public class ApplicationCompanyController {
 
 			final Date now = new Date(System.currentTimeMillis() - 1000);
 
-			if (security && this.applicationService.findOne(applicationId).getStatus().equals("SUBMITTED") && this.applicationService.findOne(applicationId).getPosition().getDeadline().after(now)) {
+			if (security && this.applicationService.findOne(applicationId).getStatus().equals("SUBMITTED") && this.applicationService.findOne(applicationId).getPosition().getDeadline().after(now)
+				&& this.applicationService.findOne(applicationId).getPosition().getCancellation() == null) {
 
 				this.applicationService.accept(applicationId);
 
@@ -162,7 +163,8 @@ public class ApplicationCompanyController {
 
 			final Date now = new Date(System.currentTimeMillis() - 1000);
 
-			if (security && this.applicationService.findOne(applicationId).getStatus().equals("SUBMITTED") && this.applicationService.findOne(applicationId).getPosition().getDeadline().after(now)) {
+			if (security && this.applicationService.findOne(applicationId).getStatus().equals("SUBMITTED") && this.applicationService.findOne(applicationId).getPosition().getDeadline().after(now)
+				&& this.applicationService.findOne(applicationId).getPosition().getCancellation() == null) {
 
 				this.applicationService.reject(applicationId);
 
