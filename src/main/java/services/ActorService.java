@@ -79,6 +79,9 @@ public class ActorService {
 	@Autowired
 	private FinderService			finderService;
 
+	@Autowired
+	private ApplicationService		applicationService;
+
 
 	//Simple CRUD methods --------------------------------------------------
 
@@ -346,6 +349,8 @@ public class ActorService {
 		} else if (actor.getUserAccount().getAuthorities().contains(rookie)) {
 
 			this.finderService.deleteFinderActor(actorId);
+
+			this.applicationService.deleteAll(actorId);
 
 			this.curriculumService.deleteAll(actorId);
 

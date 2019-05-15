@@ -16,8 +16,8 @@ import repositories.FinderRepository;
 import security.Authority;
 import domain.Actor;
 import domain.Finder;
-import domain.Rookie;
 import domain.Position;
+import domain.Rookie;
 
 @Service
 @Transactional
