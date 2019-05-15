@@ -11,13 +11,17 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.ActorService;
 import services.AdministratorService;
+import services.AuditorService;
 import services.CompanyService;
 import services.ConfigurationService;
+import services.ProviderService;
 import services.RookieService;
 import controllers.AbstractController;
 import domain.Actor;
 import domain.Administrator;
+import domain.Auditor;
 import domain.Company;
+import domain.Provider;
 import domain.Rookie;
 
 @Controller
@@ -39,6 +43,12 @@ public class ActorController extends AbstractController {
 	private CompanyService			companyService;
 
 	@Autowired
+	private ProviderService			providerService;
+
+	@Autowired
+	private AuditorService			auditorService;
+
+	@Autowired
 	private ConfigurationService	configurationService;
 
 
@@ -51,10 +61,14 @@ public class ActorController extends AbstractController {
 		Collection<Rookie> rookies;
 		Collection<Company> companies;
 		Collection<Administrator> administrators;
+		Collection<Provider> providers;
+		Collection<Auditor> auditors;
 
 		rookies = this.rookieService.findAll();
 		companies = this.companyService.findAll();
 		administrators = this.administratorService.findAll();
+		providers = this.providerService.findAll();
+		auditors = this.auditorService.findAll();
 
 		if (rookies.contains(actor))
 			rookies.remove(actor);
@@ -62,6 +76,10 @@ public class ActorController extends AbstractController {
 			companies.remove(actor);
 		else if (administrators.contains(actor))
 			administrators.remove(actor);
+		else if (providers.contains(actor))
+			providers.remove(actor);
+		else if (auditors.contains(actor))
+			auditors.remove(actor);
 
 		final String banner = this.configurationService.findConfiguration().getBanner();
 
@@ -69,6 +87,8 @@ public class ActorController extends AbstractController {
 		result.addObject("rookies", rookies);
 		result.addObject("companies", companies);
 		result.addObject("administrators", administrators);
+		result.addObject("providers", providers);
+		result.addObject("auditors", auditors);
 		result.addObject("banner", banner);
 
 		result.addObject("requestURI", "actor/list.do");
