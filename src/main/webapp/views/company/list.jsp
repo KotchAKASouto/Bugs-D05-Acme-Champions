@@ -24,7 +24,9 @@
 	
 	<acme:column property="phone" titleKey="company.phone" value="${row.phone }" />
 	
-	<acme:column property="photo" titleKey="company.photo" value= "${row.photo} "/>
+	<display:column titleKey="company.photo">
+		<a href="${row.photo }" target="_blank">${row.photo }</a>
+	</display:column>
 	
 	<acme:url href="position/listByCompany.do?companyId=${row.id }" code="company.positions"/>
 

@@ -13,9 +13,9 @@
 
 <security:authorize access="hasRole('PROVIDER')">
 
-<acme:display code="sponsorship.banner" property="${sponsorship.banner }" />
-
-<acme:display code="sponsorship.target" property="${sponsorship.target }" />
+<div>
+	<a target="_blank" href="${sponsorship.target}"><img src="${sponsorship.banner }" alt="Banner"  width="10%" height="10%" /></a>
+</div>
 
 <acme:display code="sponsorship.cost" property="${sponsorship.cost }" />
 

@@ -16,7 +16,10 @@
 	
 	<acme:column property="name" titleKey="item.name" value= "${row.name}: "/>
 	
-	<acme:column property="link" titleKey="item.link" value= "${row.link} "/>
+	<display:column titleKey="item.link">
+		<a href="${row.link }" target="_blank">${row.link }</a>
+	</display:column>
+
 
 	<security:authorize access="hasRole('PROVIDER')">
 	

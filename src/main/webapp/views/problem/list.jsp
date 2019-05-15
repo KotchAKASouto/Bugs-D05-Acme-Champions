@@ -20,9 +20,15 @@
 	
 	<acme:column property="hint" titleKey="problem.hint" value= "${row.hint}: "/>
 	
+	
+	
 	<display:column titleKey="problem.attachments">
-	<jstl:out value="${row.attachments}"></jstl:out><br>
+		<c:forEach items="${row.attachments}" var="attachment">
+				<a href="${attachment}" target="_blank">${attachment}</a><br/>
+		</c:forEach>
+
 	</display:column>
+	
 	
 	<display:column titleKey="problem.finalMode"> 
 				<spring:message code="problem.${row.finalMode }" />

@@ -16,6 +16,8 @@
 
 <acme:display code="socialProfile.socialName" property="${socialProfile.socialName }" />
 
-<acme:display code="socialProfile.link" property="${socialProfile.link}" />
+<div><spring:message code="socialProfile.link" />:
+<a href="${socialProfile.link}" target="_blank">${socialProfile.link }</a>
+</div>
 
 <acme:button name="back" code="socialProfile.back" onclick="javascript: relativeRedir('socialProfile/administrator,company,rookie/list.do');" />

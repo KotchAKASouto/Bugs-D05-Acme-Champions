@@ -47,12 +47,14 @@ public class ConfigurationAdministratorController extends AbstractController {
 
 		final Boolean exist = this.configurationService.exist(configuration.getId());
 
+		final Configuration reconstruct = this.configurationService.reconstruct(configuration, binding);
+
 		if (configuration.getId() != 0 && exist) {
 			if (binding.hasErrors())
 				result = this.createEditModelAndView(configuration);
 			else
 				try {
-					this.configurationService.save(configuration);
+					this.configurationService.save(reconstruct);
 					result = new ModelAndView("redirect:edit.do");
 				} catch (final Throwable oops) {
 					result = this.createEditModelAndView(configuration, "configuration.commit.error");

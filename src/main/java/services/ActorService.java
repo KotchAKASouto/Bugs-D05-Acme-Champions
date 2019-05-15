@@ -65,6 +65,9 @@ public class ActorService {
 	private RookieService			rookieService;
 
 	@Autowired
+	private ItemService				itemService;
+
+	@Autowired
 	private MessageService			messageService;
 
 	@Autowired
@@ -75,6 +78,9 @@ public class ActorService {
 
 	@Autowired
 	private FinderService			finderService;
+
+	@Autowired
+	private ApplicationService		applicationService;
 
 
 	//Simple CRUD methods --------------------------------------------------
@@ -323,10 +329,10 @@ public class ActorService {
 		rookie.setAuthority(Authority.ROOKIE);
 
 		final Authority auditor = new Authority();
-		rookie.setAuthority(Authority.AUDITOR);
+		auditor.setAuthority(Authority.AUDITOR);
 
 		final Authority provider = new Authority();
-		rookie.setAuthority(Authority.PROVIDER);
+		provider.setAuthority(Authority.PROVIDER);
 
 		final Actor actor = this.actorRepository.findOne(actorId);
 
@@ -344,12 +350,18 @@ public class ActorService {
 
 			this.finderService.deleteFinderActor(actorId);
 
+			this.applicationService.deleteAll(actorId);
+
 			this.curriculumService.deleteAll(actorId);
 
 		} else if (actor.getUserAccount().getAuthorities().contains(auditor))
 			this.auditService.deleteAll(actorId);
-		else if (actor.getUserAccount().getAuthorities().contains(provider))
+		else if (actor.getUserAccount().getAuthorities().contains(provider)) {
+
 			this.sponsorshipService.deleteAll(actorId);
+
+			this.itemService.deleteAll(actorId);
+		}
 
 		this.actorRepository.delete(actor);
 

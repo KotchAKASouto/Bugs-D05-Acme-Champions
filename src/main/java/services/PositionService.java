@@ -182,14 +182,6 @@ public class PositionService {
 		if (!positions.isEmpty())
 			for (final Position p : positions) {
 
-				final Collection<Finder> finders = this.finderService.findFindersByPositionId(p.getId());
-				if (!finders.isEmpty())
-					for (final Finder f : finders) {
-
-						f.getPositions().remove(p);
-						this.finderService.saveAdmin(f);
-					}
-
 				final Collection<Application> apps = this.applicationService.findByPositionId(p.getId());
 				if (!apps.isEmpty())
 					for (final Application a : apps)
@@ -203,7 +195,7 @@ public class PositionService {
 				final Collection<Sponsorship> sponsorships = this.sponsorshipService.findAllByPositionId(p.getId());
 				if (!sponsorships.isEmpty())
 					for (final Sponsorship s : sponsorships)
-						this.sponsorshipService.delete(s);
+						this.sponsorshipService.deleteAdmin(s);
 
 				final Collection<Auditor> auditors = this.auditorService.findAuditorByPositionId(p.getId());
 				if (!auditors.isEmpty())
@@ -212,6 +204,14 @@ public class PositionService {
 						auditorPositions.remove(p);
 						this.auditorService.saveAdmin(auditor);
 					}
+
+				final Collection<Finder> finders = this.finderService.findFindersByPositionId(p.getId());
+				if (!finders.isEmpty())
+					for (final Finder f : finders)
+						if (!f.getPositions().isEmpty()) {
+							f.getPositions().remove(p);
+							this.finderService.saveAdmin(f);
+						}
 
 				this.positionRepository.delete(p);
 			}

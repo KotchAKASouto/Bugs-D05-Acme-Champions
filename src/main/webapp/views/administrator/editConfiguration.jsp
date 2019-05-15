@@ -14,8 +14,6 @@
 	<form:hidden path="id" />
 	<form:hidden path="version" />
 	
-	<form:hidden path="rebrandingNotification" />
-	
 	<acme:textbox code="configuration.spamWords" size="100" path="spamWords" obligatory="true"/>
 
 	<acme:textbox code="configuration.banner" size="100" path="banner" obligatory="true"/>

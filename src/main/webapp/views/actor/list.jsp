@@ -48,6 +48,32 @@ requestURI="${requestURI }" >
 	
 </display:table>
 	
+<h3><spring:message code="actor.providers" /></h3>
+	
+	<display:table pagesize="5" name="providers" id="row4" 
+requestURI="${requestURI }" >
+
+	<acme:column property="name" titleKey="actor.name" value= "${row4.name}: "/>
+	
+	<acme:column property="surnames" titleKey="actor.surnames" value= "${row4.surnames}: "/>
+	
+	<acme:url href="message/actor/create.do?actorId=${row4.id}" code="actor.contact"/>
+	
+</display:table>
+	
+<h3><spring:message code="actor.auditors" /></h3>
+	
+	<display:table pagesize="5" name="auditors" id="row5" 
+requestURI="${requestURI }" >
+
+	<acme:column property="name" titleKey="actor.name" value= "${row5.name}: "/>
+	
+	<acme:column property="surnames" titleKey="actor.surnames" value= "${row5.surnames}: "/>
+	
+	<acme:url href="message/actor/create.do?actorId=${row5.id}" code="actor.contact"/>
+	
+</display:table>
+	
 
 
 	<acme:button name="back" code="actor.back" onclick="javascript: relativeRedir('message/actor/list.do');"/>

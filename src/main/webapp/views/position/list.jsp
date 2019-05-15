@@ -51,6 +51,7 @@
 	<acme:column property="company.commercialName" titleKey="position.company" value= "${row.company.commercialName}: "/>
 	
 	<acme:column property="title" titleKey="position.title" value= "${row.title} "/>
+	<acme:column property="description" titleKey="position.description" value= "${row.description} "/>
 	
 	<spring:message code="dateFormat" var="format"/>
 	<display:column titleKey="position.deadline"> 

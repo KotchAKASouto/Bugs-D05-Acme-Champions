@@ -8,6 +8,8 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.ConfigurationRepository;
 import security.Authority;
@@ -34,6 +36,9 @@ public class ConfigurationService {
 
 	@Autowired
 	private MessageService			messageService;
+
+	@Autowired
+	private Validator				validator;
 
 
 	//Methods
@@ -140,6 +145,25 @@ public class ConfigurationService {
 
 		if (c != null)
 			result = true;
+
+		return result;
+	}
+
+	public Configuration reconstruct(final Configuration config, final BindingResult binding) {
+
+		final Configuration result = this.findOne(config.getId());
+
+		result.setBanner(config.getBanner());
+		result.setCountryCode(config.getCountryCode());
+		result.setFare(config.getFare());
+		result.setFinderResult(config.getFinderResult());
+		result.setFinderTime(config.getFinderTime());
+		result.setSpamWords(config.getSpamWords());
+		result.setVatTax(config.getVatTax());
+		result.setWelcomeMessage(config.getWelcomeMessage());
+		result.setWelcomeMessageEs(config.getWelcomeMessageEs());
+
+		this.validator.validate(result, binding);
 
 		return result;
 	}

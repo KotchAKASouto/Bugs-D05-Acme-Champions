@@ -18,7 +18,9 @@
 	
 	<acme:column property="description" titleKey="item.description" value= "${row.description}: "/>
 	
-	<acme:column property="link" titleKey="item.link" value= "${row.link} "/>
+	<display:column titleKey="item.link">
+		<a href="${row.link }" target="_blank">${row.link }</a>
+	</display:column>
 
 	
 	<jstl:if test="${requestURI == 'item/list.do'}">

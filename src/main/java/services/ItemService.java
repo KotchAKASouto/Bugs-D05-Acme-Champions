@@ -101,6 +101,15 @@ public class ItemService {
 
 	}
 
+	public void deleteAll(final int actorId) {
+
+		final Collection<Item> items = this.itemRepository.findItemsByProviderId(actorId);
+
+		if (!items.isEmpty())
+			for (final Item i : items)
+				this.itemRepository.delete(i);
+	}
+
 	//Other business methods
 	public Collection<Item> findItemsByProviderId(final int providerId) {
 

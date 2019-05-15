@@ -20,7 +20,10 @@
 
 <acme:display code="problem.hint" property="${problem.hint}" />
 
-<spring:message code="problem.attachments" />: <jstl:out value="${problem.attachments }"/><br>
+<spring:message code="problem.attachments" />:
+		<c:forEach items="${problem.attachments}" var="attachment">
+				<a href="${attachment}" target="_blank">${attachment}</a><br/>
+		</c:forEach>
 
 <acme:display code="problem.finalMode" property="${problem.finalMode}" />
 

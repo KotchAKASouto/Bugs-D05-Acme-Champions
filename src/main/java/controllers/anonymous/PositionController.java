@@ -143,6 +143,7 @@ public class PositionController extends AbstractController {
 				if (s != null) {
 					result.addObject("find", true);
 					result.addObject("bannerSponsorship", s.getBanner());
+					result.addObject("targetSponsorship", s.getTarget());
 				}
 
 				else

@@ -48,9 +48,9 @@
 </jstl:if>
 
 <jstl:if test="${find}">
-	<fieldset>
-		<img src="${bannerSponsorship}" alt="Banner" width="200" height="100"/>
-	</fieldset>
+	<div>
+		<a target="_blank" href="${targetSponsorship}"><img src="${bannerSponsorship }" alt="Banner" width="10%" height="10%" /></a>
+	</div>
 </jstl:if>
 
 

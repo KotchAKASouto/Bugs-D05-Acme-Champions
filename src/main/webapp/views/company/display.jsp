@@ -35,7 +35,7 @@
 
 <acme:display code="company.phone" property="${company.phone }" />
 
-<acme:display code="company.photo" property="${company.photo }" />
+<spring:message code="company.photo"/>: <br> <img src="${company.photo }"/> <br>
 
 
 <acme:button name="back" code="company.back" onclick="javascript: relativeRedir('${backUri }');" />

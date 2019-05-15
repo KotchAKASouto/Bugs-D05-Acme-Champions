@@ -24,7 +24,10 @@
 	
 	<acme:column property="phone" titleKey="provider.phone" value="${row.phone }" />
 	
-	<acme:column property="photo" titleKey="provider.photo" value= "${row.photo} "/>
+	<display:column titleKey="provider.photo">
+		<a href="${row.photo }" target="_blank">${row.photo }</a>
+	</display:column>
+	
 	
 	<acme:url href="item/listByProvider.do?providerId=${row.id }" code="provider.items"/>
 
