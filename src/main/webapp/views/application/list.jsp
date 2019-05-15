@@ -198,7 +198,7 @@
 
 <h3><spring:message code="applicationPositionCancelled" /></h3>
 
-<display:table name="applicationPositionCancelled" id="row5" requestURI="${requestURI }" pagesize="5">
+<display:table name="applicationCancelled" id="row5" requestURI="${requestURI }" pagesize="5">
 
 	<acme:column property="position.ticker" titleKey="application.position.ticker" value= "${row5.position.ticker}: "/>
 	
@@ -227,10 +227,10 @@
 	
 	<security:authorize access="hasRole('COMPANY')">
 	
-	<acme:url href="curriculum/company/display.do?curriculumId=${row4.curriculum.id}&applicationId=${row4.id}" code = "application.curriculum" />
+	<acme:url href="curriculum/company/display.do?curriculumId=${row5.curriculum.id}&applicationId=${row5.id}" code = "application.curriculum" />
 	
 		<display:column>
-				<a href="application/company/display.do?applicationId=${row4.id}"><spring:message code="application.display"/></a>
+				<a href="application/company/display.do?applicationId=${row5.id}"><spring:message code="application.display"/></a>
 		</display:column>
 		
 	</security:authorize>

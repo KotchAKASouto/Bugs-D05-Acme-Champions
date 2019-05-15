@@ -94,6 +94,7 @@ public class ApplicationRookieController {
 		Collection<Application> applicationRejected;
 		Collection<Application> applicationSubmitted;
 		Collection<Application> applicationPending;
+		Collection<Application> applicationCancelled;
 
 		final Rookie rookie = this.rookieService.findByPrincipal();
 
@@ -101,6 +102,7 @@ public class ApplicationRookieController {
 		applicationRejected = this.applicationService.findAllRejectedByRookie(rookie.getId());
 		applicationSubmitted = this.applicationService.findAllSubmittedByRookie(rookie.getId());
 		applicationPending = this.applicationService.findAllPendingByRookie(rookie.getId());
+		applicationCancelled = this.applicationService.findAllCancelledByRookie(rookie.getId());
 
 		final String banner = this.configurationService.findConfiguration().getBanner();
 
@@ -109,6 +111,7 @@ public class ApplicationRookieController {
 		result.addObject("applicationRejected", applicationRejected);
 		result.addObject("applicationSubmitted", applicationSubmitted);
 		result.addObject("applicationPending", applicationPending);
+		result.addObject("applicationCancelled", applicationCancelled);
 		result.addObject("banner", banner);
 		result.addObject("requestURI", "application/rookie/list.do");
 

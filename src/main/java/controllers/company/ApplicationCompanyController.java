@@ -75,6 +75,7 @@ public class ApplicationCompanyController {
 		Collection<Application> applicationRejected;
 		Collection<Application> applicationSubmitted;
 		Collection<Application> applicationPending;
+		Collection<Application> applicationCancelled;
 
 		final Company company = this.companyService.findByPrincipal();
 
@@ -82,6 +83,7 @@ public class ApplicationCompanyController {
 		applicationRejected = this.applicationService.findAllRejectedByCompany(company.getId());
 		applicationSubmitted = this.applicationService.findAllSubmittedByCompany(company.getId());
 		applicationPending = this.applicationService.findAllPendingByCompany(company.getId());
+		applicationCancelled = this.applicationService.findAllCancelledByCompany(company.getId());
 
 		final String banner = this.configurationService.findConfiguration().getBanner();
 
@@ -90,6 +92,7 @@ public class ApplicationCompanyController {
 		result.addObject("applicationRejected", applicationRejected);
 		result.addObject("applicationSubmitted", applicationSubmitted);
 		result.addObject("applicationPending", applicationPending);
+		result.addObject("applicationCancelled", applicationCancelled);
 		result.addObject("banner", banner);
 		result.addObject("requestURI", "application/company/list.do");
 

@@ -27,6 +27,9 @@ public interface ApplicationRepository extends JpaRepository<Application, Intege
 	@Query("select a from Application a where a.rookie.id = ?1 and a.position.deadline < CURRENT_DATE")
 	Collection<Application> findAllDeadLinePastByRookie(int rookieId);
 
+	@Query("select a from Application a where a.rookie.id = ?1 and a.position.cancellation != null")
+	Collection<Application> findAllCancelledByRookie(int rookieId);
+
 	@Query("select a from Application a where a.position.company.id = ?1 and a.status = 'ACCEPTED' and a.position.deadline > CURRENT_DATE and a.position.cancellation=null")
 	Collection<Application> findAllAcceptedByCompany(int companyId);
 
@@ -41,6 +44,9 @@ public interface ApplicationRepository extends JpaRepository<Application, Intege
 
 	@Query("select a from Application a where a.position.company.id = ?1 and a.position.deadline < CURRENT_DATE")
 	Collection<Application> findAllDeadLinePastByCompany(int companyId);
+
+	@Query("select a from Application a where a.position.company.id = ?1 and a.position.cancellation != null")
+	Collection<Application> findAllCancelledByCompany(int rookieId);
 
 	@Query("select a from Application a where a.position.id = ?1")
 	Collection<Application> findByPositionId(final int positionId);

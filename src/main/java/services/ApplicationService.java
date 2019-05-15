@@ -117,10 +117,6 @@ public class ApplicationService {
 
 		res = this.findOne(applicationId);
 
-		Assert.isTrue(res.getPosition().getFinalMode());
-		//comprobar que la position que aplica no está cancelada
-		Assert.isTrue(res.getPosition().getCancellation() == null);
-
 		res.setStatus("ACCEPTED");
 		this.applicationRepository.save(res);
 
@@ -140,10 +136,6 @@ public class ApplicationService {
 		Assert.isTrue((actor.getUserAccount().getAuthorities().contains(authority)));
 
 		res = this.findOne(applicationId);
-
-		Assert.isTrue(res.getPosition().getFinalMode());
-		//comprobar que la position que aplica no está cancelada
-		Assert.isTrue(res.getPosition().getCancellation() == null);
 
 		res.setStatus("REJECTED");
 		this.applicationRepository.save(res);
@@ -209,6 +201,13 @@ public class ApplicationService {
 		return result;
 	}
 
+	public Collection<Application> findAllCancelledByRookie(final int rookieId) {
+		Collection<Application> result;
+		result = this.applicationRepository.findAllCancelledByRookie(rookieId);
+		Assert.notNull(result);
+		return result;
+	}
+
 	public Collection<Application> findAllAcceptedByCompany(final int companyId) {
 		Collection<Application> result;
 		result = this.applicationRepository.findAllAcceptedByCompany(companyId);
@@ -240,6 +239,13 @@ public class ApplicationService {
 	public Collection<Application> findAllDeadLinePastByCompany(final int companyId) {
 		Collection<Application> result;
 		result = this.applicationRepository.findAllDeadLinePastByCompany(companyId);
+		Assert.notNull(result);
+		return result;
+	}
+
+	public Collection<Application> findAllCancelledByCompany(final int companyId) {
+		Collection<Application> result;
+		result = this.applicationRepository.findAllCancelledByCompany(companyId);
 		Assert.notNull(result);
 		return result;
 	}
@@ -276,13 +282,14 @@ public class ApplicationService {
 		final Date now = new Date(System.currentTimeMillis() - 1000);
 
 		res.setAnswer(applicationForm.getAnswer());
-		res.setCurriculum(this.curriculumService.findOne(applicationForm.getCurriculum()));
-		res.setPosition(this.positionService.findOne(applicationForm.getPosition()));
-		res.setId(applicationForm.getId());
-		res.setVersion(applicationForm.getVersion());
-		res.setProblem(this.problemService.findOne(applicationForm.getProblem()));
 
 		if (applicationForm.getId() == 0) {
+
+			res.setCurriculum(this.curriculumService.findOne(applicationForm.getCurriculum()));
+			res.setPosition(this.positionService.findOne(applicationForm.getPosition()));
+			res.setId(applicationForm.getId());
+			res.setVersion(applicationForm.getVersion());
+			res.setProblem(this.problemService.findOne(applicationForm.getProblem()));
 
 			final Actor actor = this.actorService.findByPrincipal();
 			Assert.notNull(actor);
@@ -305,6 +312,11 @@ public class ApplicationService {
 
 			final Application oldOne = this.applicationRepository.findOne(applicationForm.getId());
 
+			res.setCurriculum(oldOne.getCurriculum());
+			res.setPosition(oldOne.getPosition());
+			res.setId(oldOne.getId());
+			res.setVersion(oldOne.getVersion());
+			res.setProblem(oldOne.getProblem());
 			res.setMoment(oldOne.getMoment());
 			res.setRookie(oldOne.getRookie());
 
