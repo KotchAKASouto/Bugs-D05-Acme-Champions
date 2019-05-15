@@ -87,6 +87,10 @@ public class ApplicationService {
 
 		Assert.notNull(application);
 
+		Assert.isTrue(application.getPosition().getFinalMode());
+		//comprobar que la position que aplica no está cancelada
+		Assert.isTrue(application.getPosition().getCancellation() == null);
+
 		final Actor actor = this.actorService.findByPrincipal();
 		Assert.notNull(actor);
 		final Authority authority = new Authority();
@@ -113,8 +117,9 @@ public class ApplicationService {
 
 		res = this.findOne(applicationId);
 
+		Assert.isTrue(res.getPosition().getFinalMode());
 		//comprobar que la position que aplica no está cancelada
-		Assert.isTrue(res.getPosition().getCancellation() != null);
+		Assert.isTrue(res.getPosition().getCancellation() == null);
 
 		res.setStatus("ACCEPTED");
 		this.applicationRepository.save(res);
@@ -136,8 +141,9 @@ public class ApplicationService {
 
 		res = this.findOne(applicationId);
 
+		Assert.isTrue(res.getPosition().getFinalMode());
 		//comprobar que la position que aplica no está cancelada
-		Assert.isTrue(res.getPosition().getCancellation() != null);
+		Assert.isTrue(res.getPosition().getCancellation() == null);
 
 		res.setStatus("REJECTED");
 		this.applicationRepository.save(res);

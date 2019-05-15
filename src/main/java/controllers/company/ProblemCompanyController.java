@@ -208,7 +208,7 @@ public class ProblemCompanyController extends AbstractController {
 		} else {
 			final Boolean security = this.problemService.problemCompanySecurity(problemId);
 			if (security && problem.getFinalMode() == true) {
-				final Collection<Position> positionsResult = this.positionService.findPositionsByCompanyId(problem.getCompany().getId());
+				final Collection<Position> positionsResult = this.positionService.findPositionsByCompanyIdToAdd(problem.getCompany().getId());
 				positionsResult.removeAll(problem.getPositions());
 
 				result = new ModelAndView("position/listAdd");
@@ -244,7 +244,7 @@ public class ProblemCompanyController extends AbstractController {
 				try {
 					this.problemService.addPositionToProblem(position, problem);
 
-					final Collection<Position> positionsResult = this.positionService.findPositionsByCompanyId(problem.getCompany().getId());
+					final Collection<Position> positionsResult = this.positionService.findPositionsByCompanyIdToAdd(problem.getCompany().getId());
 					final Problem problemNew = this.problemService.findOne(problemId);
 					positionsResult.removeAll(problemNew.getPositions());
 
@@ -257,7 +257,7 @@ public class ProblemCompanyController extends AbstractController {
 
 				} catch (final Throwable oops) {
 
-					final Collection<Position> positionsResult = this.positionService.findPositionsByCompanyId(problem.getCompany().getId());
+					final Collection<Position> positionsResult = this.positionService.findPositionsByCompanyIdToAdd(problem.getCompany().getId());
 					final Problem problemNew = this.problemService.findOne(problemId);
 					positionsResult.removeAll(problemNew.getPositions());
 

@@ -2536,6 +2536,56 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="position18" class="domain.Position">
+		<property name="ticker" value="Russ-1520" />
+		<property name="title" value="positionExpired" />
+		<property name="description"
+			value="something new" />
+		<property name="deadline" value="2018/12/12" />
+		<property name="profile" value="Engineer" />
+		<property name="skills" value="api develop" />
+		<property name="technologies" value="python" />
+		<property name="offeredSalary" value="500" />
+		<property name="finalMode" value="true" />
+		<property name="company" ref="company1" />
+	</bean>
+	<bean id="problem19" class="domain.Problem">
+		<property name="title" value="problem new" />
+		<property name="statement"
+			value="Basically fails" />
+		<property name="hint" value="err 404" />
+		<property name="attachments">
+			<list>
+				<value>https://www.apiTwitterDocumentation.com</value>
+			</list>
+		</property>
+		<property name="finalMode" value="true" />
+		<property name="company" ref="company1" />
+		<property name="positions">
+			<list>
+				<ref bean="position18" />
+			</list>
+		</property>
+	</bean>
+	<bean id="problem20" class="domain.Problem">
+		<property name="title" value="problem new 2" />
+		<property name="statement"
+			value="something happens with JPA" />
+		<property name="hint" value="See the log" />
+		<property name="attachments">
+			<list>
+				<value>https://www.hibernate.com</value>
+			</list>
+		</property>
+		<property name="finalMode" value="true" />
+		<property name="company" ref="company1" />
+		<property name="positions">
+			<list>
+				<ref bean="position18" />
+			</list>
+		</property>
+	</bean>
 
 	<!-- Applications -->
 	<bean id="application1" class="domain.Application">

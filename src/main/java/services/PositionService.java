@@ -228,6 +228,9 @@ public class PositionService {
 
 		final Date currentMoment = new Date(System.currentTimeMillis() - 1000);
 
+		//no se puede cancelar una position cuyo deadline a terminado
+		Assert.isTrue(position.getDeadline().after(currentMoment));
+
 		result.setCancellation(currentMoment);
 		result.setFinalMode(false);
 
@@ -453,6 +456,13 @@ public class PositionService {
 		}
 
 		return result;
+	}
+
+	public Collection<Position> findPositionsByCompanyIdToAdd(final int companyId) {
+
+		final Collection<Position> res = this.positionRepository.findPositionsByCompanyIdToAdd(companyId);
+
+		return res;
 	}
 
 }
