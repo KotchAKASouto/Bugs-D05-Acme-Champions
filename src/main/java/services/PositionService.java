@@ -199,7 +199,7 @@ public class PositionService {
 				final Collection<Sponsorship> sponsorships = this.sponsorshipService.findAllByPositionId(p.getId());
 				if (!sponsorships.isEmpty())
 					for (final Sponsorship s : sponsorships)
-						this.sponsorshipService.delete(s);
+						this.sponsorshipService.deleteAdmin(s);
 
 				final Collection<Auditor> auditors = this.auditorService.findAuditorByPositionId(p.getId());
 				if (!auditors.isEmpty())

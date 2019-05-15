@@ -169,6 +169,12 @@ public class SponsorshipService {
 		this.sponsorshipRepository.delete(sponsorship);
 	}
 
+	public void deleteAdmin(final Sponsorship sponsorship) {
+
+		this.sponsorshipRepository.delete(sponsorship);
+
+	}
+
 	public void deleteAll(final int actorId) {
 
 		final Collection<Sponsorship> sponsorships = this.findAllByProviderId(actorId);
