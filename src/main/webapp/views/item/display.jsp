@@ -16,7 +16,9 @@
 	
 <acme:display code="item.description" property="${item.description} "/>
 	
-<acme:display code="item.link" property="${item.link} "/>
+<div><spring:message code="item.link" />:
+<a href="${item.link}" target="_blank">${item.link }</a>
+</div>
 	
 <spring:message code="item.pictures" />: <br>
 <c:forEach items="${item.pictures}" var="item">

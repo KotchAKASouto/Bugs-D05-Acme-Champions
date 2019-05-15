@@ -10,6 +10,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 
 <br/>
 <acme:display property="${curriculum.ticker}" code="curriculum.ticker" />
@@ -25,9 +26,13 @@
 
 <acme:display property="${curriculum.personalData.phone}" code="curriculum.phone" />
 
-<acme:display property="${curriculum.personalData.linkGitHubProfile}" code="curriculum.linkGitHubProfile" />
+<div><spring:message code="curriculum.linkGitHubProfile" />:
+<a href="${curriculum.personalData.linkGitHubProfile}" target="_blank">${curriculum.personalData.linkGitHubProfile }</a>
+</div>
 
-<acme:display property="${curriculum.personalData.linkLinkedInProfile}" code="curriculum.linkLinkedInProfile" />
+<div><spring:message code="curriculum.linkLinkedInProfile" />:
+<a href="${curriculum.personalData.linkLinkedInProfile}" target="_blank">${curriculum.personalData.linkLinkedInProfile}</a>
+</div>
 
 <br/>
 
@@ -127,9 +132,11 @@
 	<acme:column property="text" titleKey="curriculum.text" value= "${row3.text} "/>
 
 	<display:column titleKey="curriculum.attachments">
-		<jstl:out value="${row3.attachments}"></jstl:out><br>
-
+		<c:forEach items="${row3.attachments}" var="attachment">
+				<a href="${attachment}" target="_blank">${attachment}</a><br/>
+		</c:forEach>
 	</display:column>
+
 
 	<security:authorize access="hasRole('ROOKIE')">
 		<jstl:if test="${curriculum.noCopy}">

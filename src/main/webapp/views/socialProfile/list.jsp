@@ -15,8 +15,10 @@ requestURI="${requestURI }" class="displaytag">
 	
 	<acme:column property="socialName" titleKey="socialProfile.socialName" value= "${row.socialName}: "/>
 	
+	<display:column titleKey="socialProfile.link">
+		<a href="${row.link }" target="_blank">${row.link }</a>
+	</display:column>
 	
-	<acme:column property="link" titleKey="socialProfile.link" value= "${row.link}: "/>
 	
 	<acme:url href="socialProfile/administrator,company,rookie/edit.do?socialProfileId=${row.id}" code="socialProfile.edit"/>
 	
