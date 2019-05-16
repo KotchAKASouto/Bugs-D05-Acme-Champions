@@ -6,8 +6,8 @@ import java.util.Date;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
@@ -47,8 +47,8 @@ public class EducationData extends DomainEntity {
 	}
 
 	@NotNull
-	@Min(0)
-	@Max(10)
+	@DecimalMin(value = "0.0")
+	@DecimalMax(value = "10.0")
 	public Double getMark() {
 		return this.mark;
 	}

@@ -151,17 +151,12 @@ public class ConfigurationService {
 
 	public Configuration reconstruct(final Configuration config, final BindingResult binding) {
 
-		final Configuration result = this.findOne(config.getId());
+		final Configuration bbdd = this.findOne(config.getId());
 
-		result.setBanner(config.getBanner());
-		result.setCountryCode(config.getCountryCode());
-		result.setFare(config.getFare());
-		result.setFinderResult(config.getFinderResult());
-		result.setFinderTime(config.getFinderTime());
-		result.setSpamWords(config.getSpamWords());
-		result.setVatTax(config.getVatTax());
-		result.setWelcomeMessage(config.getWelcomeMessage());
-		result.setWelcomeMessageEs(config.getWelcomeMessageEs());
+		final Configuration result = config;
+		config.setId(bbdd.getId());
+		config.setVersion(config.getVersion());
+		config.setRebrandingNotification(bbdd.getRebrandingNotification());
 
 		this.validator.validate(result, binding);
 
