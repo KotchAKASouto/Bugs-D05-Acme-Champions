@@ -10,6 +10,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
+<jsp:useBean id="now" class="java.util.Date" />
 
 
 <h2><acme:display code="position.ticker" property="${position.ticker }" /></h2>
@@ -32,8 +33,11 @@
 <acme:display code="position.offeredSalary" property="${position.offeredSalary}" />
 
 <security:authorize access="hasRole('COMPANY')">
-<jstl:if test="${!position.finalMode && security}">
+<jstl:if test="${!position.finalMode && security && position.cancellation==null}">
 	<acme:button name="edit" code="position.edit" onclick="javascript: relativeRedir('position/company/edit.do?positionId=${position.id }');" />
+</jstl:if>
+<jstl:if test="${position.finalMode && security && position.cancellation==null && position.deadline > now}">
+	<acme:button name="edit" code="position.cancellation" onclick="javascript: relativeRedir('position/company/cancel.do?positionId=${position.id }');" />
 </jstl:if>
 </security:authorize>
 

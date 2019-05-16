@@ -38,6 +38,9 @@ public class FinderService {
 	@Autowired
 	private Validator			validator;
 
+	@Autowired
+	private RookieService		rookieService;
+
 
 	public Finder create() {
 
@@ -139,4 +142,36 @@ public class FinderService {
 
 		return result;
 	}
+
+	public Boolean security(final int finderId) {
+		Boolean res = false;
+		Assert.notNull(finderId);
+
+		final Rookie hackerNow = this.rookieService.findByPrincipal();
+
+		final Finder finder = this.findOne(finderId);
+
+		final Rookie owner = finder.getRookie();
+
+		if (hackerNow.getId() == owner.getId())
+			res = true;
+
+		return res;
+	}
+
+	public Finder clear(final Finder finderSearched) {
+		Assert.isTrue(this.security(finderSearched.getId()));
+
+		Finder finder = finderSearched;
+
+		final Collection<Position> positionsEmpty = new HashSet<Position>();
+
+		finder.setPositions(positionsEmpty);
+
+		finder = this.finderRepository.save(finder);
+
+		return finder;
+
+	}
+
 }

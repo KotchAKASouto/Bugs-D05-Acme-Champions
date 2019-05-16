@@ -221,7 +221,7 @@ public class ProblemServiceTest extends AbstractTest {
 	public void driverListProblem() {
 		final Object testingData[][] = {
 			{
-				"company1", 4, null
+				"company1", 6, null
 			},//1. All fine
 			{
 				"company1", 0, IllegalArgumentException.class

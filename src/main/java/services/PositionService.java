@@ -87,6 +87,7 @@ public class PositionService {
 		result.setCompany(this.companyService.findByPrincipal());
 		result.setTicker(this.generateTicker());
 		result.setFinalMode(false);
+		result.setCancellation(null);
 
 		return result;
 
@@ -112,6 +113,9 @@ public class PositionService {
 	public Position save(final Position position) {
 
 		Assert.notNull(position);
+
+		//si la position está cancelada no se puede modificar
+		Assert.isTrue(position.getCancellation() == null);
 
 		final Actor actor = this.actorService.findByPrincipal();
 		Assert.notNull(actor);
@@ -216,6 +220,25 @@ public class PositionService {
 
 	//Other bussines methods--------------------------------
 
+	public Position cancel(final Position position) {
+		Position result = position;
+
+		Assert.isTrue(result.getCancellation() == null);
+		Assert.isTrue(result.getFinalMode() == true);
+
+		final Date currentMoment = new Date(System.currentTimeMillis() - 1000);
+
+		//no se puede cancelar una position cuyo deadline a terminado
+		Assert.isTrue(position.getDeadline().after(currentMoment));
+
+		result.setCancellation(currentMoment);
+		result.setFinalMode(false);
+
+		result = this.positionRepository.save(result);
+
+		return result;
+	}
+
 	private String generateTicker() {
 
 		final String companyName = this.companyService.findByPrincipal().getCommercialName();
@@ -318,6 +341,7 @@ public class PositionService {
 
 			position.setCompany(positionBBDD.getCompany());
 			position.setTicker(positionBBDD.getTicker());
+			position.setCancellation(positionBBDD.getCancellation());
 
 			this.validator.validate(position, binding);
 
@@ -434,4 +458,32 @@ public class PositionService {
 		return result;
 	}
 
+	public Collection<Position> findPositionsByCompanyIdToAdd(final int companyId) {
+
+		final Collection<Position> res = this.positionRepository.findPositionsByCompanyIdToAdd(companyId);
+
+		return res;
+	}
+
+	public Collection<Position> findPositionsCancelledByAuditorId(final int auditorId) {
+
+		final Collection<Position> res = this.positionRepository.findPositionsCancelledByAuditorId(auditorId);
+
+		return res;
+	}
+
+	public Collection<Position> findPositionsNotCancelledByAuditorId(final int auditorId) {
+
+		final Collection<Position> res = this.positionRepository.findPositionsNotCancelledByAuditorId(auditorId);
+
+		return res;
+	}
+
+	public Collection<Position> findPositionsCancelled() {
+
+		final Collection<Position> res = this.positionRepository.findPositionsCancelled();
+
+		return res;
+
+	}
 }

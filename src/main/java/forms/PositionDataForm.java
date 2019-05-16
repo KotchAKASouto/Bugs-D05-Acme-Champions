@@ -18,9 +18,19 @@ public class PositionDataForm {
 	private String	description;
 	private Date	startDate;
 	private Date	endDate;
+	private Date	cancellation;
 
 	private int		curriculumId;
 
+
+	@Past
+	public Date getCancellation() {
+		return this.cancellation;
+	}
+
+	public void setCancellation(final Date cancellation) {
+		this.cancellation = cancellation;
+	}
 
 	@NotNull
 	public int getId() {

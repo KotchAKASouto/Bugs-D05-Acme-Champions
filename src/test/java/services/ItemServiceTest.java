@@ -308,7 +308,7 @@ public class ItemServiceTest extends AbstractTest {
 	public void driverListAllItems() {
 		final Object testingData[][] = {
 			{
-				1, null
+				10, null
 			},//1. All fine
 			{
 				0, IllegalArgumentException.class
@@ -356,7 +356,7 @@ public class ItemServiceTest extends AbstractTest {
 	public void driverItemsOfProvider() {
 		final Object testingData[][] = {
 			{
-				"provider1", 1, null
+				"provider1", 5, null
 			},//1. All fine
 			{
 				"provider1", 0, IllegalArgumentException.class

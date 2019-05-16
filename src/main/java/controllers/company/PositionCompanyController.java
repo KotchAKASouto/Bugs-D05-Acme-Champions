@@ -100,7 +100,7 @@ public class PositionCompanyController extends AbstractController {
 		final Position position = this.positionService.findOne(positionId);
 		final String banner = this.configurationService.findConfiguration().getBanner();
 
-		if (position == null) {
+		if (position == null || position.getCancellation() != null) {
 			result = new ModelAndView("misc/notExist");
 			result.addObject("banner", banner);
 		} else {
@@ -168,6 +168,35 @@ public class PositionCompanyController extends AbstractController {
 		return result;
 	}
 
+	@RequestMapping(value = "/cancel", method = RequestMethod.GET)
+	public ModelAndView cancel(@RequestParam final int positionId) {
+		ModelAndView result;
+		Boolean security;
+
+		final Position position = this.positionService.findOne(positionId);
+		final String banner = this.configurationService.findConfiguration().getBanner();
+
+		if (position == null) {
+			result = new ModelAndView("misc/notExist");
+			result.addObject("banner", banner);
+		} else {
+
+			security = this.positionService.positionCompanySecurity(positionId);
+			if (security) {
+				if (!position.getFinalMode())
+					result = new ModelAndView("redirect:/welcome/index.do");
+				else
+					try {
+						this.positionService.cancel(position);
+						result = new ModelAndView("redirect:list.do");
+					} catch (final Throwable oops) {
+						result = new ModelAndView("redirect:/welcome/index.do");
+					}
+			} else
+				result = new ModelAndView("redirect:/welcome/index.do");
+		}
+		return result;
+	}
 	//Display------------------------------------------------------------------------------
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
 	public ModelAndView display(@RequestParam final int positionId) {

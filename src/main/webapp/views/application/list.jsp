@@ -196,4 +196,48 @@
 
 <br>
 
+<h3><spring:message code="applicationPositionCancelled" /></h3>
+
+<display:table name="applicationCancelled" id="row5" requestURI="${requestURI }" pagesize="5">
+
+	<acme:column property="position.ticker" titleKey="application.position.ticker" value= "${row5.position.ticker}: "/>
+	
+	<acme:column property="problem.title" titleKey="application.problem.title" value= "${row5.problem.title}: "/>
+	
+	<acme:column property="answer" titleKey="application.answer" value= "${row5.answer}: "/>
+	
+	<spring:message code="dateFormat" var="format"/>
+	<display:column titleKey="application.moment"> 
+		<fmt:formatDate value="${row5.moment }" pattern="${format}" />
+	</display:column>
+	
+	<display:column titleKey="application.submitMoment"> 
+		<fmt:formatDate value="${row5.submitMoment }" pattern="${format}" />
+	</display:column>
+	
+	<security:authorize access="hasRole('ROOKIE')">
+	
+	<acme:url href="curriculum/rookie/display.do?curriculumId=${row5.curriculum.id}" code = "application.curriculum" />
+	
+		<display:column>
+				<a href="application/rookie/display.do?applicationId=${row5.id}"><spring:message code="application.display"/></a>
+		</display:column>
+		
+	</security:authorize>
+	
+	<security:authorize access="hasRole('COMPANY')">
+	
+	<acme:url href="curriculum/company/display.do?curriculumId=${row5.curriculum.id}&applicationId=${row5.id}" code = "application.curriculum" />
+	
+		<display:column>
+				<a href="application/company/display.do?applicationId=${row5.id}"><spring:message code="application.display"/></a>
+		</display:column>
+		
+	</security:authorize>
+	
+</display:table>
+
+<br>
+
+
 	<acme:button name="back" code="application.back" onclick="javascript: relativeRedir('welcome/index.do');" />

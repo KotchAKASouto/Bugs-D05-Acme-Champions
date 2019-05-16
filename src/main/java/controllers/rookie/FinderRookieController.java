@@ -87,7 +87,6 @@ public class FinderRookieController extends AbstractController {
 					this.finderService.save(finder);
 					result = new ModelAndView("redirect:find.do");
 				} catch (final Throwable oops) {
-					System.out.println(oops.getMessage());
 					result = this.createEditModelAndView(finder, "finder.commit.error");
 
 				}
@@ -97,6 +96,35 @@ public class FinderRookieController extends AbstractController {
 		}
 
 		return result;
+	}
+
+	@RequestMapping(value = "/find", method = RequestMethod.POST, params = "clear")
+	public ModelAndView clearFinder(Finder finder, final BindingResult binding) {
+		ModelAndView result;
+
+		final Finder finderSearched = this.finderService.findOne(finder.getId());
+		final String banner = this.configurationService.findConfiguration().getBanner();
+
+		if (finderSearched != null) {
+			finder = this.finderService.reconstruct(finder, binding);
+
+			if (binding.hasErrors())
+				result = this.createEditModelAndView(finder, null);
+			else
+				try {
+					this.finderService.clear(finder);
+					result = new ModelAndView("redirect:find.do");
+				} catch (final Throwable oops) {
+					result = this.createEditModelAndView(finder, "finder.commit.error");
+
+				}
+		} else {
+			result = new ModelAndView("misc/notExist");
+			result.addObject("banner", banner);
+		}
+
+		return result;
+
 	}
 
 	protected ModelAndView createEditModelAndView(final Finder finder) {

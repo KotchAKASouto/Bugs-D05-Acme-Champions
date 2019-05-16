@@ -75,6 +75,7 @@ public class ApplicationCompanyController {
 		Collection<Application> applicationRejected;
 		Collection<Application> applicationSubmitted;
 		Collection<Application> applicationPending;
+		Collection<Application> applicationCancelled;
 
 		final Company company = this.companyService.findByPrincipal();
 
@@ -82,6 +83,7 @@ public class ApplicationCompanyController {
 		applicationRejected = this.applicationService.findAllRejectedByCompany(company.getId());
 		applicationSubmitted = this.applicationService.findAllSubmittedByCompany(company.getId());
 		applicationPending = this.applicationService.findAllPendingByCompany(company.getId());
+		applicationCancelled = this.applicationService.findAllCancelledByCompany(company.getId());
 
 		final String banner = this.configurationService.findConfiguration().getBanner();
 
@@ -90,6 +92,7 @@ public class ApplicationCompanyController {
 		result.addObject("applicationRejected", applicationRejected);
 		result.addObject("applicationSubmitted", applicationSubmitted);
 		result.addObject("applicationPending", applicationPending);
+		result.addObject("applicationCancelled", applicationCancelled);
 		result.addObject("banner", banner);
 		result.addObject("requestURI", "application/company/list.do");
 
@@ -129,7 +132,8 @@ public class ApplicationCompanyController {
 
 			final Date now = new Date(System.currentTimeMillis() - 1000);
 
-			if (security && this.applicationService.findOne(applicationId).getStatus().equals("SUBMITTED") && this.applicationService.findOne(applicationId).getPosition().getDeadline().after(now)) {
+			if (security && this.applicationService.findOne(applicationId).getStatus().equals("SUBMITTED") && this.applicationService.findOne(applicationId).getPosition().getDeadline().after(now)
+				&& this.applicationService.findOne(applicationId).getPosition().getCancellation() == null) {
 
 				this.applicationService.accept(applicationId);
 
@@ -159,7 +163,8 @@ public class ApplicationCompanyController {
 
 			final Date now = new Date(System.currentTimeMillis() - 1000);
 
-			if (security && this.applicationService.findOne(applicationId).getStatus().equals("SUBMITTED") && this.applicationService.findOne(applicationId).getPosition().getDeadline().after(now)) {
+			if (security && this.applicationService.findOne(applicationId).getStatus().equals("SUBMITTED") && this.applicationService.findOne(applicationId).getPosition().getDeadline().after(now)
+				&& this.applicationService.findOne(applicationId).getPosition().getCancellation() == null) {
 
 				this.applicationService.reject(applicationId);
 

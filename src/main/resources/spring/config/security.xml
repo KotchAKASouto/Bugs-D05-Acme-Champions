@@ -124,6 +124,7 @@
 		<security:intercept-url pattern="/position/company/create.do" access="hasRole('COMPANY')" />
 		<security:intercept-url pattern="/position/company/edit.do" access="hasRole('COMPANY')" />
 		<security:intercept-url pattern="/position/company/display.do" access="hasRole('COMPANY')" />
+		<security:intercept-url pattern="/position/company/cancel.do" access="hasRole('COMPANY')" />
 
 		<!-- Company: Problem -->
 		<security:intercept-url pattern="/problem/company/list.do" access="hasRole('COMPANY')" />
@@ -180,6 +181,7 @@
 
 		<!-- Rookie: Finder -->
 		<security:intercept-url pattern="/finder/rookie/find.do" access="hasRole('ROOKIE')" />
+		<security:intercept-url pattern="/finder/rookie/clear.do" access="hasRole('ROOKIE')" />
 
 		<!-- Rookie: Application -->
 		<security:intercept-url pattern="/application/rookie/list.do" access="hasRole('ROOKIE')" />

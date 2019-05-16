@@ -58,7 +58,7 @@ public class ApplicationServiceTest extends AbstractTest {
 	public void driverListApplicationCompany() {
 		final Object testingData[][] = {
 			{
-				"company1", 9, null
+				"company1", 5, null
 			},//1. All fine
 			{
 				"company1", 0, IllegalArgumentException.class
@@ -280,10 +280,10 @@ public class ApplicationServiceTest extends AbstractTest {
 	public void driverListApplicationRookie() {
 		final Object testingData[][] = {
 			{
-				"rookie1", 1, null
+				"rookie1", 0, null
 			},//1. All fine
 			{
-				"rookie1", 0, IllegalArgumentException.class
+				"rookie1", 1251, IllegalArgumentException.class
 			},//2. The number is incorrect
 		};
 		for (int i = 0; i < testingData.length; i++)

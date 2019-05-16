@@ -37,6 +37,8 @@
 	
 	<input type="submit" name="find" value="<spring:message code="filter.search"/>"/>
 	
+	<input type="submit" name="clear" value="<spring:message code="finder.clear"/>"/>
+	
 </form:form> 
 </security:authorize>
 </jstl:if>
@@ -49,7 +51,6 @@
 	<acme:column property="company.commercialName" titleKey="position.company" value= "${row.company.commercialName}: "/>
 	
 	<acme:column property="title" titleKey="position.title" value= "${row.title} "/>
-	<acme:column property="description" titleKey="position.description" value= "${row.description} "/>
 	
 	<spring:message code="dateFormat" var="format"/>
 	<display:column titleKey="position.deadline"> 
@@ -68,6 +69,11 @@
 		<jstl:if test="${AmInCompanyController }" >
 			<display:column titleKey="position.finalMode"> 
 						<spring:message code="position.${row.finalMode }" />
+			</display:column>
+			
+			<spring:message code="dateFormat" var="format"/>
+			<display:column titleKey="position.dateCancel"> 
+				<fmt:formatDate value="${row.cancellation }" pattern="${format}" />
 			</display:column>
 		</jstl:if>
 	</security:authorize>
@@ -120,6 +126,42 @@
 	<a href="position/company/create.do"><spring:message code="position.create"/></a>
 	</security:authorize>
 	</jstl:if>
+	
+	<security:authorize access="hasRole('AUDITOR')">
+	<jstl:if test="${requestURI == 'position/auditor/listMyPosition.do' }">
+	
+	<h3><spring:message code="positionCancelled" /></h3>
+
+	<display:table name="myPositionsCancelled" id="pc" requestURI="${requestURI }" pagesize="5">
+
+	<acme:column property="ticker" titleKey="position.ticker" value= "${pc.ticker}: "/>
+	
+	<acme:column property="company.commercialName" titleKey="position.company" value= "${pc.company.commercialName}: "/>
+	
+	<acme:column property="title" titleKey="position.title" value= "${pc.title} "/>
+	
+	<spring:message code="dateFormat" var="format"/>
+	<display:column titleKey="position.deadline"> 
+		<fmt:formatDate value="${pc.deadline }" pattern="${format}" />
+	</display:column>
+	
+	<acme:column property="profile" titleKey="position.profile" value= "${pc.profile}: "/>
+	
+	<acme:column property="skills" titleKey="position.skills" value= "${pc.skills}: "/>
+	
+	<acme:column property="technologies" titleKey="position.technologies" value= "${pc.technologies}: "/>
+	
+	<acme:column property="offeredSalary" titleKey="position.offeredSalary" value= "${pc.offeredSalary}: "/>
+	
+	<jstl:if test="${!AmInCompanyController }">
+	<acme:url href="position/display.do?positionId=${row.id }" code="position.display"/>
+	</jstl:if>
+	
+	<acme:url href="audit/listByPosition.do?positionId=${row.id }" code="position.audits" />
+	
+	</display:table>
+	</jstl:if>
+	</security:authorize>
 	
 	<acme:button name="back" code="position.back" onclick="javascript: relativeRedir('welcome/index.do');" />
 	
