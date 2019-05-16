@@ -65,12 +65,15 @@
 	<acme:column property="answer" titleKey="application.answer" value= "${row2.answer}: "/>
 	
 	<spring:message code="dateFormat" var="format"/>
+	<spring:message code="timeFormat" var="timeFormat"/>
 	<display:column titleKey="application.moment"> 
-		<fmt:formatDate value="${row2.moment }" pattern="${format}" />
+		<fmt:formatDate type="date" value="${row2.moment }" pattern="${format}" />
+		<fmt:formatDate type="time" value="${row2.moment }" pattern="${timeFormat}" />
 	</display:column>
 	
 	<display:column titleKey="application.submitMoment"> 
-		<fmt:formatDate value="${row2.submitMoment }" pattern="${format}" />
+		<fmt:formatDate type="date" value="${row2.submitMoment }" pattern="${format}" />
+		<fmt:formatDate type="time" value="${row2.submitMoment }" pattern="${timeFormat}" />
 	</display:column>
 	
 	<security:authorize access="hasRole('ROOKIE')">
@@ -108,12 +111,15 @@
 	<acme:column property="answer" titleKey="application.answer" value= "${row3.answer}: "/>
 	
 	<spring:message code="dateFormat" var="format"/>
+	<spring:message code="timeFormat" var="timeFormat"/>
 	<display:column titleKey="application.moment"> 
-		<fmt:formatDate value="${row3.moment }" pattern="${format}" />
+		<fmt:formatDate type="date" value="${row3.moment }" pattern="${format}" />
+		<fmt:formatDate type="time" value="${row3.moment }" pattern="${timeFormat}" />
 	</display:column>
 	
 	<display:column titleKey="application.submitMoment"> 
-		<fmt:formatDate value="${row3.submitMoment }" pattern="${format}" />
+		<fmt:formatDate type="date" value="${row3.submitMoment }" pattern="${format}" />
+		<fmt:formatDate type="time" value="${row3.submitMoment }" pattern="${timeFormat}" />
 	</display:column>
 	
 	<security:authorize access="hasRole('ROOKIE')">
@@ -163,12 +169,15 @@
 	<acme:column property="answer" titleKey="application.answer" value= "${row4.answer}: "/>
 	
 	<spring:message code="dateFormat" var="format"/>
+	<spring:message code="timeFormat" var="timeFormat"/>
 	<display:column titleKey="application.moment"> 
-		<fmt:formatDate value="${row4.moment }" pattern="${format}" />
+		<fmt:formatDate type="date" value="${row4.moment }" pattern="${format}" />
+		<fmt:formatDate type="time" value="${row4.moment }" pattern="${timeFormat}" />
 	</display:column>
 	
 	<display:column titleKey="application.submitMoment"> 
-		<fmt:formatDate value="${row4.submitMoment }" pattern="${format}" />
+		<fmt:formatDate type="date" value="${row4.submitMoment }" pattern="${format}" />
+		<fmt:formatDate type="time" value="${row4.submitMoment }" pattern="${timeFormat}" />
 	</display:column>
 	
 	<security:authorize access="hasRole('ROOKIE')">
@@ -210,12 +219,15 @@
 	<acme:column property="answer" titleKey="application.answer" value= "${row5.answer}: "/>
 	
 	<spring:message code="dateFormat" var="format"/>
+	<spring:message code="timeFormat" var="timeFormat"/>
 	<display:column titleKey="application.moment"> 
-		<fmt:formatDate value="${row5.moment }" pattern="${format}" />
+		<fmt:formatDate type="date" value="${row5.moment }" pattern="${format}" />
+		<fmt:formatDate type="time" value="${row5.moment }" pattern="${timeFormat}" />
 	</display:column>
 	
 	<display:column titleKey="application.submitMoment"> 
-		<fmt:formatDate value="${row5.submitMoment }" pattern="${format}" />
+		<fmt:formatDate type="date" value="${row5.submitMoment }" pattern="${format}" />
+		<fmt:formatDate type="time" value="${row5.submitMoment }" pattern="${timeFormat}" />
 	</display:column>
 	
 	<security:authorize access="hasRole('ROOKIE')">
