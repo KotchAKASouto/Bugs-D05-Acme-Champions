@@ -234,6 +234,11 @@ public class PositionService {
 		result.setCancellation(currentMoment);
 		result.setFinalMode(false);
 
+		final Collection<Finder> finderWithThisPositon = this.finderService.findFindersByPositionId(position.getId());
+
+		for (final Finder f : finderWithThisPositon)
+			f.getPositions().remove(position);
+
 		result = this.positionRepository.save(result);
 
 		return result;

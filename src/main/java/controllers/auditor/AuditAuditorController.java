@@ -62,8 +62,10 @@ public class AuditAuditorController extends AbstractController {
 
 		} else {
 			final Collection<Audit> audits = this.auditService.findAuditsByAuditorId(auditor.getId());
+			final Collection<Audit> auditsCancelled = this.auditService.findAuditsCancelledByAuditorId(auditor.getId());
 			result = new ModelAndView("audit/list");
 			result.addObject("audits", audits);
+			result.addObject("auditsCancelled", auditsCancelled);
 			result.addObject("requestURI", "audit/auditor/list.do");
 			result.addObject("pagesize", 5);
 			result.addObject("banner", banner);
@@ -85,10 +87,11 @@ public class AuditAuditorController extends AbstractController {
 		final Authority authority = new Authority();
 		authority.setAuthority("AUDITOR");
 		if (actor.getUserAccount().getAuthorities().contains(authority)) {
-			if (this.auditorService.findByPrincipal().getPositions() == null || this.auditorService.findByPrincipal().getPositions().isEmpty()) {
+			if (this.auditorService.findByPrincipal().getPositions() == null || this.auditorService.findByPrincipal().getPositions().isEmpty()
+				|| (this.positionService.findOne(positionId) != null && !this.auditorService.findByPrincipal().getPositions().contains(this.positionService.findOne(positionId)))) {
 				result = new ModelAndView("misc/noPosition");
 				result.addObject("banner", banner);
-			} else if (this.positionService.findOne(positionId) == null) {
+			} else if (this.positionService.findOne(positionId) == null || this.positionService.findOne(positionId).getCancellation() != null) {
 				result = new ModelAndView("misc/notExist");
 				result.addObject("banner", banner);
 			} else {
@@ -112,7 +115,7 @@ public class AuditAuditorController extends AbstractController {
 
 		final String banner = this.configurationService.findConfiguration().getBanner();
 
-		if (this.auditService.findOne(auditId) == null) {
+		if (this.auditService.findOne(auditId) == null || this.auditService.findOne(auditId).getPosition().getCancellation() != null) {
 			result = new ModelAndView("misc/notExist");
 			result.addObject("banner", banner);
 		} else if (this.auditService.findOne(auditId).getFinalMode() == true) {
@@ -135,7 +138,7 @@ public class AuditAuditorController extends AbstractController {
 		final String banner = this.configurationService.findConfiguration().getBanner();
 
 		if ((audit.getId() != 0 && this.auditService.findOne(audit.getId()) == null) || audit.getPosition() == null || audit.getPosition().getFinalMode() == false
-			|| audit.getPosition().getId() != this.auditService.findOne(audit.getId()).getPosition().getId()) {
+			|| (audit.getId() != 0 && audit.getPosition().getId() != this.auditService.findOne(audit.getId()).getPosition().getId()) || (audit.getId() != 0 && audit.getPosition().getCancellation() != null)) {
 			result = new ModelAndView("misc/notExist");
 			result.addObject("banner", banner);
 		} else {
@@ -161,7 +164,7 @@ public class AuditAuditorController extends AbstractController {
 		ModelAndView result;
 
 		final String banner = this.configurationService.findConfiguration().getBanner();
-		if (this.auditService.findOne(audit.getId()) == null) {
+		if (this.auditService.findOne(audit.getId()) == null || this.auditService.findOne(audit.getId()).getPosition().getCancellation() != null) {
 			result = new ModelAndView("misc/notExist");
 			result.addObject("banner", banner);
 		} else {

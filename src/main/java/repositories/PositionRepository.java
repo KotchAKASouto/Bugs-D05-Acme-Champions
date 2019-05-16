@@ -34,10 +34,10 @@ public interface PositionRepository extends JpaRepository<Position, Integer> {
 	@Query("select p from Position p where (p.title like ?1 or p.description like ?1 or p.profile like ?1 or p.skills like ?1 or p.technologies like ?1) and p.company.commercialName like ?2 and p.finalMode = true and p.deadline>CURRENT_TIMESTAMP and p.cancellation=null")
 	Collection<Position> findPositionsByFilter(String keyword, String companyName);
 
-	@Query("select p from Position p where (p.ticker like ?1 or p.title like ?1 or p.description like ?1 or p.skills like ?1 or p.technologies like ?1 or p.profile like ?1) and (p.deadline <= ?2) and (p.offeredSalary <= ?3) and (p.offeredSalary >= ?4) and (p.finalMode = true) and (p.deadline>CURRENT_TIMESTAMP)")
+	@Query("select p from Position p where (p.ticker like ?1 or p.title like ?1 or p.description like ?1 or p.skills like ?1 or p.technologies like ?1 or p.profile like ?1) and (p.deadline <= ?2) and (p.offeredSalary <= ?3) and (p.offeredSalary >= ?4) and (p.finalMode = true) and (p.deadline>CURRENT_TIMESTAMP) and (p.cancellation=null)")
 	Collection<Position> findPositionByFinder(String keyword, Date deadline, Double maximumSalary, Double minimumSalary);
 
-	@Query("select p from Position p where (p.ticker like ?1 or p.title like ?1 or p.description like ?1 or p.skills like ?1 or p.technologies like ?1 or p.profile like ?1) and (p.offeredSalary <= ?2) and (p.offeredSalary >= ?3) and (p.finalMode = true) and (p.deadline>CURRENT_TIMESTAMP)")
+	@Query("select p from Position p where (p.ticker like ?1 or p.title like ?1 or p.description like ?1 or p.skills like ?1 or p.technologies like ?1 or p.profile like ?1) and (p.offeredSalary <= ?2) and (p.offeredSalary >= ?3) and (p.finalMode = true) and (p.deadline>CURRENT_TIMESTAMP) and (p.cancellation=null)")
 	Collection<Position> findPositionByFinderWithoutDeadline(String keyword, Double maximumSalary, Double minimumSalary);
 
 	@Query("select max(p.offeredSalary) from Position p")
