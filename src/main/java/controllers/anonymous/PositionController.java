@@ -126,7 +126,7 @@ public class PositionController extends AbstractController {
 		final Position position = this.positionService.findOne(positionId);
 		final String banner = this.configurationService.findConfiguration().getBanner();
 
-		if (position == null || position.getCancellation() != null) {
+		if (position == null || position.getCancellation() != null || !position.getFinalMode()) {
 			result = new ModelAndView("misc/notExist");
 			result.addObject("banner", banner);
 		} else {

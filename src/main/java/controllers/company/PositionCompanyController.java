@@ -210,27 +210,36 @@ public class PositionCompanyController extends AbstractController {
 			result.addObject("banner", banner);
 		} else {
 
-			result = new ModelAndView("position/display");
-			result.addObject("position", position);
-			result.addObject("banner", banner);
-			//Esto es para reutilizar vista de position/list en el create
-			result.addObject("AmInCompanyController", true);
-			final Boolean security = this.positionService.positionCompanySecurity(position.getId());
-			result.addObject("security", security);
+			final Company login = this.companyService.findByPrincipal();
 
-			try {
-				final Sponsorship s = this.sponsorshipService.ramdomSponsorship(positionId);
+			if (position.getCompany().equals(login) || position.getFinalMode()) {
+				
+				result = new ModelAndView("position/display");
+				result.addObject("position", position);
+				result.addObject("banner", banner);
+				//Esto es para reutilizar vista de position/list en el create
+				result.addObject("AmInCompanyController", true);
+				final Boolean security = this.positionService.positionCompanySecurity(position.getId());
+				result.addObject("security", security);
 
-				if (s != null) {
-					result.addObject("find", true);
-					result.addObject("bannerSponsorship", s.getBanner());
+				try {
+					final Sponsorship s = this.sponsorshipService.ramdomSponsorship(positionId);
+
+					if (s != null) {
+						result.addObject("find", true);
+						result.addObject("bannerSponsorship", s.getBanner());
+					}
+
+					else
+						result.addObject("find", false);
+				} catch (final Throwable oops) {
+					result.addObject("find", false);
 				}
 
-				else
-					result.addObject("find", false);
-			} catch (final Throwable oops) {
-				result.addObject("find", false);
-			}
+			} else
+				result = new ModelAndView("redirect:/welcome/index.do");
+
+			
 
 		}
 		return result;
