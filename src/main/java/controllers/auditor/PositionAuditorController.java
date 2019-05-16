@@ -42,7 +42,10 @@ public class PositionAuditorController extends AbstractController {
 		positions = this.positionService.findPositionsFinalModeTrueWithoutDeadline();
 		final Collection<Position> myPositions = auditor.getPositions();
 
+		final Collection<Position> positionsCancelled = this.positionService.findPositionsCancelled();
+
 		positions.removeAll(myPositions);
+		positions.removeAll(positionsCancelled);
 
 		final String banner = this.configurationService.findConfiguration().getBanner();
 
@@ -96,12 +99,17 @@ public class PositionAuditorController extends AbstractController {
 		Collection<Position> positions;
 		final Auditor auditor = this.auditorService.findByPrincipal();
 
-		positions = auditor.getPositions();
+		positions = this.positionService.findPositionsNotCancelledByAuditorId(auditor.getId());
+
+		final Collection<Position> myPositionsCancelled = this.positionService.findPositionsCancelledByAuditorId(auditor.getId());
+
+		positions.removeAll(myPositionsCancelled);
 
 		final String banner = this.configurationService.findConfiguration().getBanner();
 
 		result = new ModelAndView("position/list");
 		result.addObject("positions", positions);
+		result.addObject("myPositionsCancelled", myPositionsCancelled);
 		result.addObject("banner", banner);
 		result.addObject("requestURI", "position/auditor/listMyPosition.do");
 		result.addObject("pagesize", 5);

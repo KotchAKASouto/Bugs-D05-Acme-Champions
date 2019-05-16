@@ -465,4 +465,25 @@ public class PositionService {
 		return res;
 	}
 
+	public Collection<Position> findPositionsCancelledByAuditorId(final int auditorId) {
+
+		final Collection<Position> res = this.positionRepository.findPositionsCancelledByAuditorId(auditorId);
+
+		return res;
+	}
+
+	public Collection<Position> findPositionsNotCancelledByAuditorId(final int auditorId) {
+
+		final Collection<Position> res = this.positionRepository.findPositionsNotCancelledByAuditorId(auditorId);
+
+		return res;
+	}
+
+	public Collection<Position> findPositionsCancelled() {
+
+		final Collection<Position> res = this.positionRepository.findPositionsCancelled();
+
+		return res;
+
+	}
 }

@@ -46,4 +46,13 @@ public interface PositionRepository extends JpaRepository<Position, Integer> {
 	//	@Query("select p from Position p where (select count(a) from Auditor a where a.position.id=p.id)=0 and (p.finalMode=true)")
 	//	Collection<Position> positionsNotAssignedAnyAuditor();
 
+	@Query("select p from Position p where (select count(a) from Auditor a join a.positions t where (a.id = ?1) and (t.id=p.id) and (t.cancellation!=null))!=0")
+	Collection<Position> findPositionsCancelledByAuditorId(int auditorId);
+
+	@Query("select p from Position p where (select count(a) from Auditor a join a.positions t where (a.id = ?1) and (t.id=p.id) and (t.cancellation=null))!=0")
+	Collection<Position> findPositionsNotCancelledByAuditorId(int auditorId);
+
+	@Query("select p from Position p where p.cancellation!=null")
+	Collection<Position> findPositionsCancelled();
+
 }
