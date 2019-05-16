@@ -165,6 +165,7 @@ public class SponsorshipService {
 		comp.setAuthority(Authority.PROVIDER);
 		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(comp));
 		Assert.isTrue(actor.getId() == sponsorship.getProvider().getId());
+		Assert.isTrue(sponsorship.getPosition().getFinalMode());
 
 		this.sponsorshipRepository.delete(sponsorship);
 	}
@@ -263,5 +264,12 @@ public class SponsorshipService {
 		final Collection<Sponsorship> result = this.sponsorshipRepository.findAllByPositionId(positionId);
 
 		return result;
+	}
+
+	public Collection<Sponsorship> findAllCancelledByProviderId(final int providerId) {
+
+		final Collection<Sponsorship> res = this.sponsorshipRepository.findAllCancelledByProviderId(providerId);
+
+		return res;
 	}
 }

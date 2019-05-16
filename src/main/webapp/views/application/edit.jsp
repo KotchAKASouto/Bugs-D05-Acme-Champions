@@ -25,7 +25,7 @@
 	
 	<spring:message code="application.problem.attachments" />:
 		<c:forEach items="${problemDisplay.attachments}" var="attachment">
-				<a href="${attachment}" target="_blank">${attachment}</a><br/>
+				/ <a href="${attachment}" target="_blank">${attachment}</a> 
 		</c:forEach>
 
 	<acme:textarea code="application.answer" path="answer" obligatory="false"/>

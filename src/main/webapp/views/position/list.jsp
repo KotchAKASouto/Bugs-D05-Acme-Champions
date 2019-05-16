@@ -109,7 +109,7 @@
 	
 	<security:authorize access="hasRole('PROVIDER')">
 		<display:column>
-			<jstl:if test="${row.deadline > now}">
+			<jstl:if test="${row.deadline > now && row.cancellation==null}">
 				<a href="sponsorship/provider/sponsor.do?positionId=${row.id }"> <spring:message code="position.sponsorship"/></a>
 			</jstl:if>
 		</display:column>
@@ -153,11 +153,7 @@
 	
 	<acme:column property="offeredSalary" titleKey="position.offeredSalary" value= "${pc.offeredSalary}: "/>
 	
-	<jstl:if test="${!AmInCompanyController }">
-	<acme:url href="position/display.do?positionId=${row.id }" code="position.display"/>
-	</jstl:if>
-	
-	<acme:url href="audit/listByPosition.do?positionId=${row.id }" code="position.audits" />
+	<acme:url href="audit/listByPosition.do?positionId=${pc.id }" code="position.audits" />
 	
 	</display:table>
 	</jstl:if>

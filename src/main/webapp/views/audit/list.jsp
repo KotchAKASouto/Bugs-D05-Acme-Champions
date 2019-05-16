@@ -35,6 +35,7 @@
 
 	</display:table>
 	
+	<jstl:if test="${requestURI=='audit/auditor/list.do' }">
 	<h3><spring:message code="listAuditsCancelled" /></h3>
 	
 	<display:table name="auditsCancelled" id="row2" requestURI="${requestURI }" pagesize="5">
@@ -60,6 +61,7 @@
 	</security:authorize>
 
 	</display:table>
+	</jstl:if>
 			
 	<acme:button name="back" code="audit.back" onclick="javascript: relativeRedir('welcome/index.do');" />
 

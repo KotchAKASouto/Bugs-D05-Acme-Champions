@@ -27,6 +27,24 @@
 	<acme:url href="sponsorship/provider/display.do?sponsorshipId=${row.id }" code="sponsorship.display" />
 
 	</display:table>
+	
+	<h3><spring:message code="sponsorshipCancelled" /></h3>
+	
+	<display:table name="sponsorshipsCancelled" id="row2" requestURI="${requestURI }" pagesize="5">
+	
+	<display:column>
+		<a target="_blank" href="${row2.target }"><spring:message code="sponsorship.target"/></a>
+	</display:column>
+	
+	<acme:column property="cost" titleKey="sponsorship.cost" value= "${row2.cost}: "/>
+	
+	<acme:column property="position.title" titleKey="sponsorship.position.title" value= "${row2.position.title}: "/>
+	
+	<acme:column property="creditCard.number" titleKey="sponsorship.creditCard.number" value= "${row2.creditCard.number}: "/>
+	
+	<acme:url href="sponsorship/provider/display.do?sponsorshipId=${row2.id }" code="sponsorship.display" />
+
+	</display:table>
 		
 	<acme:button name="back" code="sponsorship.back" onclick="javascript: relativeRedir('welcome/index.do');" />
 

@@ -148,7 +148,7 @@ public class ApplicationRookieController {
 
 		final Date now = new Date(System.currentTimeMillis() - 1000);
 
-		if (exist && this.positionService.findOne(positionId).getDeadline().after(now)) {
+		if (exist && this.positionService.findOne(positionId).getDeadline().after(now) && this.positionService.findOne(positionId).getCancellation() == null) {
 
 			final Problem problemDisplay = this.positionService.ramdomProblem(positionId);
 
@@ -175,7 +175,7 @@ public class ApplicationRookieController {
 
 		final String banner = this.configurationService.findConfiguration().getBanner();
 
-		if (exist) {
+		if (exist && this.applicationService.findOne(applicationId).getPosition().getCancellation() == null) {
 
 			security = this.applicationService.securityRookie(applicationId);
 			final Application application = this.applicationService.findOne(applicationId);

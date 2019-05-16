@@ -52,10 +52,15 @@ public class SponsorshipProviderController {
 
 		sponsorships = this.sponsorshipService.findAllByProviderId(provider.getId());
 
+		final Collection<Sponsorship> sponsorshipsCancelled = this.sponsorshipService.findAllCancelledByProviderId(provider.getId());
+
+		sponsorships.removeAll(sponsorshipsCancelled);
+
 		final String banner = this.configurationService.findConfiguration().getBanner();
 
 		result = new ModelAndView("sponsorship/list");
 		result.addObject("sponsorships", sponsorships);
+		result.addObject("sponsorshipsCancelled", sponsorshipsCancelled);
 		result.addObject("requestURI", "sponsorship/provider/list.do");
 		result.addObject("pagesize", 5);
 		result.addObject("banner", banner);
@@ -103,7 +108,7 @@ public class SponsorshipProviderController {
 
 		final Position position = this.positionService.findOne(positionId);
 
-		if (position == null) {
+		if (position == null || this.positionService.findOne(positionId).getCancellation() != null) {
 
 			result = new ModelAndView("misc/notExist");
 			result.addObject("banner", banner);
@@ -149,7 +154,7 @@ public class SponsorshipProviderController {
 
 		sponsorship = this.sponsorshipService.findOne(sponsorshipId);
 
-		if (sponsorship == null) {
+		if (sponsorship == null || this.sponsorshipService.findOne(sponsorshipId).getPosition().getCancellation() != null) {
 			result = new ModelAndView("misc/notExist");
 			result.addObject("banner", banner);
 		} else {
