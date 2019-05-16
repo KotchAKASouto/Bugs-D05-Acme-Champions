@@ -348,20 +348,20 @@ public class SponsorshipServiceTest extends AbstractTest {
 		final Object testingData[][] = {
 
 			{
-				"position1", "sponsorship1", null
+				"position1", "sponsorship1", "sponsorship4", null
 			},//1. All fine 
 			{
-				"position1", "sponsorship3", IllegalArgumentException.class
+				"position1", "sponsorship3", "sponsorship2", IllegalArgumentException.class
 			},//2. Wrong return
 
 		};
 
 		for (int i = 0; i < testingData.length; i++)
-			this.templateRandomSponsorship((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
+			this.templateRandomSponsorship((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (Class<?>) testingData[i][3]);
 
 	}
 
-	protected void templateRandomSponsorship(final String positionBean, final String sponsorshipBean1, final Class<?> expected) {
+	protected void templateRandomSponsorship(final String positionBean, final String sponsorshipBean1, final String sponsorshipBean2, final Class<?> expected) {
 
 		Class<?> caught;
 
@@ -372,7 +372,9 @@ public class SponsorshipServiceTest extends AbstractTest {
 
 			final Collection<Sponsorship> sponsorships = new HashSet<>();
 			final Sponsorship s1 = this.sponsorshipService.findOne(super.getEntityId(sponsorshipBean1));
+			final Sponsorship s2 = this.sponsorshipService.findOne(super.getEntityId(sponsorshipBean2));
 			sponsorships.add(s1);
+			sponsorships.add(s2);
 
 			this.startTransaction();
 

@@ -225,7 +225,7 @@ public class AdministratorServiceTest extends AbstractTest {
 	public void DashboardTest() {
 		final Object testingData[][] = {
 			{
-				1.875, 1, 4, 1.0533, 1.0, 1, 1, 0.0, "[Wallace Inc, Petty, Sanchez and Davis, Russell, Skinner and Wilson]", "[Angela, Steven, Kimberly]", 2354.6666666666665, 1110.9637057778061, 755, 4471, 2721, 2712, 2, 2, 2.0, 0.0, 0.0, 0, 0, 0.0, 0.0,
+				2.5714, 1, 7, 1.9898, 1.0, 1, 1, 0.0, "[Wallace Inc, Russell, Skinner and Wilson, Petty, Sanchez and Davis]", "[Steven, Kimberly, Ryan]", 2045.5555555555557, 1227.3068176667798, 500, 4471, 2721, 2712, 2, 2, 2.0, 0.0, 0.0, 0, 0, 0.0, 0.0,
 				null
 			},//1. All fine
 			{

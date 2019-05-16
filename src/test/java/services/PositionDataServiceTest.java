@@ -57,13 +57,13 @@ public class PositionDataServiceTest extends AbstractTest {
 	public void driverCreatePositionData() {
 		final Object testingData[][] = {
 			{
-				"hacker1", "test", "test", "1998/06/29", "2000/06/29", null
+				"rookie1", "test", "test", "1998/06/29", "2000/06/29", null
 			},//1. All fine
 			{
-				"hacker1", null, "test", "1998/06/29", "2000/06/29", ConstraintViolationException.class
+				"rookie1", null, "test", "1998/06/29", "2000/06/29", ConstraintViolationException.class
 			},//2. Title = null
 			{
-				"hacker1", "		", "test", "1998/06/29", "2000/06/29", ConstraintViolationException.class
+				"rookie1", "		", "test", "1998/06/29", "2000/06/29", ConstraintViolationException.class
 			},//3. Title = blank
 		};
 
