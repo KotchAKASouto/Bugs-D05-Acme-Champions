@@ -27,7 +27,7 @@
 
 <acme:display code="audit.position" property="${audit.position.title}" />
 
-<jstl:if test="${!audit.finalMode }">
+<jstl:if test="${!audit.finalMode && audit.position.cancellation == null}">
 	<acme:button name="edit" code="audit.edit" onclick="javascript: relativeRedir('audit/auditor/edit.do?auditId=${audit.id }');" />
 </jstl:if>
 

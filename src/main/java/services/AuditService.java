@@ -200,4 +200,11 @@ public class AuditService {
 		this.auditRepository.flush();
 	}
 
+	public Collection<Audit> findAuditsCancelledByAuditorId(final int auditorId) {
+
+		final Collection<Audit> res = this.auditRepository.findAuditsCancelledByAuditorId(auditorId);
+
+		return res;
+	}
+
 }

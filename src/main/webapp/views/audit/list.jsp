@@ -34,6 +34,32 @@
 	</security:authorize>
 
 	</display:table>
+	
+	<h3><spring:message code="listAuditsCancelled" /></h3>
+	
+	<display:table name="auditsCancelled" id="row2" requestURI="${requestURI }" pagesize="5">
+
+	
+	<spring:message code="dateFormat" var="format"/>
+	<display:column titleKey="audit.moment"> 
+		<fmt:formatDate value="${row2.moment }" pattern="${format}" />
+	</display:column>
+	
+	<acme:column property="text" titleKey="audit.text" value= "${row2.text}: "/>
+	
+	<acme:column property="score" titleKey="audit.score" value= "${row2.score}: "/>
+	
+	<display:column titleKey="audit.finalMode"> 
+				<spring:message code="audit.${row2.finalMode }" />
+	</display:column>
+	
+	<acme:column property="position.title" titleKey="audit.position" value= "${row2.position.title}: "/>
+	
+	<security:authorize access="hasRole('AUDITOR')">
+		<acme:url href="audit/auditor/display.do?auditId=${row2.id }" code="audit.display" />
+	</security:authorize>
+
+	</display:table>
 			
 	<acme:button name="back" code="audit.back" onclick="javascript: relativeRedir('welcome/index.do');" />
 
