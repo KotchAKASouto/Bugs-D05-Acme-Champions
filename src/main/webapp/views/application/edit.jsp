@@ -8,6 +8,7 @@
 <%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 
 <form:form action="application/rookie/edit.do" modelAttribute="application">
 	
@@ -22,10 +23,10 @@
 	
 	<acme:display code="application.problem.hint" property="${problemDisplay.hint} "/>
 	
-	<p><spring:message code="application.problem.attachments" /></p>
-	
-	<display:table name="problemDisplay.attachments" id="row">
-	</display:table>
+	<spring:message code="application.problem.attachments" />:
+		<c:forEach items="${problemDisplay.attachments}" var="attachment">
+				<a href="${attachment}" target="_blank">${attachment}</a><br/>
+		</c:forEach>
 
 	<acme:textarea code="application.answer" path="answer" obligatory="false"/>
 	
