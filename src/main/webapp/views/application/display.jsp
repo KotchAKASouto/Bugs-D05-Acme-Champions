@@ -26,7 +26,9 @@
 
 <div><spring:message code="application.moment" />:
 <spring:message code="dateFormat" var="format"/>
-<fmt:formatDate value="${application.moment}" pattern="${format}"/>
+<spring:message code="timeFormat" var="timeFormat"/>
+<fmt:formatDate type="date" value="${application.moment }" pattern="${format}" />
+<fmt:formatDate type="time" value="${application.moment }" pattern="${timeFormat}" />
 </div>
 
 <acme:display code="application.status" property="${application.status} "/>
@@ -35,7 +37,9 @@
 
 <div><spring:message code="application.submitMoment" />:
 <spring:message code="dateFormat" var="format"/>
-<fmt:formatDate value="${application.submitMoment}" pattern="${format}"/>
+<spring:message code="timeFormat" var="timeFormat"/>
+<fmt:formatDate type="date" value="${application.submitMoment }" pattern="${format}" />
+<fmt:formatDate type="time" value="${application.momsubmitMomentent }" pattern="${timeFormat}" />
 </div>
 	
 <acme:display code="application.position.ticker" property="${application.position.ticker} "/>

@@ -16,7 +16,9 @@
 
 <div><spring:message code="audit.moment" />:
 <spring:message code="dateFormat" var="format"/>
-<fmt:formatDate value="${audit.moment}" pattern="${format}"/>
+<spring:message code="timeFormat" var="timeFormat"/>
+<fmt:formatDate type="date" value="${audit.moment }" pattern="${format}" />
+<fmt:formatDate type="time" value="${audit.moment }" pattern="${timeFormat}" />
 </div>
 
 <acme:display code="audit.text" property="${audit.text }" />

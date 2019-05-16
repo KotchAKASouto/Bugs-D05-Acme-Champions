@@ -15,8 +15,10 @@
 
 	
 	<spring:message code="dateFormat" var="format"/>
+	<spring:message code="timeFormat" var="timeFormat"/>
 	<display:column titleKey="audit.moment"> 
-		<fmt:formatDate value="${row.moment }" pattern="${format}" />
+		<fmt:formatDate type="date" value="${row.moment }" pattern="${format}" />
+		<fmt:formatDate type="time" value="${row.moment }" pattern="${timeFormat}" />
 	</display:column>
 	
 	<acme:column property="text" titleKey="audit.text" value= "${row.text}: "/>

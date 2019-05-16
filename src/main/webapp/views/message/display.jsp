@@ -14,7 +14,12 @@
 
 <acme:display code="message.sender" property="${message1.sender.name} "/>
 	
-<acme:display code="message.moment" property="${message1.moment} "/>
+<div><spring:message code="message.moment" />:
+<spring:message code="dateFormat" var="format"/>
+<spring:message code="timeFormat" var="timeFormat"/>
+<fmt:formatDate type="date" value="${message.moment }" pattern="${format}" />
+<fmt:formatDate type="time" value="${message.moment }" pattern="${timeFormat}" />
+</div>
 	
 <acme:display code="message.subject" property="${message1.subject} "/>
 	

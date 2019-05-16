@@ -23,8 +23,10 @@
 	<acme:column property="recipient.name" titleKey="message.recipient" value= "${row.recipient.name}: "/>
 	
 	<spring:message code="dateFormat" var="format"/>
+	<spring:message code="timeFormat" var="timeFormat"/>
 	<display:column titleKey="message.moment"> 
-		<fmt:formatDate value="${row.moment }" pattern="${format}" />
+		<fmt:formatDate type="date" value="${row.moment }" pattern="${format}" />
+		<fmt:formatDate type="time" value="${row.moment }" pattern="${timeFormat}" />
 	</display:column>
 	
 	<acme:column property="subject" titleKey="message.subject" value= "${row.subject}: "/>
