@@ -1,8 +1,6 @@
 
 package controllers.administrator;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
@@ -40,7 +38,7 @@ public class ConfigurationAdministratorController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@Valid final Configuration configuration, final BindingResult binding) {
+	public ModelAndView save(final Configuration configuration, final BindingResult binding) {
 		ModelAndView result;
 
 		final String banner = this.configurationService.findConfiguration().getBanner();
