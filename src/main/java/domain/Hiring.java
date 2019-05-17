@@ -1,6 +1,8 @@
 
 package domain;
 
+import java.util.Date;
+
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
@@ -9,33 +11,24 @@ import javax.persistence.Entity;
 @Access(AccessType.PROPERTY)
 public class Hiring extends DomainEntity {
 
-	private Double	price;
-	private String	status;
-	private String	mandatoryComment;
+	private Date	moment;
+	private String	description;
 
 
-	public Double getPrice() {
-		return this.price;
+	public Date getMoment() {
+		return this.moment;
 	}
 
-	public void setPrice(final Double price) {
-		this.price = price;
+	public void setMoment(final Date moment) {
+		this.moment = moment;
 	}
 
-	public String getStatus() {
-		return this.status;
+	public String getDescription() {
+		return this.description;
 	}
 
-	public void setStatus(final String status) {
-		this.status = status;
-	}
-
-	public String getMandatoryComment() {
-		return this.mandatoryComment;
-	}
-
-	public void setMandatoryComment(final String mandatoryComment) {
-		this.mandatoryComment = mandatoryComment;
+	public void setDescription(final String description) {
+		this.description = description;
 	}
 
 }
