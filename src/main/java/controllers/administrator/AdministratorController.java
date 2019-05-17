@@ -35,65 +35,6 @@ public class AdministratorController extends AbstractController {
 
 	//Methods
 
-	@RequestMapping(value = "/spammer/list", method = RequestMethod.GET)
-	public ModelAndView listSpammer() {
-
-		final ModelAndView result;
-		final Collection<Actor> actors;
-
-		actors = this.actorService.findAll();
-
-		final String banner = this.configurationService.findConfiguration().getBanner();
-
-		result = new ModelAndView("administrator/listActor");
-		result.addObject("score", false);
-		result.addObject("spam", true);
-		result.addObject("profile", false);
-		result.addObject("actors", actors);
-		result.addObject("requestURI", "actor/administrator/spammer/list.do");
-		result.addObject("banner", banner);
-
-		return result;
-
-	}
-
-	@RequestMapping(value = "/spammer/calculate", method = RequestMethod.GET)
-	public ModelAndView spammer() {
-		ModelAndView result;
-
-		this.administratorService.spammer();
-		result = new ModelAndView("redirect:/actor/administrator/spammer/list.do");
-
-		return result;
-	}
-
-	//	@RequestMapping(value = "/spammer/banActor", method = RequestMethod.GET)
-	//	public ModelAndView banSpammer(@RequestParam final int actorId) {
-	//		ModelAndView result;
-	//		Actor actor;
-	//		final Boolean exist = this.actorService.existActor(actorId);
-	//
-	//		final String banner = this.configurationService.findConfiguration().getBanner();
-	//
-	//		if (exist) {
-	//			actor = this.actorService.findOne(actorId);
-	//			if (actor.getSpammer() != null && actor.getSpammer()) {
-	//				this.actorService.banOrUnBanActor(actor);
-	//
-	//				result = new ModelAndView("redirect:/actor/administrator/spammer/list.do");
-	//
-	//			} else
-	//				result = new ModelAndView("redirect:/welcome/index.do");
-	//
-	//		} else {
-	//			result = new ModelAndView("misc/notExist");
-	//			result.addObject("banner", banner);
-	//		}
-	//
-	//		return result;
-	//
-	//	}
-
 	@RequestMapping(value = "/profile/list", method = RequestMethod.GET)
 	public ModelAndView listProfile() {
 
