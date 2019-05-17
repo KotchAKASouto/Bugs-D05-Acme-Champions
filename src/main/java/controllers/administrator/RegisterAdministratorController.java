@@ -10,12 +10,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.AdministratorService;
-import services.AuditorService;
 import services.ConfigurationService;
 import controllers.AbstractController;
 import domain.Administrator;
 import forms.RegisterAdministratorForm;
-import forms.RegisterAuditorForm;
 
 @Controller
 @RequestMapping("/administrator")
@@ -25,9 +23,6 @@ public class RegisterAdministratorController extends AbstractController {
 
 	@Autowired
 	private AdministratorService	administratorService;
-
-	@Autowired
-	private AuditorService			auditorService;
 
 	@Autowired
 	private ConfigurationService	configurationService;
@@ -92,39 +87,4 @@ public class RegisterAdministratorController extends AbstractController {
 		return result;
 	}
 
-	//------AUDITOR--------
-
-	@RequestMapping(value = "/createAuditor", method = RequestMethod.GET)
-	public ModelAndView createAuditor() {
-		final ModelAndView result;
-		final RegisterAuditorForm auditor;
-
-		auditor = new RegisterAuditorForm();
-		result = this.createEditModelAndViewAuditor(auditor);
-
-		return result;
-	}
-
-	protected ModelAndView createEditModelAndViewAuditor(final RegisterAuditorForm auditor) {
-		ModelAndView result;
-
-		result = this.createEditModelAndViewAuditor(auditor, null);
-
-		return result;
-	}
-
-	protected ModelAndView createEditModelAndViewAuditor(final RegisterAuditorForm auditor, final String messageCode) {
-		ModelAndView result;
-
-		final String banner = this.configurationService.findConfiguration().getBanner();
-
-		result = new ModelAndView("security/signUpAuditor");
-		result.addObject("auditor", auditor);
-		result.addObject("banner", banner);
-		result.addObject("messageError", messageCode);
-		final String countryCode = this.configurationService.findConfiguration().getCountryCode();
-		result.addObject("defaultCountry", countryCode);
-
-		return result;
-	}
 }

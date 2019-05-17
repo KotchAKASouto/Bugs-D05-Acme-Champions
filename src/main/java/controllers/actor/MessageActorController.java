@@ -182,23 +182,6 @@ public class MessageActorController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "/rebrandingNotification", method = RequestMethod.GET)
-	public ModelAndView rebrandingNotification() {
-
-		ModelAndView result;
-
-		final Boolean rebrandingNotification = this.configurationService.findConfiguration().getRebrandingNotification();
-
-		if (!rebrandingNotification) {
-			this.messageService.notificationRebranding();
-
-			result = new ModelAndView("redirect:/message/actor/list.do");
-		} else
-			result = new ModelAndView("redirect:/welcome/index.do");
-
-		return result;
-	}
-
 	protected ModelAndView createEditModelAndView(final MessageForm message2) {
 		final ModelAndView result;
 		result = this.createEditModelAndView(message2, null);

@@ -3,16 +3,12 @@ package services;
 
 import javax.transaction.Transactional;
 
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
-import domain.Finder;
-import domain.Rookie;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -24,10 +20,6 @@ public class FinderServiceTest extends AbstractTest {
 	//The SUT----------------------------------------------------
 	@Autowired
 	private FinderService	finderService;
-
-	@Autowired
-	private RookieService	rookieService;
-
 
 	/*
 	 * ----CALCULATE COVERAGE----
@@ -51,47 +43,47 @@ public class FinderServiceTest extends AbstractTest {
 	 * -findFinderByRookie(): 100%
 	 * d) Data coverage
 	 */
-	@Test
-	public void driverFinder() {
-		final Object testingData[][] = {
-			{
-				"PC", "rookie1", 0, null
-			},//1. All fine filter
-			{
-				"PC", "rookie1", 1, IllegalArgumentException.class
-			},//2. The number of the positions finded is wrong
-
-		};
-
-		for (int i = 0; i < testingData.length; i++)
-			this.templateFinder((String) testingData[i][0], (String) testingData[i][1], (Integer) testingData[i][2], (Class<?>) testingData[i][3]);
-	}
-
-	protected void templateFinder(final String keyword, final String username, final Integer results, final Class<?> expected) {
-		Class<?> caught;
-
-		caught = null;
-
-		try {
-			this.authenticate(username);
-
-			final Rookie rookie = this.rookieService.findByPrincipal();
-
-			final Finder finder = this.finderService.findFinderByRookie(rookie.getId());
-
-			finder.setKeyWord(keyword);
-
-			final Finder saved = this.finderService.save(finder);
-
-			Assert.isTrue(saved.getPositions().size() == results);
-
-		} catch (final Throwable oops) {
-			caught = oops.getClass();
-		}
-
-		this.unauthenticate();
-		super.checkExceptions(expected, caught);
-	}
+	//	@Test
+	//	public void driverFinder() {
+	//		final Object testingData[][] = {
+	//			{
+	//				"PC", "rookie1", 0, null
+	//			},//1. All fine filter
+	//			{
+	//				"PC", "rookie1", 1, IllegalArgumentException.class
+	//			},//2. The number of the positions finded is wrong
+	//
+	//		};
+	//
+	//		for (int i = 0; i < testingData.length; i++)
+	//			this.templateFinder((String) testingData[i][0], (String) testingData[i][1], (Integer) testingData[i][2], (Class<?>) testingData[i][3]);
+	//	}
+	//
+	//	protected void templateFinder(final String keyword, final String username, final Integer results, final Class<?> expected) {
+	//		Class<?> caught;
+	//
+	//		caught = null;
+	//
+	//		try {
+	//			this.authenticate(username);
+	//
+	//			final Rookie rookie = this.rookieService.findByPrincipal();
+	//
+	//			final Finder finder = this.finderService.findFinderByRookie(rookie.getId());
+	//
+	//			finder.setKeyWord(keyword);
+	//
+	//			final Finder saved = this.finderService.save(finder);
+	//
+	//			Assert.isTrue(saved.getPositions().size() == results);
+	//
+	//		} catch (final Throwable oops) {
+	//			caught = oops.getClass();
+	//		}
+	//
+	//		this.unauthenticate();
+	//		super.checkExceptions(expected, caught);
+	//	}
 
 	/*
 	 * -------Coverage FinderService-------

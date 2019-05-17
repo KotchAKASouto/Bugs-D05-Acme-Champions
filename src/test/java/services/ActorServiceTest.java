@@ -1,14 +1,12 @@
 
 package services;
 
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import utilities.AbstractTest;
-import domain.Actor;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -19,7 +17,6 @@ public class ActorServiceTest extends AbstractTest {
 	//The SUT----------------------------------------------------
 	@Autowired
 	private ActorService	actorService;
-
 
 	/*
 	 * ----CALCULATE COVERAGE----
@@ -43,51 +40,51 @@ public class ActorServiceTest extends AbstractTest {
 	 * -Actor: 0%
 	 */
 
-	@Test
-	public void driverBanActor() {
-
-		final Object testingData[][] = {
-
-			{
-				"company1", null
-			}, //1. All fine
-			{
-				"administrator1", IllegalArgumentException.class
-			}, //2. Ban yourself
-
-		};
-
-		for (int i = 0; i < testingData.length; i++)
-			this.templateBanActor((String) testingData[i][0], (Class<?>) testingData[i][1]);
-	}
-
-	protected void templateBanActor(final String actorBean, final Class<?> expected) {
-
-		Class<?> caught;
-
-		caught = null;
-
-		try {
-
-			this.startTransaction();
-
-			super.authenticate("admin");
-
-			final Actor actor = this.actorService.findOne(super.getEntityId(actorBean));
-
-			this.actorService.banOrUnBanActor(actor);
-			this.actorService.flush();
-
-		} catch (final Throwable oops) {
-			caught = oops.getClass();
-		}
-
-		this.unauthenticate();
-
-		this.rollbackTransaction();
-
-		super.checkExceptions(expected, caught);
-	}
+	//	@Test
+	//	public void driverBanActor() {
+	//
+	//		final Object testingData[][] = {
+	//
+	//			{
+	//				"company1", null
+	//			}, //1. All fine
+	//			{
+	//				"administrator1", IllegalArgumentException.class
+	//			}, //2. Ban yourself
+	//
+	//		};
+	//
+	//		for (int i = 0; i < testingData.length; i++)
+	//			this.templateBanActor((String) testingData[i][0], (Class<?>) testingData[i][1]);
+	//	}
+	//
+	//	protected void templateBanActor(final String actorBean, final Class<?> expected) {
+	//
+	//		Class<?> caught;
+	//
+	//		caught = null;
+	//
+	//		try {
+	//
+	//			this.startTransaction();
+	//
+	//			super.authenticate("admin");
+	//
+	//			final Actor actor = this.actorService.findOne(super.getEntityId(actorBean));
+	//
+	//			this.actorService.banOrUnBanActor(actor);
+	//			this.actorService.flush();
+	//
+	//		} catch (final Throwable oops) {
+	//			caught = oops.getClass();
+	//		}
+	//
+	//		this.unauthenticate();
+	//
+	//		this.rollbackTransaction();
+	//
+	//		super.checkExceptions(expected, caught);
+	//	}
 
 	/*
 	 * ACME.HACKERRANK
@@ -103,51 +100,51 @@ public class ActorServiceTest extends AbstractTest {
 	 * -Actor: 0%
 	 */
 
-	@Test
-	public void driverUnbanActor() {
-
-		final Object testingData[][] = {
-
-			{
-				"rookie1", null
-			}, //1. All fine
-			{
-				"administrator1", IllegalArgumentException.class
-			}, //2. Unban yourself
-
-		};
-
-		for (int i = 0; i < testingData.length; i++)
-			this.templateUnbanActor((String) testingData[i][0], (Class<?>) testingData[i][1]);
-	}
-
-	protected void templateUnbanActor(final String actorBean, final Class<?> expected) {
-
-		Class<?> caught;
-
-		caught = null;
-
-		try {
-
-			this.startTransaction();
-
-			super.authenticate("admin");
-
-			final Actor actor = this.actorService.findOne(super.getEntityId(actorBean));
-
-			this.actorService.banOrUnBanActor(actor);
-			this.actorService.flush();
-
-		} catch (final Throwable oops) {
-			caught = oops.getClass();
-		}
-
-		this.unauthenticate();
-
-		this.rollbackTransaction();
-
-		super.checkExceptions(expected, caught);
-	}
+	//	@Test
+	//	public void driverUnbanActor() {
+	//
+	//		final Object testingData[][] = {
+	//
+	//			{
+	//				"rookie1", null
+	//			}, //1. All fine
+	//			{
+	//				"administrator1", IllegalArgumentException.class
+	//			}, //2. Unban yourself
+	//
+	//		};
+	//
+	//		for (int i = 0; i < testingData.length; i++)
+	//			this.templateUnbanActor((String) testingData[i][0], (Class<?>) testingData[i][1]);
+	//	}
+	//
+	//	protected void templateUnbanActor(final String actorBean, final Class<?> expected) {
+	//
+	//		Class<?> caught;
+	//
+	//		caught = null;
+	//
+	//		try {
+	//
+	//			this.startTransaction();
+	//
+	//			super.authenticate("admin");
+	//
+	//			final Actor actor = this.actorService.findOne(super.getEntityId(actorBean));
+	//
+	//			this.actorService.banOrUnBanActor(actor);
+	//			this.actorService.flush();
+	//
+	//		} catch (final Throwable oops) {
+	//			caught = oops.getClass();
+	//		}
+	//
+	//		this.unauthenticate();
+	//
+	//		this.rollbackTransaction();
+	//
+	//		super.checkExceptions(expected, caught);
+	//	}
 
 	/*
 	 * -------Coverage ActorService-------
