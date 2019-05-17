@@ -14,12 +14,7 @@ import org.springframework.validation.Validator;
 import repositories.MessageRepository;
 import security.Authority;
 import domain.Actor;
-import domain.Application;
-import domain.Configuration;
-import domain.Finder;
 import domain.Message;
-import domain.Position;
-import domain.Rookie;
 import forms.MessageForm;
 
 @Service
@@ -41,12 +36,6 @@ public class MessageService {
 
 	@Autowired
 	private Validator				validator;
-
-	@Autowired
-	private RookieService			rookieService;
-
-	@Autowired
-	private PositionService			positionService;
 
 	@Autowired
 	private FinderService			finderService;
@@ -326,82 +315,6 @@ public class MessageService {
 
 	public void flush() {
 		this.messageRepository.flush();
-	}
-
-	public void notificationApplicationStatus(final Application application) {
-
-		final Message message = this.create3();
-
-		message.setRecipient(application.getRookie());
-		message.setSubject("Application/Solicitud");
-		message.setBody("One of your applications about the position " + application.getPosition().getTicker() + " has been changed" + "\n" + "Una de sus solicitudes sobre la posición" + application.getPosition().getTicker() + " ha sido modificada");
-
-		message.setTags("NOTIFICATION");
-
-		this.save2(message);
-
-	}
-
-	public void notificationRebranding() {
-
-		final Authority admin = new Authority();
-		admin.setAuthority(Authority.ADMIN);
-
-		final Actor actor = this.actorService.findByPrincipal();
-		Assert.notNull(actor);
-
-		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(admin));
-
-		final Message message = this.create3();
-
-		message.setSubject("Rebranding/Rediseño de identidad");
-		message.setBody("From now on, Acme-HackerRank will be called Acme-Rookies/A partir de ahora, Acme-HackerRank será llamado Acme-Rookies");
-		message.setTags("NOTIFICATION");
-
-		final Collection<Actor> actors = this.actorService.findAll();
-
-		for (final Actor a : actors) {
-
-			message.setRecipient(a);
-
-			this.save2(message);
-
-		}
-
-		final Configuration c = this.configurationService.findConfiguration();
-		c.setRebrandingNotification(true);
-		this.configurationService.save(c);
-
-	}
-
-	public void containsNewPosition(final Position position) {
-
-		final Collection<Rookie> rookies = this.rookieService.findAll();
-
-		for (final Rookie rookie : rookies) {
-
-			final Finder finder = this.finderService.findFinderByRookie(rookie.getId());
-
-			if (!finder.getKeyWord().equals("") || !finder.getMaximumDeadline().equals("") || finder.getMaximumSalary() != null || finder.getMinimumSalary() != null) {
-
-				final Collection<Position> positions = this.positionService.findPositionsByFinder(finder);
-
-				if (positions.contains(position)) {
-
-					final Message message = this.create3();
-
-					message.setRecipient(rookie);
-					message.setSubject("New position matches yor finder/Nueva posición se ajusta a su buscador");
-					message.setBody("The position created by " + position.getCompany().getName() + " may interest you/ La posición creada por " + position.getCompany().getName() + "puede interesarte.");
-					message.setTags("NOTIFICATION");
-
-					this.save2(message);
-				}
-
-			}
-
-		}
-
 	}
 
 }
