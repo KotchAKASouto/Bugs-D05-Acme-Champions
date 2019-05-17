@@ -22,7 +22,6 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -57,7 +56,6 @@ public class UserAccount extends DomainEntity implements UserDetails {
 
 	private String					username;
 	private String					password;
-	private Boolean					isNotBanned;
 	private Collection<Authority>	authorities;
 
 
@@ -82,15 +80,6 @@ public class UserAccount extends DomainEntity implements UserDetails {
 
 	public void setPassword(final String password) {
 		this.password = password;
-	}
-
-	@NotNull
-	public Boolean getIsNotBanned() {
-		return this.isNotBanned;
-	}
-
-	public void setIsNotBanned(final Boolean isBanned) {
-		this.isNotBanned = isBanned;
 	}
 
 	@NotEmpty
@@ -129,7 +118,7 @@ public class UserAccount extends DomainEntity implements UserDetails {
 	@Transient
 	@Override
 	public boolean isAccountNonLocked() {
-		return this.getIsNotBanned();
+		return true;
 	}
 
 	@Transient

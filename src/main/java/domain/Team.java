@@ -22,7 +22,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class Team extends DomainEntity {
 
 	private String		name;
-	private String		place;
+	private String		address;
+	private String		stadiumName;
 	private String		badgeUrl;
 	private Integer		trackRecord;
 	private Date		establishmentDate;
@@ -42,12 +43,22 @@ public class Team extends DomainEntity {
 
 	@SafeHtml
 	@NotBlank
-	public String getPlace() {
-		return this.place;
+	public String getAddress() {
+		return this.address;
 	}
 
-	public void setPlace(final String place) {
-		this.place = place;
+	public void setAddress(final String address) {
+		this.address = address;
+	}
+
+	@SafeHtml
+	@NotBlank
+	public String getStadiumName() {
+		return this.stadiumName;
+	}
+
+	public void setStadiumName(final String stadiumName) {
+		this.stadiumName = stadiumName;
 	}
 
 	@SafeHtml

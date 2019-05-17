@@ -6,8 +6,6 @@ import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -20,9 +18,6 @@ import security.UserAccount;
 
 @Entity
 @Access(AccessType.PROPERTY)
-@Table(uniqueConstraints = {
-	@UniqueConstraint(columnNames = "vat")
-})
 public abstract class Actor extends DomainEntity {
 
 	//Atributos-----------------------------------------------------------
@@ -32,7 +27,6 @@ public abstract class Actor extends DomainEntity {
 	private String	email;
 	private String	phone;
 	private String	address;
-	private Boolean	spammer;
 
 
 	//Getters y Setters-----------------------------------------------------
@@ -87,13 +81,6 @@ public abstract class Actor extends DomainEntity {
 	}
 	public void setAddress(final String address) {
 		this.address = address;
-	}
-
-	public Boolean getSpammer() {
-		return this.spammer;
-	}
-	public void setSpammer(final Boolean spammer) {
-		this.spammer = spammer;
 	}
 
 
