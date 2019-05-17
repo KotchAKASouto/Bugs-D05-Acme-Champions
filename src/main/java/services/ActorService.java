@@ -10,16 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import repositories.ActorRepository;
-import security.Authority;
 import security.LoginService;
 import security.UserAccount;
 import security.UserAccountService;
 import domain.Actor;
-import domain.Administrator;
-import domain.Auditor;
-import domain.Company;
-import domain.Provider;
-import domain.Rookie;
 
 @Service
 @Transactional
@@ -41,46 +35,13 @@ public class ActorService {
 	private AdministratorService	administratorService;
 
 	@Autowired
-	private CompanyService			companyService;
-
-	@Autowired
-	private ProviderService			providerService;
-
-	@Autowired
-	private AuditorService			auditorService;
-
-	@Autowired
-	private AuditService			auditService;
-
-	@Autowired
-	private CurriculumService		curriculumService;
-
-	@Autowired
-	private ProblemService			problemService;
-
-	@Autowired
-	private PositionService			positionService;
-
-	@Autowired
-	private RookieService			rookieService;
-
-	@Autowired
-	private ItemService				itemService;
-
-	@Autowired
 	private MessageService			messageService;
 
 	@Autowired
 	private SponsorshipService		sponsorshipService;
 
 	@Autowired
-	private SocialProfileService	socialProfileService;
-
-	@Autowired
 	private FinderService			finderService;
-
-	@Autowired
-	private ApplicationService		applicationService;
 
 
 	//Simple CRUD methods --------------------------------------------------
@@ -187,111 +148,111 @@ public class ActorService {
 		return res;
 
 	}
-	public String authorityAuthenticated() {
-		String res = null;
+	//	public String authorityAuthenticated() {
+	//		String res = null;
+	//
+	//		final Authority authority1 = new Authority();
+	//		authority1.setAuthority(Authority.COMPANY);
+	//		final Authority authority2 = new Authority();
+	//		authority2.setAuthority(Authority.ROOKIE);
+	//		final Authority authority3 = new Authority();
+	//		authority3.setAuthority(Authority.ADMIN);
+	//
+	//		if (LoginService.getPrincipal().getAuthorities().contains(authority1))
+	//			res = "rookie";
+	//		else if (LoginService.getPrincipal().getAuthorities().contains(authority2))
+	//			res = "company";
+	//		else if (LoginService.getPrincipal().getAuthorities().contains(authority3))
+	//			res = "admin";
+	//		return res;
+	//
+	//	}
 
-		final Authority authority1 = new Authority();
-		authority1.setAuthority(Authority.COMPANY);
-		final Authority authority2 = new Authority();
-		authority2.setAuthority(Authority.ROOKIE);
-		final Authority authority3 = new Authority();
-		authority3.setAuthority(Authority.ADMIN);
+	//	public void convertToSpammerActor() {
+	//		final Actor actor = this.findByPrincipal();
+	//		final Collection<Authority> authorities = actor.getUserAccount().getAuthorities();
+	//
+	//		final Authority authAdmin = new Authority();
+	//		authAdmin.setAuthority(Authority.ADMIN);
+	//
+	//		final Authority authCompany = new Authority();
+	//		authCompany.setAuthority(Authority.COMPANY);
+	//
+	//		final Authority authRookie = new Authority();
+	//		authRookie.setAuthority(Authority.ROOKIE);
+	//
+	//		if (authorities.contains(authAdmin)) {
+	//			final Administrator administrator = this.administratorService.findByPrincipal();
+	//			administrator.setSpammer(true);
+	//			this.administratorService.save(administrator);
+	//
+	//		} else if (authorities.contains(authRookie)) {
+	//			final Rookie rookie = this.rookieService.findByPrincipal();
+	//			rookie.setSpammer(true);
+	//			this.rookieService.save(rookie);
+	//
+	//		} else if (authorities.contains(authCompany)) {
+	//			final Company company = this.companyService.findByPrincipal();
+	//			company.setSpammer(true);
+	//			this.companyService.save(company);
+	//
+	//		}
+	//
+	//	}
 
-		if (LoginService.getPrincipal().getAuthorities().contains(authority1))
-			res = "rookie";
-		else if (LoginService.getPrincipal().getAuthorities().contains(authority2))
-			res = "company";
-		else if (LoginService.getPrincipal().getAuthorities().contains(authority3))
-			res = "admin";
-		return res;
-
-	}
-
-	public void convertToSpammerActor() {
-		final Actor actor = this.findByPrincipal();
-		final Collection<Authority> authorities = actor.getUserAccount().getAuthorities();
-
-		final Authority authAdmin = new Authority();
-		authAdmin.setAuthority(Authority.ADMIN);
-
-		final Authority authCompany = new Authority();
-		authCompany.setAuthority(Authority.COMPANY);
-
-		final Authority authRookie = new Authority();
-		authRookie.setAuthority(Authority.ROOKIE);
-
-		if (authorities.contains(authAdmin)) {
-			final Administrator administrator = this.administratorService.findByPrincipal();
-			administrator.setSpammer(true);
-			this.administratorService.save(administrator);
-
-		} else if (authorities.contains(authRookie)) {
-			final Rookie rookie = this.rookieService.findByPrincipal();
-			rookie.setSpammer(true);
-			this.rookieService.save(rookie);
-
-		} else if (authorities.contains(authCompany)) {
-			final Company company = this.companyService.findByPrincipal();
-			company.setSpammer(true);
-			this.companyService.save(company);
-
-		}
-
-	}
-
-	public void banOrUnBanActor(final Actor actor) {
-		final Collection<Authority> authorities = actor.getUserAccount().getAuthorities();
-
-		final Actor principal = this.findByPrincipal();
-
-		Assert.isTrue(!actor.equals(principal));
-
-		final Authority authAdmin = new Authority();
-		authAdmin.setAuthority(Authority.ADMIN);
-
-		final Authority authRookie = new Authority();
-		authRookie.setAuthority(Authority.ROOKIE);
-
-		final Authority authCompany = new Authority();
-		authCompany.setAuthority(Authority.COMPANY);
-
-		final Authority authProvider = new Authority();
-		authProvider.setAuthority(Authority.PROVIDER);
-
-		final Authority authAuditor = new Authority();
-		authProvider.setAuthority(Authority.AUDITOR);
-
-		if (authorities.contains(authAdmin)) {
-			final Administrator administrator = this.administratorService.findOne(actor.getId());
-			final UserAccount userAccount = administrator.getUserAccount();
-			userAccount.setIsNotBanned(!userAccount.getIsNotBanned());
-			this.userAccountService.save(userAccount);
-
-		} else if (authorities.contains(authRookie)) {
-			final Rookie rookie = this.rookieService.findOne(actor.getId());
-			final UserAccount userAccount = rookie.getUserAccount();
-			userAccount.setIsNotBanned(!userAccount.getIsNotBanned());
-			this.userAccountService.save(userAccount);
-
-		} else if (authorities.contains(authCompany)) {
-			final Company company = this.companyService.findOne(actor.getId());
-			final UserAccount userAccount = company.getUserAccount();
-			userAccount.setIsNotBanned(!userAccount.getIsNotBanned());
-			this.userAccountService.save(userAccount);
-
-		} else if (authorities.contains(authProvider)) {
-			final Provider provider = this.providerService.findOne(actor.getId());
-			final UserAccount userAccount = provider.getUserAccount();
-			userAccount.setIsNotBanned(!userAccount.getIsNotBanned());
-			this.userAccountService.save(userAccount);
-		} else if (authorities.contains(authAuditor)) {
-			final Auditor auditor = this.auditorService.findOne(actor.getId());
-			final UserAccount userAccount = auditor.getUserAccount();
-			userAccount.setIsNotBanned(!userAccount.getIsNotBanned());
-			this.userAccountService.save(userAccount);
-		}
-
-	}
+	//	public void banOrUnBanActor(final Actor actor) {
+	//		final Collection<Authority> authorities = actor.getUserAccount().getAuthorities();
+	//
+	//		final Actor principal = this.findByPrincipal();
+	//
+	//		Assert.isTrue(!actor.equals(principal));
+	//
+	//		final Authority authAdmin = new Authority();
+	//		authAdmin.setAuthority(Authority.ADMIN);
+	//
+	//		final Authority authRookie = new Authority();
+	//		authRookie.setAuthority(Authority.ROOKIE);
+	//
+	//		final Authority authCompany = new Authority();
+	//		authCompany.setAuthority(Authority.COMPANY);
+	//
+	//		final Authority authProvider = new Authority();
+	//		authProvider.setAuthority(Authority.PROVIDER);
+	//
+	//		final Authority authAuditor = new Authority();
+	//		authProvider.setAuthority(Authority.AUDITOR);
+	//
+	//		if (authorities.contains(authAdmin)) {
+	//			final Administrator administrator = this.administratorService.findOne(actor.getId());
+	//			final UserAccount userAccount = administrator.getUserAccount();
+	//			userAccount.setIsNotBanned(!userAccount.getIsNotBanned());
+	//			this.userAccountService.save(userAccount);
+	//
+	//		} else if (authorities.contains(authRookie)) {
+	//			final Rookie rookie = this.rookieService.findOne(actor.getId());
+	//			final UserAccount userAccount = rookie.getUserAccount();
+	//			userAccount.setIsNotBanned(!userAccount.getIsNotBanned());
+	//			this.userAccountService.save(userAccount);
+	//
+	//		} else if (authorities.contains(authCompany)) {
+	//			final Company company = this.companyService.findOne(actor.getId());
+	//			final UserAccount userAccount = company.getUserAccount();
+	//			userAccount.setIsNotBanned(!userAccount.getIsNotBanned());
+	//			this.userAccountService.save(userAccount);
+	//
+	//		} else if (authorities.contains(authProvider)) {
+	//			final Provider provider = this.providerService.findOne(actor.getId());
+	//			final UserAccount userAccount = provider.getUserAccount();
+	//			userAccount.setIsNotBanned(!userAccount.getIsNotBanned());
+	//			this.userAccountService.save(userAccount);
+	//		} else if (authorities.contains(authAuditor)) {
+	//			final Auditor auditor = this.auditorService.findOne(actor.getId());
+	//			final UserAccount userAccount = auditor.getUserAccount();
+	//			userAccount.setIsNotBanned(!userAccount.getIsNotBanned());
+	//			this.userAccountService.save(userAccount);
+	//		}
+	//
+	//	}
 	public Boolean existActor(final int actorId) {
 		Boolean res = false;
 
@@ -320,67 +281,6 @@ public class ActorService {
 		return result;
 	}
 
-	public void masterDelete(final int actorId) {
-
-		final Authority company = new Authority();
-		company.setAuthority(Authority.COMPANY);
-
-		final Authority rookie = new Authority();
-		rookie.setAuthority(Authority.ROOKIE);
-
-		final Authority auditor = new Authority();
-		auditor.setAuthority(Authority.AUDITOR);
-
-		final Authority provider = new Authority();
-		provider.setAuthority(Authority.PROVIDER);
-
-		final Actor actor = this.actorRepository.findOne(actorId);
-
-		this.messageService.deleteAll(actorId);
-
-		this.socialProfileService.deleteAll(actorId);
-
-		if (actor.getUserAccount().getAuthorities().contains(company)) {
-
-			this.problemService.deleteAll(actorId);
-
-			this.positionService.deleteAll(actorId);
-
-		} else if (actor.getUserAccount().getAuthorities().contains(rookie)) {
-
-			this.finderService.deleteFinderActor(actorId);
-
-			this.applicationService.deleteAll(actorId);
-
-			this.curriculumService.deleteAll(actorId);
-
-		} else if (actor.getUserAccount().getAuthorities().contains(auditor))
-			this.auditService.deleteAll(actorId);
-		else if (actor.getUserAccount().getAuthorities().contains(provider)) {
-
-			this.sponsorshipService.deleteAll(actorId);
-
-			this.itemService.deleteAll(actorId);
-		}
-
-		this.actorRepository.delete(actor);
-
-	}
-	public Boolean isCompany(final int actorId) {
-
-		Boolean res = false;
-
-		final Authority auth = new Authority();
-		auth.setAuthority(Authority.COMPANY);
-
-		final Actor actor = this.findOne(actorId);
-
-		if (actor.getUserAccount().getAuthorities().contains(auth))
-			res = true;
-
-		return res;
-
-	}
 	public void flush() {
 		this.actorRepository.flush();
 	}

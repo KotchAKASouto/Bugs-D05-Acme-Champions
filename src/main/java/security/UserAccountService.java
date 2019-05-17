@@ -12,7 +12,6 @@ package security;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,36 +52,6 @@ public class UserAccountService {
 		return result;
 	}
 
-	public UserAccount createCompany() {
-
-		final Authority authority = new Authority();
-		authority.setAuthority(Authority.COMPANY);
-		final Collection<Authority> list = new HashSet<Authority>();
-		list.add(authority);
-
-		final UserAccount userAccount = new UserAccount();
-		userAccount.setAuthorities(list);
-		userAccount.setIsNotBanned(true);
-
-		return userAccount;
-
-	}
-
-	public UserAccount createRookie() {
-
-		final Authority authority = new Authority();
-		authority.setAuthority(Authority.ROOKIE);
-		final List<Authority> list = new ArrayList<Authority>();
-		list.add(authority);
-
-		final UserAccount userAccount = new UserAccount();
-		userAccount.setAuthorities(list);
-		userAccount.setIsNotBanned(true);
-
-		return userAccount;
-
-	}
-
 	public UserAccount createAdmin() {
 
 		final Authority authority = new Authority();
@@ -97,11 +66,11 @@ public class UserAccountService {
 		return userAccount;
 
 	}
-	
-	public UserAccount createAuditor() {
+
+	public UserAccount createFederation() {
 
 		final Authority authority = new Authority();
-		authority.setAuthority(Authority.AUDITOR);
+		authority.setAuthority(Authority.FEDERATION);
 		final List<Authority> list = new ArrayList<Authority>();
 		list.add(authority);
 
@@ -112,11 +81,71 @@ public class UserAccountService {
 		return userAccount;
 
 	}
-	
-	public UserAccount createProvider() {
+
+	public UserAccount createPresident() {
 
 		final Authority authority = new Authority();
-		authority.setAuthority(Authority.PROVIDER);
+		authority.setAuthority(Authority.PRESIDENT);
+		final List<Authority> list = new ArrayList<Authority>();
+		list.add(authority);
+
+		final UserAccount userAccount = new UserAccount();
+		userAccount.setAuthorities(list);
+		userAccount.setIsNotBanned(true);
+
+		return userAccount;
+
+	}
+
+	public UserAccount createPlayer() {
+
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.PLAYER);
+		final List<Authority> list = new ArrayList<Authority>();
+		list.add(authority);
+
+		final UserAccount userAccount = new UserAccount();
+		userAccount.setAuthorities(list);
+		userAccount.setIsNotBanned(true);
+
+		return userAccount;
+
+	}
+
+	public UserAccount createManager() {
+
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.MANAGER);
+		final List<Authority> list = new ArrayList<Authority>();
+		list.add(authority);
+
+		final UserAccount userAccount = new UserAccount();
+		userAccount.setAuthorities(list);
+		userAccount.setIsNotBanned(true);
+
+		return userAccount;
+
+	}
+
+	public UserAccount createSponsor() {
+
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.SPONSOR);
+		final List<Authority> list = new ArrayList<Authority>();
+		list.add(authority);
+
+		final UserAccount userAccount = new UserAccount();
+		userAccount.setAuthorities(list);
+		userAccount.setIsNotBanned(true);
+
+		return userAccount;
+
+	}
+
+	public UserAccount createReferee() {
+
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.REFEREE);
 		final List<Authority> list = new ArrayList<Authority>();
 		list.add(authority);
 

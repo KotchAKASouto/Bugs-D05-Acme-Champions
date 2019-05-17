@@ -37,11 +37,13 @@ public class Authority implements GrantedAuthority {
 
 	// Values -----------------------------------------------------------------
 
-	public static final String	ADMIN	= "ADMIN";
-	public static final String	COMPANY	= "COMPANY";
-	public static final String	ROOKIE	= "ROOKIE";
-	public static final String	AUDITOR	= "AUDITOR";
-	public static final String	PROVIDER	= "PROVIDER";
+	public static final String	ADMIN		= "ADMIN";
+	public static final String	FEDERATION	= "FEDERATION";
+	public static final String	MANAGER		= "MANAGER";
+	public static final String	PLAYER		= "PLAYER";
+	public static final String	PRESIDENT	= "PRESIDENT";
+	public static final String	REFEREE		= "REFEREE";
+	public static final String	SPONSOR		= "SPONSOR";
 
 	// Attributes -------------------------------------------------------------
 
@@ -49,7 +51,7 @@ public class Authority implements GrantedAuthority {
 
 
 	@NotBlank
-	@Pattern(regexp = "^" + Authority.ADMIN + "|" + Authority.COMPANY + "|" + Authority.ROOKIE + "|" + Authority.AUDITOR + "|" + Authority.PROVIDER + "$")
+	@Pattern(regexp = "^" + Authority.ADMIN + "|" + Authority.FEDERATION + "|" + Authority.MANAGER + "|" + Authority.PLAYER + "|" + Authority.PRESIDENT + "|" + Authority.REFEREE + "|" + Authority.SPONSOR + "$")
 	@Override
 	public String getAuthority() {
 		return this.authority;
@@ -70,19 +72,27 @@ public class Authority implements GrantedAuthority {
 		result.add(authority);
 
 		authority = new Authority();
-		authority.setAuthority(Authority.COMPANY);
+		authority.setAuthority(Authority.FEDERATION);
 		result.add(authority);
 
 		authority = new Authority();
-		authority.setAuthority(Authority.ROOKIE);
+		authority.setAuthority(Authority.MANAGER);
 		result.add(authority);
-		
+
 		authority = new Authority();
-		authority.setAuthority(Authority.AUDITOR);
+		authority.setAuthority(Authority.PLAYER);
 		result.add(authority);
-		
+
 		authority = new Authority();
-		authority.setAuthority(Authority.PROVIDER);
+		authority.setAuthority(Authority.PRESIDENT);
+		result.add(authority);
+
+		authority = new Authority();
+		authority.setAuthority(Authority.REFEREE);
+		result.add(authority);
+
+		authority = new Authority();
+		authority.setAuthority(Authority.SPONSOR);
 		result.add(authority);
 
 		return result;
