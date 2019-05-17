@@ -14,7 +14,6 @@ import services.AuditorService;
 import services.ConfigurationService;
 import controllers.AbstractController;
 import domain.Administrator;
-import domain.Auditor;
 import forms.RegisterAdministratorForm;
 import forms.RegisterAuditorForm;
 
@@ -26,7 +25,7 @@ public class RegisterAdministratorController extends AbstractController {
 
 	@Autowired
 	private AdministratorService	administratorService;
-	
+
 	@Autowired
 	private AuditorService			auditorService;
 
@@ -92,9 +91,9 @@ public class RegisterAdministratorController extends AbstractController {
 
 		return result;
 	}
-	
+
 	//------AUDITOR--------
-	
+
 	@RequestMapping(value = "/createAuditor", method = RequestMethod.GET)
 	public ModelAndView createAuditor() {
 		final ModelAndView result;
@@ -106,28 +105,6 @@ public class RegisterAdministratorController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "/editAuditor", method = RequestMethod.POST, params = "save")
-	public ModelAndView saveAuditor(@ModelAttribute("auditor") final RegisterAuditorForm form, final BindingResult binding) {
-		ModelAndView result;
-
-		final Auditor auditorReconstruct = this.auditorService.reconstruct(form, binding);
-
-		if (binding.hasErrors())
-			result = this.createEditModelAndViewAuditor(form);
-		else if (!form.checkPassword() || !form.getCheckbox())
-			result = this.createEditModelAndViewAuditor(form, "auditor.commit.error");
-		else if (!form.checkPassword() || !form.getCheckbox())
-			result = this.createEditModelAndViewAuditor(form, "auditor.commit.error.username");
-		else
-			try {
-				this.auditorService.save(auditorReconstruct);
-				result = new ModelAndView("redirect:/welcome/index.do");
-			} catch (final Throwable oops) {
-				result = this.createEditModelAndViewAuditor(form, "actor.commit.error");
-			}
-		return result;
-	}
-	
 	protected ModelAndView createEditModelAndViewAuditor(final RegisterAuditorForm auditor) {
 		ModelAndView result;
 
