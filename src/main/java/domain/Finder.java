@@ -14,7 +14,6 @@ import javax.persistence.TemporalType;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
-import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -24,14 +23,13 @@ import org.springframework.format.annotation.DateTimeFormat;
 public class Finder extends DomainEntity {
 
 	//Atributos-----------------------------------------------------------------------
-	private String	keyWord;
-	private Double	minimumSalary;
-	private Double	maximumSalary;
-	private String	maximumDeadline;
-	private Date	lastUpdate;
+	private String				keyWord;
+	private String				position;
+	private Date				lastUpdate;
 
+	private President			president;
+	private Collection<Player>	players;
 
-	//Getters y Setters----------------------------------------------------------------
 
 	@SafeHtml
 	public String getKeyWord() {
@@ -42,30 +40,13 @@ public class Finder extends DomainEntity {
 		this.keyWord = keyWord;
 	}
 
-	public Double getMinimumSalary() {
-		return this.minimumSalary;
-	}
-
-	public void setMinimumSalary(final Double minimumSalary) {
-		this.minimumSalary = minimumSalary;
-	}
-
-	@Pattern(regexp = "((?:19|20)\\d\\d)/(0?[1-9]|1[012])/([12][0-9]|3[01]|0?[1-9])|| ")
 	@SafeHtml
-	public String getMaximumDeadline() {
-		return this.maximumDeadline;
+	public String getPosition() {
+		return this.position;
 	}
 
-	public void setMaximumDeadline(final String maximumDeadline) {
-		this.maximumDeadline = maximumDeadline;
-	}
-
-	public Double getMaximumSalary() {
-		return this.maximumSalary;
-	}
-
-	public void setMaximumSalary(final Double maximumSalary) {
-		this.maximumSalary = maximumSalary;
+	public void setPosition(final String position) {
+		this.position = position;
 	}
 
 	@Past
@@ -78,24 +59,6 @@ public class Finder extends DomainEntity {
 
 	public void setLastUpdate(final Date lastUpdate) {
 		this.lastUpdate = lastUpdate;
-	}
-
-
-	// Relationships ----------------------------------------------------------
-
-	private Collection<Manager>	managers;
-	private Collection<Player>	players;
-	private President			president;
-
-
-	@ManyToMany
-	@Valid
-	public Collection<Manager> getManagers() {
-		return this.managers;
-	}
-
-	public void setManagers(final Collection<Manager> managers) {
-		this.managers = managers;
 	}
 
 	@ManyToMany

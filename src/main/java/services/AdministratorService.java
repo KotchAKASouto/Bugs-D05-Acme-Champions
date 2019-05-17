@@ -2,7 +2,6 @@
 package services;
 
 import java.util.Collection;
-import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
@@ -19,7 +18,6 @@ import security.UserAccount;
 import security.UserAccountService;
 import domain.Actor;
 import domain.Administrator;
-import domain.Message;
 import forms.RegisterAdministratorForm;
 
 @Service
@@ -139,7 +137,6 @@ public class AdministratorService {
 		admin.setEmail(form.getEmail());
 		admin.setPhone(form.getPhone());
 		admin.setAddress(form.getAddress());
-		admin.setSpammer(null);
 		admin.getUserAccount().setUsername(form.getUsername());
 		admin.getUserAccount().setPassword(form.getPassword());
 
@@ -156,7 +153,6 @@ public class AdministratorService {
 		if (adminBBDD != null) {
 
 			admin.setUserAccount(adminBBDD.getUserAccount());
-			admin.setSpammer(adminBBDD.getSpammer());
 
 			this.validator.validate(admin, binding);
 
@@ -193,58 +189,6 @@ public class AdministratorService {
 		result = this.administratorRepository.findByUserAccountId(userAccount.getId());
 
 		return result;
-	}
-
-	public void spammer() {
-
-		final Actor admin = this.actorService.findByPrincipal();
-
-		final Authority authAdmin = new Authority();
-		authAdmin.setAuthority(Authority.ADMIN);
-
-		Assert.isTrue(admin.getUserAccount().getAuthorities().contains(authAdmin));
-
-		final Collection<Actor> actors = this.actorService.findAll();
-
-		for (final Actor actor : actors) {
-
-			Collection<Message> messages = new HashSet<>();
-
-			Boolean body = false;
-			Boolean subject = false;
-			Boolean tags = false;
-
-			Integer intMesage = 0;
-			Integer intSpam = 0;
-
-			messages = this.messageService.messagePerActor(actor.getId());
-
-			if (!messages.isEmpty())
-				for (final Message message : messages) {
-
-					if (message.getBody() != null)
-						body = this.configurationService.spamContent(message.getBody());
-					if (message.getSubject() != null)
-						subject = this.configurationService.spamContent(message.getSubject());
-					if (message.getTags() != null)
-						tags = this.configurationService.spamContent(message.getTags());
-
-					intMesage++;
-					if (body || subject || tags)
-						intSpam++;
-
-				}
-
-			if (!messages.isEmpty()) {
-				if (intSpam >= 0.1 * intMesage)
-					actor.setSpammer(true);
-				else
-					actor.setSpammer(false);
-
-				this.actorService.save(actor);
-			}
-
-		}
 	}
 
 }

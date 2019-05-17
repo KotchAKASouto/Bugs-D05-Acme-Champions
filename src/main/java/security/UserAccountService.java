@@ -61,7 +61,6 @@ public class UserAccountService {
 
 		final UserAccount userAccount = new UserAccount();
 		userAccount.setAuthorities(list);
-		userAccount.setIsNotBanned(true);
 
 		return userAccount;
 
@@ -76,7 +75,6 @@ public class UserAccountService {
 
 		final UserAccount userAccount = new UserAccount();
 		userAccount.setAuthorities(list);
-		userAccount.setIsNotBanned(true);
 
 		return userAccount;
 
@@ -91,7 +89,6 @@ public class UserAccountService {
 
 		final UserAccount userAccount = new UserAccount();
 		userAccount.setAuthorities(list);
-		userAccount.setIsNotBanned(true);
 
 		return userAccount;
 
@@ -106,7 +103,6 @@ public class UserAccountService {
 
 		final UserAccount userAccount = new UserAccount();
 		userAccount.setAuthorities(list);
-		userAccount.setIsNotBanned(true);
 
 		return userAccount;
 
@@ -121,7 +117,6 @@ public class UserAccountService {
 
 		final UserAccount userAccount = new UserAccount();
 		userAccount.setAuthorities(list);
-		userAccount.setIsNotBanned(true);
 
 		return userAccount;
 
@@ -136,7 +131,6 @@ public class UserAccountService {
 
 		final UserAccount userAccount = new UserAccount();
 		userAccount.setAuthorities(list);
-		userAccount.setIsNotBanned(true);
 
 		return userAccount;
 
@@ -151,7 +145,6 @@ public class UserAccountService {
 
 		final UserAccount userAccount = new UserAccount();
 		userAccount.setAuthorities(list);
-		userAccount.setIsNotBanned(true);
 
 		return userAccount;
 

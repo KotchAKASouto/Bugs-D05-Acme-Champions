@@ -4,16 +4,29 @@ package domain;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.validation.Valid;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.SafeHtml;
 
 @Entity
 @Access(AccessType.PROPERTY)
 public class Signing extends DomainEntity {
 
-	private Double	price;
-	private String	status;
-	private String	mandatoryComment;
+	private Double		price;
+	private String		status;
+	private String		mandatoryComment;
+
+	private Player		player;
+	private President	president;
 
 
+	@NotNull
+	@DecimalMin(value = "0.0")
 	public Double getPrice() {
 		return this.price;
 	}
@@ -22,6 +35,9 @@ public class Signing extends DomainEntity {
 		this.price = price;
 	}
 
+	@NotBlank
+	@Pattern(regexp = "\\AREJECTED\\z|\\AACCEPTED\\z|\\APENDING\\z")
+	@SafeHtml
 	public String getStatus() {
 		return this.status;
 	}
@@ -30,12 +46,33 @@ public class Signing extends DomainEntity {
 		this.status = status;
 	}
 
+	@SafeHtml
 	public String getMandatoryComment() {
 		return this.mandatoryComment;
 	}
 
 	public void setMandatoryComment(final String mandatoryComment) {
 		this.mandatoryComment = mandatoryComment;
+	}
+
+	@Valid
+	@ManyToOne(optional = false)
+	public Player getPlayer() {
+		return this.player;
+	}
+
+	public void setPlayer(final Player player) {
+		this.player = player;
+	}
+
+	@Valid
+	@ManyToOne(optional = false)
+	public President getPresident() {
+		return this.president;
+	}
+
+	public void setPresident(final President president) {
+		this.president = president;
 	}
 
 }
