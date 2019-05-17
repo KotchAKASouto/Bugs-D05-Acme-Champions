@@ -83,28 +83,39 @@ public class Finder extends DomainEntity {
 
 	// Relationships ----------------------------------------------------------
 
-	private Collection<Position>	positions;
-	private Rookie					rookie;
+	private Collection<Manager>	managers;
+	private Collection<Player>	players;
+	private President			president;
 
 
 	@ManyToMany
 	@Valid
-	public Collection<Position> getPositions() {
-		return this.positions;
+	public Collection<Manager> getManagers() {
+		return this.managers;
 	}
 
-	public void setPositions(final Collection<Position> positions) {
-		this.positions = positions;
+	public void setManagers(final Collection<Manager> managers) {
+		this.managers = managers;
+	}
+
+	@ManyToMany
+	@Valid
+	public Collection<Player> getPlayers() {
+		return this.players;
+	}
+
+	public void setPlayers(final Collection<Player> players) {
+		this.players = players;
 	}
 
 	@OneToOne(optional = false)
 	@Valid
-	public Rookie getRookie() {
-		return this.rookie;
+	public President getPresident() {
+		return this.president;
 	}
 
-	public void setRookie(final Rookie rookie) {
-		this.rookie = rookie;
+	public void setPresident(final President president) {
+		this.president = president;
 	}
 
 }
