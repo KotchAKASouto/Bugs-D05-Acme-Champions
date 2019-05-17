@@ -20,8 +20,10 @@ public class Sponsorship extends DomainEntity {
 	private String		target;
 	private Double		cost;
 	//relationships
-	private Provider	provider;
-	private Position	position;
+	private Sponsor		sponsor;
+	private Match		match;
+	private Player		player;
+	private Team		team;
 
 
 	@NotNull
@@ -53,30 +55,52 @@ public class Sponsorship extends DomainEntity {
 		this.target = target;
 	}
 
-	@Valid
-	@ManyToOne(optional = false)
-	public Provider getProvider() {
-		return this.provider;
-	}
-	public void setProvider(final Provider provider) {
-		this.provider = provider;
-	}
-
-	@Valid
-	@ManyToOne(optional = false)
-	public Position getPosition() {
-		return this.position;
-	}
-	public void setPosition(final Position position) {
-		this.position = position;
-	}
-
 	public Double getCost() {
 		return this.cost;
 	}
 
 	public void setCost(final Double cost) {
 		this.cost = cost;
+	}
+
+	@Valid
+	@ManyToOne(optional = false)
+	public Sponsor getSponsor() {
+		return this.sponsor;
+	}
+
+	public void setSponsor(final Sponsor sponsor) {
+		this.sponsor = sponsor;
+	}
+
+	@Valid
+	@ManyToOne(optional = true)
+	public Match getMatch() {
+		return this.match;
+	}
+
+	public void setMatch(final Match match) {
+		this.match = match;
+	}
+
+	@Valid
+	@ManyToOne(optional = true)
+	public Player getPlayer() {
+		return this.player;
+	}
+
+	public void setPlayer(final Player player) {
+		this.player = player;
+	}
+
+	@Valid
+	@ManyToOne(optional = true)
+	public Team getTeam() {
+		return this.team;
+	}
+
+	public void setTeam(final Team team) {
+		this.team = team;
 	}
 
 }
