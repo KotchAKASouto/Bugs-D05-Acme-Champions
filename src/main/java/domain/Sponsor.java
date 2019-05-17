@@ -9,7 +9,7 @@ import org.hibernate.validator.constraints.SafeHtml;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class Provider extends Actor{
+public class Sponsor extends Actor{
 	
 
 	private String providerMake;

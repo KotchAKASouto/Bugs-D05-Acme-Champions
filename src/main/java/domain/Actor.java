@@ -26,15 +26,13 @@ import security.UserAccount;
 public abstract class Actor extends DomainEntity {
 
 	//Atributos-----------------------------------------------------------
-	private String		name;
-	private String		surnames;
-	private Integer		vat;
-	private String		photo;
-	private String		email;
-	private CreditCard	creditCard;
-	private String		phone;
-	private String		address;
-	private Boolean		spammer;
+	private String	name;
+	private String	surnames;
+	private String	photo;
+	private String	email;
+	private String	phone;
+	private String	address;
+	private Boolean	spammer;
 
 
 	//Getters y Setters-----------------------------------------------------
@@ -45,23 +43,6 @@ public abstract class Actor extends DomainEntity {
 	}
 	public void setName(final String name) {
 		this.name = name;
-	}
-
-	@NotNull
-	public Integer getVat() {
-		return this.vat;
-	}
-	public void setVat(final Integer vat) {
-		this.vat = vat;
-	}
-
-	@NotNull
-	@Valid
-	public CreditCard getCreditCard() {
-		return this.creditCard;
-	}
-	public void setCreditCard(final CreditCard creditCard) {
-		this.creditCard = creditCard;
 	}
 
 	@NotBlank
