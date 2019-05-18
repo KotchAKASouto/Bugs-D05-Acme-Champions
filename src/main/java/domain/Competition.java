@@ -23,6 +23,7 @@ public class Competition extends DomainEntity {
 	private Date				startDate;
 	private Date				endDate;
 	private String				nameTrophy;
+	private Boolean				closed;
 
 	private Federation			federation;
 	private Collection<Team>	teams;
@@ -57,6 +58,15 @@ public class Competition extends DomainEntity {
 
 	public void setNameTrophy(final String nameTrophy) {
 		this.nameTrophy = nameTrophy;
+	}
+
+	@NotNull
+	public Boolean getClosed() {
+		return this.closed;
+	}
+
+	public void setClosed(final Boolean closed) {
+		this.closed = closed;
 	}
 
 	@Valid
