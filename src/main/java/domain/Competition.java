@@ -26,6 +26,7 @@ public class Competition extends DomainEntity {
 
 	private Federation			federation;
 	private Collection<Team>	teams;
+	private Collection<Match>	matchs;
 
 
 	@NotNull
@@ -76,6 +77,16 @@ public class Competition extends DomainEntity {
 
 	public void setTeams(final Collection<Team> teams) {
 		this.teams = teams;
+	}
+
+	@Valid
+	@ManyToMany
+	public Collection<Match> getMatchs() {
+		return this.matchs;
+	}
+
+	public void setMatchs(final Collection<Match> matchs) {
+		this.matchs = matchs;
 	}
 
 }

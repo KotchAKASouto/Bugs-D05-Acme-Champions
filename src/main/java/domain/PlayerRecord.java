@@ -35,6 +35,7 @@ public class PlayerRecord extends DomainEntity {
 	}
 
 	@Past
+	@NotNull
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	public Date getEndDate() {
 		return this.endDate;

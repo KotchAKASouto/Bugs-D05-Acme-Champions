@@ -29,6 +29,7 @@ public class Finder extends DomainEntity {
 
 	private President			president;
 	private Collection<Player>	players;
+	private Collection<Manager>	managers;
 
 
 	@SafeHtml
@@ -79,6 +80,16 @@ public class Finder extends DomainEntity {
 
 	public void setPresident(final President president) {
 		this.president = president;
+	}
+
+	@ManyToMany
+	@Valid
+	public Collection<Manager> getManagers() {
+		return this.managers;
+	}
+
+	public void setManagers(final Collection<Manager> managers) {
+		this.managers = managers;
 	}
 
 }

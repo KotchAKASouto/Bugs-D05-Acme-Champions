@@ -2,7 +2,6 @@
 package forms;
 
 import javax.persistence.Column;
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -11,24 +10,20 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.URL;
 
-import domain.CreditCard;
-
 public class RegisterAdministratorForm {
 
-	private String		name;
-	private String		surnames;
-	private Integer		vat;
-	private String		photo;
-	private String		email;
-	private CreditCard	creditCard;
-	private String		phone;
-	private String		address;
+	private String	name;
+	private String	surnames;
+	private String	photo;
+	private String	email;
+	private String	phone;
+	private String	address;
 
-	private String		username;
-	private String		password;
-	private String		confirmPassword;
+	private String	username;
+	private String	password;
+	private String	confirmPassword;
 
-	private Boolean		checkbox;
+	private Boolean	checkbox;
 
 
 	@NotBlank
@@ -51,16 +46,6 @@ public class RegisterAdministratorForm {
 		this.surnames = surnames;
 	}
 
-	@NotNull
-	@Column(unique = true)
-	public Integer getVat() {
-		return this.vat;
-	}
-
-	public void setVat(final Integer vat) {
-		this.vat = vat;
-	}
-
 	@URL
 	@SafeHtml
 	public String getPhoto() {
@@ -80,16 +65,6 @@ public class RegisterAdministratorForm {
 
 	public void setEmail(final String email) {
 		this.email = email;
-	}
-
-	@NotNull
-	@Valid
-	public CreditCard getCreditCard() {
-		return this.creditCard;
-	}
-
-	public void setCreditCard(final CreditCard creditCard) {
-		this.creditCard = creditCard;
 	}
 
 	@SafeHtml

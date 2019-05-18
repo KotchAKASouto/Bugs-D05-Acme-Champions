@@ -18,7 +18,6 @@ public class Sponsorship extends DomainEntity {
 	private CreditCard	creditCard;
 	private String		banner;
 	private String		target;
-	private Double		cost;
 	//relationships
 	private Sponsor		sponsor;
 	private Match		match;
@@ -53,14 +52,6 @@ public class Sponsorship extends DomainEntity {
 	}
 	public void setTarget(final String target) {
 		this.target = target;
-	}
-
-	public Double getCost() {
-		return this.cost;
-	}
-
-	public void setCost(final Double cost) {
-		this.cost = cost;
 	}
 
 	@Valid

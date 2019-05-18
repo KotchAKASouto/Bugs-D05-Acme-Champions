@@ -27,6 +27,7 @@ public class Team extends DomainEntity {
 	private String		badgeUrl;
 	private Integer		trackRecord;
 	private Date		establishmentDate;
+	private Boolean		functional;
 
 	private President	president;
 
@@ -80,6 +81,15 @@ public class Team extends DomainEntity {
 
 	public void setTrackRecord(final Integer trackRecord) {
 		this.trackRecord = trackRecord;
+	}
+
+	@NotNull
+	public Boolean getFunctional() {
+		return this.functional;
+	}
+
+	public void setFunctional(final Boolean functional) {
+		this.functional = functional;
 	}
 
 	@Past
