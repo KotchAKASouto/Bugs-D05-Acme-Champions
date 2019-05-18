@@ -93,9 +93,15 @@
 		
 		<security:authorize access="isAnonymous()">
 			<li><a class="fNiv" href="security/login.do"><spring:message code="master.page.login" /></a></li>
-			<li><a href="register/createCompany.do"><spring:message code="master.page.company.signup" /></a></li>
-			<li><a href="register/createRookie.do"><spring:message code="master.page.rookie.signup" /></a></li>
-			<li><a href="register/createProvider.do"><spring:message code="master.page.provider.signup" /></a></li>
+			<li><a class="fNiv"><spring:message	code="master.page.signup" /></a>
+				<ul>
+					<li class="arrow"></li>
+
+					<li><a href="register/createManager.do"><spring:message code="master.page.signup.manager" /></a></li>
+					<li><a href="register/createPlayer.do"><spring:message code="master.page.signup.player" /></a></li>
+
+				</ul>
+			</li>
 		</security:authorize>
 		
 		<security:authorize access="permitAll()">

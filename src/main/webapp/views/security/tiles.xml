@@ -21,24 +21,9 @@
 		<put-attribute name="body" value="/views/security/login.jsp" />
 	</definition>
 	
-	<definition name="security/signUpCompany" extends="master.page">
-		<put-attribute name="title" value="Sign Up Company" />
-		<put-attribute name="body" value="/views/security/signUpCompany.jsp" />
-	</definition>
-	
-	<definition name="security/signUpRookie" extends="master.page">
-		<put-attribute name="title" value="Sign Up Rookie" />
-		<put-attribute name="body" value="/views/security/signUpRookie.jsp" />
-	</definition>
-	
-	<definition name="security/signUpAuditor" extends="master.page">
-		<put-attribute name="title" value="Sign Up Auditor" />
-		<put-attribute name="body" value="/views/security/signUpAuditor.jsp" />
-	</definition>
-	
-	<definition name="security/signUpProvider" extends="master.page">
-		<put-attribute name="title" value="Sign Up Provider" />
-		<put-attribute name="body" value="/views/security/signUpProvider.jsp" />
+	<definition name="security/signUpManager" extends="master.page">
+		<put-attribute name="title" value="Sign Up Manager" />
+		<put-attribute name="body" value="/views/security/signUpManager.jsp" />
 	</definition>
 		
 </tiles-definitions>

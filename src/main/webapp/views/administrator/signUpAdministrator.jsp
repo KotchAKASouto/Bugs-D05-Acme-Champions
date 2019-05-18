@@ -14,8 +14,6 @@
 	<acme:textbox code="actor.name" path="name" obligatory="true"/>
 
 	<acme:textbox code="actor.surnames" path="surnames" obligatory="true"/>
-	
-	<acme:textbox code="actor.vat" path="vat" obligatory="true"/>
 
 	<acme:textbox code="actor.photo" path="photo" size="100"/>
 
@@ -30,20 +28,6 @@
 	<acme:password code="actor.password" path="password" obligatory="true"/>
 
 	<acme:password code="actor.confirmPassword" path="confirmPassword" obligatory="true"/>
-
-	<h1><spring:message code="creditCard.data" /></h1>
-	
-	<acme:textbox code="actor.creditCard.holderName" path="creditCard.holderName" obligatory="true"/>
-	
-	<acme:textbox code="actor.creditCard.make" path="creditCard.make" obligatory="true"/>
-	
-	<acme:textbox code="actor.creditCard.number" path="creditCard.number" obligatory="true"/>
-	
-	<acme:textbox code="actor.creditCard.expMonth" path="creditCard.expMonth" obligatory="true"/>
-	
-	<acme:textbox code="actor.creditCard.expYear" path="creditCard.expYear" obligatory="true"/>
-	
-	<acme:textbox code="actor.creditCard.cvv" path="creditCard.cvv" obligatory="true"/>
 	
 	<acme:checkbox path="checkbox" code1="actor.checkBox1" code2="actor.checkBox2" href="termsAndConditions/show.do" />
 	
