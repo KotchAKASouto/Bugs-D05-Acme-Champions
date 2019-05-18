@@ -62,11 +62,11 @@ public class ManagerService {
 		return result;
 	}
 
-	public Manager findOne(final int companyId) {
+	public Manager findOne(final int managerId) {
 
-		Assert.notNull(companyId);
+		Assert.notNull(managerId);
 		Manager result;
-		result = this.managerRepository.findOne(companyId);
+		result = this.managerRepository.findOne(managerId);
 		return result;
 	}
 

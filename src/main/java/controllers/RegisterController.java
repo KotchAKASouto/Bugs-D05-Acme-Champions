@@ -13,8 +13,11 @@ import org.springframework.web.servlet.ModelAndView;
 import security.Credentials;
 import services.ConfigurationService;
 import services.ManagerService;
+import services.PlayerService;
 import domain.Manager;
+import domain.Player;
 import forms.RegisterManagerForm;
+import forms.RegisterPlayerForm;
 
 @Controller
 @RequestMapping("/register")
@@ -24,6 +27,9 @@ public class RegisterController extends AbstractController {
 
 	@Autowired
 	private ManagerService			managerService;
+
+	@Autowired
+	private PlayerService			playerService;
 
 	@Autowired
 	private ConfigurationService	configurationService;
@@ -79,6 +85,64 @@ public class RegisterController extends AbstractController {
 
 		result = new ModelAndView("security/signUpCompany");
 		result.addObject("manager", manager);
+		result.addObject("banner", banner);
+		result.addObject("messageError", messageCode);
+		final String countryCode = this.configurationService.findConfiguration().getCountryCode();
+		result.addObject("defaultCountry", countryCode);
+
+		return result;
+	}
+
+	//Player
+	@RequestMapping(value = "/createPlayer", method = RequestMethod.GET)
+	public ModelAndView createPlayer() {
+		final ModelAndView result;
+		final RegisterPlayerForm player = new RegisterPlayerForm();
+
+		result = this.createEditModelAndViewPlayer(player);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/savePlayer", method = RequestMethod.POST, params = "save")
+	public ModelAndView savePlayer(@ModelAttribute("manager") final RegisterPlayerForm form, final BindingResult binding) {
+		ModelAndView result;
+		final Player player;
+
+		player = this.playerService.reconstruct(form, binding);
+
+		if (binding.hasErrors())
+			result = this.createEditModelAndViewPlayer(form);
+		else
+			try {
+				Assert.isTrue(form.getCheckbox());
+				Assert.isTrue(form.checkPassword());
+				this.playerService.save(player);
+				final Credentials credentials = new Credentials();
+				credentials.setJ_username(player.getUserAccount().getUsername());
+				credentials.setPassword(player.getUserAccount().getPassword());
+				result = new ModelAndView("redirect:/security/login.do");
+				result.addObject("credentials", credentials);
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndViewPlayer(form, "player.commit.error");
+			}
+		return result;
+	}
+	protected ModelAndView createEditModelAndViewPlayer(final RegisterPlayerForm player) {
+		ModelAndView result;
+
+		result = this.createEditModelAndViewPlayer(player, null);
+
+		return result;
+	}
+
+	protected ModelAndView createEditModelAndViewPlayer(final RegisterPlayerForm player, final String messageCode) {
+		ModelAndView result;
+
+		final String banner = this.configurationService.findConfiguration().getBanner();
+
+		result = new ModelAndView("security/signUpCompany");
+		result.addObject("player", player);
 		result.addObject("banner", banner);
 		result.addObject("messageError", messageCode);
 		final String countryCode = this.configurationService.findConfiguration().getCountryCode();

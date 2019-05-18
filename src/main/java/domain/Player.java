@@ -41,7 +41,7 @@ public class Player extends Actor {
 
 	@NotBlank
 	@SafeHtml
-	@Pattern(regexp = "\\APORTERO\\z|\\ADEFENSAR\\z|\\ACENTROCAMPISTA\\z|\\ADELANTERO\\z")
+	@Pattern(regexp = "\\APORTERO\\z|\\ADEFENSA\\z|\\ACENTROCAMPISTA\\z|\\ADELANTERO\\z")
 	public String getPositisonSpanish() {
 		return this.positisonSpanish;
 	}

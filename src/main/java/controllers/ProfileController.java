@@ -19,12 +19,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import security.Authority;
 import security.Credentials;
 import services.ActorService;
 import services.AdministratorService;
 import services.ConfigurationService;
+import services.ManagerService;
 import domain.Actor;
 import domain.Administrator;
+import domain.Manager;
 
 @Controller
 @RequestMapping("/profile")
@@ -35,6 +38,9 @@ public class ProfileController extends AbstractController {
 
 	@Autowired
 	private AdministratorService	administratorService;
+
+	@Autowired
+	private ManagerService			managerService;
 
 	@Autowired
 	private ConfigurationService	configurationService;
@@ -60,62 +66,74 @@ public class ProfileController extends AbstractController {
 
 	}
 
-	//	@RequestMapping(value = "/edit", method = RequestMethod.GET)
-	//	public ModelAndView edit() {
-	//		final ModelAndView result;
-	//		final Actor actor;
-	//
-	//		final Actor principal = this.actorService.findByPrincipal();
-	//		actor = this.actorService.findOne(principal.getId());
-	//		Assert.isTrue(actor.equals(principal));
-	//
-	//		final Authority authority1 = new Authority();
-	//		authority1.setAuthority(Authority.COMPANY);
-	//
-	//		final Authority authority2 = new Authority();
-	//		authority2.setAuthority(Authority.ROOKIE);
-	//
-	//		final Authority authority3 = new Authority();
-	//		authority3.setAuthority(Authority.ADMIN);
-	//
-	//		final Authority authority4 = new Authority();
-	//		authority4.setAuthority(Authority.AUDITOR);
-	//
-	//		final Authority authority5 = new Authority();
-	//		authority5.setAuthority(Authority.PROVIDER);
-	//
-	//		String auth = null;
-	//		String action = null;
-	//		if (actor.getUserAccount().getAuthorities().contains(authority1)) {
-	//			auth = "company";
-	//			action = "editCompany.do";
-	//
-	//		} else if (actor.getUserAccount().getAuthorities().contains(authority2)) {
-	//			auth = "rookie";
-	//			action = "editRookie.do";
-	//		} else if (actor.getUserAccount().getAuthorities().contains(authority3)) {
-	//			auth = "administrator";
-	//			action = "editAdministrator.do";
-	//		} else if (actor.getUserAccount().getAuthorities().contains(authority4)) {
-	//			auth = "auditor";
-	//			action = "editAuditor.do";
-	//		} else if (actor.getUserAccount().getAuthorities().contains(authority5)) {
-	//			auth = "provider";
-	//			action = "editProvider.do";
-	//		}
-	//
-	//		final String banner = this.configurationService.findConfiguration().getBanner();
-	//		final String defaultCountry = this.configurationService.findConfiguration().getCountryCode();
-	//		result = new ModelAndView("actor/edit");
-	//		result.addObject("actionURI", action);
-	//		result.addObject(auth, actor);
-	//		result.addObject("authority", auth);
-	//		result.addObject("banner", banner);
-	//		result.addObject("laguageURI", "profile/edit.do");
-	//		result.addObject("defaultCountry", defaultCountry);
-	//
-	//		return result;
-	//	}
+	@RequestMapping(value = "/edit", method = RequestMethod.GET)
+	public ModelAndView edit() {
+		final ModelAndView result;
+		final Actor actor;
+
+		final Actor principal = this.actorService.findByPrincipal();
+		actor = this.actorService.findOne(principal.getId());
+		Assert.isTrue(actor.equals(principal));
+
+		final Authority authority1 = new Authority();
+		authority1.setAuthority(Authority.MANAGER);
+
+		final Authority authority2 = new Authority();
+		authority2.setAuthority(Authority.PLAYER);
+
+		final Authority authority3 = new Authority();
+		authority3.setAuthority(Authority.ADMIN);
+
+		final Authority authority4 = new Authority();
+		authority4.setAuthority(Authority.FEDERATION);
+
+		final Authority authority5 = new Authority();
+		authority5.setAuthority(Authority.PRESIDENT);
+
+		final Authority authority6 = new Authority();
+		authority5.setAuthority(Authority.SPONSOR);
+
+		final Authority authority7 = new Authority();
+		authority5.setAuthority(Authority.REFEREE);
+
+		String auth = null;
+		String action = null;
+		if (actor.getUserAccount().getAuthorities().contains(authority1)) {
+			auth = "manager";
+			action = "editManager.do";
+
+		} else if (actor.getUserAccount().getAuthorities().contains(authority2)) {
+			auth = "player";
+			action = "editPlayer.do";
+		} else if (actor.getUserAccount().getAuthorities().contains(authority3)) {
+			auth = "administrator";
+			action = "editAdministrator.do";
+		} else if (actor.getUserAccount().getAuthorities().contains(authority4)) {
+			auth = "federation";
+			action = "editFederation.do";
+		} else if (actor.getUserAccount().getAuthorities().contains(authority5)) {
+			auth = "president";
+			action = "editPresident.do";
+		} else if (actor.getUserAccount().getAuthorities().contains(authority6)) {
+			auth = "sponsor";
+			action = "editSponsor.do";
+		} else if (actor.getUserAccount().getAuthorities().contains(authority7)) {
+			auth = "referee";
+			action = "editReferee.do";
+		}
+
+		final String banner = this.configurationService.findConfiguration().getBanner();
+		final String defaultCountry = this.configurationService.findConfiguration().getCountryCode();
+		result = new ModelAndView("actor/edit");
+		result.addObject("actionURI", action);
+		result.addObject(auth, actor);
+		result.addObject("authority", auth);
+		result.addObject("banner", banner);
+		result.addObject("laguageURI", "profile/edit.do");
+		result.addObject("defaultCountry", defaultCountry);
+
+		return result;
+	}
 
 	//--------------------------ADMINISTRATOR------------------------------
 
@@ -167,5 +185,66 @@ public class ProfileController extends AbstractController {
 
 		return result;
 	}
+
+	//--------------------------MANAGER------------------------------
+
+	@RequestMapping(value = "/editManager", method = RequestMethod.POST, params = "save")
+	public ModelAndView saveManager(@ModelAttribute("manager") final Manager manager, final BindingResult binding) {
+		ModelAndView result;
+
+		final Manager managerReconstruct = this.managerService.reconstruct(manager, binding);
+
+		if (binding.hasErrors())
+			result = this.createEditModelAndViewManager(managerReconstruct);
+		else
+			try {
+				this.managerService.save(managerReconstruct);
+				final Credentials credentials = new Credentials();
+				credentials.setJ_username(managerReconstruct.getUserAccount().getUsername());
+				credentials.setPassword(managerReconstruct.getUserAccount().getPassword());
+				result = new ModelAndView("redirect:/profile/displayPrincipal.do");
+				result.addObject("credentials", credentials);
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndViewManager(managerReconstruct, "actor.commit.error");
+			}
+		return result;
+	}
+
+	protected ModelAndView createEditModelAndViewManager(final Manager manager) {
+		ModelAndView result;
+
+		result = this.createEditModelAndViewManager(manager, null);
+
+		return result;
+	}
+
+	protected ModelAndView createEditModelAndViewManager(final Manager manager, final String messageCode) {
+		ModelAndView result;
+
+		final String banner = this.configurationService.findConfiguration().getBanner();
+
+		result = new ModelAndView("actor/edit");
+
+		result.addObject("manager", manager);
+		result.addObject("authority", "administrator");
+		result.addObject("actionURI", "editAdministrator.do");
+		result.addObject("banner", banner);
+		result.addObject("laguageURI", "profile/edit.do");
+		result.addObject("messageError", messageCode);
+		final String countryCode = this.configurationService.findConfiguration().getCountryCode();
+		result.addObject("defaultCountry", countryCode);
+
+		return result;
+	}
+
+	//--------------------------PLAYER------------------------------
+
+	//--------------------------FEDERATION------------------------------
+
+	//--------------------------SPONSOR------------------------------
+
+	//--------------------------PRESIDENT------------------------------
+
+	//--------------------------REFEREE------------------------------
 
 }
