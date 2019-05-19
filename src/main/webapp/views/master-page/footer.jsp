@@ -19,4 +19,4 @@
 
 
 <a href="termsAndConditions/show.do"><spring:message code="master.page.terms" /></a> <br>
-<b>Copyright &copy; <fmt:formatDate value="${date}" pattern="yyyy" /> Acme Rookies Co., Inc.</b>
+<b>Copyright &copy; <fmt:formatDate value="${date}" pattern="yyyy" /> Acme Champions Co., Inc.</b>

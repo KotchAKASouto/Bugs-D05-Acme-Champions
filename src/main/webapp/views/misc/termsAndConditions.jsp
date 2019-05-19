@@ -12,10 +12,10 @@
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
 <jstl:if test="${language == 'en'}">
-	<h2>Welcome to Acme Rookie , Inc.</h2>
-	<p>These terms and conditions outline the rules and regulations for the use of Acme Rookie 's Website.</p> <br /> 
+	<h2>Welcome to Acme Champions , Inc.</h2>
+	<p>These terms and conditions outline the rules and regulations for the use of Acme Champions 's Website.</p> <br /> 
 	
-	<p>By accessing this website we assume you accept these terms and conditions in full. Do not continue to use Acme Rookie , Inc.'s website 
+	<p>By accessing this website we assume you accept these terms and conditions in full. Do not continue to use Acme Champions , Inc.'s website 
 	if you do not accept all of the terms and conditions stated on this page.</p>
 	<p>The following terminology applies to these Terms and Conditions, Privacy Statement and Disclaimer Notice
 	and any or all Agreements: 'Client', 'You' and 'Your' refers to you, the person accessing this website
@@ -28,28 +28,28 @@
 	of . Any use of the above terminology or other words in the singular, plural,
 	capitalisation and/or he/she or they, are taken as interchangeable and therefore as referring to same.</p>
 	<h2>License</h2>
-	<p>Unless otherwise stated, Acme Rookie , Inc. and/or it's licensors own the intellectual property rights for
-	all material on Acme Rookie , Inc.. All intellectual property rights are reserved. You may view and/or print
-	pages from https://Acme-Rookie.com for your own personal use subject to restrictions set in these terms and conditions.</p>
+	<p>Unless otherwise stated, Acme Champions , Inc. and/or it's licensors own the intellectual property rights for
+	all material on Acme Champions , Inc.. All intellectual property rights are reserved. You may view and/or print
+	pages from https://Acme-Champions.com for your own personal use subject to restrictions set in these terms and conditions.</p>
 	<p>You must not:</p>
 	<ol>
-		<li>Republish material from https://Acme-Rookie.com</li>
-		<li>Sell, rent or sub-license material from https://Acme-Rookie.com</li>
-		<li>Reproduce, duplicate or copy material from https://Acme-Rookie.com</li>
+		<li>Republish material from https://Acme-Champions.com</li>
+		<li>Sell, rent or sub-license material from https://Acme-Champions.com</li>
+		<li>Reproduce, duplicate or copy material from https://Acme-Champions.com</li>
 	</ol>
-	<p>Redistribute content from Acme Rookie , Inc. (unless content is specifically made for redistribution).</p>
+	<p>Redistribute content from Acme Champions , Inc. (unless content is specifically made for redistribution).</p>
 <h2>User Comments</h2>
 	<ol>
 		<li>This Agreement shall begin on the date hereof.</li>
 		<li>Certain parts of this website offer the opportunity for users to post and exchange opinions, information,
-		material and data ('Comments') in areas of the website. Acme Rookie , Inc. does not screen, edit, publish
+		material and data ('Comments') in areas of the website. Acme Champions , Inc. does not screen, edit, publish
 		or review Comments prior to their appearance on the website and Comments do not reflect the views or
-		opinions of Acme Rookie , Inc., its agents or affiliates. Comments reflect the view and opinion of the
-		person who posts such view or opinion. To the extent permitted by applicable laws Acme Rookie , Inc. shall
+		opinions of Acme Champions , Inc., its agents or affiliates. Comments reflect the view and opinion of the
+		person who posts such view or opinion. To the extent permitted by applicable laws Acme Champions , Inc. shall
 		not be responsible or liable for the Comments or for any loss cost, liability, damages or expenses caused
 		and or suffered as a result of any use of and/or posting of and/or appearance of the Comments on this
 		website.</li>
-		<li>Acme Rookie , Inc. reserves the right to monitor all Comments and to remove any Comments which it considers
+		<li>Acme Champions , Inc. reserves the right to monitor all Comments and to remove any Comments which it considers
 		in its absolute discretion to be inappropriate, offensive or otherwise in breach of these Terms and Conditions.</li>
 		<li>You warrant and represent that:
 			<ol>
@@ -63,7 +63,7 @@
 					or unlawful activity.</li>
 			</ol>
 		</li>
-		<li>You hereby grant to <strong>Acme Rookie , Inc.</strong> a non-exclusive royalty-free license to use, reproduce,
+		<li>You hereby grant to <strong>Acme Champions , Inc.</strong> a non-exclusive royalty-free license to use, reproduce,
 		edit and authorize others to use, reproduce and edit any of your Comments in any and all forms, formats
 		or media.</li>
 	</ol>
@@ -104,7 +104,7 @@
 	unfavorably on us or our accredited businesses (for example, trade associations or other organizations
 	representing inherently suspect types of business, such as work-at-home opportunities, shall not be allowed
 	to link); (b)the organization does not have an unsatisfactory record with us; (c) the benefit to us from
-	the visibility associated with the hyperlink outweighs the absence of Acme Rookie , Inc.; and (d) where the
+	the visibility associated with the hyperlink outweighs the absence of Acme Champions , Inc.; and (d) where the
 	link is in the context of general resource information or is otherwise consistent with editorial content
 	in a newsletter or similar product furthering the mission of the organization.</p>
 
@@ -114,7 +114,7 @@
 	site.</p>
 
 	<p>If you are among the organizations listed in paragraph 2 above and are interested in linking to our website,
-	you must notify us by sending an e-mail to acme-Rookie@acme.com.
+	you must notify us by sending an e-mail to acme-Champions@acme.com.
 	Please include your name, your organization name, contact information (such as a phone number and/or e-mail
 	address) as well as the URL of your site, a list of any URLs from which you intend to link to our Web site,
 	and a list of the URL(s) on our site to which you would like to link. Allow 2-3 weeks for a response.</p>
@@ -127,7 +127,7 @@
 		<li>By use of any other description of our Web site or material being linked to that makes sense within the
 			context and format of content on the linking party's site.</li>
 	</ol>
-	<p>No use of Acme Rookie 's logo or other artwork will be allowed for linking absent a trademark license
+	<p>No use of Acme Champions 's logo or other artwork will be allowed for linking absent a trademark license
 	agreement.</p>
 <h2>Iframes</h2>
 	<p>Without prior approval and express written permission, you may not create frames around our Web pages or
@@ -184,10 +184,10 @@
 	<p> </p>	
 </jstl:if>
 <jstl:if test="${language == 'es'}">
-	<h2> Bienvenido a Acme Rookie , Inc. </h2>
-	<p> Estos términos y condiciones describen las reglas y regulaciones para el uso del sitio web de Acme Rookie , Inc. </p> <br />
+	<h2> Bienvenido a Acme Champions , Inc. </h2>
+	<p> Estos términos y condiciones describen las reglas y regulaciones para el uso del sitio web de Acme Champions , Inc. </p> <br />
 
-	<p> Al acceder a este sitio web, asumimos que acepta estos términos y condiciones en su totalidad. No sigas utilizando la web de Acme Rookie , Inc.
+	<p> Al acceder a este sitio web, asumimos que acepta estos términos y condiciones en su totalidad. No sigas utilizando la web de Acme Champions , Inc.
 	si no acepta todos los términos y condiciones establecidos en esta página. </p>
 	<p> La siguiente terminología se aplica a estos Términos y Condiciones, Declaración de Privacidad y Aviso de Descargo de Responsabilidad
 	y cualquiera o todos los Acuerdos: 'Cliente', 'Usted' y 'Su' se refieren a usted, la persona que accede a este sitio web
@@ -200,28 +200,28 @@
 	de cualquier uso de la terminología anterior u otras palabras en singular, plural,
 	la capitalización y / o él / ella o ellos, se consideran intercambiables y, por lo tanto, se refieren a los mismos. </p>
 	<h2> Licencia </h2>
-	<p> A menos que se indique lo contrario, Acme Rookie , Inc. y / o sus licenciatarios poseen los derechos de propiedad intelectual de
-	todo el material sobre Acme Rookie , Inc. Todos los derechos de propiedad intelectual están reservados. Usted puede ver y / o imprimir
-	páginas de https://Acme-Rookie.com para su uso personal sujeto a las restricciones establecidas en estos términos y condiciones. </p>
+	<p> A menos que se indique lo contrario, Acme Champions , Inc. y / o sus licenciatarios poseen los derechos de propiedad intelectual de
+	todo el material sobre Acme Champions , Inc. Todos los derechos de propiedad intelectual están reservados. Usted puede ver y / o imprimir
+	páginas de https://Acme-Champions.com para su uso personal sujeto a las restricciones establecidas en estos términos y condiciones. </p>
 	<p> No debes: </p>
 	<ol>
-		<li> Volver a publicar material desde https://Acme-Rookie.com </li>
-		<li> Vender, alquilar o sub-licenciar material de https://Acme-Rookie.com </li>
-		<li> Reproducir, duplicar o copiar material de https://Acme-Rookie.com </li>
+		<li> Volver a publicar material desde https://Acme-Champions.com </li>
+		<li> Vender, alquilar o sub-licenciar material de https://Acme-Champions.com </li>
+		<li> Reproducir, duplicar o copiar material de https://Acme-Champions.com </li>
 	</ol>
-	<p> Redistribuir el contenido de Acme Rookie , Inc. (a menos que el contenido se haga específicamente para la redistribución). </p>
+	<p> Redistribuir el contenido de Acme Champions , Inc. (a menos que el contenido se haga específicamente para la redistribución). </p>
 <h2> Comentarios de usuarios </h2>
 	<ol>
 		<li> El presente Acuerdo comenzará en la fecha del presente. </li>
 		<li> Ciertas partes de este sitio web ofrecen la oportunidad para que los usuarios publiquen e intercambien opiniones, información,
-		Material y datos ('Comentarios') en áreas del sitio web. Acme Rookie , Inc. no proyecta, edita, publica
+		Material y datos ('Comentarios') en áreas del sitio web. Acme Champions , Inc. no proyecta, edita, publica
 		o comentarios de revisión antes de su aparición en el sitio web y comentarios no reflejan las vistas u
-		opiniones de Acme Rookie , Inc., sus agentes o afiliados. Los comentarios reflejan la opinión y opinión de la
-		persona que publica tal opinión. En la medida permitida por las leyes aplicables, Acme Rookie , Inc.
+		opiniones de Acme Champions , Inc., sus agentes o afiliados. Los comentarios reflejan la opinión y opinión de la
+		persona que publica tal opinión. En la medida permitida por las leyes aplicables, Acme Champions , Inc.
 		no será responsable de los Comentarios ni de los costos de pérdida, responsabilidad, daños o gastos causados
 		y / o sufridos como resultado de cualquier uso y / o publicación y / o aparición de los Comentarios sobre este
 		sitio web. </li>
-		<li> Acme Rookie , Inc. se reserva el derecho de monitorear todos los comentarios y eliminar cualquier comentario que considere
+		<li> Acme Champions , Inc. se reserva el derecho de monitorear todos los comentarios y eliminar cualquier comentario que considere
 		en su absoluta discreción, ser inapropiado, ofensivo o que incumpla estos Términos y condiciones. </li>
 		<li> Usted garantiza y declara que:
 			<ol>
@@ -235,7 +235,7 @@
 					o actividad ilegal. </li>
 			</ol>
 		</li>
-		<li> Por la presente, usted otorga a <strong> Acme Rookie , Inc. </strong> una licencia no exclusiva sin royalties para usar, reproducir y
+		<li> Por la presente, usted otorga a <strong> Acme Champions , Inc. </strong> una licencia no exclusiva sin royalties para usar, reproducir y
 		editar y autorizar a otros a usar, reproducir y editar cualquiera de sus Comentarios en cualquiera y todas las formas, formatos
 		o medios de comunicación. </li>
 		</ol>
@@ -276,7 +276,7 @@
 	desfavorablemente para nosotros o nuestras empresas acreditadas (por ejemplo, asociaciones comerciales u otras organizaciones
 	no se permitirá la representación de tipos de negocios intrínsecamente sospechosos, como las oportunidades de trabajo en casa
 	enlazado); (b) la organización no tiene un registro insatisfactorio con nosotros; (c) el beneficio para nosotros de
-	la visibilidad asociada con el hipervínculo supera la ausencia de Acme Rookie , Inc.; y (d) donde el
+	la visibilidad asociada con el hipervínculo supera la ausencia de Acme Champions , Inc.; y (d) donde el
 	el enlace se encuentre en el contexto de la información general de recursos o es consistente con el contenido editorial,
 	en un boletín o producto similar que promueva la misión de la organización. </p>
 	
@@ -286,7 +286,7 @@
 	sitio. </p>
 	
 	<p> Si se encuentra entre las organizaciones enumeradas en el párrafo 2 anterior y está interesado en enlazar a nuestro sitio web,
-	debe notificarnos enviando un correo electrónico a acme-rookie@acme.com.
+	debe notificarnos enviando un correo electrónico a acme-champions@acme.com.
 	Incluya su nombre, el nombre de su organización, información de contacto (como un número de teléfono y / o correo electrónico y
 	dirección) así como la URL de su sitio, una lista de las URL desde las que desea enlazar a nuestro sitio web,
 	y una lista de las URL en nuestro sitio que desea vincular. Permita 2-3 semanas para una respuesta. </p>
@@ -299,7 +299,7 @@
 		<li> mediante el uso de cualquier otra descripción de nuestro sitio web o material al que esté vinculado, tiene sentido dentro del
 		contexto y formato del contenido en el sitio de la parte que vincula. </li>
 	</ol>
-	<p> No se permitirá el uso del logotipo de Acme Rookie , Inc. u otra obra de arte para enlazar en ausencia de una licencia de marca registrada
+	<p> No se permitirá el uso del logotipo de Acme Champions , Inc. u otra obra de arte para enlazar en ausencia de una licencia de marca registrada
 	acordada. </p>
 <h2> Iframes </h2>
 	<p> Sin la aprobación previa y el permiso expreso por escrito, no puede crear marcos en nuestras páginas web o

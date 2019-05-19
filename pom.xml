@@ -12,7 +12,7 @@
 	<!-- Artifact identification and properties -->
 
 	<groupId>Acme.com</groupId>
-	<artifactId>Acme-Rookies</artifactId>
+	<artifactId>Acme-Champions</artifactId>
 	<version>1.0</version>
 	<packaging>war</packaging>
 
@@ -22,9 +22,9 @@
 
 	<!-- Indexing information -->
 
-	<name>Acme Rookies</name>
-	<url>http://www.acme-rookies.com</url>
-	<description>Users can use this system to solve</description>
+	<name>Acme Champions</name>
+	<url>http://www.acme-champions.com</url>
+	<description>Users can use this system to manage your champions</description>
 
 	<!-- Build commands -->
 
