@@ -11,9 +11,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.AdministratorService;
 import services.ConfigurationService;
+import services.PresidentService;
 import controllers.AbstractController;
 import domain.Administrator;
+import domain.President;
 import forms.RegisterAdministratorForm;
+import forms.RegisterPresidentForm;
 
 @Controller
 @RequestMapping("/administrator")
@@ -23,6 +26,9 @@ public class RegisterAdministratorController extends AbstractController {
 
 	@Autowired
 	private AdministratorService	administratorService;
+
+	@Autowired
+	private PresidentService		presidentService;
 
 	@Autowired
 	private ConfigurationService	configurationService;
@@ -62,6 +68,40 @@ public class RegisterAdministratorController extends AbstractController {
 			}
 		return result;
 	}
+
+	@RequestMapping(value = "/createPresident", method = RequestMethod.GET)
+	public ModelAndView createPresident() {
+		final ModelAndView result;
+		final RegisterPresidentForm president;
+
+		president = new RegisterPresidentForm();
+		result = this.createEditModelAndViewPresident(president);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/editPresident", method = RequestMethod.POST, params = "save")
+	public ModelAndView savePresident(@ModelAttribute("president") final RegisterPresidentForm form, final BindingResult binding) {
+		ModelAndView result;
+
+		final President presidentReconstruct = this.presidentService.reconstruct(form, binding);
+
+		if (binding.hasErrors())
+			result = this.createEditModelAndViewPresident(form);
+		else if (!form.checkPassword() || !form.getCheckbox())
+			result = this.createEditModelAndViewPresident(form, "administrator.commit.error");
+		else if (!form.checkPassword() || !form.getCheckbox())
+			result = this.createEditModelAndViewPresident(form, "administrator.commit.error.username");
+		else
+			try {
+				this.presidentService.save(presidentReconstruct);
+				result = new ModelAndView("redirect:/welcome/index.do");
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndViewPresident(form, "actor.commit.error");
+			}
+		return result;
+	}
+
 	// Ancillary methods
 
 	protected ModelAndView createEditModelAndView(final RegisterAdministratorForm administrator) {
@@ -79,6 +119,29 @@ public class RegisterAdministratorController extends AbstractController {
 
 		result = new ModelAndView("administrator/signUpAdministrator");
 		result.addObject("administrator", administrator);
+		result.addObject("banner", banner);
+		result.addObject("messageError", messageCode);
+		final String countryCode = this.configurationService.findConfiguration().getCountryCode();
+		result.addObject("defaultCountry", countryCode);
+
+		return result;
+	}
+
+	protected ModelAndView createEditModelAndViewPresident(final RegisterPresidentForm president) {
+		ModelAndView result;
+
+		result = this.createEditModelAndViewPresident(president, null);
+
+		return result;
+	}
+
+	protected ModelAndView createEditModelAndViewPresident(final RegisterPresidentForm president, final String messageCode) {
+		ModelAndView result;
+
+		final String banner = this.configurationService.findConfiguration().getBanner();
+
+		result = new ModelAndView("president/signUpPresident");
+		result.addObject("president", president);
 		result.addObject("banner", banner);
 		result.addObject("messageError", messageCode);
 		final String countryCode = this.configurationService.findConfiguration().getCountryCode();

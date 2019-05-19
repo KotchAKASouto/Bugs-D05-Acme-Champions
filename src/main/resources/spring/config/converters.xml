@@ -52,6 +52,9 @@
 		<bean class="converters.PlayerToStringConverter"/>
 		<bean class="converters.StringToPlayerConverter"/>
 		
+		<bean class="converters.PresidentToStringConverter"/>
+		<bean class="converters.StringToPresidentConverter"/>
+		
 	</util:list>
 	
 </beans>
