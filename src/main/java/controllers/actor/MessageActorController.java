@@ -43,7 +43,6 @@ public class MessageActorController extends AbstractController {
 		final Actor actor = this.actorService.findByPrincipal();
 
 		final String banner = this.configurationService.findConfiguration().getBanner();
-		final Boolean rebrandingNotification = this.configurationService.findConfiguration().getRebrandingNotification();
 
 		messages = this.messageService.AllmessagePerActor(actor.getId());
 		messagesDELETE = this.messageService.AllmessageDELETEPerActor(actor.getId());
@@ -57,7 +56,6 @@ public class MessageActorController extends AbstractController {
 		result.addObject("messages", messages);
 		result.addObject("messagesDELETE", messagesDELETE);
 		result.addObject("messagesSYSTEM", messagesSYSTEM);
-		result.addObject("rebrandingNotification", rebrandingNotification);
 		result.addObject("banner", banner);
 
 		result.addObject("requestURI", "message/actor/list.do");

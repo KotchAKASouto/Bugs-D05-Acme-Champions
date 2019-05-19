@@ -7,8 +7,6 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -30,9 +28,6 @@ public class Configuration extends DomainEntity {
 	private int					finderResult;
 	private String				welcomeMessage;
 	private String				welcomeMessageEs;
-	private Double				vatTax;
-	private Double				fare;
-	private Boolean				rebrandingNotification;
 
 
 	//Getters y Setters-----------------------------------------------------
@@ -108,34 +103,4 @@ public class Configuration extends DomainEntity {
 	public void setFinderResult(final int finderResult) {
 		this.finderResult = finderResult;
 	}
-
-	@DecimalMax(value = "1.0")
-	@DecimalMin(value = "0.0")
-	public Double getVatTax() {
-		return this.vatTax;
-	}
-
-	public void setVatTax(final Double vatTax) {
-		this.vatTax = vatTax;
-	}
-
-	@DecimalMin(value = "0.0")
-	public Double getFare() {
-		return this.fare;
-	}
-
-	public void setFare(final Double fare) {
-		this.fare = fare;
-	}
-
-	@NotNull
-	public Boolean getRebrandingNotification() {
-		return this.rebrandingNotification;
-	}
-
-	public void setRebrandingNotification(final Boolean rebrandingNotification) {
-		this.rebrandingNotification = rebrandingNotification;
-	}
-
-	// Relationships ----------------------------------------------------------
 }

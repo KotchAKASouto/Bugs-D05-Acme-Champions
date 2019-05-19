@@ -155,7 +155,6 @@ public class ConfigurationService {
 		final Configuration result = config;
 		config.setId(bbdd.getId());
 		config.setVersion(config.getVersion());
-		config.setRebrandingNotification(bbdd.getRebrandingNotification());
 
 		this.validator.validate(result, binding);
 
