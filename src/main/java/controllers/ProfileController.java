@@ -25,10 +25,12 @@ import services.ActorService;
 import services.AdministratorService;
 import services.ConfigurationService;
 import services.ManagerService;
+import services.PlayerService;
 import services.PresidentService;
 import domain.Actor;
 import domain.Administrator;
 import domain.Manager;
+import domain.Player;
 import domain.President;
 
 @Controller
@@ -43,6 +45,9 @@ public class ProfileController extends AbstractController {
 
 	@Autowired
 	private ManagerService			managerService;
+
+	@Autowired
+	private PlayerService			playerService;
 
 	@Autowired
 	private PresidentService		presidentService;
@@ -243,6 +248,55 @@ public class ProfileController extends AbstractController {
 	}
 
 	//--------------------------PLAYER------------------------------
+
+	@RequestMapping(value = "/editPlayer", method = RequestMethod.POST, params = "save")
+	public ModelAndView savePlayer(@ModelAttribute("player") final Player player, final BindingResult binding) {
+		ModelAndView result;
+
+		final Player playerReconstruct = this.playerService.reconstruct(player, binding);
+
+		if (binding.hasErrors())
+			result = this.createEditModelAndViewPlayer(playerReconstruct);
+		else
+			try {
+				this.playerService.save(playerReconstruct);
+				final Credentials credentials = new Credentials();
+				credentials.setJ_username(playerReconstruct.getUserAccount().getUsername());
+				credentials.setPassword(playerReconstruct.getUserAccount().getPassword());
+				result = new ModelAndView("redirect:/profile/displayPrincipal.do");
+				result.addObject("credentials", credentials);
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndViewPlayer(playerReconstruct, "actor.commit.error");
+			}
+		return result;
+	}
+
+	protected ModelAndView createEditModelAndViewPlayer(final Player player) {
+		ModelAndView result;
+
+		result = this.createEditModelAndViewPlayer(player, null);
+
+		return result;
+	}
+
+	protected ModelAndView createEditModelAndViewPlayer(final Player player, final String messageCode) {
+		ModelAndView result;
+
+		final String banner = this.configurationService.findConfiguration().getBanner();
+
+		result = new ModelAndView("actor/edit");
+
+		result.addObject("player", player);
+		result.addObject("authority", "player");
+		result.addObject("actionURI", "editPresident.do");
+		result.addObject("banner", banner);
+		result.addObject("laguageURI", "profile/edit.do");
+		result.addObject("messageError", messageCode);
+		final String countryCode = this.configurationService.findConfiguration().getCountryCode();
+		result.addObject("defaultCountry", countryCode);
+
+		return result;
+	}
 
 	//--------------------------FEDERATION------------------------------
 

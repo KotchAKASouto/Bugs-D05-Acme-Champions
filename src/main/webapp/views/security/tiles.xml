@@ -25,5 +25,10 @@
 		<put-attribute name="title" value="Sign Up Manager" />
 		<put-attribute name="body" value="/views/security/signUpManager.jsp" />
 	</definition>
+	
+	<definition name="security/signUpPlayer" extends="master.page">
+		<put-attribute name="title" value="Sign Up Player" />
+		<put-attribute name="body" value="/views/security/signUpPlayer.jsp" />
+	</definition>
 		
 </tiles-definitions>

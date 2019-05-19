@@ -112,6 +112,8 @@ public class PlayerService {
 			final String phone = this.actorService.checkPhone(player.getPhone());
 			player.setPhone(phone);
 
+			//TODO Falta las estadisticas
+
 			result = this.playerRepository.save(player);
 
 		}
@@ -208,6 +210,11 @@ public class PlayerService {
 		if (playerBBDD != null) {
 
 			player.setUserAccount(playerBBDD.getUserAccount());
+			player.setBuyoutClause(playerBBDD.getBuyoutClause());
+			player.setInjured(playerBBDD.getInjured());
+			player.setPunished(playerBBDD.getPunished());
+			player.setPositionEnglish(playerBBDD.getPositionEnglish());
+			player.setPositisonSpanish(playerBBDD.getPositisonSpanish());
 
 			this.validator.validate(player, binding);
 
