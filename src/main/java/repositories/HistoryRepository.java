@@ -15,4 +15,7 @@ public interface HistoryRepository extends JpaRepository<History, Integer> {
 
 	@Query("select h from History h join h.sportRecords r where r.id = ?1")
 	History historyPerSportRecordId(int recordId);
+
+	@Query("select h from History h join h.playerRecords r where r.id = ?1")
+	History historyPerPlayerRecordId(int recordId);
 }

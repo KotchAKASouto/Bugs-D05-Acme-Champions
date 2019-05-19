@@ -80,6 +80,14 @@ public class HistoryService {
 		return result;
 	}
 
+	public History historyPerPlayerRecordId(final int recordId) {
+
+		final History result = this.historyRepository.historyPerPlayerRecordId(recordId);
+
+		return result;
+
+	}
+
 	public History findByPlayerId(final int playerId) {
 
 		final History result = this.findByPlayerId(playerId);

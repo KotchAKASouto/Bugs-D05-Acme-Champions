@@ -64,11 +64,11 @@ public class SportRecordService {
 
 	}
 
-	public SportRecord findOne(final int legalRecordId) {
+	public SportRecord findOne(final int recordId) {
 
 		SportRecord result;
 
-		result = this.sportRecordRepository.findOne(legalRecordId);
+		result = this.sportRecordRepository.findOne(recordId);
 
 		return result;
 	}

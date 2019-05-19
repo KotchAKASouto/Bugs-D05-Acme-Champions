@@ -193,46 +193,46 @@ public class SponsorshipService {
 	//		return result;
 	//	}
 
-	public Sponsorship ramdomSponsorship(final int positionId) {
-
-		Sponsorship result = null;
-		final Collection<Sponsorship> sponsorships = this.sponsorshipRepository.findAllByPositionId(positionId);
-
-		final Double vatTax = this.configurationService.findConfiguration().getVatTax();
-		final Double fare = this.configurationService.findConfiguration().getFare();
-		if (!sponsorships.isEmpty()) {
-
-			final int M = 0;
-			final int N = sponsorships.size() - 1;
-			final int limit = (int) (Math.random() * (N - M + 1) + M);
-
-			int i = 0;
-
-			for (final Sponsorship s : sponsorships) {
-
-				if (i == limit) {
-					result = s;
-
-					Double cost = result.getCost();
-
-					if (fare != null)
-						if (vatTax == null)
-							cost = cost + fare;
-						else
-							cost = cost + ((1 + vatTax) * fare);
-
-					result.setCost(cost);
-					break;
-				}
-
-				i++;
-
-			}
-
-		}
-
-		return result;
-	}
+	//	public Sponsorship ramdomSponsorship(final int positionId) {
+	//
+	//		Sponsorship result = null;
+	//		final Collection<Sponsorship> sponsorships = this.sponsorshipRepository.findAllByPositionId(positionId);
+	//
+	//		final Double vatTax = this.configurationService.findConfiguration().getVatTax();
+	//		final Double fare = this.configurationService.findConfiguration().getFare();
+	//		if (!sponsorships.isEmpty()) {
+	//
+	//			final int M = 0;
+	//			final int N = sponsorships.size() - 1;
+	//			final int limit = (int) (Math.random() * (N - M + 1) + M);
+	//
+	//			int i = 0;
+	//
+	//			for (final Sponsorship s : sponsorships) {
+	//
+	//				if (i == limit) {
+	//					result = s;
+	//
+	//					Double cost = result.getCost();
+	//
+	//					if (fare != null)
+	//						if (vatTax == null)
+	//							cost = cost + fare;
+	//						else
+	//							cost = cost + ((1 + vatTax) * fare);
+	//
+	//					result.setCost(cost);
+	//					break;
+	//				}
+	//
+	//				i++;
+	//
+	//			}
+	//
+	//		}
+	//
+	//		return result;
+	//	}
 
 	public void flush() {
 
