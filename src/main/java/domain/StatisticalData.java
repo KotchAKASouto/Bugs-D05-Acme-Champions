@@ -1,6 +1,7 @@
 
 package domain;
 
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
@@ -55,6 +56,7 @@ public class StatisticalData {
 
 	@NotNull
 	@Min(0)
+	@Max(4)
 	public Integer getAccumulatedYellowCard() {
 		return this.accumulatedYellowCard;
 	}

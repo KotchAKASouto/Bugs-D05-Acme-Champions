@@ -22,16 +22,6 @@
 	
 	<acme:textbox code="actor.surname" path="surnames" obligatory="true"/>
 	
-	<security:authorize access="hasRole('COMPANY')">
-		<acme:textbox code="company.commercialName" size="100" path="commercialName" obligatory="true"/>
-	</security:authorize>
-	
-	<security:authorize access="hasRole('PROVIDER')">
-		<acme:textbox code="provider.providerMake" path="providerMake" obligatory="true"/>
-	</security:authorize>
-	
-	<acme:textbox code="actor.vat" path="vat" obligatory="true"/>
-	
 	<acme:textbox code="actor.photo" path="photo" size="100"/>
 	
 	<jstl:choose>
@@ -46,21 +36,6 @@
 	<acme:textbox code="actor.address" path="address" />
 	
 	<acme:textbox code="actor.phone" path="phone" id="phone" onblur="javascript: checkPhone();"/>
-	
-	
-	<h2><spring:message code="creditCard.data" /></h2>
-	
-	<acme:textbox code="actor.creditCard.holderName" path="creditCard.holderName" obligatory="true"/>
-	
-	<acme:textbox code="actor.creditCard.make" path="creditCard.make" obligatory="true"/>
-	
-	<acme:textbox code="actor.creditCard.number" path="creditCard.number" obligatory="true"/>
-	
-	<acme:textbox code="actor.creditCard.expMonth" path="creditCard.expMonth" obligatory="true"/>
-	
-	<acme:textbox code="actor.creditCard.expYear" path="creditCard.expYear" obligatory="true"/>
-	
-	<acme:textbox code="actor.creditCard.cvv" path="creditCard.cvv" obligatory="true"/>
 
 	<acme:submit name="save" code="actor.save"/>	
 

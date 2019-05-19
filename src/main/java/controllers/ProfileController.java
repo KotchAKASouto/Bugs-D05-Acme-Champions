@@ -25,9 +25,11 @@ import services.ActorService;
 import services.AdministratorService;
 import services.ConfigurationService;
 import services.ManagerService;
+import services.PresidentService;
 import domain.Actor;
 import domain.Administrator;
 import domain.Manager;
+import domain.President;
 
 @Controller
 @RequestMapping("/profile")
@@ -41,6 +43,9 @@ public class ProfileController extends AbstractController {
 
 	@Autowired
 	private ManagerService			managerService;
+
+	@Autowired
+	private PresidentService		presidentService;
 
 	@Autowired
 	private ConfigurationService	configurationService;
@@ -244,6 +249,55 @@ public class ProfileController extends AbstractController {
 	//--------------------------SPONSOR------------------------------
 
 	//--------------------------PRESIDENT------------------------------
+
+	@RequestMapping(value = "/editPresident", method = RequestMethod.POST, params = "save")
+	public ModelAndView savePresident(@ModelAttribute("president") final President president, final BindingResult binding) {
+		ModelAndView result;
+
+		final President presidentReconstruct = this.presidentService.reconstruct(president, binding);
+
+		if (binding.hasErrors())
+			result = this.createEditModelAndViewPresident(presidentReconstruct);
+		else
+			try {
+				this.presidentService.save(presidentReconstruct);
+				final Credentials credentials = new Credentials();
+				credentials.setJ_username(presidentReconstruct.getUserAccount().getUsername());
+				credentials.setPassword(presidentReconstruct.getUserAccount().getPassword());
+				result = new ModelAndView("redirect:/profile/displayPrincipal.do");
+				result.addObject("credentials", credentials);
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndViewPresident(presidentReconstruct, "actor.commit.error");
+			}
+		return result;
+	}
+
+	protected ModelAndView createEditModelAndViewPresident(final President president) {
+		ModelAndView result;
+
+		result = this.createEditModelAndViewPresident(president, null);
+
+		return result;
+	}
+
+	protected ModelAndView createEditModelAndViewPresident(final President president, final String messageCode) {
+		ModelAndView result;
+
+		final String banner = this.configurationService.findConfiguration().getBanner();
+
+		result = new ModelAndView("actor/edit");
+
+		result.addObject("president", president);
+		result.addObject("authority", "president");
+		result.addObject("actionURI", "editPresident.do");
+		result.addObject("banner", banner);
+		result.addObject("laguageURI", "profile/edit.do");
+		result.addObject("messageError", messageCode);
+		final String countryCode = this.configurationService.findConfiguration().getCountryCode();
+		result.addObject("defaultCountry", countryCode);
+
+		return result;
+	}
 
 	//--------------------------REFEREE------------------------------
 
