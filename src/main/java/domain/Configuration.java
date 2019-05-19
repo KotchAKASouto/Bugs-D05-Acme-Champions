@@ -28,6 +28,7 @@ public class Configuration extends DomainEntity {
 	private int					finderResult;
 	private String				welcomeMessage;
 	private String				welcomeMessageEs;
+	private Collection<String>	makes;
 
 
 	//Getters y Setters-----------------------------------------------------
@@ -103,4 +104,15 @@ public class Configuration extends DomainEntity {
 	public void setFinderResult(final int finderResult) {
 		this.finderResult = finderResult;
 	}
+
+	@ElementCollection
+	@NotNull
+	public Collection<String> getMakes() {
+		return this.makes;
+	}
+
+	public void setMakes(final Collection<String> makes) {
+		this.makes = makes;
+	}
+
 }
