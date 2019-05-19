@@ -1,30 +1,27 @@
+
 package domain;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
-
-import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.SafeHtml;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class Sponsor extends Actor{
-	
+public class Sponsor extends Actor {
 
-	private String providerMake;
+	private CreditCard	creditCard;
 
-	@NotBlank
-	@SafeHtml
-	public String getProviderMake() {
-		return providerMake;
+
+	@NotNull
+	@Valid
+	public CreditCard getCreditCard() {
+		return this.creditCard;
 	}
 
-	public void setProviderMake(String providerMake) {
-		this.providerMake = providerMake;
+	public void setCreditCard(final CreditCard creditCard) {
+		this.creditCard = creditCard;
 	}
-	
-	
-	
 
 }

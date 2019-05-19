@@ -140,7 +140,7 @@ public class RegisterAdministratorController extends AbstractController {
 
 		final String banner = this.configurationService.findConfiguration().getBanner();
 
-		result = new ModelAndView("president/signUpPresident");
+		result = new ModelAndView("administrator/signUpPresident");
 		result.addObject("president", president);
 		result.addObject("banner", banner);
 		result.addObject("messageError", messageCode);
