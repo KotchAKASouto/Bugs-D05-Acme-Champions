@@ -18,7 +18,7 @@ public class History extends DomainEntity {
 	private Player						player;
 	private PersonalData				personalData;
 	private Collection<PlayerRecord>	playerRecords;
-	private Collection<SportRecord>		sposrtRecords;
+	private Collection<SportRecord>		sportRecords;
 
 
 	@Valid
@@ -53,12 +53,12 @@ public class History extends DomainEntity {
 
 	@Valid
 	@OneToMany(cascade = CascadeType.ALL)
-	public Collection<SportRecord> getSposrtRecords() {
-		return this.sposrtRecords;
+	public Collection<SportRecord> getSportRecords() {
+		return this.sportRecords;
 	}
 
-	public void setSposrtRecords(final Collection<SportRecord> sposrtRecords) {
-		this.sposrtRecords = sposrtRecords;
+	public void setSportRecords(final Collection<SportRecord> sportRecords) {
+		this.sportRecords = sportRecords;
 	}
 
 }
