@@ -1,13 +1,18 @@
 
 package domain;
 
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-public class StatisticalData {
+@Entity
+@Access(AccessType.PROPERTY)
+public class StatisticalData extends DomainEntity {
 
 	private Integer	yellowCards;
 	private Integer	redCards;
