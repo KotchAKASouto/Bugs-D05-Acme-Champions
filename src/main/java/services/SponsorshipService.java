@@ -232,5 +232,5 @@ public class SponsorshipService {
 		this.sponsorshipRepository.flush();
 
 	}
-
+	
 }
