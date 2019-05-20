@@ -37,6 +37,13 @@
 	
 	<acme:textbox code="actor.phone" path="phone" id="phone" onblur="javascript: checkPhone();"/>
 
+	<security:authorize access="hasRole('PLAYER')">
+	
+		<acme:textbox code="player.squadNumber" path="squadNumber" obligatory="true"/>
+	
+		<acme:textbox code="player.squadName" path="squadName" obligatory="true"/>
+		
+	</security:authorize>
 	<acme:submit name="save" code="actor.save"/>	
 
 	<acme:button name="cancel" code="actor.cancel" onclick="javascript: relativeRedir('profile/displayPrincipal.do');" />

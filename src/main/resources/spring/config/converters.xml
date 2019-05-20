@@ -55,6 +55,21 @@
 		<bean class="converters.PresidentToStringConverter"/>
 		<bean class="converters.StringToPresidentConverter"/>
 		
+		<bean class="converters.SportRecordToStringConverter"/>
+		<bean class="converters.StringToSportRecordConverter"/>
+		
+		<bean class="converters.PlayerRecordToStringConverter"/>
+		<bean class="converters.StringToPlayerRecordConverter"/>
+		
+		<bean class="converters.RefereeToStringConverter"/>
+		<bean class="converters.StringToRefereeConverter"/>
+		
+		<bean class="converters.HistoryToStringConverter"/>
+		<bean class="converters.StringToHistoryConverter"/>
+		
+		<bean class="converters.FederationToStringConverter"/>
+		<bean class="converters.StringToFederationConverter"/>
+		
 	</util:list>
 	
 </beans>

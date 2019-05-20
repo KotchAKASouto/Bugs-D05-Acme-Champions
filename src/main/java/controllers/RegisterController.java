@@ -1,7 +1,10 @@
 
 package controllers;
 
+import java.util.Locale;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
@@ -141,12 +144,16 @@ public class RegisterController extends AbstractController {
 
 		final String banner = this.configurationService.findConfiguration().getBanner();
 
+		final Locale locale = LocaleContextHolder.getLocale();
+		final String language = locale.getLanguage();
+
 		result = new ModelAndView("security/signUpCompany");
 		result.addObject("player", player);
 		result.addObject("banner", banner);
 		result.addObject("messageError", messageCode);
 		final String countryCode = this.configurationService.findConfiguration().getCountryCode();
 		result.addObject("defaultCountry", countryCode);
+		result.addObject("language", language);
 
 		return result;
 	}
