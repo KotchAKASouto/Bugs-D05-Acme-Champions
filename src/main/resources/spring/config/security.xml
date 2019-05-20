@@ -91,6 +91,8 @@
 		<security:intercept-url pattern="/training/manager/edit.do" access="hasRole('MANAGER')" />
 		<security:intercept-url pattern="/training/manager/display.do" access="hasRole('MANAGER')" />
 		<security:intercept-url pattern="/training/manager/create.do" access="hasRole('MANAGER')" />
+		<security:intercept-url pattern="/training/manager/addPlayer.do" access="hasRole('MANAGER')" />
+		<security:intercept-url pattern="/training/manager/addPlayerPost.do" access="hasRole('MANAGER')" />
 
 		<!-- Administrator -->
 		<security:intercept-url pattern="/administrator/dashboard.do" access="hasRole('ADMIN')" />
