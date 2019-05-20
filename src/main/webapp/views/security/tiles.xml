@@ -22,13 +22,18 @@
 	</definition>
 	
 	<definition name="security/signUpManager" extends="master.page">
-		<put-attribute name="title" value="Sign Up Manager" />
+		<put-attribute name="title" value="Sign up manager" />
 		<put-attribute name="body" value="/views/security/signUpManager.jsp" />
 	</definition>
 	
 	<definition name="security/signUpPlayer" extends="master.page">
-		<put-attribute name="title" value="Sign Up Player" />
+		<put-attribute name="title" value="Sign up player" />
 		<put-attribute name="body" value="/views/security/signUpPlayer.jsp" />
+	</definition>
+	
+	<definition name="security/signUpSponsor" extends="master.page">
+		<put-attribute name="title" value="Sign up sponsor" />
+		<put-attribute name="body" value="/views/security/signUpSponosr.jsp" />
 	</definition>
 		
 </tiles-definitions>

@@ -86,11 +86,6 @@
 		<security:intercept-url pattern="/profile/editSponsor.do" access="hasRole('SPONSOR')" />
 		<security:intercept-url pattern="/profile/editReferee.do" access="hasRole('REFEREE')" />
 
-		<!-- Social profile -->
-
-
-
-
 		<!-- Manager: Training -->
 		<security:intercept-url pattern="/training/manager/list.do" access="hasRole('MANAGER')" />
 		<security:intercept-url pattern="/training/manager/edit.do" access="hasRole('MANAGER')" />
