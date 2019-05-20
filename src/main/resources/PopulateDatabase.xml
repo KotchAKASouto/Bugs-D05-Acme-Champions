@@ -1937,7 +1937,3 @@
 		<property name="welcomeMessage" value="Welcome to Acme Champions! We never surrender" />
 	</bean>
 </beans>
-
-
-
-	
