@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <!-- 
- * tiles.xml
+ * tiles_es.xml
  *
  * Copyright (C) 2019 Universidad de Sevilla
  * 
@@ -13,12 +13,13 @@
 <!DOCTYPE tiles-definitions PUBLIC
        "-//Apache Software Foundation//DTD Tiles Configuration 2.0//EN"
        "http://tiles.apache.org/dtds/tiles-config_2_0.dtd">
-       
+      
 <tiles-definitions>
 
 	<definition name="player/listAdd" extends="master.page">	
-		<put-attribute name="title" value="Add players" />
+		<put-attribute name="title" value="Añadir jugadores" />
 		<put-attribute name="body" value="/views/player/listAdd.jsp" />
 	</definition>
+	
 	
 </tiles-definitions>
