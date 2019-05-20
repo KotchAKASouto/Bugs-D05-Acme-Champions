@@ -86,8 +86,6 @@ public class PresidentService {
 		President result;
 
 		if (president.getId() != 0) {
-			final Authority admin = new Authority();
-			admin.setAuthority(Authority.ADMIN);
 
 			final Actor actor = this.actorService.findByPrincipal();
 			Assert.notNull(actor);
@@ -96,6 +94,9 @@ public class PresidentService {
 
 			this.actorService.checkEmail(president.getEmail(), true);
 			this.actorService.checkPhone(president.getPhone());
+
+			final String phone = this.actorService.checkPhone(president.getPhone());
+			president.setPhone(phone);
 
 			result = this.presidentRepository.save(president);
 
@@ -116,6 +117,7 @@ public class PresidentService {
 			president.setUserAccount(userAccount);
 
 			final String phone = this.actorService.checkPhone(president.getPhone());
+			president.setPhone(phone);
 
 			result = this.presidentRepository.save(president);
 

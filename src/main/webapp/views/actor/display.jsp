@@ -36,20 +36,23 @@
 <acme:display code="actor.phone" property="${actor.phone }" />
 
 <acme:display code="actor.address" property="${actor.address }" />
-	
 
+<security:authorize access="hasRole('PLAYER')">
+	<acme:display code="player.buyoutClause" property="${actor.buyoutClause }" />
+	
+	<acme:display code="player.squadNumber" property="${actor.squadNumber }" />
+	
+	<acme:display code="player.squadName" property="${actor.squadName }" />
+</security:authorize> 	
 
 <jstl:if test="${!admin}">
-	<acme:button name="socialProfile" code="actor.socialProfile" onclick="javascript: relativeRedir('socialProfile/administrator,company,rookie/list.do');" />
-
 
 	<security:authorize access="isAuthenticated()">
 
 		<acme:button name="edit" code="actor.edit" onclick="javascript: relativeRedir('profile/edit.do');" />
 
 	</security:authorize>
-</jstl:if>
-<jstl:if test="${!admin}">
+	
 	<acme:button name="back" code="actor.back" onclick="javascript: relativeRedir('welcome/index.do');" />
 </jstl:if>
 <jstl:if test="${admin}">

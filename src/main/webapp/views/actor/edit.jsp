@@ -33,9 +33,9 @@
 	</jstl:otherwise>
 	</jstl:choose>
 	
-	<acme:textbox code="actor.address" path="address" />
-	
 	<acme:textbox code="actor.phone" path="phone" id="phone" onblur="javascript: checkPhone();"/>
+	
+	<acme:textbox code="actor.address" path="address" />
 
 	<security:authorize access="hasRole('PLAYER')">
 	
@@ -43,6 +43,24 @@
 	
 		<acme:textbox code="player.squadName" path="squadName" obligatory="true"/>
 		
+	</security:authorize>
+	
+	<security:authorize access="hasRole('SPONSOR')">
+	
+		<h1><spring:message code="creditCard.data" /></h1>
+		
+		<acme:textbox code="actor.creditCard.holderName" path="creditCard.holderName" obligatory="true"/>
+		
+		<acme:textbox code="actor.creditCard.make" path="creditCard.make" obligatory="true"/>
+		
+		<acme:textbox code="actor.creditCard.number" path="creditCard.number" obligatory="true"/>
+		
+		<acme:textbox code="actor.creditCard.expMonth" path="creditCard.expMonth" obligatory="true"/>
+		
+		<acme:textbox code="actor.creditCard.expYear" path="creditCard.expYear" obligatory="true"/>
+		
+		<acme:textbox code="actor.creditCard.cvv" path="creditCard.cvv" obligatory="true"/>
+	
 	</security:authorize>
 	<acme:submit name="save" code="actor.save"/>	
 

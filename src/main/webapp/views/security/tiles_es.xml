@@ -31,6 +31,11 @@
 		<put-attribute name="body" value="/views/security/signUpPlayer.jsp" />
 	</definition>
 	
+	<definition name="security/signUpSponsor" extends="master.page">
+		<put-attribute name="title" value="Registrar jugador" />
+		<put-attribute name="body" value="/views/security/signUpSponsor.jsp" />
+	</definition>
+	
 	
 		
 </tiles-definitions>
