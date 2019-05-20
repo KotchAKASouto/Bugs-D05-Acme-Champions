@@ -658,6 +658,7 @@
 		<property name="phone" value="+34 6169252367" />
 		<property name="address" value="Puñonrostro" />
 		<property name="userAccount" ref="userAccount21" />
+		<property name="team" ref="team1" />
 	</bean>
 	
 	<bean id="manager2" class="domain.Manager">
@@ -668,6 +669,7 @@
 		<property name="phone" value="+34 776925257" />
 		<property name="address" value="Laraña" />
 		<property name="userAccount" ref="userAccount22" />
+		<property name="team" ref="team2" />
 	</bean>
 	
 	<bean id="manager3" class="domain.Manager">
@@ -678,6 +680,7 @@
 		<property name="phone" value="+34 6760052367" />
 		<property name="address" value="Trajano" />
 		<property name="userAccount" ref="userAccount23" />
+		<property name="team" ref="team3" />
 	</bean>
 	
 	<!-- Referees -->	
