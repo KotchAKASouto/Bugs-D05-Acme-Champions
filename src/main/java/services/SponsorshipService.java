@@ -163,21 +163,14 @@ public class SponsorshipService {
 
 	}
 
-	public void deleteAll(final int actorId) {
-
-		final Collection<Sponsorship> sponsorships = this.findAllByProviderId(actorId);
-
-		if (!sponsorships.isEmpty())
-			for (final Sponsorship s : sponsorships)
-				this.sponsorshipRepository.delete(s);
-	}
-
-	public Collection<Sponsorship> findAllByProviderId(final int actorId) {
-
-		final Collection<Sponsorship> sponsorships = this.sponsorshipRepository.findAllByProviderId(actorId);
-
-		return sponsorships;
-	}
+	//	public void deleteAll(final int actorId) {
+	//
+	//		final Collection<Sponsorship> sponsorships = this.findAllByProviderId(actorId);
+	//
+	//		if (!sponsorships.isEmpty())
+	//			for (final Sponsorship s : sponsorships)
+	//				this.sponsorshipRepository.delete(s);
+	//	}
 
 	//	public SponsorshipForm editForm(final Sponsorship sponsorship) {
 	//
@@ -238,25 +231,5 @@ public class SponsorshipService {
 
 		this.sponsorshipRepository.flush();
 
-	}
-
-	public Integer findSponsorshipByPositionAndProviderId(final int positionId, final int id) {
-
-		return this.sponsorshipRepository.findSponsorshipByPositionAndProviderId(positionId, id);
-
-	}
-
-	public Collection<Sponsorship> findAllByPositionId(final int positionId) {
-
-		final Collection<Sponsorship> result = this.sponsorshipRepository.findAllByPositionId(positionId);
-
-		return result;
-	}
-
-	public Collection<Sponsorship> findAllCancelledByProviderId(final int providerId) {
-
-		final Collection<Sponsorship> res = this.sponsorshipRepository.findAllCancelledByProviderId(providerId);
-
-		return res;
 	}
 }

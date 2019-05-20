@@ -299,20 +299,6 @@ public class MessageService {
 		return result;
 	}
 
-	public Collection<Message> AllmessageDELETEPerActor(final int actorId) {
-
-		final Collection<Message> result = this.messageRepository.AllmessageDELETEPerActor(actorId);
-
-		return result;
-	}
-
-	public Collection<Message> AllmessageSYSTEM() {
-
-		final Collection<Message> result = this.messageRepository.AllmessageSYSTEM();
-
-		return result;
-	}
-
 	public void flush() {
 		this.messageRepository.flush();
 	}
