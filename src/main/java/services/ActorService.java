@@ -265,22 +265,6 @@ public class ActorService {
 
 	}
 
-	public Collection<Actor> actorSpammer() {
-		Collection<Actor> result;
-
-		result = this.actorRepository.actorSpammer();
-
-		return result;
-	}
-
-	public Collection<Actor> actorNoSpammer() {
-		Collection<Actor> result;
-
-		result = this.actorRepository.actorNoSpammer();
-
-		return result;
-	}
-
 	public void flush() {
 		this.actorRepository.flush();
 	}
