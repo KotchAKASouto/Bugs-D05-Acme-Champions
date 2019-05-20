@@ -86,7 +86,7 @@ public class RegisterController extends AbstractController {
 
 		final String banner = this.configurationService.findConfiguration().getBanner();
 
-		result = new ModelAndView("security/signUpCompany");
+		result = new ModelAndView("security/signUpManager");
 		result.addObject("manager", manager);
 		result.addObject("banner", banner);
 		result.addObject("messageError", messageCode);
@@ -147,7 +147,7 @@ public class RegisterController extends AbstractController {
 		final Locale locale = LocaleContextHolder.getLocale();
 		final String language = locale.getLanguage();
 
-		result = new ModelAndView("security/signUpCompany");
+		result = new ModelAndView("security/signUpPlayer");
 		result.addObject("player", player);
 		result.addObject("banner", banner);
 		result.addObject("messageError", messageCode);
