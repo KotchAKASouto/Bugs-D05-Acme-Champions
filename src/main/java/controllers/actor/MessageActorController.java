@@ -45,17 +45,9 @@ public class MessageActorController extends AbstractController {
 		final String banner = this.configurationService.findConfiguration().getBanner();
 
 		messages = this.messageService.AllmessagePerActor(actor.getId());
-		messagesDELETE = this.messageService.AllmessageDELETEPerActor(actor.getId());
-		messagesSYSTEM = this.messageService.AllmessageSYSTEM();
-
-		messages.removeAll(messagesDELETE);
-		messages.removeAll(messagesSYSTEM);
-		messagesSYSTEM.removeAll(messagesDELETE);
 
 		result = new ModelAndView("message/list");
 		result.addObject("messages", messages);
-		result.addObject("messagesDELETE", messagesDELETE);
-		result.addObject("messagesSYSTEM", messagesSYSTEM);
 		result.addObject("banner", banner);
 
 		result.addObject("requestURI", "message/actor/list.do");
