@@ -20,6 +20,7 @@ import security.UserAccount;
 import security.UserAccountService;
 import domain.Actor;
 import domain.Player;
+import domain.StatisticalData;
 import forms.RegisterPlayerForm;
 
 @Service
@@ -28,18 +29,21 @@ public class PlayerService {
 
 	// Managed Repository ------------------------
 	@Autowired
-	private PlayerRepository	playerRepository;
+	private PlayerRepository		playerRepository;
 
 	// Suporting services ------------------------
 
 	@Autowired
-	private ActorService		actorService;
+	private ActorService			actorService;
 
 	@Autowired
-	private UserAccountService	userAccountService;
+	private UserAccountService		userAccountService;
 
 	@Autowired
-	private Validator			validator;
+	private StatisticalDataService	statisticalDataService;
+
+	@Autowired
+	private Validator				validator;
 
 
 	// Methods -----------------------------------
@@ -112,7 +116,9 @@ public class PlayerService {
 			final String phone = this.actorService.checkPhone(player.getPhone());
 			player.setPhone(phone);
 
-			//TODO Falta las estadisticas
+			final StatisticalData data = this.statisticalDataService.create();
+			data.setPlayer(player);
+			this.statisticalDataService.save(data);
 
 			result = this.playerRepository.save(player);
 

@@ -38,11 +38,19 @@
 <acme:display code="actor.address" property="${actor.address }" />
 
 <security:authorize access="hasRole('PLAYER')">
+
 	<acme:display code="player.buyoutClause" property="${actor.buyoutClause }" />
 	
 	<acme:display code="player.squadNumber" property="${actor.squadNumber }" />
 	
 	<acme:display code="player.squadName" property="${actor.squadName }" />
+	
+	<jstl:if test="${language == 'es'}">
+		<acme:display code="player.positionSpanish" property="${actor.positionSpanish }" />
+	</jstl:if>
+	<jstl:if test="${language == 'en'}">
+		<acme:display code="player.positionEnglish" property="${actor.positionEnglish }" />
+	</jstl:if>
 </security:authorize> 	
 
 <jstl:if test="${!admin}">

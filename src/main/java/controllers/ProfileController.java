@@ -10,7 +10,10 @@
 
 package controllers;
 
+import java.util.Locale;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
@@ -71,11 +74,15 @@ public class ProfileController extends AbstractController {
 
 		final String banner = this.configurationService.findConfiguration().getBanner();
 
+		final Locale locale = LocaleContextHolder.getLocale();
+		final String language = locale.getLanguage();
+
 		result = new ModelAndView("actor/display");
 		result.addObject("actor", actor);
 		result.addObject("banner", banner);
 		result.addObject("laguageURI", "profile/displayPrincipal.do");
 		result.addObject("admin", false);
+		result.addObject("language", language);
 
 		return result;
 
