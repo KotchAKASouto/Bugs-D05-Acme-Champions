@@ -1895,8 +1895,6 @@
 		</property>
 	</bean>
 
-</beans>
-
 	<!-- CreditCards -->
 
 	<bean id="creditCard1" class="domain.CreditCard">
@@ -1907,3 +1905,6 @@
 		<property name="expYear" value="2019" />
 		<property name="cvv" value="123" />
 	</bean>
+</beans>
+
+	

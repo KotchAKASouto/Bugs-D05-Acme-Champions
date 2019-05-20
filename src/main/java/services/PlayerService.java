@@ -214,7 +214,7 @@ public class PlayerService {
 			player.setInjured(playerBBDD.getInjured());
 			player.setPunished(playerBBDD.getPunished());
 			player.setPositionEnglish(playerBBDD.getPositionEnglish());
-			player.setPositisonSpanish(playerBBDD.getPositisonSpanish());
+			player.setPositionSpanish(playerBBDD.getPositionSpanish());
 
 			this.validator.validate(player, binding);
 
