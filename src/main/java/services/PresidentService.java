@@ -17,6 +17,7 @@ import security.LoginService;
 import security.UserAccount;
 import security.UserAccountService;
 import domain.Actor;
+import domain.Finder;
 import domain.President;
 import forms.RegisterPresidentForm;
 
@@ -44,6 +45,9 @@ public class PresidentService {
 
 	@Autowired
 	private MessageService			messageService;
+
+	@Autowired
+	private FinderService			finderService;
 
 
 	public President create() {
@@ -120,6 +124,10 @@ public class PresidentService {
 			president.setPhone(phone);
 
 			result = this.presidentRepository.save(president);
+
+			final Finder finder = this.finderService.create();
+			finder.setPresident(result);
+			this.finderService.save(finder);
 
 		}
 		return result;
