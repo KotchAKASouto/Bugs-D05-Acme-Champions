@@ -27,11 +27,13 @@ import services.ConfigurationService;
 import services.ManagerService;
 import services.PlayerService;
 import services.PresidentService;
+import services.SponsorService;
 import domain.Actor;
 import domain.Administrator;
 import domain.Manager;
 import domain.Player;
 import domain.President;
+import domain.Sponsor;
 
 @Controller
 @RequestMapping("/profile")
@@ -51,6 +53,9 @@ public class ProfileController extends AbstractController {
 
 	@Autowired
 	private PresidentService		presidentService;
+
+	@Autowired
+	private SponsorService			sponsorService;
 
 	@Autowired
 	private ConfigurationService	configurationService;
@@ -101,10 +106,10 @@ public class ProfileController extends AbstractController {
 		authority5.setAuthority(Authority.PRESIDENT);
 
 		final Authority authority6 = new Authority();
-		authority5.setAuthority(Authority.SPONSOR);
+		authority6.setAuthority(Authority.SPONSOR);
 
 		final Authority authority7 = new Authority();
-		authority5.setAuthority(Authority.REFEREE);
+		authority7.setAuthority(Authority.REFEREE);
 
 		String auth = null;
 		String action = null;
@@ -301,6 +306,55 @@ public class ProfileController extends AbstractController {
 	//--------------------------FEDERATION------------------------------
 
 	//--------------------------SPONSOR------------------------------
+
+	@RequestMapping(value = "/editSponsor", method = RequestMethod.POST, params = "save")
+	public ModelAndView saveSponsor(@ModelAttribute("sponsor") final Sponsor sponsor, final BindingResult binding) {
+		ModelAndView result;
+
+		final Sponsor sponsorReconstruct = this.sponsorService.reconstruct(sponsor, binding);
+
+		if (binding.hasErrors())
+			result = this.createEditModelAndViewSponsor(sponsorReconstruct);
+		else
+			try {
+				this.sponsorService.save(sponsorReconstruct);
+				final Credentials credentials = new Credentials();
+				credentials.setJ_username(sponsorReconstruct.getUserAccount().getUsername());
+				credentials.setPassword(sponsorReconstruct.getUserAccount().getPassword());
+				result = new ModelAndView("redirect:/profile/displayPrincipal.do");
+				result.addObject("credentials", credentials);
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndViewSponsor(sponsorReconstruct, "actor.commit.error");
+			}
+		return result;
+	}
+
+	protected ModelAndView createEditModelAndViewSponsor(final Sponsor sponsor) {
+		ModelAndView result;
+
+		result = this.createEditModelAndViewSponsor(sponsor, null);
+
+		return result;
+	}
+
+	protected ModelAndView createEditModelAndViewSponsor(final Sponsor sponsor, final String messageCode) {
+		ModelAndView result;
+
+		final String banner = this.configurationService.findConfiguration().getBanner();
+
+		result = new ModelAndView("actor/edit");
+
+		result.addObject("sponsor", sponsor);
+		result.addObject("authority", "sponsor");
+		result.addObject("actionURI", "editSponsor.do");
+		result.addObject("banner", banner);
+		result.addObject("laguageURI", "profile/edit.do");
+		result.addObject("messageError", messageCode);
+		final String countryCode = this.configurationService.findConfiguration().getCountryCode();
+		result.addObject("defaultCountry", countryCode);
+
+		return result;
+	}
 
 	//--------------------------PRESIDENT------------------------------
 

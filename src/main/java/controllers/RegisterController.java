@@ -17,10 +17,13 @@ import security.Credentials;
 import services.ConfigurationService;
 import services.ManagerService;
 import services.PlayerService;
+import services.SponsorService;
 import domain.Manager;
 import domain.Player;
+import domain.Sponsor;
 import forms.RegisterManagerForm;
 import forms.RegisterPlayerForm;
+import forms.RegisterSponsorForm;
 
 @Controller
 @RequestMapping("/register")
@@ -33,6 +36,9 @@ public class RegisterController extends AbstractController {
 
 	@Autowired
 	private PlayerService			playerService;
+
+	@Autowired
+	private SponsorService			sponsorService;
 
 	@Autowired
 	private ConfigurationService	configurationService;
@@ -108,7 +114,7 @@ public class RegisterController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/savePlayer", method = RequestMethod.POST, params = "save")
-	public ModelAndView savePlayer(@ModelAttribute("manager") final RegisterPlayerForm form, final BindingResult binding) {
+	public ModelAndView savePlayer(@ModelAttribute("player") final RegisterPlayerForm form, final BindingResult binding) {
 		ModelAndView result;
 		final Player player;
 
@@ -154,6 +160,64 @@ public class RegisterController extends AbstractController {
 		final String countryCode = this.configurationService.findConfiguration().getCountryCode();
 		result.addObject("defaultCountry", countryCode);
 		result.addObject("language", language);
+
+		return result;
+	}
+
+	//Sponsor
+	@RequestMapping(value = "/createSponsor", method = RequestMethod.GET)
+	public ModelAndView createSponsor() {
+		final ModelAndView result;
+		final RegisterSponsorForm player = new RegisterSponsorForm();
+
+		result = this.createEditModelAndViewSponsor(player);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/saveSponor", method = RequestMethod.POST, params = "save")
+	public ModelAndView saveSponsorr(@ModelAttribute("sponsor") final RegisterSponsorForm form, final BindingResult binding) {
+		ModelAndView result;
+		final Sponsor sponsor;
+
+		sponsor = this.sponsorService.reconstruct(form, binding);
+
+		if (binding.hasErrors())
+			result = this.createEditModelAndViewSponsor(form);
+		else
+			try {
+				Assert.isTrue(form.getCheckbox());
+				Assert.isTrue(form.checkPassword());
+				this.sponsorService.save(sponsor);
+				final Credentials credentials = new Credentials();
+				credentials.setJ_username(sponsor.getUserAccount().getUsername());
+				credentials.setPassword(sponsor.getUserAccount().getPassword());
+				result = new ModelAndView("redirect:/security/login.do");
+				result.addObject("credentials", credentials);
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndViewSponsor(form, "sponsor.commit.error");
+			}
+		return result;
+	}
+	protected ModelAndView createEditModelAndViewSponsor(final RegisterSponsorForm sponsor) {
+		ModelAndView result;
+
+		result = this.createEditModelAndViewSponsor(sponsor, null);
+
+		return result;
+	}
+
+	protected ModelAndView createEditModelAndViewSponsor(final RegisterSponsorForm sponsor, final String messageCode) {
+		ModelAndView result;
+
+		final String banner = this.configurationService.findConfiguration().getBanner();
+
+		result = new ModelAndView("security/signUpSponsor");
+		result.addObject("sponsor", sponsor);
+		result.addObject("banner", banner);
+		result.addObject("messageError", messageCode);
+		final String countryCode = this.configurationService.findConfiguration().getCountryCode();
+		result.addObject("defaultCountry", countryCode);
 
 		return result;
 	}
