@@ -105,6 +105,19 @@ public class TrainingService {
 	}
 
 	//Other Business methods----------------------------------------------------
+
+	public Collection<Training> findTrainingsByManagerId(final int managerId) {
+		final Collection<Training> trainings = this.trainingRepository.findTrainingsByManagerId(managerId);
+
+		return trainings;
+	}
+
+	public Collection<Training> findTrainingsByPlayerId(final int playerId) {
+		final Collection<Training> trainings = this.trainingRepository.findTrainingsByPlayerId(playerId);
+
+		return trainings;
+	}
+
 	public Training reconstruct(final Training training, final BindingResult binding) {
 
 		Training result = training;

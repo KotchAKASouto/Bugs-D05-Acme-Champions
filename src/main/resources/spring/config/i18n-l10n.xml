@@ -25,18 +25,9 @@
 		<value>/views/welcome/messages</value>
 		<value>/views/administrator/messages</value>
 		<value>/views/actor/messages</value>
-		<value>/views/problem/messages</value>
-		<value>/views/position/messages</value>
-		<value>/views/company/messages</value>
-		<value>/views/curriculum/messages</value>
-		<value>/views/socialProfile/messages</value>
 		<value>/views/message/messages</value>
-		<value>/views/application/messages</value>
-		<value>/views/audit/messages</value>
-		<value>/views/provider/messages</value>
-		<value>/views/item/messages</value>
 		<value>/views/sponsorship/messages</value>
-
+		<value>/views/training/messages</value>
 	</util:list>
 
 </beans>
