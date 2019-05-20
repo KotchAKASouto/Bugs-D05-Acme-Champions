@@ -111,7 +111,8 @@ public class TrainingService {
 	//Other Business methods----------------------------------------------------
 
 	public void checkDates(final Date startDate, final Date endDate) {
-		if (endDate.before(startDate) || endDate.equals(startDate))
+		final Date actual = new Date();
+		if (endDate.before(startDate) || endDate.equals(startDate) || startDate.before(actual))
 			throw new DataIntegrityViolationException("Invalid Dates");
 	}
 

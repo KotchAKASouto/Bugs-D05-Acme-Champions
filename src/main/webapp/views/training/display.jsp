@@ -15,13 +15,11 @@
 <security:authorize access="hasRole('MANAGER')">
 
 <div><spring:message code="training.startDate" />:
-<spring:message code="dateFormat" var="format"/>
-<fmt:formatDate value="${training.startDate}" pattern="${format}"/>
+<fmt:formatDate value="${training.startDate}" pattern="yyyy/MM/dd HH:mm"/>
 </div>
 
 <div><spring:message code="training.endingDate" />:
-<spring:message code="dateFormat" var="format"/>
-<fmt:formatDate value="${training.endingDate}" pattern="${format}"/>
+<fmt:formatDate value="${training.endingDate}" pattern="yyyy/MM/dd HH:mm"/>
 </div>
 
 <acme:display code="training.place" property="${training.place }" />
