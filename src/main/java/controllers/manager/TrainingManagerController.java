@@ -17,10 +17,12 @@ import security.Authority;
 import services.ActorService;
 import services.ConfigurationService;
 import services.ManagerService;
+import services.PlayerService;
 import services.TrainingService;
 import controllers.AbstractController;
 import domain.Actor;
 import domain.Manager;
+import domain.Player;
 import domain.Training;
 
 @Controller
@@ -32,6 +34,9 @@ public class TrainingManagerController extends AbstractController {
 
 	@Autowired
 	private ManagerService			managerService;
+
+	@Autowired
+	private PlayerService			playerService;
 
 	@Autowired
 	private ActorService			actorService;
@@ -182,6 +187,87 @@ public class TrainingManagerController extends AbstractController {
 				result.addObject("training", trainingFind);
 				result.addObject("banner", banner);
 			} else
+				result = new ModelAndView("redirect:/welcome/index.do");
+		}
+		return result;
+	}
+
+	//Add Player to Training------------------------------------------------------------
+	@RequestMapping(value = "/addPlayer", method = RequestMethod.GET)
+	public ModelAndView addPosition(@RequestParam final int trainingId) {
+		final ModelAndView result;
+
+		final String banner = this.configurationService.findConfiguration().getBanner();
+		final Training training = this.trainingService.findOne(trainingId);
+
+		if (training == null) {
+			result = new ModelAndView("misc/notExist");
+			result.addObject("banner", banner);
+		} else {
+			final Boolean security = this.trainingService.trainingManagerSecurity(trainingId);
+			if (security) {
+				final Collection<Player> playersOfTheTeam = this.playerService.findAll(); //Query para sacar los jugadores del equipo y luego a eso le quitamos los que ya hay en el entrenamiento
+				playersOfTheTeam.removeAll(training.getPlayers());
+
+				result = new ModelAndView("player/listAdd");
+				result.addObject("players", playersOfTheTeam);
+				result.addObject("requestURI", "training/manager/addPlayer.do");
+				result.addObject("pagesize", 5);
+				result.addObject("banner", banner);
+				result.addObject("trainingId", trainingId);
+			} else
+				result = new ModelAndView("redirect:/welcome/index.do");
+		}
+		return result;
+
+	}
+
+	@RequestMapping(value = "/addPlayerPost", method = RequestMethod.GET)
+	public ModelAndView addPlayerPost(@RequestParam final int playerId, @RequestParam final int trainingId) {
+		ModelAndView result;
+		final Player player = this.playerService.findOne(playerId);
+		final Training training = this.trainingService.findOne(trainingId);
+		final String banner = this.configurationService.findConfiguration().getBanner();
+		final Boolean security1;
+		Boolean security2;
+
+		if (player == null || training == null) {
+			result = new ModelAndView("misc/notExist");
+			result.addObject("banner", banner);
+		} else {
+			security1 = true;//Comprobar que el jugador está en el mismo equipo que el manager
+			security2 = this.trainingService.trainingManagerSecurity(trainingId);
+
+			if (security1 && security2)
+				try {
+					this.trainingService.addPlayerToTraining(player, training);
+
+					final Collection<Player> playersResult = this.playerService.findAll();//Misma query que en el get para volver a la lista y añadir más
+					final Training trainingNew = this.trainingService.findOne(trainingId);
+					playersResult.removeAll(trainingNew.getPlayers());
+
+					result = new ModelAndView("player/listAdd");
+					result.addObject("players", playersResult);
+					result.addObject("requestURI", "training/manager/addPlayer.do");
+					result.addObject("pagesize", 5);
+					result.addObject("banner", banner);
+					result.addObject("trainingId", trainingId);
+
+				} catch (final Throwable oops) {
+
+					final Collection<Player> playersResult = this.playerService.findAll();//Misma query que en el get para volver a la lista y añadir más
+					final Training trainingNew = this.trainingService.findOne(trainingId);
+					playersResult.removeAll(trainingNew.getPlayers());
+
+					result = new ModelAndView("player/listAdd");
+					result.addObject("players", playersResult);
+					result.addObject("requestURI", "training/manager/addPlayer.do");
+					result.addObject("pagesize", 5);
+					result.addObject("messageError", "player.addToTraining.error");//Añadir este mensaje de error
+					result.addObject("banner", banner);
+					result.addObject("trainingId", trainingId);
+				}
+			else
 				result = new ModelAndView("redirect:/welcome/index.do");
 		}
 		return result;

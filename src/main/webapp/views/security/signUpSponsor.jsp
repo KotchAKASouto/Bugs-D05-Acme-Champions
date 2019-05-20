@@ -8,7 +8,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-<form:form action="register/savePlayer.do" modelAttribute="player">
+<form:form action="administrator/editAuditor.do" modelAttribute="auditor">
 	
 	
 	<acme:textbox code="actor.name" path="name" obligatory="true"/>
@@ -23,39 +23,6 @@
 	
 	<acme:textbox code="actor.phone" path="phone" id="phone" onblur="javascript: checkPhone();"/> 
 	
-	<acme:textbox code="player.squadNumber" path="squadNumber" obligatory="true"/>
-	
-	<acme:textbox code="player.squadName" path="squadName" obligatory="true"/>
-	
-	<jstl:if test="${language == 'es'}">
-		<form:label path="position">
-			<spring:message code="player.position"></spring:message>
-		</form:label>
-		<form:select path="position" >
-			<form:option label="Portero" value="PORTERO"/>
-			<form:option label="Defensa" value="DEFENSA"/>
-			<form:option label="Centrocampista" value="CENTROCAMPISTA"/>
-			<form:option label="Delantero" value="DELANTERO"/>
-		</form:select>
-		<form:errors cssClass="error" path="position"></form:errors>
-		<br />	
-	</jstl:if>
-	
-	<jstl:if test="${language == 'en'}">
-		<form:label path="position">
-			<spring:message code="player.position"></spring:message>
-		</form:label>
-		<form:select path="position" >
-			<form:option label="Goalkeeper" value="GOALKEEPER"/>
-			<form:option label="Defender" value="DEFENDER"/>
-			<form:option label="Midfielder" value="MIDFIELDER"/>
-			<form:option label="Striker" value="STRIKER"/>
-		</form:select>
-		<form:errors cssClass="error" path="position"></form:errors>
-		<br />
-	</jstl:if>
-	
-	
 	<acme:textbox code="actor.username" path="username" obligatory="true"/>
 	
 	<acme:password code="actor.password" path="password" obligatory="true"/>
@@ -64,11 +31,38 @@
 	
 	<acme:checkbox path="checkbox" code1="actor.checkBox1" code2="actor.checkBox2" href="termsAndConditions/show.do" />
 	
+	
+	
+	<h1><spring:message code="creditCard.data" /></h1>
+	
+	<acme:textbox code="actor.creditCard.holderName" path="creditCard.holderName" obligatory="true"/>
+	
+	<acme:textbox code="actor.creditCard.make" path="creditCard.make" obligatory="true"/>
+	
+	<acme:textbox code="actor.creditCard.number" path="creditCard.number" obligatory="true"/>
+	
+	<acme:textbox code="actor.creditCard.expMonth" path="creditCard.expMonth" obligatory="true"/>
+	
+	<acme:textbox code="actor.creditCard.expYear" path="creditCard.expYear" obligatory="true"/>
+	
+	<acme:textbox code="actor.creditCard.cvv" path="creditCard.cvv" obligatory="true"/>
+	
+	
+	<jstl:if test="${showError == true}">
+		<div class="error">
+			<spring:message code="auditor.commit.error" />
+		</div>
+	</jstl:if>
+	
 	<input type="submit" name="save" value="<spring:message code="actor.save" />" />
 	
 	<acme:cancel code="actor.cancel" url="welcome/index.do" />
 	
 </form:form>
+
+<jstl:if test="${message!=null }">
+	<div class="error"><spring:message code="auditor.commit.error" /></div>
+</jstl:if> 
  
 <script type="text/javascript">
 	function checkPhone() {

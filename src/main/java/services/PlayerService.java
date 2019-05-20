@@ -150,31 +150,31 @@ public class PlayerService {
 		final Locale locale = LocaleContextHolder.getLocale();
 		final String language = locale.getLanguage();
 
-		if (language == "es") {
+		if (language.equals("es")) {
 			player.setPositionSpanish(form.getPosition());
 
-			if (form.getPosition() == "PORTERO")
+			if (form.getPosition().equals("PORTERO"))
 				player.setPositionEnglish("GOALKEEPER");
-			else if (form.getPosition() == "DEFENSA")
+			else if (form.getPosition().equals("DEFENSA"))
 				player.setPositionEnglish("DEFENDER");
-			else if (form.getPosition() == "CENTROCAMPISTA")
+			else if (form.getPosition().equals("CENTROCAMPISTA"))
 				player.setPositionEnglish("MIDFIELDER");
-			else if (form.getPosition() == "DELANTERO")
+			else if (form.getPosition().equals("DELANTERO"))
 				player.setPositionEnglish("STRIKER");
 			else
 				form.setPosition("error");
 
-		} else if (language == "en") {
+		} else if (language.equals("en")) {
 
-			player.setPositionSpanish(form.getPosition());
+			player.setPositionEnglish(form.getPosition());
 
-			if (form.getPosition() == "GOALKEEPER")
+			if (form.getPosition().equals("GOALKEEPER"))
 				player.setPositionSpanish("PORTERO");
-			else if (form.getPosition() == "DEFENDER")
+			else if (form.getPosition().equals("DEFENDER"))
 				player.setPositionSpanish("DEFENSA");
-			else if (form.getPosition() == "MIDFIELDER")
+			else if (form.getPosition().equals("MIDFIELDER"))
 				player.setPositionSpanish("CENTROCAMPISTA");
-			else if (form.getPosition() == "STRIKER")
+			else if (form.getPosition().equals("STRIKER"))
 				player.setPositionSpanish("DELANTERO");
 			else
 				form.setPosition("error");
@@ -188,8 +188,6 @@ public class PlayerService {
 		player.setEmail(form.getEmail());
 		player.setPhone(form.getPhone());
 		player.setAddress(form.getAddress());
-		player.getUserAccount().setUsername(form.getUsername());
-		player.getUserAccount().setPassword(form.getPassword());
 
 		player.setBuyoutClause(0.0);
 		player.setInjured(false);
@@ -197,10 +195,12 @@ public class PlayerService {
 		player.setSquadName(form.getSquadName());
 		player.setSquadNumber(form.getSquadNumber());
 
+		player.getUserAccount().setUsername(form.getUsername());
+		player.getUserAccount().setPassword(form.getPassword());
+
 		return player;
 
 	}
-
 	public Player reconstruct(final Player player, final BindingResult binding) {
 
 		final Player result;

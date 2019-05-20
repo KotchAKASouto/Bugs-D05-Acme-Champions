@@ -99,6 +99,9 @@ public class AdministratorService {
 			this.actorService.checkEmail(administrator.getEmail(), true);
 			this.actorService.checkPhone(administrator.getPhone());
 
+			final String phone = this.actorService.checkPhone(administrator.getPhone());
+			administrator.setPhone(phone);
+
 			result = this.administratorRepository.save(administrator);
 
 		} else {
@@ -118,6 +121,7 @@ public class AdministratorService {
 			administrator.setUserAccount(userAccount);
 
 			final String phone = this.actorService.checkPhone(administrator.getPhone());
+			administrator.setPhone(phone);
 
 			result = this.administratorRepository.save(administrator);
 

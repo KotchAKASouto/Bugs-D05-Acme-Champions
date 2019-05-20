@@ -13,14 +13,13 @@
 
 <display:table name="trainings" id="row" requestURI="${requestURI }" pagesize="5">
 
-	<spring:message code="dateFormat" var="format"/>
+
 	<display:column titleKey="training.startDate"> 
-		<fmt:formatDate value="${row.startDate }" pattern="${format}" />
+		<fmt:formatDate value="${row.startDate }" pattern="yyyy/MM/dd HH:mm" />
 	</display:column>
 	
-	<spring:message code="dateFormat" var="format"/>
 	<display:column titleKey="training.endingDate"> 
-		<fmt:formatDate value="${row.endingDate }" pattern="${format}" />
+		<fmt:formatDate value="${row.endingDate }" pattern="yyyy/MM/dd HH:mm" />
 	</display:column>
 	
 	<acme:column property="place" titleKey="training.place" value= "${row.place}: "/>

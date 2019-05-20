@@ -30,6 +30,7 @@
 					<li><a href="actor/administrator/spammer/list.do"><spring:message code="master.page.spammer" /></a></li>
 					<li><a href="actor/administrator/profile/list.do"><spring:message code="master.page.profiles" /></a></li>
 					<li><a href="administrator/create.do"><spring:message code="master.page.signUpAdmin" /></a></li>
+					<li><a href="administrator/createPresident.do"><spring:message code="master.page.signUpPresident" /></a></li>
 					<li><a href="administrator/dashboard.do"><spring:message code="master.page.dashboard" /></a></li>
 				</ul>
 			</li>

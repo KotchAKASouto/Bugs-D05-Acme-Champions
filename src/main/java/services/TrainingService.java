@@ -94,6 +94,35 @@ public class TrainingService {
 		return result;
 	}
 
+	//Añadir un player a un training
+	public void addPlayerToTraining(final Player player, final Training training) {
+
+		Assert.notNull(player);
+		Assert.notNull(training);
+
+		final Date currentMoment = new Date(System.currentTimeMillis() - 1000);
+		Assert.isTrue(training.getStartDate().after(currentMoment));
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+
+		final Authority manag = new Authority();
+		manag.setAuthority(Authority.MANAGER);
+		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(manag));
+		Assert.isTrue(actor.getId() == training.getManager().getId());
+		//Assert.isTrue(actor.getId() == player.getTeam().getId()); //DUDA GORDA
+
+		final Collection<Player> players = training.getPlayers();
+		Assert.isTrue(!players.contains(player));
+		players.add(player);
+
+		training.setPlayers(players);
+
+		final Training saved = this.trainingRepository.save(training);
+
+		Assert.isTrue(saved.getPlayers().contains(player));
+
+	}
+
 	public void delete(final Training training) {
 		Assert.notNull(training);
 		final Actor actor = this.actorService.findByPrincipal();
@@ -111,7 +140,8 @@ public class TrainingService {
 	//Other Business methods----------------------------------------------------
 
 	public void checkDates(final Date startDate, final Date endDate) {
-		if (endDate.before(startDate) || endDate.equals(startDate))
+		final Date actual = new Date();
+		if (endDate.before(startDate) || endDate.equals(startDate) || startDate.before(actual))
 			throw new DataIntegrityViolationException("Invalid Dates");
 	}
 
