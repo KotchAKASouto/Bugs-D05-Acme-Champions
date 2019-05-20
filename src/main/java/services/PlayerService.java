@@ -149,7 +149,7 @@ public class PlayerService {
 		final String language = locale.getLanguage();
 
 		if (language == "es") {
-			player.setPositisonSpanish(form.getPosition());
+			player.setPositionSpanish(form.getPosition());
 
 			if (form.getPosition() == "PORTERO")
 				player.setPositionEnglish("GOALKEEPER");
@@ -164,16 +164,16 @@ public class PlayerService {
 
 		} else if (language == "en") {
 
-			player.setPositisonSpanish(form.getPosition());
+			player.setPositionSpanish(form.getPosition());
 
 			if (form.getPosition() == "GOALKEEPER")
-				player.setPositisonSpanish("PORTERO");
+				player.setPositionSpanish("PORTERO");
 			else if (form.getPosition() == "DEFENDER")
-				player.setPositisonSpanish("DEFENSA");
+				player.setPositionSpanish("DEFENSA");
 			else if (form.getPosition() == "MIDFIELDER")
-				player.setPositisonSpanish("CENTROCAMPISTA");
+				player.setPositionSpanish("CENTROCAMPISTA");
 			else if (form.getPosition() == "STRIKER")
-				player.setPositisonSpanish("DELANTERO");
+				player.setPositionSpanish("DELANTERO");
 			else
 				form.setPosition("error");
 		}

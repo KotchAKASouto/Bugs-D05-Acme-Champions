@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import javax.persistence.Access;
 import javax.persistence.AccessType;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.validation.Valid;
@@ -19,7 +20,7 @@ public class Format extends DomainEntity {
 
 	private String					type;
 	private Integer					maximumTeams;
-	private Integer					minimunTeams;
+	private Integer					minimumTeams;
 
 	private Collection<Competition>	competitions;
 
@@ -44,14 +45,15 @@ public class Format extends DomainEntity {
 	}
 
 	@Min(2)
-	public Integer getMinimunTeams() {
-		return this.minimunTeams;
+	public Integer getMinimumTeams() {
+		return this.minimumTeams;
 	}
 
-	public void setMinimunTeams(final Integer minimunTeams) {
-		this.minimunTeams = minimunTeams;
+	public void setMinimumTeams(final Integer minimumTeams) {
+		this.minimumTeams = minimumTeams;
 	}
 
+	@ElementCollection
 	public Collection<Competition> getCompetitions() {
 		return this.competitions;
 	}

@@ -12,6 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
@@ -27,7 +28,7 @@ public class Message extends DomainEntity {
 	private String			body;
 	private String			tags;
 	private Boolean			spam;
-
+	private String			priority;
 	private Actor			sender;
 	private Actor			recipient;
 	private Collection<Box>	boxes;
@@ -60,6 +61,16 @@ public class Message extends DomainEntity {
 	}
 	public void setBody(final String body) {
 		this.body = body;
+	}
+
+	@Pattern(regexp = "\\AHIGH\\z|\\ANEUTRAL\\z|\\ALOW\\z")
+	@NotBlank
+	@SafeHtml
+	public String getPriority() {
+		return this.priority;
+	}
+	public void setPriority(final String priority) {
+		this.priority = priority;
 	}
 
 	@SafeHtml

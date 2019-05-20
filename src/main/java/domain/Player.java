@@ -19,7 +19,7 @@ import org.hibernate.validator.constraints.SafeHtml;
 public class Player extends Actor {
 
 	private String	positionEnglish;
-	private String	positisonSpanish;
+	private String	positionSpanish;
 	private Boolean	injured;
 	private Boolean	punished;
 	private Double	buyoutClause;
@@ -42,12 +42,12 @@ public class Player extends Actor {
 	@NotBlank
 	@SafeHtml
 	@Pattern(regexp = "\\APORTERO\\z|\\ADEFENSA\\z|\\ACENTROCAMPISTA\\z|\\ADELANTERO\\z")
-	public String getPositisonSpanish() {
-		return this.positisonSpanish;
+	public String getPositionSpanish() {
+		return this.positionSpanish;
 	}
 
-	public void setPositisonSpanish(final String positisonSpanish) {
-		this.positisonSpanish = positisonSpanish;
+	public void setPositionSpanish(final String positionSpanish) {
+		this.positionSpanish = positionSpanish;
 	}
 
 	@NotNull

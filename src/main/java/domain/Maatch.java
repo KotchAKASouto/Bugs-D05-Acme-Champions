@@ -16,11 +16,11 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class Match extends DomainEntity {
+public class Maatch extends DomainEntity {
 
-	private Date	matchDate;
+	private Date	maatchDate;
 	private String	place;
-
+	private Boolean	friendly;
 	private Team	homeTeam;
 	private Team	visitorTeam;
 	private Referee	referee;
@@ -28,12 +28,12 @@ public class Match extends DomainEntity {
 
 	@NotNull
 	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
-	public Date getMatchDate() {
-		return this.matchDate;
+	public Date getMaatchDate() {
+		return this.maatchDate;
 	}
 
-	public void setMatchDate(final Date matchDate) {
-		this.matchDate = matchDate;
+	public void setMaatchDate(final Date maatchDate) {
+		this.maatchDate = maatchDate;
 	}
 
 	@SafeHtml
@@ -64,6 +64,15 @@ public class Match extends DomainEntity {
 
 	public void setVisitorTeam(final Team visitorTeam) {
 		this.visitorTeam = visitorTeam;
+	}
+
+	@NotNull
+	public Boolean getFriendly() {
+		return this.friendly;
+	}
+
+	public void setFriendly(final Boolean friendly) {
+		this.friendly = friendly;
 	}
 
 	@Valid

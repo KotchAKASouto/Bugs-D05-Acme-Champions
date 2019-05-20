@@ -20,7 +20,7 @@ public class Signing extends DomainEntity {
 	private Double		price;
 	private String		status;
 	private String		mandatoryComment;
-	private Double		offeredCluase;
+	private Double		offeredClause;
 
 	private Player		player;
 	private President	president;
@@ -58,12 +58,12 @@ public class Signing extends DomainEntity {
 
 	@NotNull
 	@DecimalMin(value = "0.0")
-	public Double getOfferedCluase() {
-		return this.offeredCluase;
+	public Double getOfferedClause() {
+		return this.offeredClause;
 	}
 
-	public void setOfferedCluase(final Double offeredCluase) {
-		this.offeredCluase = offeredCluase;
+	public void setOfferedClause(final Double offeredClause) {
+		this.offeredClause = offeredClause;
 	}
 
 	@Valid

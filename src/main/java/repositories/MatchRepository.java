@@ -4,9 +4,9 @@ package repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import domain.Match;
+import domain.Maatch;
 
 @Repository
-public interface MatchRepository extends JpaRepository<Match, Integer> {
+public interface MatchRepository extends JpaRepository<Maatch, Integer> {
 
 }

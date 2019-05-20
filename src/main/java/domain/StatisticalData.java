@@ -1,6 +1,8 @@
 
 package domain;
 
+import javax.persistence.OneToOne;
+import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -12,6 +14,7 @@ public class StatisticalData {
 	private Integer	goals;
 	private Integer	matchsPlayed;
 	private Integer	accumulatedYellowCard;
+	private Player	player;
 
 
 	@NotNull
@@ -63,6 +66,16 @@ public class StatisticalData {
 
 	public void setAccumulatedYellowCard(final Integer accumulatedYellowCard) {
 		this.accumulatedYellowCard = accumulatedYellowCard;
+	}
+
+	@OneToOne(optional = false)
+	@Valid
+	public Player getPlayer() {
+		return this.player;
+	}
+
+	public void setPlayer(final Player player) {
+		this.player = player;
 	}
 
 }

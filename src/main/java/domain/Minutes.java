@@ -23,7 +23,7 @@ public class Minutes extends DomainEntity {
 	private Collection<Player>	playersScore;
 	private Collection<Player>	playersYellow;
 	private Collection<Player>	playersRed;
-	private Match				match;
+	private Maatch				maatch;
 	private Team				winner;
 
 
@@ -78,17 +78,17 @@ public class Minutes extends DomainEntity {
 	}
 
 	@Valid
-	@OneToOne(optional = true)
-	public Match getMatch() {
-		return this.match;
+	@OneToOne(optional = false)
+	public Maatch getMaatch() {
+		return this.maatch;
 	}
 
-	public void setMatch(final Match match) {
-		this.match = match;
+	public void setMaatch(final Maatch maatch) {
+		this.maatch = maatch;
 	}
 
 	@Valid
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = true)
 	public Team getWinner() {
 		return this.winner;
 	}

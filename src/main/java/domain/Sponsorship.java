@@ -20,7 +20,7 @@ public class Sponsorship extends DomainEntity {
 	private String		target;
 	//relationships
 	private Sponsor		sponsor;
-	private Match		match;
+	private Maatch		maatch;
 	private Player		player;
 	private Team		team;
 
@@ -66,12 +66,12 @@ public class Sponsorship extends DomainEntity {
 
 	@Valid
 	@ManyToOne(optional = true)
-	public Match getMatch() {
-		return this.match;
+	public Maatch getMaatch() {
+		return this.maatch;
 	}
 
-	public void setMatch(final Match match) {
-		this.match = match;
+	public void setMaatch(final Maatch maatch) {
+		this.maatch = maatch;
 	}
 
 	@Valid
