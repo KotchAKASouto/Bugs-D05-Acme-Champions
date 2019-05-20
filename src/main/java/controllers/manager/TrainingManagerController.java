@@ -128,7 +128,10 @@ public class TrainingManagerController extends AbstractController {
 					this.trainingService.save(training);
 					result = new ModelAndView("redirect:list.do");
 				} catch (final Throwable oops) {
-					result = this.createEditModelAndView(training, "problem.commit.error");
+					if (oops.getMessage() == "Invalid Dates")
+						result = this.createEditModelAndView(training, "url.error");
+					else
+						result = this.createEditModelAndView(training, "training.commit.error");
 				}
 		}
 		return result;
@@ -151,7 +154,7 @@ public class TrainingManagerController extends AbstractController {
 					this.trainingService.delete(training);
 					result = new ModelAndView("redirect:list.do");
 				} catch (final Throwable oops) {
-					result = this.createEditModelAndView(training, "problem.commit.error");
+					result = this.createEditModelAndView(training, "training.commit.error");
 				}
 			else
 				result = new ModelAndView("redirect:/welcome/index.do");

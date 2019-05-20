@@ -2,11 +2,13 @@
 package services;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashSet;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
@@ -85,6 +87,8 @@ public class TrainingService {
 		Assert.isTrue(actor.getId() == training.getManager().getId());
 
 		Training result;
+
+		this.checkDates(training.getStartDate(), training.getEndingDate());
 		result = this.trainingRepository.save(training);
 
 		return result;
@@ -105,6 +109,11 @@ public class TrainingService {
 	}
 
 	//Other Business methods----------------------------------------------------
+
+	public void checkDates(final Date startDate, final Date endDate) {
+		if (endDate.before(startDate) || endDate.equals(startDate))
+			throw new DataIntegrityViolationException("Invalid Dates");
+	}
 
 	public Collection<Training> findTrainingsByManagerId(final int managerId) {
 		final Collection<Training> trainings = this.trainingRepository.findTrainingsByManagerId(managerId);
