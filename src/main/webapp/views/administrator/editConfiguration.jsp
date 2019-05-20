@@ -28,9 +28,7 @@
 	
 	<acme:textbox code="configuration.welcomeMessage" path="welcomeMessage" obligatory="true"/>
 	
-	<acme:textbox code="configuration.vatTax" path="vatTax"/>
-	
-	<acme:textbox code="configuration.fare" path="fare"/>
+	<acme:textbox code="configuration.makes" path="makes" obligatory="true"/>
 	
 	<acme:submit name="save" code="configuration.save" />
 	

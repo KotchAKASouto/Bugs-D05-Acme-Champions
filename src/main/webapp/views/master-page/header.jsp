@@ -50,14 +50,8 @@
 	
 		<security:authorize access="isAnonymous()">
 			<li><a class="fNiv" href="security/login.do"><spring:message code="master.page.login" /></a></li>
-			<li><a class="fNiv"><spring:message	code="master.page.signup" /></a>
-				<ul>
-					<li class="arrow"></li>
-					<li><a href="register/createManager.do"><spring:message code="master.page.signup.manager" /></a></li>
-					<li><a href="register/createPlayer.do"><spring:message code="master.page.signup.player" /></a></li>
-
-				</ul>
-			</li>
+			<li><a class="fNiv" href="register/createPlayer.do"><spring:message code="master.page.signup.player" /></a></li>
+			<li><a class="fNiv" href="register/createManager.do"><spring:message code="master.page.signup.manager" /></a></li>
 		</security:authorize>
 		
 		<security:authorize access="permitAll()">
