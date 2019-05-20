@@ -61,6 +61,15 @@
 		<bean class="converters.HistoryToStringConverter"/>
 		<bean class="converters.StringToHistoryConverter"/>
 		
+		<bean class="converters.PlayerRecordToStringConverter"/>
+		<bean class="converters.StringToPlayerRecordConverter"/>
+		
+		<bean class="converters.RefereeToStringConverter"/>
+		<bean class="converters.StringToRefereeConverter"/>
+		
+		<bean class="converters.FederationToStringConverter"/>
+		<bean class="converters.StringToFederationConverter"/>
+		
 	</util:list>
 	
 </beans>
