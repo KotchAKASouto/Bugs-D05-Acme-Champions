@@ -2,6 +2,7 @@
 package services;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
@@ -17,6 +18,7 @@ import security.LoginService;
 import security.UserAccount;
 import security.UserAccountService;
 import domain.Actor;
+import domain.Finder;
 import domain.Manager;
 import forms.RegisterManagerForm;
 
@@ -173,6 +175,22 @@ public class ManagerService {
 		}
 		result = manager;
 		return result;
+
+	}
+
+	public Collection<Manager> findManagersByFinder(final Finder finder) {
+
+		String keyword = finder.getKeyWord();
+		Collection<Manager> managers = new HashSet<Manager>();
+
+		if (keyword == null)
+			keyword = "";
+
+		final String keywordFormat = "%" + keyword + "%";
+
+		managers = this.managerRepository.findManagersByFinder(keywordFormat);
+
+		return managers;
 
 	}
 }

@@ -28,6 +28,8 @@
 		<value>/views/message/tiles.xml</value>
 		<value>/views/sponsorship/tiles.xml</value>
 		<value>/views/training/tiles.xml</value>
+		<value>/views/player/tiles.xml</value>
+		<value>/views/history/tiles.xml</value>
 
 
 	</util:list>

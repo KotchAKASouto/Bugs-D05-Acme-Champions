@@ -28,6 +28,9 @@
 		<value>/views/message/messages</value>
 		<value>/views/sponsorship/messages</value>
 		<value>/views/training/messages</value>
+		<value>/views/player/messages</value>
+		<value>/views/history/messages</value>
+		
 	</util:list>
 
 </beans>

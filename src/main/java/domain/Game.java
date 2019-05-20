@@ -16,9 +16,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Access(AccessType.PROPERTY)
-public class Maatch extends DomainEntity {
+public class Game extends DomainEntity {
 
-	private Date	maatchDate;
+	private Date	gameDate;
 	private String	place;
 	private Boolean	friendly;
 	private Team	homeTeam;
@@ -28,12 +28,12 @@ public class Maatch extends DomainEntity {
 
 	@NotNull
 	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
-	public Date getMaatchDate() {
-		return this.maatchDate;
+	public Date getGameDate() {
+		return this.gameDate;
 	}
 
-	public void setMaatchDate(final Date maatchDate) {
-		this.maatchDate = maatchDate;
+	public void setGameDate(final Date gameDate) {
+		this.gameDate = gameDate;
 	}
 
 	@SafeHtml

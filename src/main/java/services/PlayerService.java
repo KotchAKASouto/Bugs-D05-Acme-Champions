@@ -2,6 +2,7 @@
 package services;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,9 @@ import security.LoginService;
 import security.UserAccount;
 import security.UserAccountService;
 import domain.Actor;
+import domain.Finder;
 import domain.Player;
+import domain.StatisticalData;
 import forms.RegisterPlayerForm;
 
 @Service
@@ -28,18 +31,21 @@ public class PlayerService {
 
 	// Managed Repository ------------------------
 	@Autowired
-	private PlayerRepository	playerRepository;
+	private PlayerRepository		playerRepository;
 
 	// Suporting services ------------------------
 
 	@Autowired
-	private ActorService		actorService;
+	private ActorService			actorService;
 
 	@Autowired
-	private UserAccountService	userAccountService;
+	private UserAccountService		userAccountService;
 
 	@Autowired
-	private Validator			validator;
+	private StatisticalDataService	statisticalDataService;
+
+	@Autowired
+	private Validator				validator;
 
 
 	// Methods -----------------------------------
@@ -112,7 +118,9 @@ public class PlayerService {
 			final String phone = this.actorService.checkPhone(player.getPhone());
 			player.setPhone(phone);
 
-			//TODO Falta las estadisticas
+			final StatisticalData data = this.statisticalDataService.create();
+			data.setPlayer(player);
+			this.statisticalDataService.save(data);
 
 			result = this.playerRepository.save(player);
 
@@ -222,5 +230,24 @@ public class PlayerService {
 		result = player;
 		return result;
 
+	}
+
+	public Collection<Player> findPlayersByFinder(final Finder finder) {
+
+		String keyword = finder.getKeyWord();
+		String position = finder.getPosition();
+		Collection<Player> players = new HashSet<Player>();
+
+		if (keyword == null)
+			keyword = "";
+		if (position == null)
+			position = "";
+
+		final String keywordFormat = "%" + keyword + "%";
+		final String positionFormat = "%" + position.toUpperCase() + "%";
+
+		players = this.playerRepository.findPlayersByFinder(keywordFormat, positionFormat);
+
+		return players;
 	}
 }

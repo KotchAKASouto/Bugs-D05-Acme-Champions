@@ -1830,10 +1830,10 @@
 		</property>
 	</bean>
 	
-	<!-- Maatches -->
+	<!-- Gamees -->
 
-	<bean id="maatch1" class="domain.Maatch">
-		<property name="maatchDate" value="2019/05/01 20:00" />
+	<bean id="game1" class="domain.Game">
+		<property name="gameDate" value="2019/05/01 20:00" />
 		<property name="place" value="Hispalis Arena" />
 		<property name="friendly" value="true" />
 		<property name="homeTeam" ref="team1" />
@@ -1861,7 +1861,7 @@
 				<ref bean="player5" />
 			</list>
 		</property>
-		<property name="maatch" ref="maatch1" />
+		<property name="game" ref="game1" />
 	</bean>
 	
 	<!-- Competitions -->
@@ -1878,7 +1878,7 @@
 				<ref bean="team2" />
 			</list>
 		</property>
-		<property name="maatchs">
+		<property name="games">
 			<list>
 
 			</list>
