@@ -90,8 +90,16 @@ public class HistoryService {
 
 	public History findByPlayerId(final int playerId) {
 
-		final History result = this.findByPlayerId(playerId);
+		final History result = this.historyRepository.findByPlayerId(playerId);
 
 		return result;
+	}
+
+	public void delete(final History history) {
+
+		Assert.notNull(history);
+
+		this.historyRepository.delete(history);
+
 	}
 }

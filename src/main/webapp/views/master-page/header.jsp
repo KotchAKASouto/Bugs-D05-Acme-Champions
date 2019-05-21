@@ -47,6 +47,28 @@
 			</li>
 		</security:authorize>
 		
+		<security:authorize access="hasRole('PRESIDENT')">
+			<li><a class="fNiv"><spring:message	code="master.page.president" /></a>
+				<ul>
+					<li class="arrow"></li>
+
+					<li><a href="finder/president/find.do"><spring:message code="master.page.finder" /></a></li>		
+
+				</ul>
+			</li>
+		</security:authorize>
+		
+		<security:authorize access="hasRole('PLAYER')">
+			<li><a class="fNiv"><spring:message	code="master.page.player" /></a>
+				<ul>
+					<li class="arrow"></li>
+
+					<li><a href="history/player/display.do"><spring:message code="master.page.history" /></a></li>		
+
+				</ul>
+			</li>
+		</security:authorize>
+		
 	
 		<security:authorize access="isAnonymous()">
 			<li><a class="fNiv" href="security/login.do"><spring:message code="master.page.login" /></a></li>
