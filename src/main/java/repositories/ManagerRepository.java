@@ -17,4 +17,7 @@ public interface ManagerRepository extends JpaRepository<Manager, Integer> {
 
 	@Query("select m from Manager m where (m.name like ?1 or m.surnames like ?1)")
 	Collection<Manager> findManagersByFinder(String keyword);
+
+	@Query("select m from Manager m where m.team.id = ?1")
+	Manager findManagerByTeamId(int teamId);
 }
