@@ -1970,7 +1970,7 @@
 		<property name="finderTime" value="1" />
 		<property name="finderResult" value="10" />
 		<property name="welcomeMessageEs" value="¡Bienvenidos a Acme Champions! Nunca nos rendimos" />
-		<property name="banner" value="https://tinyurl.com/acme-handy-worker-logo" />
+		<property name="banner" value="https://i.imgur.com/YuSHu8r.png" />
 		<property name="welcomeMessage" value="Welcome to Acme Champions! We never surrender" />
 	</bean>
 </beans>
