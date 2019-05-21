@@ -30,6 +30,7 @@
 		<value>/views/training/tiles.xml</value>
 		<value>/views/player/tiles.xml</value>
 		<value>/views/history/tiles.xml</value>
+		<value>/views/hiring/tiles.xml</value>
 
 
 	</util:list>

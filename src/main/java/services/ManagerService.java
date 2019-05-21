@@ -193,4 +193,16 @@ public class ManagerService {
 		return managers;
 
 	}
+
+	public Boolean exist(final int managerId) {
+
+		Boolean res = false;
+
+		final Manager manager = this.managerRepository.findOne(managerId);
+
+		if (manager != null)
+			res = true;
+
+		return res;
+	}
 }

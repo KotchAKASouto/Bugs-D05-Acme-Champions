@@ -41,7 +41,8 @@
 				<ul>
 					<li class="arrow"></li>
 
-					<li><a href="training/manager/list.do"><spring:message code="master.page.list.trainings" /></a></li>		
+					<li><a href="training/manager/list.do"><spring:message code="master.page.list.trainings" /></a></li>			
+					<li><a href="hiring/manager/list.do"><spring:message code="master.page.hiring" /></a></li>	
 
 				</ul>
 			</li>
@@ -53,6 +54,8 @@
 					<li class="arrow"></li>
 
 					<li><a href="finder/president/find.do"><spring:message code="master.page.finder" /></a></li>		
+					<li><a href="hiring/president/list.do"><spring:message code="master.page.hiring" /></a></li>		
+					<li><a href="signing/president/list.do"><spring:message code="master.page.signing" /></a></li>	
 
 				</ul>
 			</li>
@@ -63,7 +66,8 @@
 				<ul>
 					<li class="arrow"></li>
 
-					<li><a href="history/player/display.do"><spring:message code="master.page.history" /></a></li>		
+					<li><a href="history/player/display.do"><spring:message code="master.page.history" /></a></li>	
+					<li><a href="signing/player/list.do"><spring:message code="master.page.signing" /></a></li>		
 
 				</ul>
 			</li>

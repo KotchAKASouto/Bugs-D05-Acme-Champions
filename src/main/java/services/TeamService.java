@@ -166,4 +166,11 @@ public class TeamService {
 		this.teamRepository.flush();
 	}
 
+	public Team findByPresidentId(final int id) {
+
+		final Team res = this.teamRepository.findByPresidentId(id);
+
+		return res;
+	}
+
 }
