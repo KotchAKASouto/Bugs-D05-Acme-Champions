@@ -110,11 +110,13 @@ public class FinderService {
 		return result;
 	}
 
-	//	public void deletePositions(final Finder finder) {
-	//		final Collection<Position> positions = new HashSet<Position>();
-	//		finder.setPositions(positions);
-	//	}
-	//
+	public void deleteManagersPlayers(final Finder finder) {
+		final Collection<Manager> managers = new HashSet<Manager>();
+		final Collection<Player> players = new HashSet<Player>();
+		finder.setManagers(managers);
+		finder.setPlayers(players);
+	}
+
 	//	public void deleteFinderActor(final int actorId) {
 	//
 	//		final Finder finder = this.finderRepository.findFinderByRookie(actorId);
