@@ -95,6 +95,9 @@
 		<!-- President: Finder -->
 		<security:intercept-url pattern="/finder/president/find.do" access="hasRole('PRESIDENT')" />
 		
+		<!-- President: Managing team -->
+		<security:intercept-url pattern="/finder/president/firePlayer.do" access="hasRole('PRESIDENT')" />
+		
 		<!-- Manager: Training -->
 		<security:intercept-url pattern="/training/manager/list.do" access="hasRole('MANAGER')" />
 		<security:intercept-url pattern="/training/manager/edit.do" access="hasRole('MANAGER')" />
