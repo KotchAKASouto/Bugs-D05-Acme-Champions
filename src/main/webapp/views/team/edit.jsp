@@ -19,16 +19,14 @@
 	
 	<acme:textbox path="name" code="team.name" obligatory="true"/>
 	
-	<acme:textbox path="adress" code="team.adress" obligatory="true"/>	
+	<acme:textbox path="address" code="team.address" obligatory="true"/>	
 	
 	<acme:textbox path="stadiumName" code="team.stadiumName" obligatory="true"/>
 	
 	<acme:textbox path="badgeUrl" code="team.badgeUrl" obligatory="true"/>
 	
 	<acme:textbox path="trackRecord" code="team.trackRecord" obligatory="true"/>
-	
-	<acme:textbox path="establishmentDate" code="team.establishmentDate" obligatory="true" placeholder="yyyy/MM/dd"/>
-	
+		
 	
 	
 	<acme:submit name="save" code="team.save" />	

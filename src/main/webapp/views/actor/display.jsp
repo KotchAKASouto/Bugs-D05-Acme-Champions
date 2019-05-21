@@ -27,7 +27,7 @@
 
 <acme:display code="actor.name" property="${actor.name }" />
 
-<acme:display code="actor.surname" property="${actor.surnames }" />
+<acme:display code="actor.surnames" property="${actor.surnames }" />
 
 <spring:message code="actor.photo"/>: <br> <img src="${actor.photo }" width="10%" height="10%"/> <br>
 

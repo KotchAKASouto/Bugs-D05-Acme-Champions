@@ -19,7 +19,7 @@
 
 <acme:display code="team.name" property="${team.name }" />
 
-<acme:display code="team.adress" property="${team.adress }" />
+<acme:display code="team.address" property="${team.address }" />
 
 <acme:display code="team.stadiumName" property="${team.stadiumName }" />
 
@@ -33,7 +33,7 @@
 
 
 
-<acme:button name="edit" code="team.edit" onclick="javascript: relativeRedir('team/president/edit.do?teamId=${team.id }');" />
+<acme:button name="edit" code="team.edit" onclick="javascript: relativeRedir('team/president/edit.do');" />
 
 
 </jstl:if>

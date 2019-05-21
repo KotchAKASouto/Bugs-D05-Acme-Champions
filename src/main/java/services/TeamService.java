@@ -123,6 +123,14 @@ public class TeamService {
 
 	}
 
+	public Team findTeamByPresidentId(final int presidentId) {
+
+		final Team result = this.teamRepository.findTeamByPresidentId(presidentId);
+
+		return result;
+
+	}
+
 	public Team reconstruct(final Team team, final BindingResult binding) {
 
 		Team result = team;
@@ -148,6 +156,7 @@ public class TeamService {
 		return result;
 
 	}
+
 	public Boolean teamPresidentSecurity(final int teamId) {
 		Boolean res = false;
 		final Team team = this.findOne(teamId);

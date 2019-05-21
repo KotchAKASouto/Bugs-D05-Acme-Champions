@@ -30,6 +30,7 @@
 		<value>/views/training/messages</value>
 		<value>/views/player/messages</value>
 		<value>/views/history/messages</value>
+		<value>/views/team/messages</value>
 		
 	</util:list>
 

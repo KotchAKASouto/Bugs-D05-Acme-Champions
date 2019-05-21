@@ -97,6 +97,15 @@
 		<security:intercept-url pattern="/training/manager/addPlayer.do" access="hasRole('MANAGER')" />
 		<security:intercept-url pattern="/training/manager/addPlayerPost.do" access="hasRole('MANAGER')" />
 		
+		<!-- President: Team -->
+		
+		<security:intercept-url pattern="/team/president/edit.do" access="hasRole('PRESIDENT')" />
+		<security:intercept-url pattern="/team/president/display.do" access="hasRole('PRESIDENT')" />
+		<security:intercept-url pattern="/team/president/create.do" access="hasRole('PRESIDENT')" />
+		
+		<!-- Player: Training -->
+		<security:intercept-url pattern="/training/player/list.do" access="hasRole('PLAYER')" />
+		
 		<!-- Player: History -->
 		<security:intercept-url pattern="/history/player/display.do" access="hasRole('PLAYER')" />
 		<security:intercept-url pattern="/history/player/create.do" access="hasRole('PLAYER')" />

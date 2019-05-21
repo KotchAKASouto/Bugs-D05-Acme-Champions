@@ -20,7 +20,7 @@
 	
 	<acme:textbox code="actor.name" path="name" obligatory="true"/>
 	
-	<acme:textbox code="actor.surname" path="surnames" obligatory="true"/>
+	<acme:textbox code="actor.surnames" path="surnames" obligatory="true"/>
 	
 	<acme:textbox code="actor.photo" path="photo" size="100"/>
 	
