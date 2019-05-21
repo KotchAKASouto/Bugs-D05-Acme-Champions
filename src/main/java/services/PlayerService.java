@@ -250,4 +250,10 @@ public class PlayerService {
 
 		return players;
 	}
+
+	public Collection<Player> findPlayersOfTeam(final int teamId) {
+		final Collection<Player> players = this.playerRepository.findPlayersOfTeam(teamId);
+
+		return players;
+	}
 }

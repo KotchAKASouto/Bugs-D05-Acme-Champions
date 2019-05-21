@@ -33,12 +33,12 @@
 	</c:forEach>
 <br>
 
-
+<jstl:if test="${startDateGood }">
 <acme:button name="edit" code="training.edit" onclick="javascript: relativeRedir('training/manager/edit.do?trainingId=${training.id }');" />
 
 
 <acme:button onclick="javascript: relativeRedir('training/manager/addPlayer.do?trainingId=${training.id }');" name="add" code="training.add" />
-
+</jstl:if>
 
 <acme:button name="back" code="training.back" onclick="javascript: relativeRedir('training/manager/list.do');" />
 

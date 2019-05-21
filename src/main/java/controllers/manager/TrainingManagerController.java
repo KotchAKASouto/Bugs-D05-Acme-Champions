@@ -2,6 +2,7 @@
 package controllers.manager;
 
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -103,9 +104,10 @@ public class TrainingManagerController extends AbstractController {
 			result = new ModelAndView("misc/notExist");
 			result.addObject("banner", banner);
 		} else {
+			final Boolean startDateGood = this.checkStartDate(trainingFind);
 			security = this.trainingService.trainingManagerSecurity(trainingId);
 
-			if (security)
+			if (security && startDateGood)
 				result = this.createEditModelAndView(trainingFind, null);
 			else
 				result = new ModelAndView("redirect:/welcome/index.do");
@@ -120,7 +122,7 @@ public class TrainingManagerController extends AbstractController {
 		if (training.getId() != 0 && this.trainingService.findOne(training.getId()) == null) {
 			result = new ModelAndView("misc/notExist");
 			result.addObject("banner", banner);
-		} else if (training.getId() != 0 && this.trainingService.findOne(training.getId()).getManager() != this.managerService.findByPrincipal())
+		} else if ((training.getId() != 0 && this.trainingService.findOne(training.getId()).getManager() != this.managerService.findByPrincipal()) || this.checkStartDate(this.trainingService.findOne(training.getId())) == false)
 			result = new ModelAndView("redirect:/welcome/index.do");
 		else {
 
@@ -153,8 +155,9 @@ public class TrainingManagerController extends AbstractController {
 		} else {
 			training = this.trainingService.findOne(training.getId());
 			final Manager manager = this.managerService.findByPrincipal();
+			final Boolean startDateGood = this.checkStartDate(training);
 
-			if (training.getManager().getId() == manager.getId())
+			if (training.getManager().getId() == manager.getId() || startDateGood)
 				try {
 					this.trainingService.delete(training);
 					result = new ModelAndView("redirect:list.do");
@@ -183,9 +186,11 @@ public class TrainingManagerController extends AbstractController {
 			security = this.trainingService.trainingManagerSecurity(trainingId);
 
 			if (security) {
+				final Boolean startDateGood = this.checkStartDate(trainingFind);
 				result = new ModelAndView("training/display");
 				result.addObject("training", trainingFind);
 				result.addObject("banner", banner);
+				result.addObject("startDateGood", startDateGood);
 			} else
 				result = new ModelAndView("redirect:/welcome/index.do");
 		}
@@ -194,7 +199,7 @@ public class TrainingManagerController extends AbstractController {
 
 	//Add Player to Training------------------------------------------------------------
 	@RequestMapping(value = "/addPlayer", method = RequestMethod.GET)
-	public ModelAndView addPosition(@RequestParam final int trainingId) {
+	public ModelAndView addPlayer(@RequestParam final int trainingId) {
 		final ModelAndView result;
 
 		final String banner = this.configurationService.findConfiguration().getBanner();
@@ -205,9 +210,12 @@ public class TrainingManagerController extends AbstractController {
 			result.addObject("banner", banner);
 		} else {
 			final Boolean security = this.trainingService.trainingManagerSecurity(trainingId);
-			if (security) {
-				final Collection<Player> playersOfTheTeam = this.playerService.findAll(); //Query para sacar los jugadores del equipo y luego a eso le quitamos los que ya hay en el entrenamiento
+			final Boolean startDateGood = this.checkStartDate(training);
+			if (security && startDateGood) {
+				final Collection<Player> playersOfTheTeam = this.playerService.findPlayersOfTeam(training.getManager().getTeam().getId());
 				playersOfTheTeam.removeAll(training.getPlayers());
+
+				final String language = LocaleContextHolder.getLocale().getLanguage();
 
 				result = new ModelAndView("player/listAdd");
 				result.addObject("players", playersOfTheTeam);
@@ -215,13 +223,14 @@ public class TrainingManagerController extends AbstractController {
 				result.addObject("pagesize", 5);
 				result.addObject("banner", banner);
 				result.addObject("trainingId", trainingId);
+				result.addObject("language", language);
+
 			} else
 				result = new ModelAndView("redirect:/welcome/index.do");
 		}
 		return result;
 
 	}
-
 	@RequestMapping(value = "/addPlayerPost", method = RequestMethod.GET)
 	public ModelAndView addPlayerPost(@RequestParam final int playerId, @RequestParam final int trainingId) {
 		ModelAndView result;
@@ -235,14 +244,15 @@ public class TrainingManagerController extends AbstractController {
 			result = new ModelAndView("misc/notExist");
 			result.addObject("banner", banner);
 		} else {
-			security1 = true;//Comprobar que el jugador está en el mismo equipo que el manager
+			security1 = player.getTeam().getId() == this.managerService.findByPrincipal().getTeam().getId();
 			security2 = this.trainingService.trainingManagerSecurity(trainingId);
+			final Boolean startDateGood = this.checkStartDate(training);
 
-			if (security1 && security2)
+			if (security1 && security2 && startDateGood)
 				try {
 					this.trainingService.addPlayerToTraining(player, training);
 
-					final Collection<Player> playersResult = this.playerService.findAll();//Misma query que en el get para volver a la lista y añadir más
+					final Collection<Player> playersResult = this.playerService.findPlayersOfTeam(training.getManager().getTeam().getId());
 					final Training trainingNew = this.trainingService.findOne(trainingId);
 					playersResult.removeAll(trainingNew.getPlayers());
 
@@ -255,7 +265,7 @@ public class TrainingManagerController extends AbstractController {
 
 				} catch (final Throwable oops) {
 
-					final Collection<Player> playersResult = this.playerService.findAll();//Misma query que en el get para volver a la lista y añadir más
+					final Collection<Player> playersResult = this.playerService.findPlayersOfTeam(training.getManager().getTeam().getId());
 					final Training trainingNew = this.trainingService.findOne(trainingId);
 					playersResult.removeAll(trainingNew.getPlayers());
 
@@ -263,7 +273,7 @@ public class TrainingManagerController extends AbstractController {
 					result.addObject("players", playersResult);
 					result.addObject("requestURI", "training/manager/addPlayer.do");
 					result.addObject("pagesize", 5);
-					result.addObject("messageError", "player.addToTraining.error");//Añadir este mensaje de error
+					result.addObject("messageError", "player.addToTraining.error");
 					result.addObject("banner", banner);
 					result.addObject("trainingId", trainingId);
 				}
@@ -285,5 +295,14 @@ public class TrainingManagerController extends AbstractController {
 		result.addObject("banner", banner);
 		result.addObject("language", LocaleContextHolder.getLocale().getLanguage());
 		return result;
+	}
+
+	public Boolean checkStartDate(final Training training) {
+		final Date actual = new Date();
+		Boolean goodDate = true;
+		if (training.getStartDate().before(actual) || training.getStartDate().equals(actual))
+			goodDate = false;
+		return goodDate;
+
 	}
 }

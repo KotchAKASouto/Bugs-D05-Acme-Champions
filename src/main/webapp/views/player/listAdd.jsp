@@ -17,11 +17,20 @@
 	
 	<acme:column property="surnames" titleKey="player.surnames" value= "${row.surnames}: "/>
 	
-	<acme:column property="positionEnglish" titleKey="player.positionEnglish" value= "${row.positionEnglish} "/>
+	<jstl:if test="${language == 'en'}">
+		<acme:column property="positionEnglish" titleKey="player.positionEnglish" value= "${row.positionEnglish} "/>
+	</jstl:if>
+	<jstl:if test="${language == 'es'}">
+		<acme:column property="positionSpanish" titleKey="player.positionSpanish" value= "${row.positionSpanish} "/>
+	</jstl:if>
+
+	<display:column titleKey="player.injured"> 
+				<spring:message code="player.${row.injured }" />
+	</display:column>
 	
-	<acme:column property="injured" titleKey="player.injured" value= "${row.injured}: "/>
-	
-	<acme:column property="punished" titleKey="player.punished" value= "${row.punished}: "/>
+	<display:column titleKey="player.punished"> 
+				<spring:message code="player.${row.punished }" />
+	</display:column>
 	
 	<acme:column property="team.name" titleKey="player.team.name" value= "${row.team.name}: "/>
 	

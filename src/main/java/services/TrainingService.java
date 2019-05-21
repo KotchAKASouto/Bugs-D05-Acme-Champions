@@ -109,7 +109,7 @@ public class TrainingService {
 		manag.setAuthority(Authority.MANAGER);
 		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(manag));
 		Assert.isTrue(actor.getId() == training.getManager().getId());
-		//Assert.isTrue(actor.getId() == player.getTeam().getId()); //DUDA GORDA
+		Assert.isTrue(this.managerService.findByPrincipal().getTeam() == player.getTeam());
 
 		final Collection<Player> players = training.getPlayers();
 		Assert.isTrue(!players.contains(player));

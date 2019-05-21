@@ -17,4 +17,7 @@ public interface PlayerRepository extends JpaRepository<Player, Integer> {
 
 	@Query("select p from Player p where (p.name like ?1 or p.surnames like ?1) and (p.positionEnglish like ?2 or p.positionSpanish like ?2)")
 	Collection<Player> findPlayersByFinder(String keyword, String position);
+
+	@Query("select p from Player p where p.team.id = ?1")
+	Collection<Player> findPlayersOfTeam(int teamId);
 }
