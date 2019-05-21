@@ -59,7 +59,7 @@ public class FinderPresidentController extends AbstractController {
 		if (interval.toDuration().getStandardHours() > timeOut)
 			this.finderService.deleteManagersPlayers(finder);
 
-		result = new ModelAndView("actor/listFinder");
+		result = new ModelAndView("actor/listPlayerManager");
 		result.addObject("players", finder.getPlayers());
 		result.addObject("managers", finder.getManagers());
 		result.addObject("finder", finder);
@@ -113,7 +113,7 @@ public class FinderPresidentController extends AbstractController {
 	protected ModelAndView createEditModelAndView(final Finder finder, final String messageCode) {
 		final ModelAndView result;
 
-		result = new ModelAndView("actor/listFinder");
+		result = new ModelAndView("actor/listPlayerManager");
 
 		final String banner = this.configurationService.findConfiguration().getBanner();
 		final String language = LocaleContextHolder.getLocale().getLanguage();

@@ -18,6 +18,12 @@
 	<form:hidden path="id" />
 	<form:hidden path="version" />
 	
+	<security:authorize access="hasRole('FEDERATION')">
+	
+		<acme:textbox code="federation.establishmentDate" path="establishmentDate" obligatory="true" placeholder = "yyyy/MM/dd"/>
+	
+	</security:authorize>
+	
 	<acme:textbox code="actor.name" path="name" obligatory="true"/>
 	
 	<acme:textbox code="actor.surnames" path="surnames" obligatory="true"/>

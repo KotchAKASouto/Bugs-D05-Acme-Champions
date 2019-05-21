@@ -9,6 +9,8 @@
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 <jsp:useBean id="now" class="java.util.Date" />
 
+<security:authorize access="hasRole('PRESIDENT')">
+<jstl:if test="${AmInFinder }">
 <form:form action="${requestAction }" modelAttribute="finder"> 
 
 	<form:hidden path="id"/>
@@ -18,8 +20,13 @@
 	
 	<acme:textbox path="position" code="finder.position" />
 	
+	<input type="submit" name="find" value="<spring:message code="finder.search"/>"/>
 	
-</form:form> 
+	<spring:message code="finder.allData" />
+	
+</form:form>
+</jstl:if> 
+</security:authorize>
 
 <h3><spring:message code="player" /></h3>
 
@@ -33,7 +40,7 @@
 		<jstl:out value="${row1.squadNumber} - ${row1.squadName}" />
 	</display:column>
 	
-	<acme:column property="team" titleKey="player.team" value= "${row1.team}"/>
+	<acme:column property="team.name" titleKey="player.team" value= "${row1.team.name}"/>
 	
 	<jstl:if test="${language == 'en'}">
 	<acme:column property="positionEnglish" titleKey="player.positionEnglish" value= "${row1.positionEnglish}"/>
@@ -50,6 +57,8 @@
 		<spring:message code="player.${row1.punished }" />
 	</display:column>
 	
+	<acme:url href="player/display.do?playerId=${row1.id}" code="actor.display"/>
+	
 </display:table>
 
 <h3><spring:message code="manager" /></h3>
@@ -60,6 +69,10 @@
 	
 	<acme:column property="name" titleKey="actor.name" value= "${row2.name}"/>
 	
-	<acme:column property="team" titleKey="manager.team" value= "${row2.team}"/>
+	<acme:column property="team.name" titleKey="manager.team" value= "${row2.team.name}"/>
+	
+	<acme:url href="manager/display.do?managerId=${row2.id}" code="actor.display"/>
 	
 </display:table>
+
+<acme:button name="back" code="actor.back" onclick="javascript: relativeRedir('welcome/index.do);" />

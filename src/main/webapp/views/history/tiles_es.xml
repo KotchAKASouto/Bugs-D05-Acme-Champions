@@ -31,4 +31,14 @@
 		<put-attribute name="body" value="/views/history/editPersonalData.jsp" />
 	</definition>
 	
+	<definition name="history/editPlayerRecord" extends="master.page">	
+		<put-attribute name="title" value="Récord como jugador" />
+		<put-attribute name="body" value="/views/history/editPlayerRecord.jsp" />
+	</definition>
+	
+	<definition name="history/editSportRecord" extends="master.page">	
+		<put-attribute name="title" value="Récord de deporte" />
+		<put-attribute name="body" value="/views/history/editSportRecord.jsp" />
+	</definition>
+	
 </tiles-definitions>

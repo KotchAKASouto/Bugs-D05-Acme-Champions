@@ -18,7 +18,7 @@
 	">
 
 	<util:list id="messages">
-		
+
 		<value>/views/master-page/messages</value>
 		<value>/views/misc/messages</value>
 		<value>/views/security/messages</value>
@@ -30,8 +30,9 @@
 		<value>/views/training/messages</value>
 		<value>/views/player/messages</value>
 		<value>/views/history/messages</value>
+		<value>/views/manager/messages</value>
 		<value>/views/team/messages</value>
-		
+
 	</util:list>
 
 </beans>

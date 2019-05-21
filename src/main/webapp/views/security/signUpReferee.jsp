@@ -8,7 +8,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-<form:form action="register/saveSponsor.do" modelAttribute="sponsor">
+<form:form action="register/saveReferee.do" modelAttribute="referee">
 	
 	
 	<acme:textbox code="actor.name" path="name" obligatory="true"/>
@@ -28,29 +28,6 @@
 	<acme:password code="actor.password" path="password" obligatory="true"/>
 	
 	<acme:password code="actor.confirmPassword" path="confirmPassword" obligatory="true"/>
-	
-	
-	
-	<h1><spring:message code="creditCard.data" /></h1>
-	
-	<acme:textbox code="actor.creditCard.holderName" path="creditCard.holderName" obligatory="true"/>
-	
-	<form:label path="creditCard.make">
-			<spring:message code="actor.creditCard.make"/>*
-		</form:label>
-		<form:select path="creditCard.make" >
-			<form:options items="${makes}"/>
-		</form:select>
-		<form:errors cssClass="error" path="creditCard.make"></form:errors>
-		<br />
-	
-	<acme:textbox code="actor.creditCard.number" path="creditCard.number" obligatory="true"/>
-	
-	<acme:textbox code="actor.creditCard.expMonth" path="creditCard.expMonth" obligatory="true"/>
-	
-	<acme:textbox code="actor.creditCard.expYear" path="creditCard.expYear" obligatory="true"/>
-	
-	<acme:textbox code="actor.creditCard.cvv" path="creditCard.cvv" obligatory="true"/>
 	
 	<acme:checkbox path="checkbox" code1="actor.checkBox1" code2="actor.checkBox2" href="termsAndConditions/show.do" />
 	
