@@ -16,19 +16,9 @@
        
 <tiles-definitions>
 
-	<definition name="training/list" extends="master.page">	
-		<put-attribute name="title" value="List Trainings" />
-		<put-attribute name="body" value="/views/training/list.jsp" />
-	</definition>
-	
-	<definition name="training/display" extends="master.page">	
-		<put-attribute name="title" value="Training" />
-		<put-attribute name="body" value="/views/training/display.jsp" />
-	</definition>
-	
-	<definition name="training/edit" extends="master.page">	
-		<put-attribute name="title" value="Training" />
-		<put-attribute name="body" value="/views/training/edit.jsp" />
+	<definition name="player/listAdd" extends="master.page">	
+		<put-attribute name="title" value="Add player" />
+		<put-attribute name="body" value="/views/player/listAdd.jsp" />
 	</definition>
 	
 </tiles-definitions>
