@@ -9,6 +9,8 @@
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 <jsp:useBean id="now" class="java.util.Date" />
 
+<security:authorize access="hasRole('PRESIDENT')">
+<jstl:if test="${AmInFinder }">
 <form:form action="${requestAction }" modelAttribute="finder"> 
 
 	<form:hidden path="id"/>
@@ -22,7 +24,9 @@
 	
 	<spring:message code="finder.allData" />
 	
-</form:form> 
+</form:form>
+</jstl:if> 
+</security:authorize>
 
 <h3><spring:message code="player" /></h3>
 
@@ -53,6 +57,8 @@
 		<spring:message code="player.${row1.punished }" />
 	</display:column>
 	
+	<acme:url href="player/display.do?playerId=${row1.id}" code="actor.display"/>
+	
 </display:table>
 
 <h3><spring:message code="manager" /></h3>
@@ -65,4 +71,8 @@
 	
 	<acme:column property="team.name" titleKey="manager.team" value= "${row2.team.name}"/>
 	
+	<acme:url href="manager/display.do?managerId=${row2.id}" code="actor.display"/>
+	
 </display:table>
+
+<acme:button name="back" code="actor.back" onclick="javascript: relativeRedir('welcome/index.do);" />
