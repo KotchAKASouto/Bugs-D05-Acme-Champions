@@ -71,7 +71,7 @@
 	
 	<acme:column property="team.name" titleKey="manager.team" value= "${row2.team.name}"/>
 	
-	<acme:url href="manager/display.do?managerId=${row1.id}" code="actor.display"/>
+	<acme:url href="manager/display.do?managerId=${row2.id}" code="actor.display"/>
 	
 </display:table>
 
