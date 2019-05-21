@@ -50,12 +50,13 @@ public class HistoryPlayerController extends AbstractController {
 
 		if (history != null) {
 
-			result = new ModelAndView("history/displayHistory");
+			result = new ModelAndView("history/display");
 			result.addObject("history", history);
 			result.addObject("banner", banner);
+			result.addObject("requestUri", "/history/player/display.do");
 
 		} else
-			result = new ModelAndView("redirect:/create.do");
+			result = new ModelAndView("redirect:/history/player/create.do");
 
 		return result;
 	}
@@ -74,7 +75,7 @@ public class HistoryPlayerController extends AbstractController {
 
 			result = this.createEditModelAndView(createHistoryForm);
 		} else
-			result = new ModelAndView("redirect:/display.do");
+			result = new ModelAndView("redirect:/history/player/display.do");
 
 		return result;
 	}
@@ -93,13 +94,32 @@ public class HistoryPlayerController extends AbstractController {
 				final PersonalData p = this.personalDataService.save(personalReconstruct);
 				history.setPersonalData(p);
 				this.historyService.save(history);
-				result = new ModelAndView("redirect:/display.do");
+				result = new ModelAndView("redirect:/history/player/display.do");
 			} catch (final Throwable oops) {
 				result = this.createEditModelAndView(form, "history.commit.error");
 			}
 		return result;
 	}
 
+	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	public ModelAndView delete() {
+		ModelAndView result;
+
+		final Player player = this.playerService.findByPrincipal();
+		final History history = this.historyService.findByPlayerId(player.getId());
+
+		if (history != null)
+			try {
+				this.historyService.delete(history);
+				result = new ModelAndView("redirect:/welcome/index.do");
+			} catch (final Throwable oops) {
+				result = new ModelAndView("redirect:/display.do");
+			}
+		else
+			result = new ModelAndView("redirect:/history/player/create.do");
+
+		return result;
+	}
 	// Ancillary methods
 
 	protected ModelAndView createEditModelAndView(final CreateHistoryForm createHistoryForm) {
@@ -115,7 +135,7 @@ public class HistoryPlayerController extends AbstractController {
 
 		final String banner = this.configurationService.findConfiguration().getBanner();
 
-		result = new ModelAndView("curriculum/createCurriculum");
+		result = new ModelAndView("history/createHistory");
 		result.addObject("history", createHistoryForm);
 		result.addObject("banner", banner);
 		result.addObject("messageError", messageCode);
