@@ -18,6 +18,12 @@
 	<form:hidden path="id" />
 	<form:hidden path="version" />
 	
+	<security:authorize access="hasRole('FEDERATION')">
+	
+		<acme:textbox code="federation.establishmentDate" path="establishmentDate" obligatory="true" placeholder = "yyyy/MM/dd"/>
+	
+	</security:authorize>
+	
 	<acme:textbox code="actor.name" path="name" obligatory="true"/>
 	
 	<acme:textbox code="actor.surnames" path="surnames" obligatory="true"/>
@@ -36,12 +42,6 @@
 	<acme:textbox code="actor.phone" path="phone" id="phone" onblur="javascript: checkPhone();"/>
 	
 	<acme:textbox code="actor.address" path="address" />
-
-	<security:authorize access="hasRole('PLAYER')">
-	
-	<acme:textbox code="federation.establishmentDate" path="establishmentDate" obligatory="true" placeholder = "yyyy/MM/dd"/>
-	
-	</security:authorize>
 
 	<security:authorize access="hasRole('PLAYER')">
 	

@@ -25,6 +25,16 @@
 	</div>
 </jstl:if>
 
+
+<security:authorize access="hasRole('FEDERATION')">
+	
+	<div><spring:message code="federation.establishmentDate" />:
+		<spring:message code="dateFormat" var="format"/>
+		<fmt:formatDate value="${actor.establishmentDate }" pattern="${format}" />
+	</div>
+	
+</security:authorize>
+
 <acme:display code="actor.name" property="${actor.name }" />
 
 <acme:display code="actor.surnames" property="${actor.surnames }" />
@@ -37,9 +47,10 @@
 
 <acme:display code="actor.address" property="${actor.address }" />
 
-<h2><spring:message code="creditCard.data" /></h2>
-
 <security:authorize access="hasRole('SPONSOR')">
+
+	<h2><spring:message code="creditCard.data" /></h2>
+	
 	<acme:display code="actor.creditCard.holderName" property="${actor.creditCard.holderName }" />
 	
 	<acme:display code="actor.creditCard.make" property="${actor.creditCard.make }" />
@@ -52,15 +63,6 @@
 		
 	<acme:display code="actor.creditCard.cvv" property="${actor.creditCard.cvv }" />
 </security:authorize> 
-
-<security:authorize access="hasRole('PLAYER')">
-	
-	<div><spring:message code="federation.establishmentDate" />:
-		<spring:message code="dateFormat" var="format"/>
-		<fmt:formatDate value="${federation.establishmentDate }" pattern="${format}" />
-	</div>
-	
-</security:authorize>
 	
 <security:authorize access="hasRole('PLAYER')">
 
