@@ -27,15 +27,19 @@ import security.Credentials;
 import services.ActorService;
 import services.AdministratorService;
 import services.ConfigurationService;
+import services.FederationService;
 import services.ManagerService;
 import services.PlayerService;
 import services.PresidentService;
+import services.RefereeService;
 import services.SponsorService;
 import domain.Actor;
 import domain.Administrator;
+import domain.Federation;
 import domain.Manager;
 import domain.Player;
 import domain.President;
+import domain.Referee;
 import domain.Sponsor;
 
 @Controller
@@ -53,6 +57,12 @@ public class ProfileController extends AbstractController {
 
 	@Autowired
 	private PlayerService			playerService;
+
+	@Autowired
+	private RefereeService			refereeService;
+
+	@Autowired
+	private FederationService		federationService;
 
 	@Autowired
 	private PresidentService		presidentService;
@@ -248,8 +258,8 @@ public class ProfileController extends AbstractController {
 		result = new ModelAndView("actor/edit");
 
 		result.addObject("manager", manager);
-		result.addObject("authority", "administrator");
-		result.addObject("actionURI", "editAdministrator.do");
+		result.addObject("authority", "manager");
+		result.addObject("actionURI", "editManager.do");
 		result.addObject("banner", banner);
 		result.addObject("laguageURI", "profile/edit.do");
 		result.addObject("messageError", messageCode);
@@ -311,6 +321,55 @@ public class ProfileController extends AbstractController {
 	}
 
 	//--------------------------FEDERATION------------------------------
+
+	@RequestMapping(value = "/editFederation", method = RequestMethod.POST, params = "save")
+	public ModelAndView saveFederation(@ModelAttribute("federation") final Federation federation, final BindingResult binding) {
+		ModelAndView result;
+
+		final Federation federationReconstruct = this.federationService.reconstruct(federation, binding);
+
+		if (binding.hasErrors())
+			result = this.createEditModelAndViewFederation(federationReconstruct);
+		else
+			try {
+				this.federationService.save(federationReconstruct);
+				final Credentials credentials = new Credentials();
+				credentials.setJ_username(federationReconstruct.getUserAccount().getUsername());
+				credentials.setPassword(federationReconstruct.getUserAccount().getPassword());
+				result = new ModelAndView("redirect:/profile/displayPrincipal.do");
+				result.addObject("credentials", credentials);
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndViewFederation(federationReconstruct, "actor.commit.error");
+			}
+		return result;
+	}
+
+	protected ModelAndView createEditModelAndViewFederation(final Federation federation) {
+		ModelAndView result;
+
+		result = this.createEditModelAndViewFederation(federation, null);
+
+		return result;
+	}
+
+	protected ModelAndView createEditModelAndViewFederation(final Federation federation, final String messageCode) {
+		ModelAndView result;
+
+		final String banner = this.configurationService.findConfiguration().getBanner();
+
+		result = new ModelAndView("actor/edit");
+
+		result.addObject("federation", federation);
+		result.addObject("authority", "federation");
+		result.addObject("actionURI", "editFederation.do");
+		result.addObject("banner", banner);
+		result.addObject("laguageURI", "profile/edit.do");
+		result.addObject("messageError", messageCode);
+		final String countryCode = this.configurationService.findConfiguration().getCountryCode();
+		result.addObject("defaultCountry", countryCode);
+
+		return result;
+	}
 
 	//--------------------------SPONSOR------------------------------
 
@@ -416,4 +475,52 @@ public class ProfileController extends AbstractController {
 
 	//--------------------------REFEREE------------------------------
 
+	@RequestMapping(value = "/editReferee", method = RequestMethod.POST, params = "save")
+	public ModelAndView saveReferee(@ModelAttribute("referee") final Referee referee, final BindingResult binding) {
+		ModelAndView result;
+
+		final Referee refereeReconstruct = this.refereeService.reconstruct(referee, binding);
+
+		if (binding.hasErrors())
+			result = this.createEditModelAndViewReferee(refereeReconstruct);
+		else
+			try {
+				this.refereeService.save(refereeReconstruct);
+				final Credentials credentials = new Credentials();
+				credentials.setJ_username(refereeReconstruct.getUserAccount().getUsername());
+				credentials.setPassword(refereeReconstruct.getUserAccount().getPassword());
+				result = new ModelAndView("redirect:/profile/displayPrincipal.do");
+				result.addObject("credentials", credentials);
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndViewReferee(refereeReconstruct, "actor.commit.error");
+			}
+		return result;
+	}
+
+	protected ModelAndView createEditModelAndViewReferee(final Referee referee) {
+		ModelAndView result;
+
+		result = this.createEditModelAndViewReferee(referee, null);
+
+		return result;
+	}
+
+	protected ModelAndView createEditModelAndViewReferee(final Referee referee, final String messageCode) {
+		ModelAndView result;
+
+		final String banner = this.configurationService.findConfiguration().getBanner();
+
+		result = new ModelAndView("actor/edit");
+
+		result.addObject("referee", referee);
+		result.addObject("authority", "referee");
+		result.addObject("actionURI", "editReferee.do");
+		result.addObject("banner", banner);
+		result.addObject("laguageURI", "profile/edit.do");
+		result.addObject("messageError", messageCode);
+		final String countryCode = this.configurationService.findConfiguration().getCountryCode();
+		result.addObject("defaultCountry", countryCode);
+
+		return result;
+	}
 }

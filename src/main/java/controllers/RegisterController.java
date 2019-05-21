@@ -1,6 +1,7 @@
 
 package controllers;
 
+import java.util.Collection;
 import java.util.Locale;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,14 +16,20 @@ import org.springframework.web.servlet.ModelAndView;
 
 import security.Credentials;
 import services.ConfigurationService;
+import services.FederationService;
 import services.ManagerService;
 import services.PlayerService;
+import services.RefereeService;
 import services.SponsorService;
+import domain.Federation;
 import domain.Manager;
 import domain.Player;
+import domain.Referee;
 import domain.Sponsor;
+import forms.RegisterFederationForm;
 import forms.RegisterManagerForm;
 import forms.RegisterPlayerForm;
+import forms.RegisterRefereeForm;
 import forms.RegisterSponsorForm;
 
 @Controller
@@ -39,6 +46,12 @@ public class RegisterController extends AbstractController {
 
 	@Autowired
 	private SponsorService			sponsorService;
+
+	@Autowired
+	private FederationService		federationService;
+
+	@Autowired
+	private RefereeService			refereeService;
 
 	@Autowired
 	private ConfigurationService	configurationService;
@@ -175,17 +188,20 @@ public class RegisterController extends AbstractController {
 		return result;
 	}
 
-	@RequestMapping(value = "/saveSponor", method = RequestMethod.POST, params = "save")
+	@RequestMapping(value = "/saveSponsor", method = RequestMethod.POST, params = "save")
 	public ModelAndView saveSponsorr(@ModelAttribute("sponsor") final RegisterSponsorForm form, final BindingResult binding) {
 		ModelAndView result;
 		final Sponsor sponsor;
 
 		sponsor = this.sponsorService.reconstruct(form, binding);
 
+		final Collection<String> makes = this.configurationService.findConfiguration().getMakes();
+
 		if (binding.hasErrors())
 			result = this.createEditModelAndViewSponsor(form);
 		else
 			try {
+				Assert.isTrue(makes.contains(form.getCreditCard().getMake()));
 				Assert.isTrue(form.getCheckbox());
 				Assert.isTrue(form.checkPassword());
 				this.sponsorService.save(sponsor);
@@ -212,8 +228,129 @@ public class RegisterController extends AbstractController {
 
 		final String banner = this.configurationService.findConfiguration().getBanner();
 
+		final Collection<String> makes = this.configurationService.findConfiguration().getMakes();
+
 		result = new ModelAndView("security/signUpSponsor");
 		result.addObject("sponsor", sponsor);
+		result.addObject("banner", banner);
+		result.addObject("messageError", messageCode);
+		final String countryCode = this.configurationService.findConfiguration().getCountryCode();
+		result.addObject("defaultCountry", countryCode);
+		result.addObject("makes", makes);
+
+		return result;
+	}
+
+	//Referee
+	@RequestMapping(value = "/createReferee", method = RequestMethod.GET)
+	public ModelAndView createReferee() {
+		final ModelAndView result;
+		final RegisterRefereeForm referee = new RegisterRefereeForm();
+
+		result = this.createEditModelAndViewReferee(referee);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/saveReferee", method = RequestMethod.POST, params = "save")
+	public ModelAndView saveReferee(@ModelAttribute("referee") final RegisterRefereeForm form, final BindingResult binding) {
+		ModelAndView result;
+		final Referee referee;
+
+		referee = this.refereeService.reconstruct(form, binding);
+
+		if (binding.hasErrors())
+			result = this.createEditModelAndViewReferee(form);
+		else
+			try {
+				Assert.isTrue(form.getCheckbox());
+				Assert.isTrue(form.checkPassword());
+				this.refereeService.save(referee);
+				final Credentials credentials = new Credentials();
+				credentials.setJ_username(referee.getUserAccount().getUsername());
+				credentials.setPassword(referee.getUserAccount().getPassword());
+				result = new ModelAndView("redirect:/security/login.do");
+				result.addObject("credentials", credentials);
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndViewReferee(form, "referee.commit.error");
+			}
+		return result;
+	}
+	protected ModelAndView createEditModelAndViewReferee(final RegisterRefereeForm referee) {
+		ModelAndView result;
+
+		result = this.createEditModelAndViewReferee(referee, null);
+
+		return result;
+	}
+
+	protected ModelAndView createEditModelAndViewReferee(final RegisterRefereeForm referee, final String messageCode) {
+		ModelAndView result;
+
+		final String banner = this.configurationService.findConfiguration().getBanner();
+
+		result = new ModelAndView("security/signUpReferee");
+		result.addObject("referee", referee);
+		result.addObject("banner", banner);
+		result.addObject("messageError", messageCode);
+		final String countryCode = this.configurationService.findConfiguration().getCountryCode();
+		result.addObject("defaultCountry", countryCode);
+
+		return result;
+	}
+
+	//Federation
+	@RequestMapping(value = "/createFederation", method = RequestMethod.GET)
+	public ModelAndView createFederation() {
+		final ModelAndView result;
+		final RegisterFederationForm federation = new RegisterFederationForm();
+
+		result = this.createEditModelAndViewFederation(federation);
+
+		return result;
+	}
+
+	@RequestMapping(value = "/saveFederation", method = RequestMethod.POST, params = "save")
+	public ModelAndView saveSponsor(@ModelAttribute("federation") final RegisterFederationForm form, final BindingResult binding) {
+		ModelAndView result;
+		final Federation federation;
+
+		federation = this.federationService.reconstruct(form, binding);
+
+		final Collection<String> makes = this.configurationService.findConfiguration().getMakes();
+
+		if (binding.hasErrors())
+			result = this.createEditModelAndViewFederation(form);
+		else
+			try {
+				Assert.isTrue(form.getCheckbox());
+				Assert.isTrue(form.checkPassword());
+				this.federationService.save(federation);
+				final Credentials credentials = new Credentials();
+				credentials.setJ_username(federation.getUserAccount().getUsername());
+				credentials.setPassword(federation.getUserAccount().getPassword());
+				result = new ModelAndView("redirect:/security/login.do");
+				result.addObject("credentials", credentials);
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndViewFederation(form, "federation.commit.error");
+			}
+		return result;
+	}
+	protected ModelAndView createEditModelAndViewFederation(final RegisterFederationForm federation) {
+		ModelAndView result;
+
+		result = this.createEditModelAndViewFederation(federation, null);
+
+		return result;
+	}
+
+	protected ModelAndView createEditModelAndViewFederation(final RegisterFederationForm federation, final String messageCode) {
+		ModelAndView result;
+
+		final String banner = this.configurationService.findConfiguration().getBanner();
+
+		result = new ModelAndView("security/signUpFederation");
+		result.addObject("federation", federation);
 		result.addObject("banner", banner);
 		result.addObject("messageError", messageCode);
 		final String countryCode = this.configurationService.findConfiguration().getCountryCode();
