@@ -55,7 +55,7 @@
 	<acme:column property="squadNumber" titleKey="history.squadNumber" value= "${row1.squadNumber} "/>
 	
 	
-	<acme:url href="playerRecord/player/edit.do?playerRecordId=${row1}" code="history.edit"/>
+	<acme:url href="playerRecord/player/edit.do?playerRecordId=${row1.id}" code="history.edit"/>
 
 	
 </display:table>
@@ -87,10 +87,10 @@
 	</display:column>
 
 	<display:column titleKey="history.teamSport">
-		<jstl:if test="${history.teamSport}">
+		<jstl:if test="${row2.teamSport}">
 			<spring:message code="history.yes" />
 		</jstl:if>
-		<jstl:if test="${!history.teamSport}">
+		<jstl:if test="${!row2.teamSport}">
 			<spring:message code="history.no" />
 		</jstl:if>
 	</display:column>

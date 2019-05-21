@@ -83,31 +83,15 @@ public class SportRecordService {
 
 		Assert.notNull(record);
 
-		if (record.getId() != 0) {
-
-			final History h = this.historyService.historyPerSportRecordId(record.getId());
-			final Player owner = h.getPlayer();
-
-			Assert.isTrue(player.getId() == owner.getId());
-
-		}
+		Assert.isTrue(!record.getStartDate().after(record.getEndDate()));
 
 		SportRecord result;
 
 		result = this.sportRecordRepository.save(record);
 
-		if (record.getId() == 0) {
-
-			final History history = this.historyService.findByPlayerId(player.getId());
-			Assert.notNull(history);
-			final Collection<SportRecord> records = history.getSportRecords();
-			records.add(result);
-			history.setSportRecords(records);
-			this.historyService.save(history);
-		}
-
 		return result;
 	}
+
 	public void delete(final SportRecord record) {
 
 		Assert.notNull(record);
@@ -120,12 +104,34 @@ public class SportRecordService {
 		br.setAuthority(Authority.PLAYER);
 		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(br));
 
-		final History history = this.historyService.findByPlayerId(actor.getId());
-		Assert.notNull(history);
-
-		Assert.isTrue(history.getPlayer().getId() == actor.getId());
-
-		history.getSportRecords().remove(record);
 		this.sportRecordRepository.delete(record);
+	}
+
+	public Boolean exist(final int sportRecordId) {
+
+		Boolean result = false;
+
+		final SportRecord sportRecord = this.sportRecordRepository.findOne(sportRecordId);
+
+		if (sportRecord != null)
+			result = true;
+
+		return result;
+	}
+
+	public Boolean security(final int sportRecordId) {
+
+		Boolean result = false;
+
+		final Player player = this.playerService.findByPrincipal();
+
+		final SportRecord sportRecord = this.sportRecordRepository.findOne(sportRecordId);
+
+		final History history = this.historyService.findByPlayerId(player.getId());
+
+		if (history.getSportRecords().contains(sportRecord))
+			result = true;
+
+		return result;
 	}
 }

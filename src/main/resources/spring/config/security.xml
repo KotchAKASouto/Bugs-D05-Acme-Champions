@@ -104,6 +104,11 @@
 		<security:intercept-url pattern="/history/player/delete.do" access="hasRole('PLAYER')" />
 		
 		<security:intercept-url pattern="/personalData/player/edit.do" access="hasRole('PLAYER')" />
+		
+		<security:intercept-url pattern="/playerRecord/player/create.do" access="hasRole('PLAYER')" />
+		<security:intercept-url pattern="/playerRecord/player/edit.do" access="hasRole('PLAYER')" />
+		<security:intercept-url pattern="/sportRecord/player/create.do" access="hasRole('PLAYER')" />
+		<security:intercept-url pattern="/sportRecord/player/edit.do" access="hasRole('PLAYER')" />
 
 		<!-- Administrator -->
 		<security:intercept-url pattern="/administrator/dashboard.do" access="hasRole('ADMIN')" />
