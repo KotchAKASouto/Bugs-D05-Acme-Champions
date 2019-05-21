@@ -59,7 +59,7 @@ public class FiringPresidentController {
 
 		@RequestMapping(value = "/firePlayer", method = RequestMethod.GET)
 		public ModelAndView showFinder(@RequestParam final int playerId) {
-			ModelAndView result;
+			ModelAndView result = null;
 			
 			final President president = this.presidentService.findByPrincipal();
 			
@@ -72,29 +72,28 @@ public class FiringPresidentController {
 			final Player player = this.playerService.findOne(playerId);
 			
 			Signing signing;
-			
-			if (games.isEmpty()) {
-				if(players.contains(player)) {
-					signing = this.signingService.findSigningOfPresidentAndPlayer(president.getId(),player.getId());
-					
-					
-					
-					
+			if (player != null ) {
+				if (games.isEmpty()) {
+					if(players.contains(player)) {
+						signing = this.signingService.findSigningOfPresidentAndPlayer(president.getId(),player.getId());
+						
+						this.signingService.delete(signing);
+						result = new ModelAndView("redirect:/welcome/index.do");
+						
+					} else {
+						// NO AUTORIZADO!
+					}
 				} else {
-					// NO AUTORIZADO!
+					// TIENE PARTIDOS!
 				}
 			} else {
-				// TIENE PARTIDOS!
+				// NO EXISTE EL JUGADOR!
+				result = new ModelAndView("misc/notExist");
 			}
 			
-
-
-
+			// Configuracion
 			final String banner = this.configurationService.findConfiguration().getBanner();
 			final String language = LocaleContextHolder.getLocale().getLanguage();
-
-			result = new ModelAndView("actor/listPlayers");
-
 			result.addObject("requestURI", "finder/president/find.do");
 			result.addObject("requestAction", "finder/president/find.do");
 			result.addObject("banner", banner);
