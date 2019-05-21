@@ -13,8 +13,11 @@ import org.springframework.validation.Validator;
 import repositories.PersonalDataRepository;
 import security.Authority;
 import domain.Actor;
+import domain.History;
 import domain.PersonalData;
+import domain.Player;
 import forms.CreateHistoryForm;
+import forms.PersonalDataForm;
 
 @Service
 @Transactional
@@ -26,7 +29,14 @@ public class PersonalDataService {
 
 	// Suporting services ------------------------
 
+	@Autowired
 	private ActorService			actorService;
+
+	@Autowired
+	private PlayerService			playerService;
+
+	@Autowired
+	private HistoryService			historyService;
 
 	@Autowired
 	private Validator				validator;
@@ -76,6 +86,30 @@ public class PersonalDataService {
 		return result;
 
 	}
+	public PersonalDataForm createForm(final int personalDataId) {
+
+		final PersonalData personal = this.findOne(personalDataId);
+
+		final PersonalDataForm result = new PersonalDataForm();
+
+		result.setId(personal.getId());
+		result.setVersion(personal.getVersion());
+		result.setPhotos(personal.getPhotos());
+		result.setSocialNetworkProfilelink(personal.getSocialNetworkProfilelink());
+
+		return result;
+	}
+
+	public Boolean exist(final int personalDataId) {
+		Boolean res = false;
+
+		final PersonalData find = this.personalDataRepository.findOne(personalDataId);
+
+		if (find != null)
+			res = true;
+
+		return res;
+	}
 
 	public PersonalData reconstruct(final CreateHistoryForm form, final BindingResult binding) {
 
@@ -90,22 +124,37 @@ public class PersonalDataService {
 
 	}
 
-	//	public PersonalData reconstruct(final PersonalDataForm form, final BindingResult binding) {
-	//
-	//		final Actor actor = this.actorService.findByPrincipal();
-	//
-	//		final String fullName = actor.getName() + " " + actor.getSurnames();
-	//
-	//		final PersonalData result = this.create();
-	//
-	//		this.validator.validate(form, binding);
-	//
-	//		result.setId(form.getId());
-	//		result.setVersion(form.getVersion());
-	//		result.setPhotos(form.getPhotos());
-	//		result.setSocialNetworkProfilelink(form.getSocialNetworkProfilelink());
-	//
-	//		return result;
-	//
-	//	}
+	public PersonalData reconstruct(final PersonalDataForm form, final BindingResult binding) {
+
+		final PersonalData result = this.create();
+
+		this.validator.validate(form, binding);
+
+		result.setId(form.getId());
+		result.setVersion(form.getVersion());
+		result.setPhotos(form.getPhotos());
+		result.setSocialNetworkProfilelink(form.getSocialNetworkProfilelink());
+
+		return result;
+
+	}
+	public Boolean security(final int personalDataId) {
+
+		Boolean result = false;
+
+		final Player player = this.playerService.findByPrincipal();
+
+		final History history = this.historyService.findByPlayerId(player.getId());
+
+		final PersonalData personal = this.findOne(personalDataId);
+
+		if (history.getPersonalData().equals(personal))
+			result = true;
+
+		return result;
+	}
+
+	public void flush() {
+		this.personalDataRepository.flush();
+	}
 }
