@@ -25,9 +25,19 @@
 	</div>
 </jstl:if>
 
+
+<security:authorize access="hasRole('FEDERATION')">
+	
+	<div><spring:message code="federation.establishmentDate" />:
+		<spring:message code="dateFormat" var="format"/>
+		<fmt:formatDate value="${actor.establishmentDate }" pattern="${format}" />
+	</div>
+	
+</security:authorize>
+
 <acme:display code="actor.name" property="${actor.name }" />
 
-<acme:display code="actor.surname" property="${actor.surnames }" />
+<acme:display code="actor.surnames" property="${actor.surnames }" />
 
 <spring:message code="actor.photo"/>: <br> <img src="${actor.photo }" width="10%" height="10%"/> <br>
 
@@ -37,6 +47,23 @@
 
 <acme:display code="actor.address" property="${actor.address }" />
 
+<security:authorize access="hasRole('SPONSOR')">
+
+	<h2><spring:message code="creditCard.data" /></h2>
+	
+	<acme:display code="actor.creditCard.holderName" property="${actor.creditCard.holderName }" />
+	
+	<acme:display code="actor.creditCard.make" property="${actor.creditCard.make }" />
+	
+	<acme:display code="actor.creditCard.number" property="${actor.creditCard.number }" />
+		
+	<acme:display code="actor.creditCard.expMonth" property="${actor.creditCard.expMonth }" />
+		
+	<acme:display code="actor.creditCard.expYear" property="${actor.creditCard.expYear }" />
+		
+	<acme:display code="actor.creditCard.cvv" property="${actor.creditCard.cvv }" />
+</security:authorize> 
+	
 <security:authorize access="hasRole('PLAYER')">
 
 	<acme:display code="player.buyoutClause" property="${actor.buyoutClause }" />

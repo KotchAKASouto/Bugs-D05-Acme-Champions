@@ -61,14 +61,20 @@
   		<security:intercept-url pattern="/message/actor/create.do" access="isAuthenticated()" />
  		<security:intercept-url pattern="/message/actor/edit.do" access="isAuthenticated()" />
   		<security:intercept-url pattern="/message/actor/delete.do" access="isAuthenticated()" />
-
 		<security:intercept-url pattern="/actor/list.do" access="isAuthenticated()" />
+		<security:intercept-url pattern="/data/get.do" access="isAuthenticated()" />
 
 		<!-- Registro -->
 		<security:intercept-url pattern="/register/createManager.do" access="isAnonymous()" />
 		<security:intercept-url pattern="/register/saveManager.do" access="isAnonymous()" />
 		<security:intercept-url pattern="/register/createPlayer.do" access="isAnonymous()" />
 		<security:intercept-url pattern="/register/savePlayer.do" access="isAnonymous()" />
+		<security:intercept-url pattern="/register/createReferee.do" access="isAnonymous()" />
+		<security:intercept-url pattern="/register/saveReferee.do" access="isAnonymous()" />
+		<security:intercept-url pattern="/register/createSponsor.do" access="isAnonymous()" />
+		<security:intercept-url pattern="/register/saveSponsor.do" access="isAnonymous()" />
+		<security:intercept-url pattern="/register/createFederation.do" access="isAnonymous()" />
+		<security:intercept-url pattern="/register/saveFederation.do" access="isAnonymous()" />
 		
 		<security:intercept-url pattern="/administrator/create.do" access="hasRole('ADMIN')" />
 		<security:intercept-url pattern="/administrator/edit.do" access="hasRole('ADMIN')" />
@@ -128,7 +134,10 @@
 		<security:intercept-url pattern="/profile/editAdministrator.do" access="hasRole('ADMIN')" />
 		<security:intercept-url pattern="/message/actor/rebrandingNotification.do" access="hasRole('ADMIN')" />
 
-
+		<!-- President and Manager -->
+		<security:intercept-url pattern="/player/display.do" access="hasAnyRole('PRESIDENT','MANAGER')" />
+		<security:intercept-url pattern="/manager/display.do" access="hasAnyRole('PRESIDENT','MANAGER')" />
+		
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 
 		<security:form-login

@@ -74,6 +74,9 @@
 			<li><a class="fNiv" href="security/login.do"><spring:message code="master.page.login" /></a></li>
 			<li><a class="fNiv" href="register/createPlayer.do"><spring:message code="master.page.signup.player" /></a></li>
 			<li><a class="fNiv" href="register/createManager.do"><spring:message code="master.page.signup.manager" /></a></li>
+			<li><a class="fNiv" href="register/createReferee.do"><spring:message code="master.page.signup.referee" /></a></li>
+			<li><a class="fNiv" href="register/createSponsor.do"><spring:message code="master.page.signup.sponsor" /></a></li>
+			<li><a class="fNiv" href="register/createFederation.do"><spring:message code="master.page.signup.federation" /></a></li>
 		</security:authorize>
 		
 		<security:authorize access="permitAll()">
@@ -89,7 +92,7 @@
 				<ul>
 					<li><a href="profile/displayPrincipal.do"><spring:message code="master.page.profile" /></a></li>
 					<li><a href="message/actor/list.do"><spring:message code="master.page.message" /> </a></li>
-						
+					<li><a href="data/get.do"><spring:message code="master.page.get.data" /> </a></li>	
 					<li><a href="j_spring_security_logout"><spring:message code="master.page.logout" /> </a></li>
 				</ul>
 			</li>
