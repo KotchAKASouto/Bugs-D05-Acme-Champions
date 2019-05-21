@@ -16,6 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 import domain.Actor;
 import domain.Finder;
 import domain.Game;
+import domain.Hiring;
+import domain.Manager;
 import domain.Player;
 import domain.President;
 import domain.Signing;
@@ -24,6 +26,8 @@ import services.ActorService;
 import services.ConfigurationService;
 import services.FinderService;
 import services.GameService;
+import services.HiringService;
+import services.ManagerService;
 import services.PlayerService;
 import services.PresidentService;
 import services.SigningService;
@@ -40,6 +44,9 @@ public class FiringPresidentController {
 		
 		@Autowired
 		PlayerService				    playerService;
+		
+		@Autowired
+		ManagerService					managerService;
 
 		@Autowired
 		private FinderService			finderService;
@@ -55,15 +62,18 @@ public class FiringPresidentController {
 		
 		@Autowired
 		private SigningService			signingService;
+		
+		@Autowired
+		private HiringService 			hiringService;
 
 
 		@RequestMapping(value = "/firePlayer", method = RequestMethod.GET)
-		public ModelAndView showFinder(@RequestParam final int playerId) {
+		public ModelAndView firePlayer(@RequestParam final int playerId) {
 			ModelAndView result = null;
 			
 			final President president = this.presidentService.findByPrincipal();
 			
-			final Team team = this.teamService.getTeamByPresidentId(president.getId());
+			final Team team = this.teamService.findTeamByPresidentId(president.getId());
 			
 			final Collection<Game> games = this.gameService.findGamesOfTeam(team.getId());
 			
@@ -79,15 +89,72 @@ public class FiringPresidentController {
 						
 						this.signingService.delete(signing);
 						result = new ModelAndView("redirect:/welcome/index.do");
+						System.out.println("Borrado!");
 						
 					} else {
 						// NO AUTORIZADO!
+						System.out.println("No autorizado!");
 					}
 				} else {
 					// TIENE PARTIDOS!
+					System.out.println("Tiene partidos!");
 				}
 			} else {
 				// NO EXISTE EL JUGADOR!
+				System.out.println("No existe el jugador!");
+				result = new ModelAndView("misc/notExist");
+			}
+			
+			// Configuracion
+			final String banner = this.configurationService.findConfiguration().getBanner();
+			final String language = LocaleContextHolder.getLocale().getLanguage();
+			result.addObject("requestURI", "finder/president/find.do");
+			result.addObject("requestAction", "finder/president/find.do");
+			result.addObject("banner", banner);
+			result.addObject("AmILogged", true);
+			result.addObject("AmInFinder", false);
+			result.addObject("language", language);
+
+			return result;
+
+		}
+		
+		@RequestMapping(value = "/fireManager", method = RequestMethod.GET)
+		public ModelAndView fireManager(@RequestParam final int managerId) {
+			ModelAndView result = null;
+			
+			final President president = this.presidentService.findByPrincipal();
+			
+			final Team team = this.teamService.findTeamByPresidentId(president.getId());
+			
+			final Collection<Game> games = this.gameService.findGamesOfTeam(team.getId());
+			
+			final Collection<Player> players = this.playerService.findPlayersOfTeam(team.getId());
+			
+			final Manager manager = this.managerService.findOne(managerId);
+			
+			Hiring hiring = this.hiringService.findHiringOfPresidentAndManager(president.getId(),manager.getId());
+			
+			Signing signing;
+			if (manager != null ) {
+				if (games.isEmpty()) {
+					
+					if(hiring != null) {
+						this.hiringService.delete(hiring);
+						result = new ModelAndView("redirect:/welcome/index.do");
+						System.out.println("Borrado!");
+						
+					} else {
+						// NO AUTORIZADO!
+						System.out.println("No autorizado!");
+					}
+				} else {
+					// TIENE PARTIDOS!
+					System.out.println("Tiene partidos!");
+				}
+			} else {
+				// NO EXISTE EL MANAGER!
+				System.out.println("No existe el manager!");
 				result = new ModelAndView("misc/notExist");
 			}
 			
