@@ -18,7 +18,9 @@
 	
 	<acme:textbox path="position" code="finder.position" />
 	
-	<input type="submit" name="find" value="<spring:message code="filter.search"/>"/>
+	<input type="submit" name="find" value="<spring:message code="finder.search"/>"/>
+	
+	<spring:message code="finder.allData" />
 	
 </form:form> 
 
@@ -34,7 +36,7 @@
 		<jstl:out value="${row1.squadNumber} - ${row1.squadName}" />
 	</display:column>
 	
-	<acme:column property="team" titleKey="player.team" value= "${row1.team.name}"/>
+	<acme:column property="team.name" titleKey="player.team" value= "${row1.team.name}"/>
 	
 	<jstl:if test="${language == 'en'}">
 	<acme:column property="positionEnglish" titleKey="player.positionEnglish" value= "${row1.positionEnglish}"/>
@@ -61,6 +63,6 @@
 	
 	<acme:column property="name" titleKey="actor.name" value= "${row2.name}"/>
 	
-	<acme:column property="team" titleKey="manager.team" value= "${row2.team.name}"/>
+	<acme:column property="team.name" titleKey="manager.team" value= "${row2.team.name}"/>
 	
 </display:table>
