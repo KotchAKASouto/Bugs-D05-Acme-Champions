@@ -53,7 +53,8 @@
 					<li class="arrow"></li>
 
 					<li><a href="finder/president/find.do"><spring:message code="master.page.finder" /></a></li>		
-
+					<li><a href="team/president/display.do"><spring:message code="master.page.team.display" /></a></li>
+					
 				</ul>
 			</li>
 		</security:authorize>
@@ -64,7 +65,8 @@
 					<li class="arrow"></li>
 
 					<li><a href="history/player/display.do"><spring:message code="master.page.history" /></a></li>		
-
+					<li><a href="training/player/list.do"><spring:message code="master.page.list.trainings" /></a></li>
+					
 				</ul>
 			</li>
 		</security:authorize>
