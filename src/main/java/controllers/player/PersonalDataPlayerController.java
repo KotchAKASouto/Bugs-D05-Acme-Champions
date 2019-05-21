@@ -20,7 +20,7 @@ import domain.Player;
 import forms.PersonalDataForm;
 
 @Controller
-@RequestMapping("/personalData/rookie")
+@RequestMapping("/personalData/player")
 public class PersonalDataPlayerController extends AbstractController {
 
 	// Services ---------------------------------------------------

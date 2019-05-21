@@ -26,4 +26,9 @@
 		<put-attribute name="body" value="/views/history/createHistory.jsp" />
 	</definition>
 	
+	<definition name="history/editPersonalData" extends="master.page">	
+		<put-attribute name="title" value="Datos personales: Editar" />
+		<put-attribute name="body" value="/views/history/editPersonalData.jsp" />
+	</definition>
+	
 </tiles-definitions>

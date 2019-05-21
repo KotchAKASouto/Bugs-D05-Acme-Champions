@@ -84,6 +84,7 @@ public class HistoryPlayerController extends AbstractController {
 	public ModelAndView save(@ModelAttribute("history") final CreateHistoryForm form, final BindingResult binding) {
 		ModelAndView result;
 
+		final Player player = this.playerService.findByPrincipal();
 		final History history = this.historyService.create();
 		final PersonalData personalReconstruct = this.personalDataService.reconstruct(form, binding);
 
@@ -93,6 +94,7 @@ public class HistoryPlayerController extends AbstractController {
 			try {
 				final PersonalData p = this.personalDataService.save(personalReconstruct);
 				history.setPersonalData(p);
+				history.setPlayer(player);
 				this.historyService.save(history);
 				result = new ModelAndView("redirect:/history/player/display.do");
 			} catch (final Throwable oops) {
