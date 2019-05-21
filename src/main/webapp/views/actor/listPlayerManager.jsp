@@ -75,4 +75,4 @@
 	
 </display:table>
 
-<acme:button name="back" code="actor.back" onclick="javascript: relativeRedir('welcome/index.do);" />
+<acme:button name="back" code="actor.back" onclick="javascript: relativeRedir('welcome/index.do');" />
