@@ -122,7 +122,7 @@ public class TrainingManagerController extends AbstractController {
 		if (training.getId() != 0 && this.trainingService.findOne(training.getId()) == null) {
 			result = new ModelAndView("misc/notExist");
 			result.addObject("banner", banner);
-		} else if ((training.getId() != 0 && this.trainingService.findOne(training.getId()).getManager() != this.managerService.findByPrincipal()) || this.checkStartDate(this.trainingService.findOne(training.getId())) == false)
+		} else if ((training.getId() != 0 && this.trainingService.findOne(training.getId()).getManager() != this.managerService.findByPrincipal()) || (training.getId() != 0 && this.checkStartDate(this.trainingService.findOne(training.getId())) == false))
 			result = new ModelAndView("redirect:/welcome/index.do");
 		else {
 
