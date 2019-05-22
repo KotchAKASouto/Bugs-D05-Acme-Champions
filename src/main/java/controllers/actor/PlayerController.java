@@ -11,11 +11,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.ConfigurationService;
 import services.PlayerService;
+import controllers.AbstractController;
 import domain.Player;
 
 @Controller
 @RequestMapping("/player")
-public class PlayerController {
+public class PlayerController extends AbstractController {
 
 	@Autowired
 	private PlayerService			playerService;

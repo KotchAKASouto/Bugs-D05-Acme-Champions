@@ -23,7 +23,7 @@ import domain.Team;
 
 @Controller
 @RequestMapping("/team/president,manager")
-public class TeamPresidentManagerController {
+public class TeamPresidentManagerController extends AbstractController {
 
 	@Autowired
 	private PresidentService		presidentService;

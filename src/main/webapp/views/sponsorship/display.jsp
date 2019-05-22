@@ -11,15 +11,28 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-<security:authorize access="hasRole('PROVIDER')">
+<security:authorize access="hasRole('SPONSOR')">
 
 <div>
 	<a target="_blank" href="${sponsorship.target}"><img src="${sponsorship.banner }" alt="Banner"  width="10%" height="10%" /></a>
 </div>
 
-<acme:display code="sponsorship.cost" property="${sponsorship.cost }" />
+<acme:display code="sponsorship.sponsor" property="${sponsorship.sponsor.name}" />
 
-<acme:display code="sponsorship.sponsor" property="${sponsorship.provider.name}" />
+
+<jstl:if test="${sponsorship.game != null}">
+<acme:display code="sponsorship.game" property="${sponsorship.game.homeTeam.name} - ${sponsorship.game.visitorTeam.name}" />
+</jstl:if>
+
+
+<jstl:if test="${sponsorship.player != null}">
+<acme:display code="sponsorship.player.name" property="${sponsorship.player.surnames}, ${sponsorship.player.name}" />
+</jstl:if>
+
+<jstl:if test="${sponsorship.team != null}">
+<acme:display code="sponsorship.team.name" property="${sponsorship.team.name}" />
+</jstl:if>
+
 
 <acme:display code="sponsorship.creditCard.holderName" property="${sponsorship.creditCard.holderName}" />
 
@@ -31,7 +44,7 @@
 
 <acme:display code="sponsorship.creditCard.expYear" property="${sponsorship.creditCard.expYear}" />
 
-<acme:button name="back" code="sponsorship.back" onclick="javascript: relativeRedir('sponsorship/provider/list.do');" />
+<acme:button name="back" code="sponsorship.back" onclick="javascript: relativeRedir('sponsorship/sponsor/list.do');" />
 
 </security:authorize>
 

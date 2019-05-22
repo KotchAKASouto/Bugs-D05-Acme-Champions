@@ -10,6 +10,7 @@ import org.springframework.util.Assert;
 import org.springframework.validation.Validator;
 
 import repositories.SponsorshipRepository;
+import domain.Sponsor;
 import domain.Sponsorship;
 
 @Service
@@ -21,6 +22,9 @@ public class SponsorshipService {
 
 	@Autowired
 	private ActorService			actorService;
+
+	@Autowired
+	private SponsorService			sponsorService;
 
 	@Autowired
 	private Validator				validator;
@@ -89,18 +93,18 @@ public class SponsorshipService {
 	//
 	//	}
 
-	//	public Boolean sponsorshipSponsorSecurity(final int sponsorhipId) {
-	//		Boolean res = false;
-	//
-	//		final Sponsorship sponsorhip = this.findOne(sponsorhipId);
-	//
-	//		final Provider login = this.providerService.findByPrincipal();
-	//
-	//		if (login.equals(sponsorhip.getProvider()))
-	//			res = true;
-	//
-	//		return res;
-	//	}
+	public Boolean sponsorshipSponsorSecurity(final int sponsorhipId) {
+		Boolean res = false;
+
+		final Sponsorship sponsorhip = this.findOne(sponsorhipId);
+
+		final Sponsor login = this.sponsorService.findByPrincipal();
+
+		if (login.equals(sponsorhip.getSponsor()))
+			res = true;
+
+		return res;
+	}
 
 	//	public Sponsorship reconstruct(final SponsorshipForm sponsorship, final BindingResult binding) {
 	//
@@ -227,10 +231,17 @@ public class SponsorshipService {
 	//		return result;
 	//	}
 
+	public Collection<Sponsorship> findAllBySponsorId(final int actorId) {
+
+		final Collection<Sponsorship> sponsorships = this.sponsorshipRepository.findAllBySponsorId(actorId);
+
+		return sponsorships;
+	}
+
 	public void flush() {
 
 		this.sponsorshipRepository.flush();
 
 	}
-	
+
 }
