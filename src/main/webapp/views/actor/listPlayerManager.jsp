@@ -59,6 +59,10 @@
 	
 	<acme:url href="player/display.do?playerId=${row1.id}" code="actor.display"/>
 	
+	<security:authorize access="hasRole('MANAGER')">
+		<acme:url href="report/manager/create.do?playerId=${row1.id}" code="report.create"/>
+	</security:authorize>
+	
 </display:table>
 
 <h3><spring:message code="manager" /></h3>

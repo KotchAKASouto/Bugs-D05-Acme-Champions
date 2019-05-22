@@ -33,6 +33,7 @@
 		<value>/views/manager/tiles.xml</value>
 		<value>/views/team/tiles.xml</value>
 		<value>/views/game/tiles.xml</value>
+		<value>/views/report/tiles.xml</value>
 
 
 	</util:list>

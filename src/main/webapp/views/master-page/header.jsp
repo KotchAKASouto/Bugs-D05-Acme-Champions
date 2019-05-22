@@ -42,7 +42,8 @@
 					<li class="arrow"></li>
 					
 					<li><a href="team/president,manager/listByManager.do"><spring:message code="master.page.team" /></a></li>
-					<li><a href="training/manager/list.do"><spring:message code="master.page.list.trainings" /></a></li>		
+					<li><a href="training/manager/list.do"><spring:message code="master.page.list.trainings" /></a></li>	
+					<li><a href="report/manager/list.do"><spring:message code="master.page.reports" /></a></li>		
 
 				</ul>
 			</li>

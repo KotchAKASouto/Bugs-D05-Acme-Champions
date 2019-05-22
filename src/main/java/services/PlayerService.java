@@ -70,11 +70,11 @@ public class PlayerService {
 		return result;
 	}
 
-	public Player findOne(final int companyId) {
+	public Player findOne(final int playerId) {
 
-		Assert.notNull(companyId);
+		Assert.notNull(playerId);
 		Player result;
-		result = this.playerRepository.findOne(companyId);
+		result = this.playerRepository.findOne(playerId);
 		return result;
 	}
 
@@ -147,6 +147,18 @@ public class PlayerService {
 		Player result;
 
 		result = this.playerRepository.findByUserAccountId(userAccount.getId());
+
+		return result;
+	}
+
+	public Boolean exist(final int playerId) {
+
+		Boolean result = false;
+
+		final Player player = this.playerRepository.findOne(playerId);
+
+		if (player != null)
+			result = true;
 
 		return result;
 	}

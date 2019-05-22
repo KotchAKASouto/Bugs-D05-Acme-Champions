@@ -33,6 +33,7 @@
 		<value>/views/manager/messages</value>
 		<value>/views/team/messages</value>
 		<value>/views/game/messages</value>
+		<value>/views/report/messages</value>
 
 	</util:list>
 

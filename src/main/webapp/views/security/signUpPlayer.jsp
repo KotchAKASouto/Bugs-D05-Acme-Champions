@@ -29,7 +29,7 @@
 	
 	<jstl:if test="${language == 'es'}">
 		<form:label path="position">
-			<spring:message code="player.position"></spring:message>
+			<spring:message code="player.position"/>
 		</form:label>
 		<form:select path="position" >
 			<form:option label="Portero" value="PORTERO"/>
