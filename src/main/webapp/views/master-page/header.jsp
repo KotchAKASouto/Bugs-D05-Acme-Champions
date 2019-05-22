@@ -40,8 +40,10 @@
 			<li><a class="fNiv"><spring:message	code="master.page.manager" /></a>
 				<ul>
 					<li class="arrow"></li>
-
-					<li><a href="training/manager/list.do"><spring:message code="master.page.list.trainings" /></a></li>		
+					
+					<li><a href="team/president,manager/listByManager.do"><spring:message code="master.page.team" /></a></li>
+					<li><a href="training/manager/list.do"><spring:message code="master.page.list.trainings" /></a></li>	
+					<li><a href="report/manager/list.do"><spring:message code="master.page.reports" /></a></li>		
 
 				</ul>
 			</li>
@@ -54,7 +56,7 @@
 
 					<li><a href="finder/president/find.do"><spring:message code="master.page.finder" /></a></li>		
 					<li><a href="team/president/display.do"><spring:message code="master.page.team.display" /></a></li>
-					
+					<li><a href="team/president,manager/listByPresident.do"><spring:message code="master.page.team" /></a></li>
 				</ul>
 			</li>
 		</security:authorize>
@@ -71,6 +73,16 @@
 			</li>
 		</security:authorize>
 		
+		<security:authorize access="hasRole('SPONSOR')">
+			<li><a class="fNiv"><spring:message	code="master.page.sponsor" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="sponsorship/sponsor/list.do"><spring:message code="master.page.sponsorships" /></a></li>	
+
+				</ul>
+			</li>
+		</security:authorize>
+		
 	
 		<security:authorize access="isAnonymous()">
 			<li><a class="fNiv" href="security/login.do"><spring:message code="master.page.login" /></a></li>
@@ -79,10 +91,11 @@
 			<li><a class="fNiv" href="register/createReferee.do"><spring:message code="master.page.signup.referee" /></a></li>
 			<li><a class="fNiv" href="register/createSponsor.do"><spring:message code="master.page.signup.sponsor" /></a></li>
 			<li><a class="fNiv" href="register/createFederation.do"><spring:message code="master.page.signup.federation" /></a></li>
+			
 		</security:authorize>
 		
 		<security:authorize access="permitAll()">
-	
+			<li><a class="fNiv" href="game/listAll.do"><spring:message code="master.page.game.listAll" /></a></li>
 		</security:authorize>
 		
 		<security:authorize access="isAuthenticated()">

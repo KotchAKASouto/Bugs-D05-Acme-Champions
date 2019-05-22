@@ -1,5 +1,5 @@
 
-package controllers.actor;
+package controllers.player;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -11,17 +11,23 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.ConfigurationService;
 import services.PlayerService;
+import services.StatisticalDataService;
+import controllers.AbstractController;
 import domain.Player;
+import domain.StatisticalData;
 
 @Controller
 @RequestMapping("/player")
-public class PlayerController {
+public class PlayerController extends AbstractController {
 
 	@Autowired
 	private PlayerService			playerService;
 
 	@Autowired
 	private ConfigurationService	configurationService;
+
+	@Autowired
+	private StatisticalDataService	statisticalDataService;
 
 
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
@@ -36,9 +42,10 @@ public class PlayerController {
 			result = new ModelAndView("misc/notExist");
 			result.addObject("banner", banner);
 		} else {
-
+			final StatisticalData statisticalData = this.statisticalDataService.findStatisticalDataByPlayerId(playerId);
 			result = new ModelAndView("player/display");
 			result.addObject("player", player);
+			result.addObject("statisticalData", statisticalData);
 			result.addObject("banner", banner);
 			result.addObject("language", language);
 

@@ -193,4 +193,15 @@ public class ManagerService {
 		return managers;
 
 	}
+
+	public Manager findManagerByTeamId(final int teamId) {
+
+		final Manager res = this.managerRepository.findManagerByTeamId(teamId);
+
+		return res;
+	}
+
+	public void flush() {
+		this.managerRepository.flush();
+	}
 }

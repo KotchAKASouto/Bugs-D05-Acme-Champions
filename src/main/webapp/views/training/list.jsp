@@ -26,14 +26,6 @@
 	
 	<acme:column property="description" titleKey="training.description" value= "${row.description}: "/>
 	
-	<display:column titleKey="training.players">
-		<c:forEach items="${row.players}" var="item">
-    		${item.name}
-    		<br>
-		</c:forEach>
-	</display:column>
-	
-	
 	<security:authorize access="hasRole('MANAGER')">
 		<acme:url href="training/manager/display.do?trainingId=${row.id }" code="training.display" />
 	</security:authorize>

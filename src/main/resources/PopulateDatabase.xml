@@ -1929,7 +1929,7 @@
 
 	<bean id="sponsorship1" class="domain.Sponsorship">
 		<property name="creditCard" ref="creditCard1" />
-		<property name="banner" value="http://banner1.com/" />
+		<property name="banner" value="http://lorempixel.com/200/200" />
 		<property name="target" value="http://target1.com/" />
 		<property name="sponsor" ref="sponsor1" />
 		<property name="game" ref="game1" />
