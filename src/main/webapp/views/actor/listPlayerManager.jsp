@@ -63,6 +63,10 @@
 		<acme:url href="report/manager/create.do?playerId=${row1.id}" code="report.create"/>
 	</security:authorize>
 	
+	<security:authorize access="hasRole('PRESIDENT')">
+	<acme:url href="signing/president/create.do?playerId=${row1.id}" code="actor.signig"/>
+	</security:authorize>
+	
 </display:table>
 
 <h3><spring:message code="manager" /></h3>
@@ -76,6 +80,8 @@
 	<acme:column property="team.name" titleKey="manager.team" value= "${row2.team.name}"/>
 	
 	<acme:url href="manager/display.do?managerId=${row2.id}" code="actor.display"/>
+	
+	<acme:url href="hiring/president/create.do?managerId=${row2.id}" code="actor.hiring"/>
 	
 </display:table>
 

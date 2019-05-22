@@ -148,15 +148,11 @@ public class HiringPresidentController extends AbstractController {
 
 			if (hiring.getManager().getTeam().equals(team) && hiring.getStatus().equals("PENDING")) {
 
-				hiring.setStatus("ACCEPTED");
-
-				this.hiringService.save(hiring);
-
 				final Manager manager = this.managerService.findOne(hiring.getManager().getId());
 
 				manager.setTeam(team);
 
-				this.managerService.save(manager);
+				hiring.setStatus("ACCEPTED");
 
 				result = new ModelAndView("redirect:/hiring/president/list.do");
 				result.addObject("banner", banner);

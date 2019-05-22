@@ -16,10 +16,6 @@
 		<fmt:formatNumber type="number" maxFractionDigits="5" value="${row.price}" />
 	</display:column>
 	
-	<acme:column property="status" titleKey="hiring.status" value= "${row.status}: "/>
-	
-	<acme:column property="mandatoryComment" titleKey="hiring.mandatoryComment" value= "${row.mandatoryComment}: "/>
-	
 	<acme:column property="president.name" titleKey="hiring.president" value= "${row.president.name}: "/>
 		
 	<acme:url href="hiring/${autoridad}/accept.do?hiringId=${row.id }" code="hiring.accept" />

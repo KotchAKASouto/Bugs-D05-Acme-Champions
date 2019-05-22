@@ -16,10 +16,6 @@
 		<fmt:formatNumber type="number" maxFractionDigits="5" value="${row.price}" />
 	</display:column>
 	
-	<acme:column property="status" titleKey="signing.status" value= "${row.status}: "/>
-	
-	<acme:column property="mandatoryComment" titleKey="signing.mandatoryComment" value= "${row.mandatoryComment}: "/>
-	
 	<acme:column property="president.name" titleKey="signing.president" value= "${row.president.name}: "/>
 		
 	<acme:url href="signing/${autoridad}/accept.do?signingId=${row.id }" code="signing.accept" />
