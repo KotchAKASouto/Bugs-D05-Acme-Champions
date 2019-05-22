@@ -105,7 +105,7 @@ public class TeamPresidentController extends AbstractController {
 			else
 				try {
 					this.teamService.save(team);
-					result = new ModelAndView("redirect:list.do");
+					result = new ModelAndView("redirect:display.do");
 				} catch (final Throwable oops) {
 					if (oops.getMessage() == "Invalid Dates")
 						result = this.createEditModelAndView(team, "url.error");
