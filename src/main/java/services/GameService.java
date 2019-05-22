@@ -20,7 +20,7 @@ public class GameService {
 	private GameRepository		gameRepository;
 		
 	public Collection<Game> findGamesOfTeam(final int teamId) {
-		return this.gameRepository.findGamesOfTeam(teamId);
+		return this.gameRepository.findNextGamesOfTeam(teamId);
 	}
 
 }

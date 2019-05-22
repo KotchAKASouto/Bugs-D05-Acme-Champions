@@ -160,8 +160,8 @@ public class TeamService {
 		return result;
 
 	}
-
-	public Team getTeamByPresidentId(final int presidentId) {
+	
+	public Team findTeamByPresidentId(final int presidentId) {
 		Team result;
 		Assert.notNull(presidentId);
 		result = this.teamRepository.findTeamByPresidentId(presidentId);

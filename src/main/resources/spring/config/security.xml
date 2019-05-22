@@ -96,7 +96,8 @@
 		<security:intercept-url pattern="/finder/president/find.do" access="hasRole('PRESIDENT')" />
 		
 		<!-- President: Managing team -->
-		<security:intercept-url pattern="/finder/president/firePlayer.do" access="hasRole('PRESIDENT')" />
+		<security:intercept-url pattern="/president/firePlayer*" access="hasRole('PRESIDENT')" />
+		<security:intercept-url pattern="/president/fireManager*" access="hasRole('PRESIDENT')" />
 		
 		<!-- Manager: Training -->
 		<security:intercept-url pattern="/training/manager/list.do" access="hasRole('MANAGER')" />
@@ -146,6 +147,9 @@
 		<!-- President and Manager -->
 		<security:intercept-url pattern="/player/display.do" access="hasAnyRole('PRESIDENT','MANAGER')" />
 		<security:intercept-url pattern="/manager/display.do" access="hasAnyRole('PRESIDENT','MANAGER')" />
+		<security:intercept-url pattern="/team/president,manager/listByPresident.do" access="hasRole('PRESIDENT')" />
+		<security:intercept-url pattern="/team/president,manager/listByManager.do" access="hasRole('MANAGER')" />
+		
 		
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 

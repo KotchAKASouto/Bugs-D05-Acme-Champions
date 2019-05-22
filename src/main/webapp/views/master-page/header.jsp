@@ -40,7 +40,8 @@
 			<li><a class="fNiv"><spring:message	code="master.page.manager" /></a>
 				<ul>
 					<li class="arrow"></li>
-
+					
+					<li><a href="team/president,manager/listByManager.do"><spring:message code="master.page.team" /></a></li>
 					<li><a href="training/manager/list.do"><spring:message code="master.page.list.trainings" /></a></li>		
 
 				</ul>
@@ -54,7 +55,7 @@
 
 					<li><a href="finder/president/find.do"><spring:message code="master.page.finder" /></a></li>		
 					<li><a href="team/president/display.do"><spring:message code="master.page.team.display" /></a></li>
-					
+					<li><a href="team/president,manager/listByPresident.do"><spring:message code="master.page.team" /></a></li>
 				</ul>
 			</li>
 		</security:authorize>

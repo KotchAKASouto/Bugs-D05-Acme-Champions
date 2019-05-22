@@ -42,10 +42,17 @@
 
 <spring:message code="player.punished" />: <spring:message code="player.${player.punished }" /><br>
 
-<!--<acme:button name="back" code="actor.back.team" onclick="javascript: relativeRedir('position/list.do');" />-->
+<security:authorize access="hasRole('PRESIDENT')">
+<acme:button name="back" code="actor.back.team" onclick="javascript: relativeRedir('team/president,manager/listByPresident.do');" />
+</security:authorize>
+<security:authorize access="hasRole('MANAGER')">
+<acme:button name="back" code="actor.back.team" onclick="javascript: relativeRedir('team/president,manager/listByManager.do');" />
+</security:authorize>
 
+
+<security:authorize access="hasRole('PRESIDENT')">
 <acme:button name="back" code="actor.back.finder" onclick="javascript: relativeRedir('finder/president/find.do');" />
-
+</security:authorize>
 
 <!-- 
 <jstl:if test="${find}">
