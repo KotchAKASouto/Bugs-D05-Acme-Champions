@@ -51,9 +51,10 @@
 		<!-- Obtener datos usuarios -->
 
 		<!-- Todo el mundo -->
+		<security:intercept-url pattern="/game/listAll.do" access="permitAll" />
 
 		<!-- Actor no autenticado -->
-		<security:intercept-url pattern="/game/listAll.do" access="isAnonymous()" />
+		
 
 		<!-- Actor autenticado -->
 

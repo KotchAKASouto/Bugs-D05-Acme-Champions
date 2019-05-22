@@ -76,7 +76,6 @@
 			<li><a class="fNiv"><spring:message	code="master.page.sponsor" /></a>
 				<ul>
 					<li class="arrow"></li>
-					
 					<li><a href="sponsorship/sponsor/list.do"><spring:message code="master.page.sponsorships" /></a></li>	
 
 				</ul>
@@ -91,11 +90,11 @@
 			<li><a class="fNiv" href="register/createReferee.do"><spring:message code="master.page.signup.referee" /></a></li>
 			<li><a class="fNiv" href="register/createSponsor.do"><spring:message code="master.page.signup.sponsor" /></a></li>
 			<li><a class="fNiv" href="register/createFederation.do"><spring:message code="master.page.signup.federation" /></a></li>
-			<li><a class="fNiv" href="game/listAll.do"><spring:message code="master.page.game.listAll" /></a></li>
+			
 		</security:authorize>
 		
 		<security:authorize access="permitAll()">
-	
+			<li><a class="fNiv" href="game/listAll.do"><spring:message code="master.page.game.listAll" /></a></li>
 		</security:authorize>
 		
 		<security:authorize access="isAuthenticated()">
