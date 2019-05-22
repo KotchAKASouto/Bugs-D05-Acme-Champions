@@ -53,6 +53,7 @@
 		<!-- Todo el mundo -->
 
 		<!-- Actor no autenticado -->
+		<security:intercept-url pattern="/game/listAll.do" access="isAnonymous()" />
 
 		<!-- Actor autenticado -->
 
