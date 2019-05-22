@@ -15,7 +15,7 @@
 
 <h3><spring:message code="player.squad" />: <jstl:out value="${player.squadNumber}-${player.squadName}"/></h3>
 
-<h3><spring:message code="player.buyout" />: <jstl:out value="${player.buyoutClause }" /></h3>
+<h3><spring:message code="player.buyout" />: <fmt:formatNumber type="number" maxFractionDigits="5" value="${player.buyoutClause }" /></h3>
 
 <acme:display code="player.team" property="${player.team.name}" />
 
@@ -41,6 +41,18 @@
 <spring:message code="player.injured" />: <spring:message code="player.${player.injured }" /><br>
 
 <spring:message code="player.punished" />: <spring:message code="player.${player.punished }" /><br>
+
+<h3><spring:message code="player.statisticalData" /></h3>
+
+<acme:display code="statisticalData.yellowCards" property="${statisticalData.yellowCards}" />
+
+<acme:display code="statisticalData.redCards" property="${statisticalData.redCards}" />
+
+<acme:display code="statisticalData.goals" property="${statisticalData.goals}" />
+
+<acme:display code="statisticalData.matchsPlayed" property="${statisticalData.matchsPlayed}" />
+
+<acme:display code="statisticalData.accumulatedYellowCard" property="${statisticalData.accumulatedYellowCard}" /><br>
 
 <security:authorize access="hasRole('PRESIDENT')">
 <acme:button name="back" code="actor.back.team" onclick="javascript: relativeRedir('team/president,manager/listByPresident.do');" />

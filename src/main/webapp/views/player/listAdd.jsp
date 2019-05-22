@@ -44,4 +44,14 @@
 <acme:button name="back" code="player.back" onclick="javascript: relativeRedir('training/manager/list.do');" />
 </security:authorize> 
 		
-
+<script type="text/javascript">
+	var trTags = document.getElementsByTagName("tr");
+	for (var i = 0; i < trTags.length; i++) {
+	  var tdStatus = trTags[i].children[3];
+	  if (tdStatus.innerText == "NO") {
+		  trTags[i].style.backgroundColor = "#98FB98";
+	  } else if (tdStatus.innerText == "YES") {
+		  trTags[i].style.backgroundColor = "#FFA07A";
+	  }
+	}
+</script>

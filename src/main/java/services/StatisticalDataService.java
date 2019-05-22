@@ -42,4 +42,11 @@ public class StatisticalDataService {
 
 		return result;
 	}
+
+	public StatisticalData findStatisticalDataByPlayerId(final int playerId) {
+
+		final StatisticalData res = this.statisticalDataRepository.findStatisticalDataByPlayerId(playerId);
+
+		return res;
+	}
 }
