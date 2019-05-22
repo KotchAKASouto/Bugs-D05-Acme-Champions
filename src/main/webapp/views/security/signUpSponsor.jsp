@@ -8,7 +8,7 @@
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-<form:form action="administrator/editAuditor.do" modelAttribute="auditor">
+<form:form action="register/saveSponsor.do" modelAttribute="sponsor">
 	
 	
 	<acme:textbox code="actor.name" path="name" obligatory="true"/>
@@ -29,15 +29,20 @@
 	
 	<acme:password code="actor.confirmPassword" path="confirmPassword" obligatory="true"/>
 	
-	<acme:checkbox path="checkbox" code1="actor.checkBox1" code2="actor.checkBox2" href="termsAndConditions/show.do" />
-	
 	
 	
 	<h1><spring:message code="creditCard.data" /></h1>
 	
 	<acme:textbox code="actor.creditCard.holderName" path="creditCard.holderName" obligatory="true"/>
 	
-	<acme:textbox code="actor.creditCard.make" path="creditCard.make" obligatory="true"/>
+	<form:label path="creditCard.make">
+			<spring:message code="actor.creditCard.make"/>*
+		</form:label>
+		<form:select path="creditCard.make" >
+			<form:options items="${makes}"/>
+		</form:select>
+		<form:errors cssClass="error" path="creditCard.make"></form:errors>
+		<br />
 	
 	<acme:textbox code="actor.creditCard.number" path="creditCard.number" obligatory="true"/>
 	
@@ -47,22 +52,13 @@
 	
 	<acme:textbox code="actor.creditCard.cvv" path="creditCard.cvv" obligatory="true"/>
 	
-	
-	<jstl:if test="${showError == true}">
-		<div class="error">
-			<spring:message code="auditor.commit.error" />
-		</div>
-	</jstl:if>
+	<acme:checkbox path="checkbox" code1="actor.checkBox1" code2="actor.checkBox2" href="termsAndConditions/show.do" />
 	
 	<input type="submit" name="save" value="<spring:message code="actor.save" />" />
 	
 	<acme:cancel code="actor.cancel" url="welcome/index.do" />
 	
 </form:form>
-
-<jstl:if test="${message!=null }">
-	<div class="error"><spring:message code="auditor.commit.error" /></div>
-</jstl:if> 
  
 <script type="text/javascript">
 	function checkPhone() {

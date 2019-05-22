@@ -43,6 +43,9 @@
 
 					<li><a href="training/manager/list.do"><spring:message code="master.page.list.trainings" /></a></li>			
 					<li><a href="hiring/manager/list.do"><spring:message code="master.page.hiring" /></a></li>	
+					<li><a href="team/president,manager/listByManager.do"><spring:message code="master.page.team" /></a></li>
+					<li><a href="training/manager/list.do"><spring:message code="master.page.list.trainings" /></a></li>	
+					<li><a href="report/manager/list.do"><spring:message code="master.page.reports" /></a></li>		
 
 				</ul>
 			</li>
@@ -53,9 +56,11 @@
 				<ul>
 					<li class="arrow"></li>
 
-					<li><a href="finder/president/find.do"><spring:message code="master.page.finder" /></a></li>		
+					<li><a href="finder/president/find.do"><spring:message code="master.page.finder" /></a></li>	
 					<li><a href="hiring/president/list.do"><spring:message code="master.page.hiring" /></a></li>		
 					<li><a href="signing/president/list.do"><spring:message code="master.page.signing" /></a></li>	
+					<li><a href="team/president/display.do"><spring:message code="master.page.team.display" /></a></li>
+					<li><a href="team/president,manager/listByPresident.do"><spring:message code="master.page.team" /></a></li>
 
 				</ul>
 			</li>
@@ -68,6 +73,18 @@
 
 					<li><a href="history/player/display.do"><spring:message code="master.page.history" /></a></li>	
 					<li><a href="signing/player/list.do"><spring:message code="master.page.signing" /></a></li>		
+					<li><a href="history/player/display.do"><spring:message code="master.page.history" /></a></li>		
+					<li><a href="training/player/list.do"><spring:message code="master.page.list.trainings" /></a></li>
+					
+				</ul>
+			</li>
+		</security:authorize>
+		
+		<security:authorize access="hasRole('SPONSOR')">
+			<li><a class="fNiv"><spring:message	code="master.page.sponsor" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="sponsorship/sponsor/list.do"><spring:message code="master.page.sponsorships" /></a></li>	
 
 				</ul>
 			</li>
@@ -78,10 +95,14 @@
 			<li><a class="fNiv" href="security/login.do"><spring:message code="master.page.login" /></a></li>
 			<li><a class="fNiv" href="register/createPlayer.do"><spring:message code="master.page.signup.player" /></a></li>
 			<li><a class="fNiv" href="register/createManager.do"><spring:message code="master.page.signup.manager" /></a></li>
+			<li><a class="fNiv" href="register/createReferee.do"><spring:message code="master.page.signup.referee" /></a></li>
+			<li><a class="fNiv" href="register/createSponsor.do"><spring:message code="master.page.signup.sponsor" /></a></li>
+			<li><a class="fNiv" href="register/createFederation.do"><spring:message code="master.page.signup.federation" /></a></li>
+			
 		</security:authorize>
 		
 		<security:authorize access="permitAll()">
-	
+			<li><a class="fNiv" href="game/listAll.do"><spring:message code="master.page.game.listAll" /></a></li>
 		</security:authorize>
 		
 		<security:authorize access="isAuthenticated()">
@@ -93,7 +114,7 @@
 				<ul>
 					<li><a href="profile/displayPrincipal.do"><spring:message code="master.page.profile" /></a></li>
 					<li><a href="message/actor/list.do"><spring:message code="master.page.message" /> </a></li>
-						
+					<li><a href="data/get.do"><spring:message code="master.page.get.data" /> </a></li>	
 					<li><a href="j_spring_security_logout"><spring:message code="master.page.logout" /> </a></li>
 				</ul>
 			</li>

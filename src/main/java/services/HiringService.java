@@ -1,4 +1,3 @@
-
 package services;
 
 import java.util.Collection;
@@ -183,5 +182,25 @@ public class HiringService {
 		final Collection<Hiring> res = this.hiringRepository.findByManagerId(id);
 
 		return res;
+	}
+	
+	// Managed repositories
+	
+	@Autowired
+	private HiringRepository hiringRepository;
+	
+	// --------
+	
+	public void delete(final Hiring hiring) {
+
+		Assert.notNull(hiring);
+		Assert.isTrue(hiring.getId() != 0);
+
+		this.hiringRepository.delete(hiring);
+
+	}
+	
+	public Hiring findHiringOfPresidentAndManager(int presidentId, int managerId) {
+		return this.hiringRepository.findHiringOfPresidentAndManager(presidentId, managerId);
 	}
 }

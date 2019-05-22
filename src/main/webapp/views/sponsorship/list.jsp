@@ -16,33 +16,17 @@
 		<a target="_blank" href="${row.target }"><spring:message code="sponsorship.target"/></a>
 	</display:column>
 	
-	<acme:column property="cost" titleKey="sponsorship.cost" value= "${row.cost}: "/>
-	
-	<acme:column property="position.title" titleKey="sponsorship.position.title" value= "${row.position.title}: "/>
-	
-	<acme:column property="creditCard.number" titleKey="sponsorship.creditCard.number" value= "${row.creditCard.number}: "/>
-		
-	<acme:url href="sponsorship/provider/edit.do?sponsorshipId=${row.id }" code="sponsorship.edit" />
-	
-	<acme:url href="sponsorship/provider/display.do?sponsorshipId=${row.id }" code="sponsorship.display" />
-
-	</display:table>
-	
-	<h3><spring:message code="sponsorshipCancelled" /></h3>
-	
-	<display:table name="sponsorshipsCancelled" id="row2" requestURI="${requestURI }" pagesize="5">
-	
-	<display:column>
-		<a target="_blank" href="${row2.target }"><spring:message code="sponsorship.target"/></a>
+	<display:column titleKey="sponsorship.game">
+		<jstl:out value="${row.game.homeTeam.name}" /> - <jstl:out value="${row.game.visitorTeam.name}" />
 	</display:column>
 	
-	<acme:column property="cost" titleKey="sponsorship.cost" value= "${row2.cost}: "/>
+	<acme:column property="player.name" titleKey="sponsorship.player.name" value= "${row.player.name}: "/>
 	
-	<acme:column property="position.title" titleKey="sponsorship.position.title" value= "${row2.position.title}: "/>
+	<acme:column property="team.name" titleKey="sponsorship.team.name" value= "${row.team.name}: "/>
 	
-	<acme:column property="creditCard.number" titleKey="sponsorship.creditCard.number" value= "${row2.creditCard.number}: "/>
+	<acme:column property="creditCard.number" titleKey="sponsorship.creditCard.number" value= "${row.creditCard.number}: "/>
 	
-	<acme:url href="sponsorship/provider/display.do?sponsorshipId=${row2.id }" code="sponsorship.display" />
+	<acme:url href="sponsorship/sponsor/display.do?sponsorshipId=${row.id }" code="sponsorship.display" />
 
 	</display:table>
 		

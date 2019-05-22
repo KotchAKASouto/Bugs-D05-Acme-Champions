@@ -23,4 +23,7 @@ public interface TeamRepository extends JpaRepository<Team, Integer> {
 	@Query("select t from Team t where t.president.id=?1")
 	Team findByPresidentId(int id);
 
+	@Query("select t from Team t where t.president.id=?1")
+	Team findTeamByPresidentId(int presidentId);
+
 }

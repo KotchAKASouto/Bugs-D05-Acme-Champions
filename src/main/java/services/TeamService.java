@@ -123,6 +123,14 @@ public class TeamService {
 
 	}
 
+	public Team findTeamByPresidentId(final int presidentId) {
+
+		final Team result = this.teamRepository.findTeamByPresidentId(presidentId);
+
+		return result;
+
+	}
+
 	public Team reconstruct(final Team team, final BindingResult binding) {
 
 		Team result = team;
@@ -131,6 +139,8 @@ public class TeamService {
 		if (team.getId() == 0 || team == null) {
 
 			team.setPresident(teamNew.getPresident());
+			team.setEstablishmentDate(teamNew.getEstablishmentDate());
+			team.setFunctional(teamNew.getFunctional());
 
 			this.validator.validate(team, binding);
 
@@ -140,6 +150,8 @@ public class TeamService {
 			final Team teamBBDD = this.findOne(team.getId());
 
 			team.setPresident(teamBBDD.getPresident());
+			team.setEstablishmentDate(teamBBDD.getEstablishmentDate());
+			team.setFunctional(teamBBDD.getFunctional());
 
 			this.validator.validate(team, binding);
 
@@ -148,6 +160,7 @@ public class TeamService {
 		return result;
 
 	}
+
 	public Boolean teamPresidentSecurity(final int teamId) {
 		Boolean res = false;
 		final Team team = this.findOne(teamId);

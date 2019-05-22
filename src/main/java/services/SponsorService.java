@@ -2,6 +2,7 @@
 package services;
 
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
@@ -82,6 +83,11 @@ public class SponsorService {
 			this.actorService.checkEmail(sponsor.getEmail(), true);
 			this.actorService.checkPhone(sponsor.getPhone());
 
+			final Date now = new Date(System.currentTimeMillis() - 1000);
+
+			Assert.isTrue(sponsor.getCreditCard().getExpYear() - 1900 >= now.getYear());
+			Assert.isTrue(sponsor.getCreditCard().getExpMonth() - 1 >= now.getMonth() || sponsor.getCreditCard().getExpYear() - 1900 > now.getYear());
+
 			final String phone = this.actorService.checkPhone(sponsor.getPhone());
 			sponsor.setPhone(phone);
 
@@ -102,6 +108,11 @@ public class SponsorService {
 			userAccount.setPassword(pass);
 
 			sponsor.setUserAccount(userAccount);
+
+			final Date now = new Date(System.currentTimeMillis() - 1000);
+
+			Assert.isTrue(sponsor.getCreditCard().getExpYear() - 1900 >= now.getYear());
+			Assert.isTrue(sponsor.getCreditCard().getExpMonth() - 1 >= now.getMonth() || sponsor.getCreditCard().getExpYear() - 1900 > now.getYear());
 
 			final String phone = this.actorService.checkPhone(sponsor.getPhone());
 			sponsor.setPhone(phone);

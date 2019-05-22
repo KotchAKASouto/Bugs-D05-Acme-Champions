@@ -1,9 +1,11 @@
 
 package services;
 
+import java.net.URL;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
@@ -78,6 +80,8 @@ public class PersonalDataService {
 	public PersonalData save(final PersonalData personal) {
 
 		Assert.notNull(personal);
+
+		this.checkPictures(personal.getPhotos());
 
 		PersonalData result;
 
@@ -156,5 +160,15 @@ public class PersonalDataService {
 
 	public void flush() {
 		this.personalDataRepository.flush();
+	}
+
+	public void checkPictures(final Collection<String> links) {
+
+		for (final String url : links)
+			try {
+				new URL(url);
+			} catch (final Exception e) {
+				throw new DataIntegrityViolationException("Invalid URL");
+			}
 	}
 }

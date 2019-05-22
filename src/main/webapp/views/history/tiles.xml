@@ -31,5 +31,15 @@
 		<put-attribute name="body" value="/views/history/editPersonalData.jsp" />
 	</definition>
 	
+	<definition name="history/editPlayerRecord" extends="master.page">	
+		<put-attribute name="title" value="Player record" />
+		<put-attribute name="body" value="/views/history/editPlayerRecord.jsp" />
+	</definition>
+	
+	<definition name="history/editSportRecord" extends="master.page">	
+		<put-attribute name="title" value="Sport record" />
+		<put-attribute name="body" value="/views/history/editSportRecord.jsp" />
+	</definition>
+	
 	
 </tiles-definitions>

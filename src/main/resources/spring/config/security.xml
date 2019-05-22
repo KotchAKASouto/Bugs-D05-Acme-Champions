@@ -51,8 +51,10 @@
 		<!-- Obtener datos usuarios -->
 
 		<!-- Todo el mundo -->
+		<security:intercept-url pattern="/game/listAll.do" access="permitAll" />
 
 		<!-- Actor no autenticado -->
+		
 
 		<!-- Actor autenticado -->
 
@@ -61,14 +63,20 @@
   		<security:intercept-url pattern="/message/actor/create.do" access="isAuthenticated()" />
  		<security:intercept-url pattern="/message/actor/edit.do" access="isAuthenticated()" />
   		<security:intercept-url pattern="/message/actor/delete.do" access="isAuthenticated()" />
-
 		<security:intercept-url pattern="/actor/list.do" access="isAuthenticated()" />
+		<security:intercept-url pattern="/data/get.do" access="isAuthenticated()" />
 
 		<!-- Registro -->
 		<security:intercept-url pattern="/register/createManager.do" access="isAnonymous()" />
 		<security:intercept-url pattern="/register/saveManager.do" access="isAnonymous()" />
 		<security:intercept-url pattern="/register/createPlayer.do" access="isAnonymous()" />
 		<security:intercept-url pattern="/register/savePlayer.do" access="isAnonymous()" />
+		<security:intercept-url pattern="/register/createReferee.do" access="isAnonymous()" />
+		<security:intercept-url pattern="/register/saveReferee.do" access="isAnonymous()" />
+		<security:intercept-url pattern="/register/createSponsor.do" access="isAnonymous()" />
+		<security:intercept-url pattern="/register/saveSponsor.do" access="isAnonymous()" />
+		<security:intercept-url pattern="/register/createFederation.do" access="isAnonymous()" />
+		<security:intercept-url pattern="/register/saveFederation.do" access="isAnonymous()" />
 		
 		<security:intercept-url pattern="/administrator/create.do" access="hasRole('ADMIN')" />
 		<security:intercept-url pattern="/administrator/edit.do" access="hasRole('ADMIN')" />
@@ -89,6 +97,10 @@
 		<!-- President: Finder -->
 		<security:intercept-url pattern="/finder/president/find.do" access="hasRole('PRESIDENT')" />
 		
+		<!-- President: Managing team -->
+		<security:intercept-url pattern="/president/firePlayer*" access="hasRole('PRESIDENT')" />
+		<security:intercept-url pattern="/president/fireManager*" access="hasRole('PRESIDENT')" />
+		
 		<!-- Manager: Training -->
 		<security:intercept-url pattern="/training/manager/list.do" access="hasRole('MANAGER')" />
 		<security:intercept-url pattern="/training/manager/edit.do" access="hasRole('MANAGER')" />
@@ -97,6 +109,22 @@
 		<security:intercept-url pattern="/training/manager/addPlayer.do" access="hasRole('MANAGER')" />
 		<security:intercept-url pattern="/training/manager/addPlayerPost.do" access="hasRole('MANAGER')" />
 		
+		<!-- Manager: Reports -->
+		
+		<security:intercept-url pattern="/report/manager/list.do" access="hasRole('MANAGER')" />
+		<security:intercept-url pattern="/report/manager/create.do" access="hasRole('MANAGER')" />
+		<security:intercept-url pattern="/report/manager/edit.do" access="hasRole('MANAGER')" />
+		<security:intercept-url pattern="/report/manager/delete.do" access="hasRole('MANAGER')" />
+		
+		<!-- President: Team -->
+		
+		<security:intercept-url pattern="/team/president/edit.do" access="hasRole('PRESIDENT')" />
+		<security:intercept-url pattern="/team/president/display.do" access="hasRole('PRESIDENT')" />
+		<security:intercept-url pattern="/team/president/create.do" access="hasRole('PRESIDENT')" />
+		
+		<!-- Player: Training -->
+		<security:intercept-url pattern="/training/player/list.do" access="hasRole('PLAYER')" />
+		
 		<!-- Player: History -->
 		<security:intercept-url pattern="/history/player/display.do" access="hasRole('PLAYER')" />
 		<security:intercept-url pattern="/history/player/create.do" access="hasRole('PLAYER')" />
@@ -104,6 +132,11 @@
 		<security:intercept-url pattern="/history/player/delete.do" access="hasRole('PLAYER')" />
 		
 		<security:intercept-url pattern="/personalData/player/edit.do" access="hasRole('PLAYER')" />
+		
+		<security:intercept-url pattern="/playerRecord/player/create.do" access="hasRole('PLAYER')" />
+		<security:intercept-url pattern="/playerRecord/player/edit.do" access="hasRole('PLAYER')" />
+		<security:intercept-url pattern="/sportRecord/player/create.do" access="hasRole('PLAYER')" />
+		<security:intercept-url pattern="/sportRecord/player/edit.do" access="hasRole('PLAYER')" />
 
 		<!-- Administrator -->
 		<security:intercept-url pattern="/administrator/dashboard.do" access="hasRole('ADMIN')" />
@@ -144,7 +177,17 @@
 		<security:intercept-url pattern="/signing/player/accept.do" access="hasRole('PLAYER')" />
 		<security:intercept-url pattern="/signing/player/reject.do" access="hasRole('PLAYER')" />
 
-
+		<!-- President and Manager -->
+		<security:intercept-url pattern="/player/display.do" access="hasAnyRole('PRESIDENT','MANAGER')" />
+		<security:intercept-url pattern="/manager/display.do" access="hasAnyRole('PRESIDENT','MANAGER')" />
+		<security:intercept-url pattern="/team/president,manager/listByPresident.do" access="hasRole('PRESIDENT')" />
+		<security:intercept-url pattern="/team/president,manager/listByManager.do" access="hasRole('MANAGER')" />
+		
+		<!-- Sponsor: Sponsorship -->
+		<security:intercept-url pattern="/sponsorship/sponsor/display.do" access="hasRole('SPONSOR')" />
+		<security:intercept-url pattern="/sponsorship/sponsor/list.do" access="hasRole('SPONSOR')" />
+		
+		
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 
 		<security:form-login

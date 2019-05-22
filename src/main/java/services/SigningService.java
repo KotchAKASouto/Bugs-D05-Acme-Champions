@@ -1,4 +1,3 @@
-
 package services;
 
 import java.util.Collection;
@@ -180,5 +179,18 @@ public class SigningService {
 		final Collection<Signing> res = this.signingRepository.findByPlayerId(id);
 
 		return res;
+	}
+	
+	public void delete(final Signing signing) {
+
+		Assert.notNull(signing);
+		Assert.isTrue(signing.getId() != 0);
+
+		this.signingRepository.delete(signing);
+
+	}
+	
+	public Signing findSigningOfPresidentAndPlayer(int presidentId, int playerId) {
+		return this.signingRepository.findSigningOfPresidentAndPlayer(presidentId, playerId);
 	}
 }

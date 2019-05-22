@@ -31,11 +31,19 @@
 		<put-attribute name="body" value="/views/security/signUpPlayer.jsp" />
 	</definition>
 	
+	<definition name="security/signUpReferee" extends="master.page">
+		<put-attribute name="title" value="Registro árbitro" />
+		<put-attribute name="body" value="/views/security/signUpReferee.jsp" />
+	</definition>
+	
 	<definition name="security/signUpSponsor" extends="master.page">
 		<put-attribute name="title" value="Registrar jugador" />
 		<put-attribute name="body" value="/views/security/signUpSponsor.jsp" />
 	</definition>
 	
-	
+	<definition name="security/signUpFederation" extends="master.page">
+		<put-attribute name="title" value="Registrar federación" />
+		<put-attribute name="body" value="/views/security/signUpFederation.jsp" />
+	</definition>
 		
 </tiles-definitions>
