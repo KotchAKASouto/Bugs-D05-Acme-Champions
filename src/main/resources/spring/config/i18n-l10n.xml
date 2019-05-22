@@ -31,6 +31,7 @@
 		<value>/views/player/messages</value>
 		<value>/views/history/messages</value>
 		<value>/views/hiring/messages</value>
+		<value>/views/signing/messages</value>
 		
 	</util:list>
 

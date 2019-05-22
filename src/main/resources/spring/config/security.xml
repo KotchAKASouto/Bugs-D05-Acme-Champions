@@ -130,13 +130,19 @@
 		<security:intercept-url pattern="/hiring/president/accept.do" access="hasRole('PRESIDENT')" />
 		<security:intercept-url pattern="/hiring/president/reject.do" access="hasRole('PRESIDENT')" />
 		
-		<security:intercept-url pattern="/hiring/player/list.do" access="hasRole('PLAYER')" />
-		<security:intercept-url pattern="/hiring/player/accept.do" access="hasRole('PLAYER')" />
-		<security:intercept-url pattern="/hiring/player/reject.do" access="hasRole('PLAYER')" />
-		
 		<security:intercept-url pattern="/hiring/manager/list.do" access="hasRole('MANAGER')" />
 		<security:intercept-url pattern="/hiring/manager/accept.do" access="hasRole('MANAGER')" />
 		<security:intercept-url pattern="/hiring/manager/reject.do" access="hasRole('MANAGER')" />
+		
+		<security:intercept-url pattern="/signing/president/list.do" access="hasRole('PRESIDENT')" />
+		<security:intercept-url pattern="/signing/president/create.do" access="hasRole('PRESIDENT')" />
+		<security:intercept-url pattern="/signing/president/edit.do" access="hasRole('PRESIDENT')" />
+		<security:intercept-url pattern="/signing/president/accept.do" access="hasRole('PRESIDENT')" />
+		<security:intercept-url pattern="/signing/president/reject.do" access="hasRole('PRESIDENT')" />
+		
+		<security:intercept-url pattern="/signing/player/list.do" access="hasRole('PLAYER')" />
+		<security:intercept-url pattern="/signing/player/accept.do" access="hasRole('PLAYER')" />
+		<security:intercept-url pattern="/signing/player/reject.do" access="hasRole('PLAYER')" />
 
 
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />

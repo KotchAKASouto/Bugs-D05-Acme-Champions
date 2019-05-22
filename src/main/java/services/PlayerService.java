@@ -256,4 +256,16 @@ public class PlayerService {
 
 		return players;
 	}
+
+	public Boolean exist(final int playerId) {
+
+		Boolean res = false;
+
+		final Player test = this.playerRepository.findOne(playerId);
+
+		if (test != null)
+			res = true;
+
+		return res;
+	}
 }

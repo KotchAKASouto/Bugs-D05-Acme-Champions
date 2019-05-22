@@ -15,26 +15,26 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.ActorService;
 import services.ConfigurationService;
-import services.HiringService;
-import services.ManagerService;
+import services.PlayerService;
 import services.PresidentService;
+import services.SigningService;
 import services.TeamService;
 import controllers.AbstractController;
 import domain.Actor;
-import domain.Hiring;
-import domain.Manager;
+import domain.Player;
 import domain.President;
+import domain.Signing;
 import domain.Team;
-import forms.HiringForm;
+import forms.SigningForm;
 
 @Controller
-@RequestMapping("/hiring/president")
-public class HiringPresidentController extends AbstractController {
+@RequestMapping("/signing/president")
+public class SigningPresidentController extends AbstractController {
 
 	// Services ---------------------------------------------------
 
 	@Autowired
-	private HiringService			hiringService;
+	private SigningService			signingService;
 
 	@Autowired
 	private PresidentService		presidentService;
@@ -43,7 +43,7 @@ public class HiringPresidentController extends AbstractController {
 	private ActorService			actorService;
 
 	@Autowired
-	private ManagerService			managerService;
+	private PlayerService			playerService;
 
 	@Autowired
 	private ConfigurationService	configurationService;
@@ -56,18 +56,18 @@ public class HiringPresidentController extends AbstractController {
 	public ModelAndView list() {
 
 		final ModelAndView result;
-		final Collection<Hiring> hirings;
+		final Collection<Signing> signings;
 		final President president;
 
 		president = this.presidentService.findByPrincipal();
 
-		hirings = this.hiringService.findByPresident(president.getId());
+		signings = this.signingService.findByPresident(president.getId());
 
 		final String banner = this.configurationService.findConfiguration().getBanner();
 
-		result = new ModelAndView("hiring/list");
-		result.addObject("hirings", hirings);
-		result.addObject("requestURI", "hiring/president/list.do");
+		result = new ModelAndView("signing/list");
+		result.addObject("signings", signings);
+		result.addObject("requestURI", "signing/president/list.do");
 		result.addObject("pagesize", 5);
 		result.addObject("banner", banner);
 		result.addObject("language", LocaleContextHolder.getLocale().getLanguage());
@@ -78,18 +78,18 @@ public class HiringPresidentController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
-	public ModelAndView create(@RequestParam final int managerId) {
+	public ModelAndView create(@RequestParam final int playerId) {
 		ModelAndView result;
 
 		final String banner = this.configurationService.findConfiguration().getBanner();
 
-		final Boolean exist = this.managerService.exist(managerId);
+		final Boolean exist = this.playerService.exist(playerId);
 
 		if (exist) {
 
-			final HiringForm hiringForm = this.hiringService.create(managerId);
-			result = this.createEditModelAndView(hiringForm);
-			result.addObject("enlace", "hiring/president/edit.do");
+			final SigningForm signingForm = this.signingService.create(playerId);
+			result = this.createEditModelAndView(signingForm);
+			result.addObject("enlace", "signing/president/edit.do");
 
 		} else {
 
@@ -101,26 +101,26 @@ public class HiringPresidentController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@ModelAttribute(value = "hiring") final HiringForm hiringForm, final BindingResult binding) {
+	public ModelAndView save(@ModelAttribute(value = "signing") final SigningForm signingForm, final BindingResult binding) {
 		ModelAndView result;
 
-		final Boolean exist = this.managerService.exist(hiringForm.getManagerId());
+		final Boolean exist = this.playerService.exist(signingForm.getPlayerId());
 
 		if (exist) {
 
-			final Hiring hiring = this.hiringService.reconstruct(hiringForm, binding);
+			final Signing signing = this.signingService.reconstruct(signingForm, binding);
 
 			if (binding.hasErrors())
-				result = this.createEditModelAndView(hiringForm, null);
+				result = this.createEditModelAndView(signingForm, null);
 			else
 				try {
 
-					this.hiringService.save(hiring);
-					result = new ModelAndView("redirect:/hiring/president/list.do");
+					this.signingService.save(signing);
+					result = new ModelAndView("redirect:/signing/president/list.do");
 
 				} catch (final Throwable oops) {
 
-					result = this.createEditModelAndView(hiringForm, "hiring.commit.error");
+					result = this.createEditModelAndView(signingForm, "signing.commit.error");
 
 				}
 
@@ -131,34 +131,34 @@ public class HiringPresidentController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/accept", method = RequestMethod.GET)
-	public ModelAndView accept(@RequestParam final int hiringId) {
+	public ModelAndView accept(@RequestParam final int signingId) {
 		ModelAndView result;
 
 		final String banner = this.configurationService.findConfiguration().getBanner();
 
-		final Boolean exist = this.hiringService.exist(hiringId);
+		final Boolean exist = this.signingService.exist(signingId);
 
 		if (exist) {
 
-			final Hiring hiring = this.hiringService.findOne(hiringId);
+			final Signing signing = this.signingService.findOne(signingId);
 
 			final Actor loged = this.actorService.findByPrincipal();
 
 			final Team team = this.teamService.findByPresidentId(loged.getId());
 
-			if (hiring.getManager().getTeam().equals(team) && hiring.getStatus().equals("PENDING")) {
+			if (signing.getPlayer().getTeam().equals(team) && signing.getStatus().equals("PENDING")) {
 
-				hiring.setStatus("ACCEPTED");
+				signing.setStatus("ACCEPTED");
 
-				this.hiringService.save(hiring);
+				this.signingService.save(signing);
 
-				final Manager manager = this.managerService.findOne(hiring.getManager().getId());
+				final Player player = this.playerService.findOne(signing.getPlayer().getId());
 
-				manager.setTeam(team);
+				player.setTeam(team);
 
-				this.managerService.save(manager);
+				this.playerService.save(player);
 
-				result = new ModelAndView("redirect:/hiring/president/list.do");
+				result = new ModelAndView("redirect:/signing/president/list.do");
 				result.addObject("banner", banner);
 
 			} else {
@@ -177,27 +177,27 @@ public class HiringPresidentController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/reject", method = RequestMethod.GET)
-	public ModelAndView reject(@RequestParam final int hiringId) {
+	public ModelAndView reject(@RequestParam final int signingId) {
 		ModelAndView result;
 
 		final String banner = this.configurationService.findConfiguration().getBanner();
 
-		final Boolean exist = this.hiringService.exist(hiringId);
+		final Boolean exist = this.signingService.exist(signingId);
 
 		if (exist) {
 
-			final Hiring hiring = this.hiringService.findOne(hiringId);
+			final Signing signing = this.signingService.findOne(signingId);
 
 			final Actor loged = this.actorService.findByPrincipal();
 
 			final Team team = this.teamService.findByPresidentId(loged.getId());
 
-			if (hiring.getManager().getTeam().equals(team) && hiring.getStatus().equals("PENDING")) {
+			if (signing.getPlayer().getTeam().equals(team) && signing.getStatus().equals("PENDING")) {
 
-				final HiringForm hiringForm = this.hiringService.editForm(hiring);
+				final SigningForm signingForm = this.signingService.editForm(signing);
 
-				result = this.createEditModelAndView(hiringForm);
-				result.addObject("enlace", "hiring/president/reject.do");
+				result = this.createEditModelAndView(signingForm);
+				result.addObject("enlace", "signing/president/reject.do");
 
 			} else {
 
@@ -215,32 +215,32 @@ public class HiringPresidentController extends AbstractController {
 	}
 
 	@RequestMapping(value = "/reject", method = RequestMethod.POST, params = "save")
-	public ModelAndView reject(@ModelAttribute(value = "hiring") final HiringForm hiringForm, final BindingResult binding) {
+	public ModelAndView reject(@ModelAttribute(value = "signing") final SigningForm signingForm, final BindingResult binding) {
 		ModelAndView result;
 
-		final Boolean exist = this.hiringService.exist(hiringForm.getId());
+		final Boolean exist = this.signingService.exist(signingForm.getId());
 
 		if (exist) {
 
-			final Hiring hiring = this.hiringService.reconstruct(hiringForm, binding);
+			final Signing signing = this.signingService.reconstruct(signingForm, binding);
 
 			final Actor loged = this.actorService.findByPrincipal();
 
 			final Team team = this.teamService.findByPresidentId(loged.getId());
 
-			if (hiring.getManager().getTeam().equals(team) && hiring.getStatus().equals("PENDING")) {
+			if (signing.getPlayer().getTeam().equals(team) && signing.getStatus().equals("PENDING")) {
 
 				if (binding.hasErrors())
-					result = this.createEditModelAndView(hiringForm, null);
+					result = this.createEditModelAndView(signingForm, null);
 				else
 					try {
-						hiring.setStatus("REJECTED");
-						this.hiringService.save(hiring);
-						result = new ModelAndView("redirect:/hiring/president/list.do");
+						signing.setStatus("REJECTED");
+						this.signingService.save(signing);
+						result = new ModelAndView("redirect:/signing/president/list.do");
 
 					} catch (final Throwable oops) {
 
-						result = this.createEditModelAndView(hiringForm, "hiring.commit.error");
+						result = this.createEditModelAndView(signingForm, "signing.commit.error");
 
 					}
 
@@ -253,20 +253,20 @@ public class HiringPresidentController extends AbstractController {
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(final HiringForm hiring) {
+	protected ModelAndView createEditModelAndView(final SigningForm signing) {
 		final ModelAndView result;
-		result = this.createEditModelAndView(hiring, null);
+		result = this.createEditModelAndView(signing, null);
 		return result;
 	}
 
-	protected ModelAndView createEditModelAndView(final HiringForm hiring, final String errorText) {
+	protected ModelAndView createEditModelAndView(final SigningForm signing, final String errorText) {
 		final ModelAndView result;
 
 		final String banner = this.configurationService.findConfiguration().getBanner();
 
-		result = new ModelAndView("hiring/edit");
+		result = new ModelAndView("signing/edit");
 		result.addObject("messageError", errorText);
-		result.addObject("hiring", hiring);
+		result.addObject("signing", signing);
 		result.addObject("banner", banner);
 		result.addObject("autoridad", "president");
 

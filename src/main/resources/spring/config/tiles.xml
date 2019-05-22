@@ -31,6 +31,7 @@
 		<value>/views/player/tiles.xml</value>
 		<value>/views/history/tiles.xml</value>
 		<value>/views/hiring/tiles.xml</value>
+		<value>/views/signing/tiles.xml</value>
 
 
 	</util:list>

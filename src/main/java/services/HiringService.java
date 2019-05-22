@@ -98,14 +98,12 @@ public class HiringService {
 
 			final Actor actor = this.actorService.findByPrincipal();
 			Assert.notNull(actor);
-			final Authority authority = new Authority();
-			authority.setAuthority(Authority.PLAYER);
 			final Authority authority2 = new Authority();
 			authority2.setAuthority(Authority.MANAGER);
 			final Authority authority3 = new Authority();
 			authority3.setAuthority(Authority.PRESIDENT);
 
-			Assert.isTrue((actor.getUserAccount().getAuthorities().contains(authority)) || (actor.getUserAccount().getAuthorities().contains(authority2)) || (actor.getUserAccount().getAuthorities().contains(authority3)));
+			Assert.isTrue((actor.getUserAccount().getAuthorities().contains(authority2)) || (actor.getUserAccount().getAuthorities().contains(authority3)));
 
 			result = this.hiringRepository.save(hiring);
 
@@ -150,7 +148,7 @@ public class HiringService {
 
 		final Manager manager = this.teamService.findManagerByTeamId((team.getId()));
 
-		final Collection<Hiring> res = this.hiringRepository.findByManagerId(manager.getId());
+		final Collection<Hiring> res = this.hiringRepository.findByManagerIdPresident(manager.getId());
 
 		return res;
 	}
@@ -176,6 +174,13 @@ public class HiringService {
 		res.setMandatoryComment(hiring.getMandatoryComment());
 		res.setPrice(hiring.getPrice());
 		res.setVersion(hiring.getVersion());
+
+		return res;
+	}
+
+	public Collection<Hiring> findByManager(final int id) {
+
+		final Collection<Hiring> res = this.hiringRepository.findByManagerId(id);
 
 		return res;
 	}
