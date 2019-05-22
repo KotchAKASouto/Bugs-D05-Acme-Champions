@@ -139,6 +139,8 @@ public class TeamService {
 		if (team.getId() == 0 || team == null) {
 
 			team.setPresident(teamNew.getPresident());
+			team.setEstablishmentDate(teamNew.getEstablishmentDate());
+			team.setFunctional(teamNew.getFunctional());
 
 			this.validator.validate(team, binding);
 
@@ -148,6 +150,8 @@ public class TeamService {
 			final Team teamBBDD = this.findOne(team.getId());
 
 			team.setPresident(teamBBDD.getPresident());
+			team.setEstablishmentDate(teamBBDD.getEstablishmentDate());
+			team.setFunctional(teamBBDD.getFunctional());
 
 			this.validator.validate(team, binding);
 
