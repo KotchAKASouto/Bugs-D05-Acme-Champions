@@ -200,4 +200,8 @@ public class ManagerService {
 
 		return res;
 	}
+
+	public void flush() {
+		this.managerRepository.flush();
+	}
 }
