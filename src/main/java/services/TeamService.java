@@ -160,13 +160,6 @@ public class TeamService {
 		return result;
 
 	}
-	
-	public Team findTeamByPresidentId(final int presidentId) {
-		Team result;
-		Assert.notNull(presidentId);
-		result = this.teamRepository.findTeamByPresidentId(presidentId);
-		return result;
-	}
 
 	public Boolean teamPresidentSecurity(final int teamId) {
 		Boolean res = false;
@@ -184,6 +177,13 @@ public class TeamService {
 
 	public void flush() {
 		this.teamRepository.flush();
+	}
+
+	public Team findByPresidentId(final int id) {
+
+		final Team res = this.teamRepository.findByPresidentId(id);
+
+		return res;
 	}
 
 }

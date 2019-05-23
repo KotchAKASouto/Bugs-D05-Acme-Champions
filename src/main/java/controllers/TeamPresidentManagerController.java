@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ConfigurationService;
+import services.GameService;
 import services.ManagerService;
 import services.PlayerService;
 import services.PresidentService;
 import services.TeamService;
+import domain.Game;
 import domain.Manager;
 import domain.Player;
 import domain.President;
@@ -23,7 +25,7 @@ import domain.Team;
 
 @Controller
 @RequestMapping("/team/president,manager")
-public class TeamPresidentManagerController {
+public class TeamPresidentManagerController extends AbstractController {
 
 	@Autowired
 	private PresidentService		presidentService;
@@ -39,6 +41,9 @@ public class TeamPresidentManagerController {
 
 	@Autowired
 	private PlayerService			playerService;
+	
+	@Autowired
+	private GameService				gameService;
 
 
 	//Members Team--------------------------------------------------------------------------------------
@@ -60,7 +65,19 @@ public class TeamPresidentManagerController {
 
 			players = this.playerService.findPlayersOfTeam(team.getId());
 			manager = this.managerService.findManagerByTeamId(team.getId());
-			managers.add(manager);
+			if(manager!=null){
+				managers.add(manager);
+			}
+			
+			
+			boolean canFire = false;
+
+			final Collection<Game> games = this.gameService.findGamesOfTeam(team.getId());
+
+			if (games.isEmpty()) {
+				canFire = true;
+			}
+			
 
 			result = new ModelAndView("actor/listPlayerManager");
 			result.addObject("players", players);
@@ -68,6 +85,7 @@ public class TeamPresidentManagerController {
 			result.addObject("requestURI", "team/president&manager/listByPresident.do");
 			result.addObject("pagesize", 5);
 			result.addObject("banner", banner);
+			result.addObject("canFire",canFire);
 			result.addObject("language", LocaleContextHolder.getLocale().getLanguage());
 			result.addObject("AmInFinder", false);
 
@@ -95,7 +113,9 @@ public class TeamPresidentManagerController {
 		if (team != null) {
 
 			players = this.playerService.findPlayersOfTeam(team.getId());
-			managers.add(manager);
+			if(manager!=null){
+				managers.add(manager);
+			}
 
 			result = new ModelAndView("actor/listPlayerManager");
 			result.addObject("players", players);

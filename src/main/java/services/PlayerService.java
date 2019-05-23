@@ -23,6 +23,7 @@ import domain.Actor;
 import domain.Finder;
 import domain.Player;
 import domain.StatisticalData;
+import domain.Team;
 import forms.RegisterPlayerForm;
 
 @Service
@@ -70,12 +71,21 @@ public class PlayerService {
 		return result;
 	}
 
-	public Player findOne(final int companyId) {
+	public Player findOne(final int playerId) {
 
-		Assert.notNull(companyId);
+		Assert.notNull(playerId);
 		Player result;
-		result = this.playerRepository.findOne(companyId);
+		result = this.playerRepository.findOne(playerId);
 		return result;
+	}
+
+	public void editTeam(final Player player, final Team team, final Double offeredClause) {
+
+		player.setTeam(team);
+		player.setBuyoutClause(offeredClause);
+
+		this.playerRepository.save(player);
+
 	}
 
 	public Player save(final Player player) {
@@ -85,11 +95,20 @@ public class PlayerService {
 		if (player.getId() != 0) {
 			final Authority admin = new Authority();
 			admin.setAuthority(Authority.ADMIN);
+			
+			final Authority president = new Authority();
+			president.setAuthority(Authority.PRESIDENT);
+
+			//si referee escribe un minute y se sanciona a jugador por roja o amarilla
+			final Authority referee = new Authority();
+			admin.setAuthority(Authority.REFEREE);
 
 			final Actor actor = this.actorService.findByPrincipal();
 			Assert.notNull(actor);
 
-			Assert.isTrue(actor.getId() == player.getId() || actor.getUserAccount().getAuthorities().contains(admin));
+
+			Assert.isTrue(actor.getId() == player.getId() || actor.getUserAccount().getAuthorities().contains(admin) || actor.getUserAccount().getAuthorities().contains(president) || actor.getUserAccount().getAuthorities().contains(referee));
+
 
 			this.actorService.checkEmail(player.getEmail(), false);
 			this.actorService.checkPhone(player.getPhone());
@@ -129,6 +148,13 @@ public class PlayerService {
 
 	}
 
+	public Player savePresident(final Player player) {
+
+		final Player result = this.playerRepository.save(player);
+
+		return result;
+	}
+
 	public Player findByPrincipal() {
 		Player player;
 		UserAccount userAccount;
@@ -147,6 +173,18 @@ public class PlayerService {
 		Player result;
 
 		result = this.playerRepository.findByUserAccountId(userAccount.getId());
+
+		return result;
+	}
+
+	public Boolean exist(final int playerId) {
+
+		Boolean result = false;
+
+		final Player player = this.playerRepository.findOne(playerId);
+
+		if (player != null)
+			result = true;
 
 		return result;
 	}

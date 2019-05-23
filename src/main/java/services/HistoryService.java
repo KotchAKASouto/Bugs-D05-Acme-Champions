@@ -102,4 +102,8 @@ public class HistoryService {
 		this.historyRepository.delete(history);
 
 	}
+
+	public void flush() {
+		this.historyRepository.flush();
+	}
 }

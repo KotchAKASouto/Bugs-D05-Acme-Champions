@@ -10,11 +10,12 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.ConfigurationService;
 import services.ManagerService;
+import controllers.AbstractController;
 import domain.Manager;
 
 @Controller
 @RequestMapping("/manager")
-public class ManagerController {
+public class ManagerController extends AbstractController {
 
 	@Autowired
 	private ManagerService			managerService;

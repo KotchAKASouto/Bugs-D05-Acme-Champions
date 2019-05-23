@@ -51,8 +51,10 @@
 		<!-- Obtener datos usuarios -->
 
 		<!-- Todo el mundo -->
+		<security:intercept-url pattern="/game/listAll.do" access="permitAll" />
 
 		<!-- Actor no autenticado -->
+		
 
 		<!-- Actor autenticado -->
 
@@ -98,6 +100,7 @@
 		<!-- President: Managing team -->
 		<security:intercept-url pattern="/president/firePlayer*" access="hasRole('PRESIDENT')" />
 		<security:intercept-url pattern="/president/fireManager*" access="hasRole('PRESIDENT')" />
+		<security:intercept-url pattern="/president/canFire*" access="hasRole('PRESIDENT')" />
 		
 		<!-- Manager: Training -->
 		<security:intercept-url pattern="/training/manager/list.do" access="hasRole('MANAGER')" />
@@ -106,6 +109,18 @@
 		<security:intercept-url pattern="/training/manager/create.do" access="hasRole('MANAGER')" />
 		<security:intercept-url pattern="/training/manager/addPlayer.do" access="hasRole('MANAGER')" />
 		<security:intercept-url pattern="/training/manager/addPlayerPost.do" access="hasRole('MANAGER')" />
+		
+		<!-- Manager: Reports -->
+		
+		<security:intercept-url pattern="/report/manager/list.do" access="hasRole('MANAGER')" />
+		<security:intercept-url pattern="/report/manager/create.do" access="hasRole('MANAGER')" />
+		<security:intercept-url pattern="/report/manager/edit.do" access="hasRole('MANAGER')" />
+		<security:intercept-url pattern="/report/manager/delete.do" access="hasRole('MANAGER')" />
+		
+		<!-- President: Reports -->
+		<security:intercept-url pattern="/report/president/listPlayers.do" access="hasRole('PRESIDENT')" />
+		<security:intercept-url pattern="/report/president/listReports.do" access="hasRole('PRESIDENT')" />
+		<security:intercept-url pattern="/report/president/punish.do" access="hasRole('PRESIDENT')" />
 		
 		<!-- President: Team -->
 		
@@ -143,12 +158,40 @@
 		<security:intercept-url pattern="/actor/administrator/profile/deleteProfile.do" access="hasRole('ADMIN')" />
 		<security:intercept-url pattern="/profile/editAdministrator.do" access="hasRole('ADMIN')" />
 		<security:intercept-url pattern="/message/actor/rebrandingNotification.do" access="hasRole('ADMIN')" />
+		
+		
+		
+		
+		
+		<security:intercept-url pattern="/hiring/president/list.do" access="hasRole('PRESIDENT')" />
+		<security:intercept-url pattern="/hiring/president/create.do" access="hasRole('PRESIDENT')" />
+		<security:intercept-url pattern="/hiring/president/edit.do" access="hasRole('PRESIDENT')" />
+		<security:intercept-url pattern="/hiring/president/accept.do" access="hasRole('PRESIDENT')" />
+		<security:intercept-url pattern="/hiring/president/reject.do" access="hasRole('PRESIDENT')" />
+		
+		<security:intercept-url pattern="/hiring/manager/list.do" access="hasRole('MANAGER')" />
+		<security:intercept-url pattern="/hiring/manager/accept.do" access="hasRole('MANAGER')" />
+		<security:intercept-url pattern="/hiring/manager/reject.do" access="hasRole('MANAGER')" />
+		
+		<security:intercept-url pattern="/signing/president/list.do" access="hasRole('PRESIDENT')" />
+		<security:intercept-url pattern="/signing/president/create.do" access="hasRole('PRESIDENT')" />
+		<security:intercept-url pattern="/signing/president/edit.do" access="hasRole('PRESIDENT')" />
+		<security:intercept-url pattern="/signing/president/accept.do" access="hasRole('PRESIDENT')" />
+		<security:intercept-url pattern="/signing/president/reject.do" access="hasRole('PRESIDENT')" />
+		
+		<security:intercept-url pattern="/signing/player/list.do" access="hasRole('PLAYER')" />
+		<security:intercept-url pattern="/signing/player/accept.do" access="hasRole('PLAYER')" />
+		<security:intercept-url pattern="/signing/player/reject.do" access="hasRole('PLAYER')" />
 
 		<!-- President and Manager -->
 		<security:intercept-url pattern="/player/display.do" access="hasAnyRole('PRESIDENT','MANAGER')" />
 		<security:intercept-url pattern="/manager/display.do" access="hasAnyRole('PRESIDENT','MANAGER')" />
 		<security:intercept-url pattern="/team/president,manager/listByPresident.do" access="hasRole('PRESIDENT')" />
 		<security:intercept-url pattern="/team/president,manager/listByManager.do" access="hasRole('MANAGER')" />
+		
+		<!-- Sponsor: Sponsorship -->
+		<security:intercept-url pattern="/sponsorship/sponsor/display.do" access="hasRole('SPONSOR')" />
+		<security:intercept-url pattern="/sponsorship/sponsor/list.do" access="hasRole('SPONSOR')" />
 		
 		
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />

@@ -30,9 +30,12 @@
 		<value>/views/training/messages</value>
 		<value>/views/player/messages</value>
 		<value>/views/history/messages</value>
+		<value>/views/hiring/messages</value>
+		<value>/views/signing/messages</value>
 		<value>/views/manager/messages</value>
 		<value>/views/team/messages</value>
-
+		<value>/views/game/messages</value>
+		<value>/views/report/messages</value>
 	</util:list>
 
 </beans>

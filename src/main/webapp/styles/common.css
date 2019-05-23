@@ -17,3 +17,15 @@
 	color: red;
 	font-weight: bolder;
 }
+
+.no_firing_note {
+	margin: 5px; 
+	border: 0.1rem dashed #b28e00;
+	color: #b28e00;
+	margin-bottom: 1rem;
+	width: 70%;
+}
+
+.no_firing_note p {
+	margin-left: 2rem;
+}
