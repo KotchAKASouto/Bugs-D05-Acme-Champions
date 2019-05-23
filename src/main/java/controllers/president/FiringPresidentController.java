@@ -4,15 +4,12 @@ package controllers.president;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.ConfigurationService;
-import services.FinderService;
 import services.GameService;
 import services.HiringService;
 import services.ManagerService;
@@ -20,6 +17,7 @@ import services.PlayerService;
 import services.PresidentService;
 import services.SigningService;
 import services.TeamService;
+import services.TrainingService;
 import controllers.AbstractController;
 import domain.Game;
 import domain.Hiring;
@@ -28,6 +26,7 @@ import domain.Player;
 import domain.President;
 import domain.Signing;
 import domain.Team;
+import domain.Training;
 
 @Controller
 @RequestMapping("/president")
@@ -45,12 +44,6 @@ public class FiringPresidentController extends AbstractController {
 	ManagerService					managerService;
 
 	@Autowired
-	private FinderService			finderService;
-
-	@Autowired
-	private ConfigurationService	configurationService;
-
-	@Autowired
 	private TeamService				teamService;
 
 	@Autowired
@@ -61,7 +54,26 @@ public class FiringPresidentController extends AbstractController {
 
 	@Autowired
 	private HiringService			hiringService;
+	
+	@Autowired
+	private TrainingService			trainingService;
+	
+	@RequestMapping(value = "/canFire", method = RequestMethod.GET)
+	public boolean canFire() {
+		boolean result = false;
+		final President president = this.presidentService.findByPrincipal();
 
+		final Team team = this.teamService.findTeamByPresidentId(president.getId());
+
+		final Collection<Game> games = this.gameService.findGamesOfTeam(team.getId());
+
+		if (games.isEmpty()) {
+			result = true;
+		}
+		
+		return result;
+	}
+	
 
 	@RequestMapping(value = "/firePlayer", method = RequestMethod.GET)
 	public ModelAndView firePlayer(@RequestParam final int playerId) {
@@ -84,30 +96,21 @@ public class FiringPresidentController extends AbstractController {
 					signing = this.signingService.findSigningOfPresidentAndPlayer(president.getId(), player.getId());
 
 					this.signingService.delete(signing);
-					result = new ModelAndView("redirect:/welcome/index.do");
-					System.out.println("Borrado!");
-
+					player.setTeam(null);
+					this.playerService.save(player);
+					
+					result = new ModelAndView("redirect:/team/president,manager/listByPresident.do");
 				} else
 					// NO AUTORIZADO!
-					System.out.println("No autorizado!");
+				result = new ModelAndView("redirect:/welcome/index.do");
 			} else
 				// TIENE PARTIDOS!
-				System.out.println("Tiene partidos!");
+				result = new ModelAndView("redirect:/welcome/index.do");
+			
 		} else {
 			// NO EXISTE EL JUGADOR!
-			System.out.println("No existe el jugador!");
 			result = new ModelAndView("misc/notExist");
 		}
-
-		// Configuracion
-		final String banner = this.configurationService.findConfiguration().getBanner();
-		final String language = LocaleContextHolder.getLocale().getLanguage();
-		result.addObject("requestURI", "finder/president/find.do");
-		result.addObject("requestAction", "finder/president/find.do");
-		result.addObject("banner", banner);
-		result.addObject("AmILogged", true);
-		result.addObject("AmInFinder", false);
-		result.addObject("language", language);
 
 		return result;
 
@@ -123,43 +126,38 @@ public class FiringPresidentController extends AbstractController {
 
 		final Collection<Game> games = this.gameService.findGamesOfTeam(team.getId());
 
-		final Collection<Player> players = this.playerService.findPlayersOfTeam(team.getId());
-
 		final Manager manager = this.managerService.findOne(managerId);
 
-		final Hiring hiring = this.hiringService.findHiringOfPresidentAndManager(president.getId(), manager.getId());
+		final Hiring hiring;
 
-		final Signing signing;
 		if (manager != null) {
+			hiring = this.hiringService.findHiringOfPresidentAndManager(president.getId(), manager.getId());
 			if (games.isEmpty()) {
 
 				if (hiring != null) {
 					this.hiringService.delete(hiring);
-					result = new ModelAndView("redirect:/welcome/index.do");
-					System.out.println("Borrado!");
-
+					
+					Collection<Training> trainings = this.trainingService.findFutureTrainingsByManagerId(manager.getId());
+					
+					for (Training t: trainings) {
+						this.trainingService.delete(t);
+					}
+					
+					manager.setTeam(null);
+					this.managerService.save(manager);
+					
+					result = new ModelAndView("redirect:/team/president,manager/listByPresident.do");
 				} else
 					// NO AUTORIZADO!
-					System.out.println("No autorizado!");
+					result = new ModelAndView("redirect:/welcome/index.do");
 			} else
 				// TIENE PARTIDOS!
-				System.out.println("Tiene partidos!");
+				result = new ModelAndView("redirect:/welcome/index.do");
 		} else {
 			// NO EXISTE EL MANAGER!
-			System.out.println("No existe el manager!");
 			result = new ModelAndView("misc/notExist");
 		}
-
-		// Configuracion
-		final String banner = this.configurationService.findConfiguration().getBanner();
-		final String language = LocaleContextHolder.getLocale().getLanguage();
-		result.addObject("requestURI", "finder/president/find.do");
-		result.addObject("requestAction", "finder/president/find.do");
-		result.addObject("banner", banner);
-		result.addObject("AmILogged", true);
-		result.addObject("AmInFinder", false);
-		result.addObject("language", language);
-
+		
 		return result;
 
 	}

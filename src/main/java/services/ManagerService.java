@@ -88,11 +88,14 @@ public class ManagerService {
 		if (manager.getId() != 0) {
 			final Authority admin = new Authority();
 			admin.setAuthority(Authority.ADMIN);
+			
+			final Authority president = new Authority();
+			president.setAuthority(Authority.PRESIDENT);
 
 			final Actor actor = this.actorService.findByPrincipal();
 			Assert.notNull(actor);
 
-			Assert.isTrue(actor.getId() == manager.getId() || actor.getUserAccount().getAuthorities().contains(admin));
+			Assert.isTrue(actor.getId() == manager.getId() || actor.getUserAccount().getAuthorities().contains(admin) || actor.getUserAccount().getAuthorities().contains(president));
 
 			this.actorService.checkEmail(manager.getEmail(), false);
 			this.actorService.checkPhone(manager.getPhone());
