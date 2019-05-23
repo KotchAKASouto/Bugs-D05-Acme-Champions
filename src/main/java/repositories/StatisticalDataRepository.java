@@ -12,4 +12,5 @@ public interface StatisticalDataRepository extends JpaRepository<StatisticalData
 
 	@Query("select s from StatisticalData s where s.player.id = ?1")
 	StatisticalData findStatisticalDataByPlayerId(int playerId);
+
 }
