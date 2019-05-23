@@ -13,6 +13,7 @@ import org.springframework.util.Assert;
 import repositories.GameRepository;
 import security.Authority;
 import domain.Actor;
+import domain.Competition;
 import domain.Game;
 import domain.Sponsorship;
 import domain.Team;
@@ -32,6 +33,9 @@ public class GameService {
 
 	@Autowired
 	private SponsorshipService	sponsorshipService;
+
+	@Autowired
+	private CompetitionService	competitionService;
 
 
 	//Simple CRUD methods
@@ -74,6 +78,14 @@ public class GameService {
 		//solo puede guardar partidos referee's y federation's
 		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authReferee) || actor.getUserAccount().getAuthorities().contains(authFederation));
 
+		//posthacking referee y federation
+		if (actor.getUserAccount().getAuthorities().contains(authReferee))
+			Assert.isTrue(game.getReferee().getId() == actor.getId());
+		else {
+			final Competition competition = this.competitionService.findCompetitionByGameId(game.getId());
+			Assert.isTrue(competition.getFederation().getId() == actor.getId());
+		}
+
 		//si el que guarda partido es referee el partido es amistoso, si es federation es competitivo
 		if (actor.getUserAccount().getAuthorities().contains(authReferee))
 			Assert.isTrue(game.getFriendly());
@@ -93,9 +105,21 @@ public class GameService {
 		return result;
 
 	}
-
 	public void delete(final Game game) {
 		Assert.notNull(game);
+
+		final Authority authReferee = new Authority();
+		authReferee.setAuthority(Authority.REFEREE);
+
+		//Hay que estar logeado
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+
+		//solo pueden borrar partidos referee's
+		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authReferee));
+
+		//posthacking referee y federation
+		Assert.isTrue(game.getReferee().getId() == actor.getId());
 
 		//la fecha ha de ser futura
 		final Date currentDate = new Date(System.currentTimeMillis() - 1000);
