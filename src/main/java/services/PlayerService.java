@@ -96,10 +96,14 @@ public class PlayerService {
 			final Authority admin = new Authority();
 			admin.setAuthority(Authority.ADMIN);
 
+			//si referee escribe un minute y se sanciona a jugador por roja o amarilla
+			final Authority referee = new Authority();
+			admin.setAuthority(Authority.REFEREE);
+
 			final Actor actor = this.actorService.findByPrincipal();
 			Assert.notNull(actor);
 
-			Assert.isTrue(actor.getId() == player.getId() || actor.getUserAccount().getAuthorities().contains(admin));
+			Assert.isTrue(actor.getId() == player.getId() || actor.getUserAccount().getAuthorities().contains(admin) || actor.getUserAccount().getAuthorities().contains(referee));
 
 			this.actorService.checkEmail(player.getEmail(), false);
 			this.actorService.checkPhone(player.getPhone());
