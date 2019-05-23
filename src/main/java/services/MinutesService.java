@@ -77,6 +77,10 @@ public class MinutesService {
 		//solo puede guardar partidos referee's
 		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authReferee));
 
+		//un partido solo puede tener 1 minutes
+		final Minutes m = this.findMinuteByGameId(minutes.getGame().getId());
+		Assert.isNull(m);
+
 		//el partido debe haber acabado
 		final Date currentDate = new Date(System.currentTimeMillis() - 1000);
 		Assert.isTrue(minutes.getGame().getGameDate().after(currentDate));
@@ -150,5 +154,10 @@ public class MinutesService {
 	}
 
 	//Other business methods
+
+	Minutes findMinuteByGameId(final int gameId) {
+		final Minutes res = this.minutesRepository.findMinuteByGameId(gameId);
+		return res;
+	}
 
 }
