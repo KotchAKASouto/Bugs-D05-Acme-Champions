@@ -22,8 +22,18 @@
 	</definition>
 	
 	<definition name="report/create" extends="master.page">	
-		<put-attribute name="title" value="Report: Crete" />
+		<put-attribute name="title" value="Report: Create" />
 		<put-attribute name="body" value="/views/report/create.jsp" />
+	</definition>
+	
+	<definition name="report/listPlayer" extends="master.page">	
+		<put-attribute name="title" value="Players with reports" />
+		<put-attribute name="body" value="/views/report/listPlayer.jsp" />
+	</definition>
+	
+	<definition name="report/listReport" extends="master.page">	
+		<put-attribute name="title" value="Reports" />
+		<put-attribute name="body" value="/views/report/listReport.jsp" />
 	</definition>
 	
 </tiles-definitions>
