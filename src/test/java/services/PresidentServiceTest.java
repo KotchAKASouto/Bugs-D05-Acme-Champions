@@ -89,4 +89,57 @@ public class PresidentServiceTest extends AbstractTest {
 		super.checkExceptions(expected, caught);
 
 	}
+
+	@Test
+	public void driverEditPresident() {
+		final Object testingData[][] = {
+			{
+				"name1", "surnames", "https://google.com", "email1@gmail.com", "672195205", "address1", "president1", "president1", null
+			},//1. All fine
+			{
+				"		", "surnames", "https://google.com", "email1@gmail.com", "672195205", "address1", "president1", "president1", ConstraintViolationException.class
+			},//2. Name = blank
+			{
+				null, "surnames", "https://google.com", "email1@gmail.com", "672195205", "address1", "president1", "president1", ConstraintViolationException.class
+			},//3. Name = null
+
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateEditPresident((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (String) testingData[i][5], (String) testingData[i][6],
+				(String) testingData[i][7], (Class<?>) testingData[i][8]);
+	}
+	protected void templateEditPresident(final String name, final String surnames, final String photo, final String email, final String phone, final String address, final String username, final String bean, final Class<?> expected) {
+
+		Class<?> caught;
+
+		caught = null;
+		try {
+
+			this.startTransaction();
+
+			this.authenticate(username);
+
+			final President president = this.presidentService.findOne(super.getEntityId(bean));
+
+			president.setName(name);
+			president.setSurnames(surnames);
+			president.setPhoto(photo);
+			president.setEmail(email);
+			president.setPhone(phone);
+			president.setAddress(address);
+
+			this.presidentService.save(president);
+			this.presidentService.flush();
+
+			this.unauthenticate();
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		this.rollbackTransaction();
+		super.checkExceptions(expected, caught);
+
+	}
 }
