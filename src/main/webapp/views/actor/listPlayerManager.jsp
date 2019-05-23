@@ -67,6 +67,14 @@
 	<acme:url href="signing/president/create.do?playerId=${row1.id}" code="actor.signig"/>
 	</security:authorize>
 	
+	<security:authorize access="hasRole('PRESIDENT')">
+		<jstl:if test="${canFire == true}">
+			<display:column>
+				<a href="president/firePlayer.do?playerId=${row1.id}"><spring:message code="player.fire" /></a>
+			</display:column>
+		</jstl:if>
+	</security:authorize>
+	
 </display:table>
 
 <h3><spring:message code="manager" /></h3>
@@ -83,6 +91,14 @@
 	
 	<acme:url href="hiring/president/create.do?managerId=${row2.id}" code="actor.hiring"/>
 	
+	<security:authorize access="hasRole('PRESIDENT')">
+		<jstl:if test="${canFire == true}">
+			<display:column>
+				<a href="president/fireManager.do?managerId=${row2.id}" ><spring:message code="manager.fire" /></a>
+			</display:column>
+		</jstl:if>
+	</security:authorize>
+	
 </display:table>
 
 <acme:button name="back" code="actor.back" onclick="javascript: relativeRedir('welcome/index.do');" />
@@ -97,7 +113,7 @@
 	  } else if (tdStatus.innerText == "") {
 		  trTags[i].style.backgroundColor = "#98FB98";
 	  }
-	}
+	}	
 </script>
 </security:authorize>
 <security:authorize access="hasRole('MANAGER')">

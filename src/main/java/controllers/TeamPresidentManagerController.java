@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ConfigurationService;
+import services.GameService;
 import services.ManagerService;
 import services.PlayerService;
 import services.PresidentService;
 import services.TeamService;
+import domain.Game;
 import domain.Manager;
 import domain.Player;
 import domain.President;
@@ -39,6 +41,9 @@ public class TeamPresidentManagerController extends AbstractController {
 
 	@Autowired
 	private PlayerService			playerService;
+	
+	@Autowired
+	private GameService				gameService;
 
 
 	//Members Team--------------------------------------------------------------------------------------
@@ -64,12 +69,23 @@ public class TeamPresidentManagerController extends AbstractController {
 				managers.add(manager);
 			}
 			
+			
+			boolean canFire = false;
+
+			final Collection<Game> games = this.gameService.findGamesOfTeam(team.getId());
+
+			if (games.isEmpty()) {
+				canFire = true;
+			}
+			
+
 			result = new ModelAndView("actor/listPlayerManager");
 			result.addObject("players", players);
 			result.addObject("managers", managers);
 			result.addObject("requestURI", "team/president&manager/listByPresident.do");
 			result.addObject("pagesize", 5);
 			result.addObject("banner", banner);
+			result.addObject("canFire",canFire);
 			result.addObject("language", LocaleContextHolder.getLocale().getLanguage());
 			result.addObject("AmInFinder", false);
 
