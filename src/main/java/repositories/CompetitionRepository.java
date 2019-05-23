@@ -10,7 +10,7 @@ import domain.Competition;
 @Repository
 public interface CompetitionRepository extends JpaRepository<Competition, Integer> {
 
-	@Query("select c from Competition c join c.games g where g.id")
+	@Query("select c from Competition c join c.games g where g.id = ?1")
 	Competition findCompetitionByGameId(int gameId);
 
 }
