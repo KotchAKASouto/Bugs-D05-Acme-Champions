@@ -36,11 +36,11 @@
 	
 	<acme:column property="name" titleKey="actor.name" value= "${row1.name}"/>
 	
+	<acme:column property="team.name" titleKey="player.team" value= "${row1.team.name}"/>
+	
 	<display:column titleKey="player.squad">
 		<jstl:out value="${row1.squadNumber} - ${row1.squadName}" />
 	</display:column>
-	
-	<acme:column property="team.name" titleKey="player.team" value= "${row1.team.name}"/>
 	
 	<jstl:if test="${language == 'en'}">
 	<acme:column property="positionEnglish" titleKey="player.positionEnglish" value= "${row1.positionEnglish}"/>
@@ -78,7 +78,7 @@
 	<acme:column property="name" titleKey="actor.name" value= "${row2.name}"/>
 	
 	<acme:column property="team.name" titleKey="manager.team" value= "${row2.team.name}"/>
-	
+
 	<acme:url href="manager/display.do?managerId=${row2.id}" code="actor.display"/>
 	
 	<acme:url href="hiring/president/create.do?managerId=${row2.id}" code="actor.hiring"/>
@@ -86,3 +86,30 @@
 </display:table>
 
 <acme:button name="back" code="actor.back" onclick="javascript: relativeRedir('welcome/index.do');" />
+
+<security:authorize access="hasRole('PRESIDENT')">
+<script type="text/javascript">
+	var trTags = document.getElementsByTagName("tr");
+	for (var i = 0; i < trTags.length; i++) {
+	  var tdStatus = trTags[i].children[2];
+	  if (tdStatus.innerText != "") {
+		  trTags[i].style.backgroundColor = "#FFEFD5";
+	  } else if (tdStatus.innerText == "") {
+		  trTags[i].style.backgroundColor = "#98FB98";
+	  }
+	}
+</script>
+</security:authorize>
+<security:authorize access="hasRole('MANAGER')">
+<script type="text/javascript">
+	var trTags = document.getElementsByTagName("tr");
+	for (var i = 0; i < trTags.length; i++) {
+	  var tdStatus = trTags[i].children[5];
+	  if (tdStatus.innerText == "NO") {
+		  trTags[i].style.backgroundColor = "#98FB98";
+	  } else if (tdStatus.innerText == "YES") {
+		  trTags[i].style.backgroundColor = "#FFA07A";
+	  }
+	}
+</script>
+</security:authorize>
