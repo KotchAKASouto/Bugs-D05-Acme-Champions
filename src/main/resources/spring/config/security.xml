@@ -117,6 +117,11 @@
 		<security:intercept-url pattern="/report/manager/edit.do" access="hasRole('MANAGER')" />
 		<security:intercept-url pattern="/report/manager/delete.do" access="hasRole('MANAGER')" />
 		
+		<!-- President: Reports -->
+		<security:intercept-url pattern="/report/president/listPlayers.do" access="hasRole('PRESIDENT')" />
+		<security:intercept-url pattern="/report/president/listReports.do" access="hasRole('PRESIDENT')" />
+		<security:intercept-url pattern="/report/president/punish.do" access="hasRole('PRESIDENT')" />
+		
 		<!-- President: Team -->
 		
 		<security:intercept-url pattern="/team/president/edit.do" access="hasRole('PRESIDENT')" />

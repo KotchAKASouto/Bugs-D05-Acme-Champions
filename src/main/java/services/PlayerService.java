@@ -142,6 +142,13 @@ public class PlayerService {
 
 	}
 
+	public Player savePresident(final Player player) {
+
+		final Player result = this.playerRepository.save(player);
+
+		return result;
+	}
+
 	public Player findByPrincipal() {
 		Player player;
 		UserAccount userAccount;

@@ -107,6 +107,13 @@ public class ReportService {
 		return result;
 	}
 
+	public Collection<Report> findByPlayerId(final int playerId) {
+
+		final Collection<Report> result = this.reportRepository.findByPlayerId(playerId);
+
+		return result;
+	}
+
 	public Boolean securityPlayer(final int playerId) {
 
 		Boolean result = false;
