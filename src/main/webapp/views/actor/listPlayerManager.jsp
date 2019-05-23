@@ -101,6 +101,12 @@
 	
 </display:table>
 
+<jstl:if test="${canFire == false}">
+	<div class="no_firing_note">
+		<p><spring:message code="manager" /></p>
+	</div>
+</jstl:if>
+
 <acme:button name="back" code="actor.back" onclick="javascript: relativeRedir('welcome/index.do');" />
 
 <security:authorize access="hasRole('PRESIDENT')">

@@ -4,15 +4,12 @@ package controllers.president;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import services.ConfigurationService;
-import services.FinderService;
 import services.GameService;
 import services.HiringService;
 import services.ManagerService;
@@ -20,6 +17,7 @@ import services.PlayerService;
 import services.PresidentService;
 import services.SigningService;
 import services.TeamService;
+import services.TrainingService;
 import controllers.AbstractController;
 import domain.Game;
 import domain.Hiring;
@@ -28,6 +26,7 @@ import domain.Player;
 import domain.President;
 import domain.Signing;
 import domain.Team;
+import domain.Training;
 
 @Controller
 @RequestMapping("/president")
@@ -45,9 +44,6 @@ public class FiringPresidentController extends AbstractController {
 	ManagerService					managerService;
 
 	@Autowired
-	private ConfigurationService	configurationService;
-
-	@Autowired
 	private TeamService				teamService;
 
 	@Autowired
@@ -58,6 +54,9 @@ public class FiringPresidentController extends AbstractController {
 
 	@Autowired
 	private HiringService			hiringService;
+	
+	@Autowired
+	private TrainingService			trainingService;
 	
 	@RequestMapping(value = "/canFire", method = RequestMethod.GET)
 	public boolean canFire() {
@@ -100,33 +99,18 @@ public class FiringPresidentController extends AbstractController {
 					player.setTeam(null);
 					this.playerService.save(player);
 					
-					result = new ModelAndView("redirect:/actor/listPlayerManager");
-					System.out.println("Borrado!");
-
+					result = new ModelAndView("redirect:/team/president,manager/listByPresident.do");
 				} else
 					// NO AUTORIZADO!
-					System.out.println("No autorizado!");
 				result = new ModelAndView("redirect:/welcome/index.do");
 			} else
 				// TIENE PARTIDOS!
-				System.out.println("Tiene partidos!");
 				result = new ModelAndView("redirect:/welcome/index.do");
 			
 		} else {
 			// NO EXISTE EL JUGADOR!
-			System.out.println("No existe el jugador!");
 			result = new ModelAndView("misc/notExist");
 		}
-
-		// Configuracion
-		/*final String banner = this.configurationService.findConfiguration().getBanner();
-		final String language = LocaleContextHolder.getLocale().getLanguage();
-		result.addObject("requestURI", "finder/president/find.do");
-		result.addObject("requestAction", "finder/president/find.do");
-		result.addObject("banner", banner);
-		result.addObject("AmILogged", true);
-		result.addObject("AmInFinder", false);
-		result.addObject("language", language);*/
 
 		return result;
 
@@ -153,36 +137,27 @@ public class FiringPresidentController extends AbstractController {
 				if (hiring != null) {
 					this.hiringService.delete(hiring);
 					
+					Collection<Training> trainings = this.trainingService.findFutureTrainingsByManagerId(manager.getId());
+					
+					for (Training t: trainings) {
+						this.trainingService.delete(t);
+					}
+					
 					manager.setTeam(null);
 					this.managerService.save(manager);
 					
-					result = new ModelAndView("redirect:/actor/listPlayerManager");
-					System.out.println("Borrado!");
-
+					result = new ModelAndView("redirect:/team/president,manager/listByPresident.do");
 				} else
 					// NO AUTORIZADO!
-					System.out.println("No autorizado!");
 					result = new ModelAndView("redirect:/welcome/index.do");
 			} else
 				// TIENE PARTIDOS!
-				System.out.println("Tiene partidos!");
 				result = new ModelAndView("redirect:/welcome/index.do");
 		} else {
 			// NO EXISTE EL MANAGER!
-			System.out.println("No existe el manager!");
 			result = new ModelAndView("misc/notExist");
 		}
-
-		// Configuracion
-		/*final String banner = this.configurationService.findConfiguration().getBanner();
-		final String language = LocaleContextHolder.getLocale().getLanguage();
-		result.addObject("requestURI", "finder/president/find.do");
-		result.addObject("requestAction", "finder/president/find.do");
-		result.addObject("banner", banner);
-		result.addObject("AmILogged", true);
-		result.addObject("AmInFinder", false);
-		result.addObject("language", language);*/
-
+		
 		return result;
 
 	}

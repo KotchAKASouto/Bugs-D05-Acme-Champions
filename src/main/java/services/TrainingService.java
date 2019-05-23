@@ -94,7 +94,7 @@ public class TrainingService {
 		return result;
 	}
 
-	//Añadir un player a un training
+	//Aï¿½adir un player a un training
 	public void addPlayerToTraining(final Player player, final Training training) {
 
 		Assert.notNull(player);
@@ -130,8 +130,14 @@ public class TrainingService {
 
 		final Authority manag = new Authority();
 		manag.setAuthority(Authority.MANAGER);
-		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(manag));
-		Assert.isTrue(actor.getId() == training.getManager().getId());
+		
+		final Authority presi = new Authority();
+		presi.setAuthority(Authority.PRESIDENT);
+		
+		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(manag) || actor.getUserAccount().getAuthorities().contains(presi));
+		if (actor.getUserAccount().getAuthorities().contains(manag)) {
+			Assert.isTrue(actor.getId() == training.getManager().getId());
+		}
 
 		this.trainingRepository.delete(training);
 
@@ -198,6 +204,10 @@ public class TrainingService {
 
 	public void flush() {
 		this.trainingRepository.flush();
+	}
+	
+	public Collection<Training> findFutureTrainingsByManagerId(int managerId) {
+		return this.trainingRepository.findFutureTrainingsByManagerId(managerId, new Date());
 	}
 
 }
