@@ -148,7 +148,10 @@ public class HiringService {
 
 		final Manager manager = this.teamService.findManagerByTeamId((team.getId()));
 
-		final Collection<Hiring> res = this.hiringRepository.findByManagerIdPresident(manager.getId());
+		Collection<Hiring> res = null;
+
+		if (manager != null)
+			res = this.hiringRepository.findByManagerIdPresident(manager.getId());
 
 		return res;
 	}
@@ -196,5 +199,12 @@ public class HiringService {
 
 	public Hiring findHiringOfPresidentAndManager(final int presidentId, final int managerId) {
 		return this.hiringRepository.findHiringOfPresidentAndManager(presidentId, managerId);
+	}
+
+	public Collection<Hiring> findAllByManager(final int id) {
+
+		final Collection<Hiring> res = this.hiringRepository.findAllByManager(id);
+
+		return res;
 	}
 }

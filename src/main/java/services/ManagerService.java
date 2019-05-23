@@ -20,6 +20,7 @@ import security.UserAccountService;
 import domain.Actor;
 import domain.Finder;
 import domain.Manager;
+import domain.Team;
 import forms.RegisterManagerForm;
 
 @Service
@@ -70,6 +71,14 @@ public class ManagerService {
 		Manager result;
 		result = this.managerRepository.findOne(managerId);
 		return result;
+	}
+
+	public void editTeam(final Manager manager, final Team team) {
+
+		manager.setTeam(team);
+
+		this.managerRepository.save(manager);
+
 	}
 
 	public Manager save(final Manager manager) {
@@ -216,5 +225,5 @@ public class ManagerService {
 	public void flush() {
 		this.managerRepository.flush();
 	}
-	
+
 }

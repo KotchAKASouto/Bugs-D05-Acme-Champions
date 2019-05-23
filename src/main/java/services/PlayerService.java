@@ -23,6 +23,7 @@ import domain.Actor;
 import domain.Finder;
 import domain.Player;
 import domain.StatisticalData;
+import domain.Team;
 import forms.RegisterPlayerForm;
 
 @Service
@@ -76,6 +77,15 @@ public class PlayerService {
 		Player result;
 		result = this.playerRepository.findOne(playerId);
 		return result;
+	}
+
+	public void editTeam(final Player player, final Team team, final Double offeredClause) {
+
+		player.setTeam(team);
+		player.setBuyoutClause(offeredClause);
+
+		this.playerRepository.save(player);
+
 	}
 
 	public Player save(final Player player) {

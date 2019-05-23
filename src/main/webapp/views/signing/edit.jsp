@@ -15,9 +15,17 @@
 	<form:hidden path="version" />
 	<form:hidden path="playerId" />
 	
+	<div><spring:message code="signing.offeredClause.now" />:
+	
+		<fmt:formatNumber type="number" maxFractionDigits="5" value="${buyoutClause}" />
+		
+	</div>
+	
+	
 	<jstl:if test="${signing.id == 0 }">
 	
 		<acme:textbox code="signing.price" path="price" obligatory="true"/>
+		<acme:textbox code="signing.offeredClause" path="offeredClause" obligatory="true"/>
 		
 	</jstl:if>
 	

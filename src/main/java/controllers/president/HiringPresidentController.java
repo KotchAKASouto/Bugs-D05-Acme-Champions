@@ -146,13 +146,20 @@ public class HiringPresidentController extends AbstractController {
 
 			final Team team = this.teamService.findByPresidentId(loged.getId());
 
-			if (hiring.getManager().getTeam().equals(team) && hiring.getStatus().equals("PENDING")) {
+			if (hiring.getManager().getTeam() != null && hiring.getManager().getTeam().equals(team) && hiring.getStatus().equals("PENDING")) {
 
 				final Manager manager = this.managerService.findOne(hiring.getManager().getId());
 
-				manager.setTeam(team);
+				this.managerService.editTeam(manager, this.teamService.findByPresidentId(hiring.getPresident().getId()));
+
+				final Collection<Hiring> oldOnes = this.hiringService.findAllByManager(manager.getId());
+
+				for (final Hiring oldOne : oldOnes)
+					this.hiringService.delete(oldOne);
 
 				hiring.setStatus("ACCEPTED");
+
+				this.hiringService.save(hiring);
 
 				result = new ModelAndView("redirect:/hiring/president/list.do");
 				result.addObject("banner", banner);
@@ -188,7 +195,7 @@ public class HiringPresidentController extends AbstractController {
 
 			final Team team = this.teamService.findByPresidentId(loged.getId());
 
-			if (hiring.getManager().getTeam().equals(team) && hiring.getStatus().equals("PENDING")) {
+			if (hiring.getManager().getTeam() != null && hiring.getManager().getTeam().equals(team) && hiring.getStatus().equals("PENDING")) {
 
 				final HiringForm hiringForm = this.hiringService.editForm(hiring);
 
@@ -224,7 +231,7 @@ public class HiringPresidentController extends AbstractController {
 
 			final Team team = this.teamService.findByPresidentId(loged.getId());
 
-			if (hiring.getManager().getTeam().equals(team) && hiring.getStatus().equals("PENDING")) {
+			if (hiring.getManager().getTeam() != null && hiring.getManager().getTeam().equals(team) && hiring.getStatus().equals("PENDING")) {
 
 				if (binding.hasErrors())
 					result = this.createEditModelAndView(hiringForm, null);

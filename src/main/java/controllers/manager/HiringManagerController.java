@@ -90,15 +90,20 @@ public class HiringManagerController extends AbstractController {
 
 			if (hiring.getManager().equals(loged) && loged.getTeam() == null && hiring.getStatus().equals("PENDING")) {
 
-				hiring.setStatus("ACCEPTED");
-
-				this.hiringService.save(hiring);
-
 				final Manager manager = this.managerService.findOne(hiring.getManager().getId());
 
 				manager.setTeam(this.teamService.findByPresidentId(hiring.getPresident().getId()));
 
+				final Collection<Hiring> oldOnes = this.hiringService.findAllByManager(manager.getId());
+
+				for (final Hiring oldOne : oldOnes)
+					this.hiringService.delete(oldOne);
+
 				this.managerService.save(manager);
+
+				hiring.setStatus("ACCEPTED");
+
+				this.hiringService.save(hiring);
 
 				result = new ModelAndView("redirect:/hiring/manager/list.do");
 				result.addObject("banner", banner);

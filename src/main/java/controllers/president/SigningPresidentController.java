@@ -87,9 +87,12 @@ public class SigningPresidentController extends AbstractController {
 
 		if (exist) {
 
+			final Player player = this.playerService.findOne(playerId);
+
 			final SigningForm signingForm = this.signingService.create(playerId);
 			result = this.createEditModelAndView(signingForm);
 			result.addObject("enlace", "signing/president/edit.do");
+			result.addObject("buyoutClause", player.getBuyoutClause());
 
 		} else {
 
@@ -146,17 +149,20 @@ public class SigningPresidentController extends AbstractController {
 
 			final Team team = this.teamService.findByPresidentId(loged.getId());
 
-			if (signing.getPlayer().getTeam().equals(team) && signing.getStatus().equals("PENDING")) {
+			if (signing.getPlayer().getTeam() != null && signing.getPlayer().getTeam().equals(team) && signing.getStatus().equals("PENDING")) {
+
+				final Player player = this.playerService.findOne(signing.getPlayer().getId());
+
+				this.playerService.editTeam(player, this.teamService.findByPresidentId(signing.getPresident().getId()), signing.getOfferedClause());
+
+				final Collection<Signing> oldOnes = this.signingService.findAllByPlayer(player.getId());
+
+				for (final Signing oldOne : oldOnes)
+					this.signingService.delete(oldOne);
 
 				signing.setStatus("ACCEPTED");
 
 				this.signingService.save(signing);
-
-				final Player player = this.playerService.findOne(signing.getPlayer().getId());
-
-				player.setTeam(team);
-
-				this.playerService.save(player);
 
 				result = new ModelAndView("redirect:/signing/president/list.do");
 				result.addObject("banner", banner);
@@ -192,7 +198,7 @@ public class SigningPresidentController extends AbstractController {
 
 			final Team team = this.teamService.findByPresidentId(loged.getId());
 
-			if (signing.getPlayer().getTeam().equals(team) && signing.getStatus().equals("PENDING")) {
+			if (signing.getPlayer().getTeam() != null && signing.getPlayer().getTeam().equals(team) && signing.getStatus().equals("PENDING")) {
 
 				final SigningForm signingForm = this.signingService.editForm(signing);
 
@@ -213,7 +219,6 @@ public class SigningPresidentController extends AbstractController {
 
 		return result;
 	}
-
 	@RequestMapping(value = "/reject", method = RequestMethod.POST, params = "save")
 	public ModelAndView reject(@ModelAttribute(value = "signing") final SigningForm signingForm, final BindingResult binding) {
 		ModelAndView result;
@@ -228,7 +233,7 @@ public class SigningPresidentController extends AbstractController {
 
 			final Team team = this.teamService.findByPresidentId(loged.getId());
 
-			if (signing.getPlayer().getTeam().equals(team) && signing.getStatus().equals("PENDING")) {
+			if (signing.getPlayer().getTeam() != null && signing.getPlayer().getTeam().equals(team) && signing.getStatus().equals("PENDING")) {
 
 				if (binding.hasErrors())
 					result = this.createEditModelAndView(signingForm, null);

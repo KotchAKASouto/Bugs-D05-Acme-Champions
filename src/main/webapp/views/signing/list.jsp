@@ -16,6 +16,8 @@
 		<fmt:formatNumber type="number" maxFractionDigits="5" value="${row.price}" />
 	</display:column>
 	
+	<acme:column property="offeredClause" titleKey="signing.offeredClause" value= "${row.offeredClause}: "/>
+	
 	<acme:column property="president.name" titleKey="signing.president" value= "${row.president.name}: "/>
 		
 	<acme:url href="signing/${autoridad}/accept.do?signingId=${row.id }" code="signing.accept" />

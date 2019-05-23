@@ -5,6 +5,7 @@ public class SigningForm {
 
 	private Double	price;
 	private String	mandatoryComment;
+	private Double	offeredClause;
 	private int		playerId;
 	private int		id;
 	private int		version;
@@ -24,6 +25,14 @@ public class SigningForm {
 
 	public void setMandatoryComment(final String mandatoryComment) {
 		this.mandatoryComment = mandatoryComment;
+	}
+
+	public Double getOfferedClause() {
+		return this.offeredClause;
+	}
+
+	public void setOfferedClause(final Double offeredClause) {
+		this.offeredClause = offeredClause;
 	}
 
 	public int getPlayerId() {

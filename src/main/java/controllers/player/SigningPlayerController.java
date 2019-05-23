@@ -89,15 +89,21 @@ public class SigningPlayerController extends AbstractController {
 
 			if (signing.getPlayer().equals(loged) && loged.getTeam() == null && signing.getStatus().equals("PENDING")) {
 
-				signing.setStatus("ACCEPTED");
-
-				this.signingService.save(signing);
-
 				final Player player = this.playerService.findOne(signing.getPlayer().getId());
 
 				player.setTeam(this.teamService.findByPresidentId(signing.getPresident().getId()));
+				player.setBuyoutClause(signing.getOfferedClause());
 
 				this.playerService.save(player);
+
+				final Collection<Signing> oldOnes = this.signingService.findAllByPlayer(player.getId());
+
+				for (final Signing oldOne : oldOnes)
+					this.signingService.delete(oldOne);
+
+				signing.setStatus("ACCEPTED");
+
+				this.signingService.save(signing);
 
 				result = new ModelAndView("redirect:/signing/player/list.do");
 				result.addObject("banner", banner);

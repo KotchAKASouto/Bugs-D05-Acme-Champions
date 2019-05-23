@@ -1,3 +1,4 @@
+
 package services;
 
 import java.util.Collection;
@@ -118,6 +119,7 @@ public class SigningService {
 			signing.setMandatoryComment(form.getMandatoryComment());
 			signing.setPresident(this.presidentService.findByPrincipal());
 			signing.setPrice(form.getPrice());
+			signing.setOfferedClause(form.getOfferedClause());
 			signing.setStatus("PENDING");
 
 		} else {
@@ -129,6 +131,7 @@ public class SigningService {
 			signing.setMandatoryComment(form.getMandatoryComment());
 			signing.setPresident(oldOne.getPresident());
 			signing.setPrice(oldOne.getPrice());
+			signing.setOfferedClause(oldOne.getOfferedClause());
 			signing.setVersion(oldOne.getVersion());
 			signing.setStatus(oldOne.getStatus());
 
@@ -180,7 +183,14 @@ public class SigningService {
 
 		return res;
 	}
-	
+
+	public Collection<Signing> findAllByPlayer(final int id) {
+
+		final Collection<Signing> res = this.signingRepository.findAllByPlayerId(id);
+
+		return res;
+	}
+
 	public void delete(final Signing signing) {
 
 		Assert.notNull(signing);
@@ -189,8 +199,8 @@ public class SigningService {
 		this.signingRepository.delete(signing);
 
 	}
-	
-	public Signing findSigningOfPresidentAndPlayer(int presidentId, int playerId) {
+
+	public Signing findSigningOfPresidentAndPlayer(final int presidentId, final int playerId) {
 		return this.signingRepository.findSigningOfPresidentAndPlayer(presidentId, playerId);
 	}
 }
