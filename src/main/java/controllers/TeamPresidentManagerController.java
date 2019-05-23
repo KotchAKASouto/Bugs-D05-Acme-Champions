@@ -60,8 +60,10 @@ public class TeamPresidentManagerController extends AbstractController {
 
 			players = this.playerService.findPlayersOfTeam(team.getId());
 			manager = this.managerService.findManagerByTeamId(team.getId());
-			managers.add(manager);
-
+			if(manager!=null){
+				managers.add(manager);
+			}
+			
 			result = new ModelAndView("actor/listPlayerManager");
 			result.addObject("players", players);
 			result.addObject("managers", managers);
@@ -95,7 +97,9 @@ public class TeamPresidentManagerController extends AbstractController {
 		if (team != null) {
 
 			players = this.playerService.findPlayersOfTeam(team.getId());
-			managers.add(manager);
+			if(manager!=null){
+				managers.add(manager);
+			}
 
 			result = new ModelAndView("actor/listPlayerManager");
 			result.addObject("players", players);
