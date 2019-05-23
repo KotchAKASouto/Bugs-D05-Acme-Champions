@@ -84,4 +84,11 @@ public class CompetitionService {
 
 	}
 
+	public Competition findCompetitionByGameId(final int gameId) {
+
+		final Competition res = this.competitionRepository.findCompetitionByGameId(gameId);
+
+		return res;
+	}
+
 }
