@@ -26,5 +26,15 @@
 		<put-attribute name="body" value="/views/report/create.jsp" />
 	</definition>
 	
+	<definition name="report/listPlayer" extends="master.page">	
+		<put-attribute name="title" value="Jugadores con reportes" />
+		<put-attribute name="body" value="/views/report/listPlayer.jsp" />
+	</definition>
+	
+	<definition name="report/listReport" extends="master.page">	
+		<put-attribute name="title" value="Reportes" />
+		<put-attribute name="body" value="/views/report/listReport.jsp" />
+	</definition>
+	
 	
 </tiles-definitions>
