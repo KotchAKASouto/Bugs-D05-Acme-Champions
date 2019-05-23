@@ -10,6 +10,8 @@ import org.springframework.util.Assert;
 import org.springframework.validation.Validator;
 
 import repositories.SponsorshipRepository;
+import security.Authority;
+import domain.Actor;
 import domain.Sponsor;
 import domain.Sponsorship;
 
@@ -242,6 +244,27 @@ public class SponsorshipService {
 
 		this.sponsorshipRepository.flush();
 
+	}
+
+	public Collection<Sponsorship> findSponsorshipsByGameId(final int gameId) {
+
+		final Collection<Sponsorship> res = this.sponsorshipRepository.findSponsorshipsByGameId(gameId);
+
+		return res;
+	}
+
+	public void deleteForDeleteGame(final Sponsorship sponsorship) {
+		final Authority authReferee = new Authority();
+		authReferee.setAuthority(Authority.REFEREE);
+
+		//Hay que estar logeado
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+
+		//Este caso lo ejecuta un referee
+		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authReferee));
+
+		this.sponsorshipRepository.delete(sponsorship);
 	}
 
 }

@@ -28,7 +28,7 @@ public class FinderService {
 	@Autowired
 	private FinderRepository	finderRepository;
 
-	// Suporting services ------------------------
+	// Supporting services ------------------------
 
 	@Autowired
 	private ActorService		actorService;
