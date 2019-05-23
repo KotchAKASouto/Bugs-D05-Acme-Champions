@@ -152,6 +152,30 @@
 		<security:intercept-url pattern="/actor/administrator/profile/deleteProfile.do" access="hasRole('ADMIN')" />
 		<security:intercept-url pattern="/profile/editAdministrator.do" access="hasRole('ADMIN')" />
 		<security:intercept-url pattern="/message/actor/rebrandingNotification.do" access="hasRole('ADMIN')" />
+		
+		
+		
+		
+		
+		<security:intercept-url pattern="/hiring/president/list.do" access="hasRole('PRESIDENT')" />
+		<security:intercept-url pattern="/hiring/president/create.do" access="hasRole('PRESIDENT')" />
+		<security:intercept-url pattern="/hiring/president/edit.do" access="hasRole('PRESIDENT')" />
+		<security:intercept-url pattern="/hiring/president/accept.do" access="hasRole('PRESIDENT')" />
+		<security:intercept-url pattern="/hiring/president/reject.do" access="hasRole('PRESIDENT')" />
+		
+		<security:intercept-url pattern="/hiring/manager/list.do" access="hasRole('MANAGER')" />
+		<security:intercept-url pattern="/hiring/manager/accept.do" access="hasRole('MANAGER')" />
+		<security:intercept-url pattern="/hiring/manager/reject.do" access="hasRole('MANAGER')" />
+		
+		<security:intercept-url pattern="/signing/president/list.do" access="hasRole('PRESIDENT')" />
+		<security:intercept-url pattern="/signing/president/create.do" access="hasRole('PRESIDENT')" />
+		<security:intercept-url pattern="/signing/president/edit.do" access="hasRole('PRESIDENT')" />
+		<security:intercept-url pattern="/signing/president/accept.do" access="hasRole('PRESIDENT')" />
+		<security:intercept-url pattern="/signing/president/reject.do" access="hasRole('PRESIDENT')" />
+		
+		<security:intercept-url pattern="/signing/player/list.do" access="hasRole('PLAYER')" />
+		<security:intercept-url pattern="/signing/player/accept.do" access="hasRole('PLAYER')" />
+		<security:intercept-url pattern="/signing/player/reject.do" access="hasRole('PLAYER')" />
 
 		<!-- President and Manager -->
 		<security:intercept-url pattern="/player/display.do" access="hasAnyRole('PRESIDENT','MANAGER')" />

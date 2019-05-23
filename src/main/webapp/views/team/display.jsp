@@ -35,6 +35,7 @@
 
 <acme:button name="edit" code="team.edit" onclick="javascript: relativeRedir('team/president/edit.do');" />
 
+<acme:button name="members" code="team.members" onclick="javascript: relativeRedir('team/president,manager/listByPresident.do');" />
 
 </jstl:if>
 

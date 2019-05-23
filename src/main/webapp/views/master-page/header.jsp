@@ -40,11 +40,12 @@
 			<li><a class="fNiv"><spring:message	code="master.page.manager" /></a>
 				<ul>
 					<li class="arrow"></li>
-					
-					<li><a href="team/president,manager/listByManager.do"><spring:message code="master.page.team" /></a></li>
+
+					<li><a href="training/manager/list.do"><spring:message code="master.page.list.trainings" /></a></li>			
+					<li><a href="hiring/manager/list.do"><spring:message code="master.page.hiring" /></a></li>	
+					<li><a href="team/president,manager/listByManager.do"><spring:message code="master.page.team.display" /></a></li>
 					<li><a href="training/manager/list.do"><spring:message code="master.page.list.trainings" /></a></li>	
 					<li><a href="report/manager/list.do"><spring:message code="master.page.reports" /></a></li>		
-
 				</ul>
 			</li>
 		</security:authorize>
@@ -54,9 +55,10 @@
 				<ul>
 					<li class="arrow"></li>
 
-					<li><a href="finder/president/find.do"><spring:message code="master.page.finder" /></a></li>		
+					<li><a href="finder/president/find.do"><spring:message code="master.page.finder" /></a></li>	
+					<li><a href="hiring/president/list.do"><spring:message code="master.page.hiring" /></a></li>		
+					<li><a href="signing/president/list.do"><spring:message code="master.page.signing" /></a></li>	
 					<li><a href="team/president/display.do"><spring:message code="master.page.team.display" /></a></li>
-					<li><a href="team/president,manager/listByPresident.do"><spring:message code="master.page.team" /></a></li>
 				</ul>
 			</li>
 		</security:authorize>
@@ -66,6 +68,8 @@
 				<ul>
 					<li class="arrow"></li>
 
+					<li><a href="history/player/display.do"><spring:message code="master.page.history" /></a></li>	
+					<li><a href="signing/player/list.do"><spring:message code="master.page.signing" /></a></li>		
 					<li><a href="history/player/display.do"><spring:message code="master.page.history" /></a></li>		
 					<li><a href="training/player/list.do"><spring:message code="master.page.list.trainings" /></a></li>
 					

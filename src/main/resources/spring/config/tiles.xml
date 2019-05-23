@@ -30,6 +30,8 @@
 		<value>/views/training/tiles.xml</value>
 		<value>/views/player/tiles.xml</value>
 		<value>/views/history/tiles.xml</value>
+		<value>/views/hiring/tiles.xml</value>
+		<value>/views/signing/tiles.xml</value>
 		<value>/views/manager/tiles.xml</value>
 		<value>/views/team/tiles.xml</value>
 		<value>/views/game/tiles.xml</value>
