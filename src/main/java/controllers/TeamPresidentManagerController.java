@@ -41,7 +41,7 @@ public class TeamPresidentManagerController extends AbstractController {
 
 	@Autowired
 	private PlayerService			playerService;
-	
+
 	@Autowired
 	private GameService				gameService;
 
@@ -65,19 +65,15 @@ public class TeamPresidentManagerController extends AbstractController {
 
 			players = this.playerService.findPlayersOfTeam(team.getId());
 			manager = this.managerService.findManagerByTeamId(team.getId());
-			if(manager!=null){
+			if (manager != null)
 				managers.add(manager);
-			}
-			
-			
+
 			boolean canFire = false;
 
 			final Collection<Game> games = this.gameService.findGamesOfTeam(team.getId());
 
-			if (games.isEmpty()) {
+			if (games.isEmpty())
 				canFire = true;
-			}
-			
 
 			result = new ModelAndView("actor/listPlayerManager");
 			result.addObject("players", players);
@@ -85,7 +81,7 @@ public class TeamPresidentManagerController extends AbstractController {
 			result.addObject("requestURI", "team/president&manager/listByPresident.do");
 			result.addObject("pagesize", 5);
 			result.addObject("banner", banner);
-			result.addObject("canFire",canFire);
+			result.addObject("canFire", canFire);
 			result.addObject("language", LocaleContextHolder.getLocale().getLanguage());
 			result.addObject("AmInFinder", false);
 
@@ -107,15 +103,16 @@ public class TeamPresidentManagerController extends AbstractController {
 		final Team team;
 		final Collection<Player> players;
 		final Collection<Manager> managers = new HashSet<Manager>();
+		Double goalPrediction = 0.0;
 
 		team = manager.getTeam();
 
 		if (team != null) {
 
+			goalPrediction = this.configurationService.goalPrediction(team.getId());
 			players = this.playerService.findPlayersOfTeam(team.getId());
-			if(manager!=null){
+			if (manager != null)
 				managers.add(manager);
-			}
 
 			result = new ModelAndView("actor/listPlayerManager");
 			result.addObject("players", players);
@@ -125,6 +122,7 @@ public class TeamPresidentManagerController extends AbstractController {
 			result.addObject("banner", banner);
 			result.addObject("language", LocaleContextHolder.getLocale().getLanguage());
 			result.addObject("AmInFinder", false);
+			result.addObject("goalPrediction", goalPrediction);
 
 		} else {
 			result = new ModelAndView("misc/notExist");
