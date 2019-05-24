@@ -48,8 +48,13 @@ requestURI="${requestURI }" >
 	
 	<acme:column property="visitorTeam.name" titleKey="sponsorship.game.visitorTeam" value= "${row3.visitorTeam.name}: "/>
 	
+	<spring:message code="dateFormat" var="format"/>
+	<spring:message code="timeFormat" var="formatTime"/>
+	
 	<display:column titleKey="sponsorship.game.gameDate"> 
-		<fmt:formatDate value="${row3.gameDate }" pattern="yyyy/MM/dd HH:mm" />
+		<fmt:formatDate type="date" value="${row3.gameDate }" pattern="${format }" />
+		<fmt:formatDate type="time" value="${row3.gameDate }" pattern="${formatTime }" />
+		
 	</display:column>
 	
 	<acme:url href="sponsorship/sponsor/sponsorGame.do?gameId=${row3.id}" code="sponsorship.doSponsorship"/>
