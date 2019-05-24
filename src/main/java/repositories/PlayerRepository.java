@@ -20,4 +20,32 @@ public interface PlayerRepository extends JpaRepository<Player, Integer> {
 
 	@Query("select p from Player p where p.team.id = ?1")
 	Collection<Player> findPlayersOfTeam(int teamId);
+
+	@Query("select count(m) from Minutes m join m.playersScore p where m.id = ?1 and m.game.homeTeam.id=p.team.id")
+	Integer countHomeGoalsByMinutesId(int minutesId);
+
+	@Query("select count(m) from Minutes m join m.playersYellow p where m.id = ?1 and m.game.homeTeam.id=p.team.id")
+	Integer countHomeYellowsByMinutesId(int minutesId);
+
+	@Query("select count(m) from Minutes m join m.playersRed p where m.id = ?1 and m.game.homeTeam.id=p.team.id")
+	Integer countHomeRedsByMinutesId(int minutesId);
+
+	@Query("select count(m) from Minutes m join m.playersScore p where m.id = ?1 and m.game.visitorTeam.id=p.team.id")
+	Integer countVisitorGoalsByMinutesId(int minutesId);
+
+	@Query("select count(m) from Minutes m join m.playersYellow p where m.id = ?1 and m.game.visitorTeam.id=p.team.id")
+	Integer countVisitorYellowsByMinutesId(int minutesId);
+
+	@Query("select count(m) from Minutes m join m.playersRed p where m.id = ?1 and m.game.visitorTeam.id=p.team.id")
+	Integer countVisitorRedsByMinutesId(int minutesId);
+
+	@Query("select count(m) from Minutes m join m.playersScore p where m.id = ?1 and p.id = ?2")
+	Integer countGoalsOfPlayerByMinutePlayerId(int minutesId, int playerId);
+
+	@Query("select count(m) from Minutes m join m.playersYellow p where m.id = ?1 and p.id = ?2")
+	Integer countYellowsOfPlayerByMinutePlayerId(int minutesId, int playerId);
+
+	@Query("select count(m) from Minutes m join m.playersRed p where m.id = ?1 and p.id = ?2")
+	Integer countRedOfPlayerByMinutePlayerId(int minutesId, int playerId);
+
 }
