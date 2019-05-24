@@ -238,18 +238,20 @@ public class SponsorshipSponsorController extends AbstractController {
 
 	//Save-------------------------------------------------------------------------------------------
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@ModelAttribute(value = "sponsorship") Sponsorship sponsorship, final BindingResult binding) {
+	public ModelAndView save(@ModelAttribute(value = "sponsorship") final Sponsorship sponsorship, final BindingResult binding) {
 		ModelAndView result;
-		sponsorship = this.sponsorshipService.reconstruct(sponsorship, binding);
+
+		Sponsorship res;
+		res = this.sponsorshipService.reconstruct(sponsorship, binding);
 
 		if (binding.hasErrors())
-			result = this.createEditModelAndView(sponsorship, null);
+			result = this.createEditModelAndView(res, null);
 		else
 			try {
-				this.sponsorshipService.save(sponsorship);
+				this.sponsorshipService.save(res);
 				result = new ModelAndView("redirect:list.do");
 			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(sponsorship, "training.commit.error");
+				result = this.createEditModelAndView(res, "sponsorship.commit.error");
 			}
 
 		return result;
