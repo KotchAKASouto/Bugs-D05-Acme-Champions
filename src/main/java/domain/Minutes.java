@@ -25,7 +25,17 @@ public class Minutes extends DomainEntity {
 	private Collection<Player>	playersRed;
 	private Game				game;
 	private Team				winner;
+	private Boolean				closed;
 
+
+	@NotNull
+	public Boolean getClosed() {
+		return this.closed;
+	}
+
+	public void setClosed(final Boolean closed) {
+		this.closed = closed;
+	}
 
 	@NotNull
 	@Min(0)

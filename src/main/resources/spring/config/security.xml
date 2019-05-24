@@ -161,7 +161,7 @@
 		
 		
 		
-		
+		<!-- President: Hiring and Signing -->
 		
 		<security:intercept-url pattern="/hiring/president/list.do" access="hasRole('PRESIDENT')" />
 		<security:intercept-url pattern="/hiring/president/create.do" access="hasRole('PRESIDENT')" />
@@ -193,6 +193,12 @@
 		<security:intercept-url pattern="/sponsorship/sponsor/display.do" access="hasRole('SPONSOR')" />
 		<security:intercept-url pattern="/sponsorship/sponsor/list.do" access="hasRole('SPONSOR')" />
 		
+		<!-- Referee: Game -->
+		<security:intercept-url pattern="/game/referee/listGamesEnded.do" access="hasRole('REFEREE')" />
+		
+		<!-- Referee: Minutes -->
+		<security:intercept-url pattern="/minutes/referee/create.do" access="hasRole('REFEREE')" />
+		<security:intercept-url pattern="/minutes/referee/addPlayerScored.do" access="hasRole('REFEREE')" />
 		
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 

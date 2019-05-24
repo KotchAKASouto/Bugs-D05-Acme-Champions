@@ -29,6 +29,10 @@
 	<acme:column property="visitorTeam.name" titleKey="game.visitorTeam" value= "${row.visitorTeam.name}: "/>
 	
 	<acme:column property="referee.name" titleKey="game.referee" value= "${row.referee.name}: "/>
+	
+	<security:authorize access="hasRole('REFEREE')">
+		<acme:url href="minutes/referee/create.do?gameId=${row.id}" code="game.create.minutes" />
+	</security:authorize>
 
 	</display:table>
 		

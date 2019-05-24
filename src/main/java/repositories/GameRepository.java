@@ -18,4 +18,7 @@ public interface GameRepository extends JpaRepository<Game, Integer> {
 	@Query("select g from Game g order by g.gameDate desc")
 	Collection<Game> findAllGamesOrdered();
 
+	@Query("select g from Game g where ((select count(m) from Minutes m where m.game.id=g.id)=0) and (g.gameDate<CURRENT_TIMESTAMP)")
+	Collection<Game> findAllEndedGamesWithoutMinutes();
+
 }
