@@ -1,6 +1,7 @@
 
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -175,13 +176,14 @@ public class SponsorshipService {
 		if (sponsorship.getPlayer() == null && sponsorship.getGame() == null && sponsorship.getTeam() != null) {
 			final Team team = this.teamService.findOne(sponsorship.getTeam().getId());
 
-			result.setCreditCard(sponsorship.getSponsor().getCreditCard());
-			result.setSponsor(sponsorship.getSponsor());
-			result.setGame(null);
-			result.setPlayer(null);
-			result.setTeam(team);
-			result.setBanner(sponsorship.getBanner());
-			result.setTarget(sponsorship.getTarget());
+			final Sponsorship result2 = this.createWithTeam(sponsorship.getTeam().getId());
+
+			sponsorship.setCreditCard(result2.getSponsor().getCreditCard());
+			sponsorship.setSponsor(result2.getSponsor());
+			sponsorship.setGame(result2.getGame());
+			sponsorship.setPlayer(result2.getPlayer());
+			sponsorship.setTeam(result2.getTeam());
+			this.validator.validate(sponsorship, binding);
 
 		} else if (sponsorship.getPlayer() != null && sponsorship.getGame() == null && sponsorship.getTeam() == null) {
 			final Player player = this.playerService.findOne(sponsorship.getPlayer().getId());
@@ -210,7 +212,7 @@ public class SponsorshipService {
 
 		}
 
-		this.validator.validate(result, binding);
+		//this.validator.validate(result, binding);
 
 		return result;
 	}
@@ -315,17 +317,22 @@ public class SponsorshipService {
 	}
 
 	public Collection<Game> findGamesAvailableToBeSponsored(final int sponsorId) {
+
+		final Date now = new Date(System.currentTimeMillis() - 1000);
+
 		final Collection<Game> result = this.gameService.findAll();
 		final Collection<Sponsorship> sponsorshipsSponsor = this.sponsorshipRepository.findAllBySponsorId(sponsorId);
-		final Date now = new Date(System.currentTimeMillis() - 1000);
 
 		for (final Sponsorship s : sponsorshipsSponsor)
 			if (s.getGame() != null && result.contains(s.getGame()))
 				result.remove(s.getGame());
 
+		final Collection<Game> toRemove = new ArrayList<Game>();
 		for (final Game g : result)
 			if (g.getGameDate().before(now))
-				result.remove(g);
+				toRemove.add(g);
+		result.removeAll(toRemove);
+
 		return result;
 	}
 
