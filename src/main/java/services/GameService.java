@@ -168,4 +168,11 @@ public class GameService {
 
 	}
 
+	public Collection<Game> findByCompetitionId(final int id) {
+
+		final Collection<Game> res = this.gameRepository.findByCompetitionId(id);
+
+		return res;
+	}
+
 }
