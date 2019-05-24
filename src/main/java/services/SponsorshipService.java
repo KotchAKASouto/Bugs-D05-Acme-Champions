@@ -170,47 +170,31 @@ public class SponsorshipService {
 	}
 
 	public Sponsorship reconstruct(final Sponsorship sponsorship, final BindingResult binding) {
-
-		final Sponsorship result = new Sponsorship();
+		Sponsorship result = new Sponsorship();
 
 		if (sponsorship.getPlayer() == null && sponsorship.getGame() == null && sponsorship.getTeam() != null) {
 			final Team team = this.teamService.findOne(sponsorship.getTeam().getId());
 
-			result.setCreditCard(sponsorship.getSponsor().getCreditCard());
-			result.setSponsor(sponsorship.getSponsor());
-			result.setGame(null);
-			result.setPlayer(null);
-			result.setTeam(team);
-			result.setBanner(sponsorship.getBanner());
-			result.setTarget(sponsorship.getTarget());
+			result = this.createWithTeam(team.getId());
 
 		} else if (sponsorship.getPlayer() != null && sponsorship.getGame() == null && sponsorship.getTeam() == null) {
 			final Player player = this.playerService.findOne(sponsorship.getPlayer().getId());
 
-			result.setCreditCard(sponsorship.getSponsor().getCreditCard());
-			result.setSponsor(sponsorship.getSponsor());
-			result.setGame(null);
-			result.setPlayer(player);
-			result.setTeam(null);
-			result.setBanner(sponsorship.getBanner());
-			result.setTarget(sponsorship.getTarget());
+			result = this.createWithPlayer(player.getId());
 
 		} else if (sponsorship.getPlayer() == null && sponsorship.getGame() != null && sponsorship.getTeam() == null) {
 			final Game game = this.gameService.findOne(sponsorship.getGame().getId());
 
-			result.setCreditCard(sponsorship.getSponsor().getCreditCard());
-			result.setSponsor(sponsorship.getSponsor());
-			result.setGame(game);
-			result.setPlayer(null);
-			result.setTeam(null);
-			result.setBanner(sponsorship.getBanner());
-			result.setTarget(sponsorship.getTarget());
+			result = this.createWithGame(game.getId());
+
 			final Date now = new Date(System.currentTimeMillis() - 1000);
 
 			Assert.isTrue(game != null && game.getGameDate().after(now));
 
 		}
 
+		result.setBanner(sponsorship.getBanner());
+		result.setTarget(sponsorship.getTarget());
 		this.validator.validate(result, binding);
 
 		return result;
