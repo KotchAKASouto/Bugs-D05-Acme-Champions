@@ -66,6 +66,9 @@
 		<security:intercept-url pattern="/actor/list.do" access="isAuthenticated()" />
 		<security:intercept-url pattern="/data/get.do" access="isAuthenticated()" />
 
+		<security:intercept-url pattern="/box/actor/list.do" access="isAuthenticated()" />
+
+
 		<!-- Registro -->
 		<security:intercept-url pattern="/register/createManager.do" access="isAnonymous()" />
 		<security:intercept-url pattern="/register/saveManager.do" access="isAnonymous()" />

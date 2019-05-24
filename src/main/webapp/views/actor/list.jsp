@@ -9,9 +9,9 @@
 	<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 	<%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-<h3><spring:message code="actor.rookies" /></h3>
+<h3><spring:message code="actor.players" /></h3>
 	
-	<display:table pagesize="5" name="rookies" id="row" 
+	<display:table pagesize="5" name="players" id="row" 
 requestURI="${requestURI }" >
 
 	<acme:column property="name" titleKey="actor.name" value= "${row.name}: "/>
@@ -22,9 +22,9 @@ requestURI="${requestURI }" >
 	
 </display:table>
 	
-<h3><spring:message code="actor.companies" /></h3>
+<h3><spring:message code="actor.federations" /></h3>
 	
-		<display:table pagesize="5" name="companies" id="row2" 
+		<display:table pagesize="5" name="federations" id="row2" 
 requestURI="${requestURI }" >
 
 	<acme:column property="name" titleKey="actor.name" value= "${row2.name}: "/>
@@ -48,9 +48,9 @@ requestURI="${requestURI }" >
 	
 </display:table>
 	
-<h3><spring:message code="actor.providers" /></h3>
+<h3><spring:message code="actor.presidents" /></h3>
 	
-	<display:table pagesize="5" name="providers" id="row4" 
+	<display:table pagesize="5" name="presidents" id="row4" 
 requestURI="${requestURI }" >
 
 	<acme:column property="name" titleKey="actor.name" value= "${row4.name}: "/>
@@ -61,9 +61,35 @@ requestURI="${requestURI }" >
 	
 </display:table>
 	
-<h3><spring:message code="actor.auditors" /></h3>
+<h3><spring:message code="actor.referees" /></h3>
 	
-	<display:table pagesize="5" name="auditors" id="row5" 
+	<display:table pagesize="5" name="referees" id="row5" 
+requestURI="${requestURI }" >
+
+	<acme:column property="name" titleKey="actor.name" value= "${row5.name}: "/>
+	
+	<acme:column property="surnames" titleKey="actor.surnames" value= "${row5.surnames}: "/>
+	
+	<acme:url href="message/actor/create.do?actorId=${row5.id}" code="actor.contact"/>
+	
+</display:table>
+
+<h3><spring:message code="actor.sponsors" /></h3>
+	
+	<display:table pagesize="5" name="sponsors" id="row5" 
+requestURI="${requestURI }" >
+
+	<acme:column property="name" titleKey="actor.name" value= "${row5.name}: "/>
+	
+	<acme:column property="surnames" titleKey="actor.surnames" value= "${row5.surnames}: "/>
+	
+	<acme:url href="message/actor/create.do?actorId=${row5.id}" code="actor.contact"/>
+	
+</display:table>
+
+<h3><spring:message code="actor.managers" /></h3>
+	
+	<display:table pagesize="5" name="managers" id="row5" 
 requestURI="${requestURI }" >
 
 	<acme:column property="name" titleKey="actor.name" value= "${row5.name}: "/>

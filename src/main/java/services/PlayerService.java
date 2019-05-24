@@ -1,6 +1,7 @@
 
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Locale;
@@ -20,6 +21,7 @@ import security.LoginService;
 import security.UserAccount;
 import security.UserAccountService;
 import domain.Actor;
+import domain.Box;
 import domain.Finder;
 import domain.Player;
 import domain.StatisticalData;
@@ -47,6 +49,9 @@ public class PlayerService {
 
 	@Autowired
 	private Validator				validator;
+
+	@Autowired
+	private BoxService				boxService;
 
 
 	// Methods -----------------------------------
@@ -95,7 +100,7 @@ public class PlayerService {
 		if (player.getId() != 0) {
 			final Authority admin = new Authority();
 			admin.setAuthority(Authority.ADMIN);
-			
+
 			final Authority president = new Authority();
 			president.setAuthority(Authority.PRESIDENT);
 
@@ -106,9 +111,7 @@ public class PlayerService {
 			final Actor actor = this.actorService.findByPrincipal();
 			Assert.notNull(actor);
 
-
 			Assert.isTrue(actor.getId() == player.getId() || actor.getUserAccount().getAuthorities().contains(admin) || actor.getUserAccount().getAuthorities().contains(president) || actor.getUserAccount().getAuthorities().contains(referee));
-
 
 			this.actorService.checkEmail(player.getEmail(), false);
 			this.actorService.checkPhone(player.getPhone());
@@ -142,6 +145,33 @@ public class PlayerService {
 			this.statisticalDataService.save(data);
 
 			result = this.playerRepository.save(player);
+
+			Box inBox, outBox, trashBox, spamBox;
+			inBox = this.boxService.create();
+			outBox = this.boxService.create();
+			trashBox = this.boxService.create();
+			spamBox = this.boxService.create();
+
+			inBox.setName("in box");
+			outBox.setName("out box");
+			trashBox.setName("trash box");
+			spamBox.setName("spam box");
+
+			inBox.setActor(result);
+			outBox.setActor(result);
+			trashBox.setActor(result);
+			spamBox.setActor(result);
+
+			final Collection<Box> boxes = new ArrayList<>();
+			boxes.add(spamBox);
+			boxes.add(trashBox);
+			boxes.add(inBox);
+			boxes.add(outBox);
+
+			inBox = this.boxService.saveNewActor(inBox);
+			outBox = this.boxService.saveNewActor(outBox);
+			trashBox = this.boxService.saveNewActor(trashBox);
+			spamBox = this.boxService.saveNewActor(spamBox);
 
 		}
 		return result;

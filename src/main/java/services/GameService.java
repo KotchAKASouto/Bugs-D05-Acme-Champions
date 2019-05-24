@@ -145,4 +145,20 @@ public class GameService {
 		return this.gameRepository.findAllGamesOrdered();
 	}
 
+	public Collection<Game> localGamesByTeamId(final int teamId) {
+
+		final Collection<Game> result = this.gameRepository.localGamesByTeamId(teamId);
+
+		return result;
+
+	}
+
+	public Collection<Game> visitorGamesByTeamId(final int teamId) {
+
+		final Collection<Game> result = this.gameRepository.visitorGamesByTeamId(teamId);
+
+		return result;
+
+	}
+
 }

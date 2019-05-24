@@ -1,6 +1,7 @@
 
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -17,6 +18,7 @@ import security.LoginService;
 import security.UserAccount;
 import security.UserAccountService;
 import domain.Actor;
+import domain.Box;
 import domain.Sponsor;
 import forms.RegisterSponsorForm;
 
@@ -32,6 +34,9 @@ public class SponsorService {
 
 	@Autowired
 	private ActorService		actorService;
+
+	@Autowired
+	private BoxService			boxService;
 
 	@Autowired
 	private UserAccountService	userAccountService;
@@ -118,6 +123,33 @@ public class SponsorService {
 			sponsor.setPhone(phone);
 
 			result = this.sponsorRepository.save(sponsor);
+
+			Box inBox, outBox, trashBox, spamBox;
+			inBox = this.boxService.create();
+			outBox = this.boxService.create();
+			trashBox = this.boxService.create();
+			spamBox = this.boxService.create();
+
+			inBox.setName("in box");
+			outBox.setName("out box");
+			trashBox.setName("trash box");
+			spamBox.setName("spam box");
+
+			inBox.setActor(result);
+			outBox.setActor(result);
+			trashBox.setActor(result);
+			spamBox.setActor(result);
+
+			final Collection<Box> boxes = new ArrayList<>();
+			boxes.add(spamBox);
+			boxes.add(trashBox);
+			boxes.add(inBox);
+			boxes.add(outBox);
+
+			inBox = this.boxService.saveNewActor(inBox);
+			outBox = this.boxService.saveNewActor(outBox);
+			trashBox = this.boxService.saveNewActor(trashBox);
+			spamBox = this.boxService.saveNewActor(spamBox);
 
 		}
 		return result;

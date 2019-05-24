@@ -1,6 +1,7 @@
 
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -12,8 +13,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.MessageRepository;
-import security.Authority;
 import domain.Actor;
+import domain.Box;
 import domain.Message;
 import forms.MessageForm;
 
@@ -29,6 +30,9 @@ public class MessageService {
 	//Supporting services
 
 	@Autowired
+	private BoxService				boxService;
+
+	@Autowired
 	private ActorService			actorService;
 
 	@Autowired
@@ -36,9 +40,6 @@ public class MessageService {
 
 	@Autowired
 	private Validator				validator;
-
-	@Autowired
-	private FinderService			finderService;
 
 
 	//Simple CRUD methods
@@ -71,8 +72,7 @@ public class MessageService {
 		final Actor actor = this.actorService.findByPrincipal();
 
 		result.setSenderId(actor.getId());
-
-		result.setTags("SYSTEM");
+		result.setRecipientId(actor.getId());
 
 		return result;
 
@@ -93,6 +93,8 @@ public class MessageService {
 		result.setSender(actor);
 		result.setMoment(momentSent);
 		result.setSpam(spam);
+		result.setBoxes(new ArrayList<Box>());
+		result.setPriority("NORMAL");
 
 		return result;
 
@@ -131,24 +133,21 @@ public class MessageService {
 
 		final Boolean spam3 = this.configurationService.spamContent(message.getTags());
 
-		if (spam1 || spam2 || spam3)
-			message.setSpam(true);
+		final Collection<Box> boxes = message.getBoxes();
+		final Box inBoxReceiver = this.boxService.findInBoxByActorId(message.getRecipient().getId());
 
-		if (message.getTags().contains("SYSTEM")) {
+		if (spam1 || spam2 || spam3) {
 
-			final Actor actor = this.actorService.findByPrincipal();
-			Assert.notNull(actor);
-			final Authority authority = new Authority();
-			authority.setAuthority(Authority.ADMIN);
-			if (actor.getUserAccount().getAuthorities().contains(authority)) {
-				if (message.getRecipient() != null)
-					message.setTags(null);
-			} else
-				message.setTags(null);
+			final Box spamBoxReceiver = this.boxService.findSpamBoxByActorId(message.getRecipient().getId());
+
+			boxes.remove(inBoxReceiver);
+			boxes.add(spamBoxReceiver);
+
+			message.setBoxes(boxes);
+
+		} else {
+
 		}
-
-		if (message.getTags().contains("NOTIFICATION"))
-			message.setTags(null);
 
 		result = this.messageRepository.save(message);
 
@@ -173,15 +172,24 @@ public class MessageService {
 		Assert.isTrue(message.getId() != 0);
 		final Actor actor = this.actorService.findByPrincipal();
 		Assert.notNull(actor);
+		Assert.isTrue(message.getRecipient().equals(actor) || message.getSender().equals(actor));
 
-		final String tags = message.getTags();
-
-		if (tags.contains("DELETE"))
-			this.messageRepository.delete(message);
-		else {
-			message.setTags("DELETE");
+		final Box tb = this.boxService.findTrashBoxByActorId(actor.getId());
+		final Collection<Box> boxes = message.getBoxes();
+		final Collection<Box> allBoxes = this.boxService.findAllBoxByActor(actor.getId());
+		if (boxes.contains(tb)) {
+			boxes.removeAll(allBoxes);
+			message.setBoxes(boxes);
 			this.messageRepository.save(message);
-
+			if (boxes.isEmpty())
+				this.messageRepository.delete(message);
+		} else {
+			boxes.removeAll(allBoxes);
+			boxes.add(tb);
+			message.setBoxes(boxes);
+			this.messageRepository.save(message);
+			if (boxes.isEmpty())
+				this.messageRepository.delete(message);
 		}
 	}
 
@@ -195,49 +203,23 @@ public class MessageService {
 
 	}
 
-	public Boolean securityMessage(final int messageId) {
+	public Collection<Message> findMessagesByBoxId(final int boxId) {
 
-		Boolean res = false;
+		final Collection<Message> result = this.messageRepository.findMessagesByBoxId(boxId);
 
-		final Message m = this.messageRepository.findOne(messageId);
+		return result;
 
-		final Actor login = this.actorService.findByPrincipal();
-
-		final Actor senderMessage = m.getSender();
-
-		if (m.getTags().equals("SYSTEM")) {
-
-			if ((login.equals(senderMessage)))
-				res = true;
-
-		} else {
-			final Actor recipientMessage = m.getRecipient();
-
-			if ((login.equals(senderMessage)) || (login.equals(recipientMessage)))
-				res = true;
-
-		}
-
-		return res;
 	}
 
-	public Boolean securityDisplayMessage(final int messageId) {
+	public Boolean securityMessage(final int boxId) {
 
 		Boolean res = false;
 
-		final Actor senderMessage = this.messageRepository.findOne(messageId).getSender();
-
-		final Actor recipientMessage = this.messageRepository.findOne(messageId).getRecipient();
-
-		final Message m = this.messageRepository.findOne(messageId);
+		final Actor ownerBox = this.boxService.findOne(boxId).getActor();
 
 		final Actor login = this.actorService.findByPrincipal();
 
-		if (m.getTags() != null)
-			if (m.getTags().equals("SYSTEM"))
-				res = true;
-
-		if ((login.equals(senderMessage)) || (login.equals(recipientMessage)))
+		if (login.equals(ownerBox))
 			res = true;
 
 		return res;
@@ -268,21 +250,28 @@ public class MessageService {
 		result.setId(message.getId());
 		result.setVersion(message.getVersion());
 		result.setBody(message.getBody());
-		if (message.getRecipientId() != 0)
-			result.setRecipient(this.actorService.findOne(message.getRecipientId()));
+		result.setPriority(message.getPriority());
+		result.setRecipient(this.actorService.findOne(message.getRecipientId()));
 		result.setSender(this.actorService.findOne(message.getSenderId()));
 		result.setSpam(false);
 		result.setSubject(message.getSubject());
 		result.setTags(message.getTags());
 
 		if (message.getId() == 0) {
+			final Collection<Box> boxes = new ArrayList<Box>();
+			boxes.add(this.boxService.findOutBoxByActorId(message.getSenderId()));
+			boxes.add(this.boxService.findInBoxByActorId(message.getRecipientId()));
+			result.setBoxes(boxes);
 
 			Date momentSent;
 			momentSent = new Date(System.currentTimeMillis() - 1000);
 			result.setMoment(momentSent);
 
-		} else
+		} else {
+			final Collection<Box> boxes = this.messageRepository.findOne(message.getId()).getBoxes();
+			result.setBoxes(boxes);
 			result.setMoment(this.messageRepository.findOne(message.getId()).getMoment());
+		}
 
 		final Date momentSent = new Date(System.currentTimeMillis() - 1000);
 		result.setMoment(momentSent);

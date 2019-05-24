@@ -1,6 +1,7 @@
 
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 
@@ -18,6 +19,7 @@ import security.LoginService;
 import security.UserAccount;
 import security.UserAccountService;
 import domain.Actor;
+import domain.Box;
 import domain.Finder;
 import domain.Manager;
 import domain.Team;
@@ -41,6 +43,9 @@ public class ManagerService {
 
 	@Autowired
 	private Validator			validator;
+
+	@Autowired
+	private BoxService			boxService;
 
 
 	// Methods -----------------------------------
@@ -88,7 +93,7 @@ public class ManagerService {
 		if (manager.getId() != 0) {
 			final Authority admin = new Authority();
 			admin.setAuthority(Authority.ADMIN);
-			
+
 			final Authority president = new Authority();
 			president.setAuthority(Authority.PRESIDENT);
 
@@ -125,6 +130,33 @@ public class ManagerService {
 			manager.setPhone(phone);
 
 			result = this.managerRepository.save(manager);
+
+			Box inBox, outBox, trashBox, spamBox;
+			inBox = this.boxService.create();
+			outBox = this.boxService.create();
+			trashBox = this.boxService.create();
+			spamBox = this.boxService.create();
+
+			inBox.setName("in box");
+			outBox.setName("out box");
+			trashBox.setName("trash box");
+			spamBox.setName("spam box");
+
+			inBox.setActor(result);
+			outBox.setActor(result);
+			trashBox.setActor(result);
+			spamBox.setActor(result);
+
+			final Collection<Box> boxes = new ArrayList<>();
+			boxes.add(spamBox);
+			boxes.add(trashBox);
+			boxes.add(inBox);
+			boxes.add(outBox);
+
+			inBox = this.boxService.saveNewActor(inBox);
+			outBox = this.boxService.saveNewActor(outBox);
+			trashBox = this.boxService.saveNewActor(trashBox);
+			spamBox = this.boxService.saveNewActor(spamBox);
 
 		}
 		return result;
