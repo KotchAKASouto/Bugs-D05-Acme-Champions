@@ -29,6 +29,9 @@
 	<acme:url href="sponsorship/sponsor/display.do?sponsorshipId=${row.id }" code="sponsorship.display" />
 
 	</display:table>
+	
+	<acme:button name="create" code="sponsorship.create" onclick="javascript: relativeRedir('sponsorship/sponsor/listCreate.do');" />
+	
 		
 	<acme:button name="back" code="sponsorship.back" onclick="javascript: relativeRedir('welcome/index.do');" />
 

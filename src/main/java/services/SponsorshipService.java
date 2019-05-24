@@ -2,18 +2,23 @@
 package services;
 
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.SponsorshipRepository;
 import security.Authority;
 import domain.Actor;
+import domain.Game;
+import domain.Player;
 import domain.Sponsor;
 import domain.Sponsorship;
+import domain.Team;
 
 @Service
 @Transactional
@@ -29,31 +34,88 @@ public class SponsorshipService {
 	private SponsorService			sponsorService;
 
 	@Autowired
-	private Validator				validator;
+	private TeamService				teamService;
 
 	@Autowired
-	private ConfigurationService	configurationService;
+	private GameService				gameService;
+
+	@Autowired
+	private PlayerService			playerService;
+
+	@Autowired
+	private Validator				validator;
 
 
-	//	public SponsorshipForm create(final int positionId) {
-	//
-	//		final Provider provider = this.providerService.findByPrincipal();
-	//		Assert.notNull(provider);
-	//		final Authority authority = new Authority();
-	//		authority.setAuthority(Authority.PROVIDER);
-	//		Assert.isTrue(provider.getUserAccount().getAuthorities().contains(authority));
-	//
-	//		final SponsorshipForm sponsorshipForm = new SponsorshipForm();
-	//
-	//		final Position position = this.positionService.findOne(positionId);
-	//
-	//		Assert.isTrue(position != null && position.getFinalMode());
-	//
-	//		sponsorshipForm.setPositionId(positionId);
-	//
-	//		return sponsorshipForm;
-	//
-	//	}
+	public Sponsorship createWithTeam(final int teamId) {
+
+		final Sponsor sponsor = this.sponsorService.findByPrincipal();
+		Assert.notNull(sponsor);
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.SPONSOR);
+		Assert.isTrue(sponsor.getUserAccount().getAuthorities().contains(authority));
+
+		final Sponsorship sponsorship = new Sponsorship();
+
+		final Team team = this.teamService.findOne(teamId);
+
+		Assert.isTrue(team != null);
+		sponsorship.setCreditCard(sponsor.getCreditCard());
+		sponsorship.setSponsor(sponsor);
+		sponsorship.setGame(null);
+		sponsorship.setPlayer(null);
+		sponsorship.setTeam(team);
+
+		return sponsorship;
+
+	}
+	public Sponsorship createWithGame(final int gameId) {
+
+		final Sponsor sponsor = this.sponsorService.findByPrincipal();
+		Assert.notNull(sponsor);
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.SPONSOR);
+		Assert.isTrue(sponsor.getUserAccount().getAuthorities().contains(authority));
+
+		final Sponsorship sponsorship = new Sponsorship();
+
+		final Game game = this.gameService.findOne(gameId);
+		final Date now = new Date(System.currentTimeMillis() - 1000);
+
+		Assert.isTrue(game != null && game.getGameDate().after(now));
+
+		sponsorship.setCreditCard(sponsor.getCreditCard());
+		sponsorship.setSponsor(sponsor);
+		sponsorship.setGame(game);
+		sponsorship.setPlayer(null);
+		sponsorship.setTeam(null);
+
+		return sponsorship;
+
+	}
+
+	public Sponsorship createWithPlayer(final int playerId) {
+
+		final Sponsor sponsor = this.sponsorService.findByPrincipal();
+		Assert.notNull(sponsor);
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.SPONSOR);
+		Assert.isTrue(sponsor.getUserAccount().getAuthorities().contains(authority));
+
+		final Sponsorship sponsorship = new Sponsorship();
+
+		final Player player = this.playerService.findOne(playerId);
+
+		Assert.isTrue(player != null);
+
+		sponsorship.setCreditCard(sponsor.getCreditCard());
+		sponsorship.setSponsor(sponsor);
+		sponsorship.setGame(null);
+		sponsorship.setPlayer(player);
+		sponsorship.setTeam(null);
+
+		return sponsorship;
+
+	}
 
 	public Sponsorship findOne(final int sponsorshipId) {
 
@@ -72,28 +134,26 @@ public class SponsorshipService {
 
 	}
 
-	//	public Sponsorship save(final Sponsorship sponsorship) {
-	//
-	//		final Provider provider = this.providerService.findByPrincipal();
-	//		Assert.notNull(provider);
-	//		final Authority authority = new Authority();
-	//		authority.setAuthority(Authority.PROVIDER);
-	//		Assert.isTrue(provider.getUserAccount().getAuthorities().contains(authority));
-	//
-	//		Assert.isTrue(sponsorship.getProvider() == provider);
-	//
-	//		final Date now = new Date(System.currentTimeMillis() - 1000);
-	//
-	//		Assert.isTrue(sponsorship.getCreditCard().getExpYear() - 1900 >= now.getYear());
-	//		Assert.isTrue(sponsorship.getCreditCard().getExpMonth() - 1 >= now.getMonth() || sponsorship.getCreditCard().getExpYear() - 1900 > now.getYear());
-	//
-	//		Assert.isTrue(sponsorship.getPosition().getFinalMode());
-	//
-	//		final Sponsorship result = this.sponsorshipRepository.save(sponsorship);
-	//
-	//		return result;
-	//
-	//	}
+	public Sponsorship save(final Sponsorship sponsorship) {
+
+		final Sponsor sponsor = this.sponsorService.findByPrincipal();
+		Assert.notNull(sponsor);
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.SPONSOR);
+		Assert.isTrue(sponsor.getUserAccount().getAuthorities().contains(authority));
+
+		Assert.isTrue(sponsorship.getSponsor() == sponsor);
+
+		final Date now = new Date(System.currentTimeMillis() - 1000);
+
+		if (sponsorship.getGame() != null)
+			Assert.isTrue(sponsorship.getGame().getGameDate().after(now));
+
+		final Sponsorship result = this.sponsorshipRepository.save(sponsorship);
+
+		return result;
+
+	}
 
 	public Boolean sponsorshipSponsorSecurity(final int sponsorhipId) {
 		Boolean res = false;
@@ -108,60 +168,52 @@ public class SponsorshipService {
 		return res;
 	}
 
-	//	public Sponsorship reconstruct(final SponsorshipForm sponsorship, final BindingResult binding) {
-	//
-	//		final Sponsorship result = new Sponsorship();
-	//
-	//		if (!sponsorship.getBanner().equals(""))
-	//			result.setBanner(sponsorship.getBanner());
-	//
-	//		if (!sponsorship.getTarget().equals(""))
-	//			result.setTarget(sponsorship.getTarget());
-	//
-	//		result.setCreditCard(sponsorship.getCreditCard());
-	//
-	//		if (sponsorship.getId() == 0) {
-	//
-	//			final Position position = this.positionService.findOne(sponsorship.getPositionId());
-	//
-	//			Assert.isTrue(position != null);
-	//
-	//			result.setProvider(this.providerService.findByPrincipal());
-	//			result.setPosition(position);
-	//			result.setCost(0.0);
-	//
-	//		} else {
-	//
-	//			final Sponsorship theOldOne = this.findOne(sponsorship.getId());
-	//
-	//			result.setId(theOldOne.getId());
-	//			result.setVersion(theOldOne.getVersion());
-	//			result.setProvider(theOldOne.getProvider());
-	//			result.setPosition(theOldOne.getPosition());
-	//			result.setCost(theOldOne.getCost());
-	//
-	//		}
-	//
-	//		this.validator.validate(result, binding);
-	//
-	//		return result;
-	//	}
+	public Sponsorship reconstruct(final Sponsorship sponsorship, final BindingResult binding) {
 
-	//	public void delete(final Sponsorship sponsorship) {
-	//
-	//		Assert.notNull(sponsorship);
-	//
-	//		final Actor actor = this.actorService.findByPrincipal();
-	//		Assert.notNull(actor);
-	//
-	//		final Authority comp = new Authority();
-	//		comp.setAuthority(Authority.PROVIDER);
-	//		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(comp));
-	//		Assert.isTrue(actor.getId() == sponsorship.getProvider().getId());
-	//		Assert.isTrue(sponsorship.getPosition().getFinalMode());
-	//
-	//		this.sponsorshipRepository.delete(sponsorship);
-	//	}
+		final Sponsorship result = new Sponsorship();
+
+		if (sponsorship.getPlayer() == null && sponsorship.getGame() == null && sponsorship.getTeam() != null) {
+			final Team team = this.teamService.findOne(sponsorship.getTeam().getId());
+
+			result.setCreditCard(sponsorship.getSponsor().getCreditCard());
+			result.setSponsor(sponsorship.getSponsor());
+			result.setGame(null);
+			result.setPlayer(null);
+			result.setTeam(team);
+			result.setBanner(sponsorship.getBanner());
+			result.setTarget(sponsorship.getTarget());
+
+		} else if (sponsorship.getPlayer() != null && sponsorship.getGame() == null && sponsorship.getTeam() == null) {
+			final Player player = this.playerService.findOne(sponsorship.getPlayer().getId());
+
+			result.setCreditCard(sponsorship.getSponsor().getCreditCard());
+			result.setSponsor(sponsorship.getSponsor());
+			result.setGame(null);
+			result.setPlayer(player);
+			result.setTeam(null);
+			result.setBanner(sponsorship.getBanner());
+			result.setTarget(sponsorship.getTarget());
+
+		} else if (sponsorship.getPlayer() == null && sponsorship.getGame() != null && sponsorship.getTeam() == null) {
+			final Game game = this.gameService.findOne(sponsorship.getGame().getId());
+
+			result.setCreditCard(sponsorship.getSponsor().getCreditCard());
+			result.setSponsor(sponsorship.getSponsor());
+			result.setGame(game);
+			result.setPlayer(null);
+			result.setTeam(null);
+			result.setBanner(sponsorship.getBanner());
+			result.setTarget(sponsorship.getTarget());
+			final Date now = new Date(System.currentTimeMillis() - 1000);
+
+			Assert.isTrue(game != null && game.getGameDate().after(now));
+
+		}
+
+		this.validator.validate(result, binding);
+
+		return result;
+	}
 
 	public void deleteAdmin(final Sponsorship sponsorship) {
 
@@ -232,6 +284,59 @@ public class SponsorshipService {
 	//
 	//		return result;
 	//	}
+
+	public Integer findSponsorshipByTeamAndSponsorId(final int teamId, final int sponsorId) {
+
+		return this.sponsorshipRepository.findSponsorshipByTeamAndSponsorId(teamId, sponsorId);
+
+	}
+
+	public Integer findSponsorshipByGameAndSponsorId(final int gameId, final int sponsorId) {
+
+		return this.sponsorshipRepository.findSponsorshipByGameAndSponsorId(gameId, sponsorId);
+
+	}
+
+	public Integer findSponsorshipByPlayerAndSponsorId(final int playerId, final int sponsorId) {
+
+		return this.sponsorshipRepository.findSponsorshipByPlayerAndSponsorId(playerId, sponsorId);
+
+	}
+
+	public Collection<Team> findTeamsAvailableToBeSponsored(final int sponsorId) {
+
+		final Collection<Team> result = this.teamService.findAll();
+		final Collection<Sponsorship> sponsorshipsSponsor = this.sponsorshipRepository.findAllBySponsorId(sponsorId);
+		for (final Sponsorship s : sponsorshipsSponsor)
+			if (s.getTeam() != null && result.contains(s.getTeam()))
+				result.remove(s.getTeam());
+		return result;
+
+	}
+
+	public Collection<Game> findGamesAvailableToBeSponsored(final int sponsorId) {
+		final Collection<Game> result = this.gameService.findAll();
+		final Collection<Sponsorship> sponsorshipsSponsor = this.sponsorshipRepository.findAllBySponsorId(sponsorId);
+		final Date now = new Date(System.currentTimeMillis() - 1000);
+
+		for (final Sponsorship s : sponsorshipsSponsor)
+			if (s.getGame() != null && result.contains(s.getGame()))
+				result.remove(s.getGame());
+
+		for (final Game g : result)
+			if (g.getGameDate().before(now))
+				result.remove(g);
+		return result;
+	}
+
+	public Collection<Player> findPlayersAvailableToBeSponsored(final int sponsorId) {
+		final Collection<Player> result = this.playerService.findAll();
+		final Collection<Sponsorship> sponsorshipsSponsor = this.sponsorshipRepository.findAllBySponsorId(sponsorId);
+		for (final Sponsorship s : sponsorshipsSponsor)
+			if (s.getPlayer() != null && result.contains(s.getPlayer()))
+				result.remove(s.getPlayer());
+		return result;
+	}
 
 	public Collection<Sponsorship> findAllBySponsorId(final int actorId) {
 
