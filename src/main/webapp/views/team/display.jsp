@@ -27,6 +27,8 @@
 
 <acme:display code="team.trackRecord" property="${team.trackRecord }" />
 
+<acme:display code="team.functional" property="${team.functional }" />
+
 <div><spring:message code="team.establishmentDate" />:
 <fmt:formatDate value="${team.establishmentDate}" pattern="yyyy/MM/dd"/>
 </div>

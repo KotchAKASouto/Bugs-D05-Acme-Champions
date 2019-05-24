@@ -154,13 +154,13 @@ public class ConfigurationService {
 		for (final Minutes minutes : visitorMinutes)
 			visitorGoals = visitorGoals + minutes.getVisitorScore();
 
-		final Integer totalGoals = localGoals + visitorGoals;
-		final Integer totalGames = localGames.size() + visitorGames.size();
+		final Double totalGoals = (double) (localGoals + visitorGoals);
+		final Double totalGames = (double) (localGames.size() + visitorGames.size());
 
 		Double result = 0.0;
 
 		if (totalGames > 0)
-			result = (double) (totalGoals / totalGames);
+			result = (totalGoals / totalGames);
 
 		return result;
 	}
