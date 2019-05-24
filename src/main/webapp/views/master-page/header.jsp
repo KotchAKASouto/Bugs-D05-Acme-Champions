@@ -91,6 +91,15 @@
 			</li>
 		</security:authorize>
 		
+		<security:authorize access="hasRole('REFEREE')">
+			<li><a class="fNiv"><spring:message	code="master.page.referee" /></a>
+				<ul>
+					<li class="arrow"></li>
+					<li><a href="game/referee/listGamesEnded.do"><spring:message code="master.page.games.ended" /></a></li>	
+				</ul>
+			</li>
+		</security:authorize>
+		
 	
 		<security:authorize access="isAnonymous()">
 			<li><a class="fNiv" href="security/login.do"><spring:message code="master.page.login" /></a></li>

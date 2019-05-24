@@ -1843,7 +1843,7 @@
 	
 	<!-- Minutes -->
 
-	<bean id="minutes1" class="domain.Minutes">
+	<!-- <bean id="minutes1" class="domain.Minutes">
 		<property name="homeScore" value="0" />
 		<property name="visitorScore" value="0" />
 		<property name="playersScore">
@@ -1862,7 +1862,7 @@
 			</list>
 		</property>
 		<property name="game" ref="game1" />
-	</bean>
+	</bean> -->
 	
 	<!-- Competitions -->
 

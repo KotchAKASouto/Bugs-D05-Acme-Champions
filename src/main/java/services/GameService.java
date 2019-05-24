@@ -158,6 +158,13 @@ public class GameService {
 		final Collection<Game> result = this.gameRepository.visitorGamesByTeamId(teamId);
 
 		return result;
+	}
+
+	public Collection<Game> findAllEndedGamesWithoutMinutes() {
+
+		final Collection<Game> res = this.gameRepository.findAllEndedGamesWithoutMinutes();
+
+		return res;
 
 	}
 
