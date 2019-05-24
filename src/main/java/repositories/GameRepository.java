@@ -18,7 +18,6 @@ public interface GameRepository extends JpaRepository<Game, Integer> {
 	@Query("select g from Game g order by g.gameDate desc")
 	Collection<Game> findAllGamesOrdered();
 
-
 	@Query("select g from Game g where g.homeTeam.id=?1 and g.gameDate < current_date")
 	Collection<Game> localGamesByTeamId(int teamId);
 
@@ -27,6 +26,5 @@ public interface GameRepository extends JpaRepository<Game, Integer> {
 
 	@Query("select g from Game g where ((select count(m) from Minutes m where m.game.id=g.id)=0) and (g.gameDate<CURRENT_TIMESTAMP)")
 	Collection<Game> findAllEndedGamesWithoutMinutes();
-
 
 }

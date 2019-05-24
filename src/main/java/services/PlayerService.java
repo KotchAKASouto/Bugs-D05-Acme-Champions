@@ -324,4 +324,56 @@ public class PlayerService {
 
 		return players;
 	}
+
+	public Integer countHomeGoalsByMinutesId(final int minutesId) {
+		final Integer res = this.playerRepository.countHomeGoalsByMinutesId(minutesId);
+
+		return res;
+	}
+
+	public Integer countHomeYellowsByMinutesId(final int minutesId) {
+		final Integer res = this.playerRepository.countHomeYellowsByMinutesId(minutesId);
+
+		return res;
+	}
+
+	public Integer countHomeRedsByMinutesId(final int minutesId) {
+		final Integer res = this.playerRepository.countHomeRedsByMinutesId(minutesId);
+		return res;
+	}
+
+	public Integer countVisitorGoalsByMinutesId(final int minutesId) {
+		final Integer res = this.playerRepository.countVisitorGoalsByMinutesId(minutesId);
+		return res;
+	}
+
+	public Integer countVisitorYellowsByMinutesId(final int minutesId) {
+		final Integer res = this.playerRepository.countVisitorYellowsByMinutesId(minutesId);
+
+		return res;
+	}
+
+	public Integer countVisitorRedsByMinutesId(final int minutesId) {
+		final Integer res = this.playerRepository.countVisitorRedsByMinutesId(minutesId);
+
+		return res;
+	}
+
+	public Integer countGoalsOfPlayerByMinutePlayerId(final int minutesId, final int playerId) {
+		final Integer res = this.playerRepository.countGoalsOfPlayerByMinutePlayerId(minutesId, playerId);
+
+		return res;
+	}
+
+	public Integer countYellowsOfPlayerByMinutePlayerId(final int minutesId, final int playerId) {
+		final Integer res = this.playerRepository.countYellowsOfPlayerByMinutePlayerId(minutesId, playerId);
+
+		return res;
+	}
+
+	Integer countRedOfPlayerByMinutePlayerId(final int minutesId, final int playerId) {
+		final Integer res = this.playerRepository.countRedOfPlayerByMinutePlayerId(minutesId, playerId);
+
+		return res;
+	}
 }

@@ -208,6 +208,9 @@
 		<!-- Referee: Minutes -->
 		<security:intercept-url pattern="/minutes/referee/create.do" access="hasRole('REFEREE')" />
 		<security:intercept-url pattern="/minutes/referee/addPlayerScored.do" access="hasRole('REFEREE')" />
+		<security:intercept-url pattern="/minutes/referee/listAddInterface.do" access="hasRole('REFEREE')" />
+		<security:intercept-url pattern="/minutes/referee/addPlayerYellowCard.do" access="hasRole('REFEREE')" />
+		<security:intercept-url pattern="/minutes/referee/addPlayerRedCard.do" access="hasRole('REFEREE')" />
 		
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 

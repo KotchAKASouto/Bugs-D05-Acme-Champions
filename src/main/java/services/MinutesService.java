@@ -191,4 +191,43 @@ public class MinutesService {
 		return res;
 	}
 
+	public void addPlayerScored(final int playerId, final int minutesId) {
+
+		final Minutes minutes = this.findOne(minutesId);
+		final Player player = this.playerService.findOne(playerId);
+
+		final Collection<Player> playersScored = minutes.getPlayersScore();
+		playersScored.add(player);
+
+		minutes.setPlayersScore(playersScored);
+
+		this.save(minutes);
+
+	}
+
+	public void addPlayerYellowCard(final int playerId, final int minutesId) {
+		final Minutes minutes = this.findOne(minutesId);
+		final Player player = this.playerService.findOne(playerId);
+
+		final Collection<Player> playersYellowCards = minutes.getPlayersYellow();
+		playersYellowCards.add(player);
+
+		minutes.setPlayersYellow(playersYellowCards);
+
+		this.save(minutes);
+	}
+
+	public void addPlayerRedCard(final int playerId, final int minutesId) {
+		final Minutes minutes = this.findOne(minutesId);
+		final Player player = this.playerService.findOne(playerId);
+
+		final Collection<Player> playersRedCards = minutes.getPlayersRed();
+		playersRedCards.add(player);
+
+		minutes.setPlayersRed(playersRedCards);
+
+		this.save(minutes);
+
+	}
+
 }

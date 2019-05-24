@@ -9,12 +9,12 @@
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
 <security:authorize access="hasRole('REFEREE')">
-<jstl:choose>
-	<jstl:when test="${AmInMinutesFirstStep }">
-		<h2><spring:message code="players.add.scored"/></h2>
-	</jstl:when>
-</jstl:choose>
-<h3><spring:message code="players.home"/></h3>
+<h2><spring:message code="players.panel"/></h2>
+
+<h3><spring:message code="players.home"/>
+<spring:message code="players.scored" />: <jstl:out value="${countHome}" />
+<spring:message code="players.yellowCards"/>: <jstl:out value="${countYellowHome}" />
+<spring:message code="players.redCards"/>: <jstl:out value="${countRedHome}" /></h3>
 </security:authorize>
 
 
@@ -47,19 +47,21 @@
 	</security:authorize>
 	
 	<security:authorize access="hasRole('REFEREE')">
-	<jstl:choose>
-		<jstl:when test="${AmInMinutesFirstStep}">
-			<acme:url href="minutes/referee/addPlayerScored.do?playerId=${row.id}&minutesId=${minutesId}" code="player.add" />
-		</jstl:when>
-	</jstl:choose>
+	
+	<acme:url href="minutes/referee/addPlayerScored.do?playerId=${row.id}&minutesId=${minutesId}" code="player.add.score" />
+	<acme:url href="minutes/referee/addPlayerYellowCard.do?playerId=${row.id}&minutesId=${minutesId}" code="player.add.yellowCards" />
+	<acme:url href="minutes/referee/addPlayerRedCard.do?playerId=${row.id}&minutesId=${minutesId}" code="player.add.redCards" />
 	</security:authorize>
 	
 
 </display:table>
 
 <security:authorize access="hasRole('REFEREE')">
-<jstl:if test="${AmInMinutesFirstStep }">
-<h3><spring:message code="players.visitor"/></h3>
+
+<h3><spring:message code="players.visitor"/>
+<spring:message code="players.scored" />: <jstl:out value="${countVisitor}" />
+<spring:message code="players.yellowCards"/>: <jstl:out value="${countYellowVisitor}" />
+<spring:message code="players.redCards"/>: <jstl:out value="${countRedVisitor}" /></h3>
 
 <display:table name="playersVisitor" id="row2" requestURI="${requestURI }" pagesize="${pagesize }">
 	
@@ -86,12 +88,10 @@
 	<acme:column property="team.name" titleKey="player.team.name" value= "${row2.team.name}: "/>
 	
 	<security:authorize access="hasRole('REFEREE')">
-	<acme:url href="minutes/referee/addPlayerScored.do?playerId=${row.id}&minutesId=${minutesId}" code="player.add" />
+	<acme:url href="minutes/referee/addPlayerScored.do?playerId=${row.id}&minutesId=${minutesId}" code="player.add.score" />
 	</security:authorize>	
 
 </display:table>
-
-</jstl:if>
 </security:authorize>
 <acme:button name="back" code="player.back" onclick="javascript: relativeRedir('training/manager/list.do');" />
 
