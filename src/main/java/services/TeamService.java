@@ -186,4 +186,16 @@ public class TeamService {
 		return res;
 	}
 
+	public Boolean exist(final Integer teamId) {
+
+		Boolean res = false;
+
+		final Team team = this.teamRepository.findOne(teamId);
+
+		if (team != null)
+			res = true;
+
+		return res;
+	}
+
 }

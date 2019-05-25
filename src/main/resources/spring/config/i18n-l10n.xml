@@ -37,6 +37,7 @@
 		<value>/views/game/messages</value>
 		<value>/views/report/messages</value>
 		<value>/views/box/messages</value>
+		<value>/views/competition/messages</value>
 	</util:list>
 
 </beans>

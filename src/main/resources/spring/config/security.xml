@@ -219,6 +219,14 @@
 		<security:intercept-url pattern="/format/federation/display.do" access="hasRole('FEDERATION')" />
 		<security:intercept-url pattern="/format/federation/delete.do" access="hasRole('FEDERATION')" />
 		
+		<!-- Federation: Competition -->
+		<security:intercept-url pattern="/competition/federation/create.do" access="hasRole('FEDERATION')" />
+		<security:intercept-url pattern="/competition/federation/edit.do" access="hasRole('FEDERATION')" />
+		<security:intercept-url pattern="/competition/federation/list.do" access="hasRole('FEDERATION')" />
+		<security:intercept-url pattern="/competition/federation/listAddTeam.do" access="hasRole('FEDERATION')" />
+		<security:intercept-url pattern="/competition/federation/addTeam.do" access="hasRole('FEDERATION')" />
+		<security:intercept-url pattern="/competition/federation/close.do" access="hasRole('FEDERATION')" />
+		
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 
 		<security:form-login

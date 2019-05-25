@@ -13,7 +13,6 @@ import org.springframework.util.Assert;
 import repositories.GameRepository;
 import security.Authority;
 import domain.Actor;
-import domain.Competition;
 import domain.Game;
 import domain.Sponsorship;
 import domain.Team;
@@ -81,10 +80,6 @@ public class GameService {
 		//posthacking referee y federation
 		if (actor.getUserAccount().getAuthorities().contains(authReferee))
 			Assert.isTrue(game.getReferee().getId() == actor.getId());
-		else {
-			final Competition competition = this.competitionService.findCompetitionByGameId(game.getId());
-			Assert.isTrue(competition.getFederation().getId() == actor.getId());
-		}
 
 		//si el que guarda partido es referee el partido es amistoso, si es federation es competitivo
 		if (actor.getUserAccount().getAuthorities().contains(authReferee))
