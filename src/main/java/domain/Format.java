@@ -4,6 +4,8 @@ package domain;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Pattern;
 
@@ -17,6 +19,8 @@ public class Format extends DomainEntity {
 	private String	type;
 	private Integer	maximumTeams;
 	private Integer	minimumTeams;
+	
+	private Federation federation;
 
 
 	@SafeHtml
@@ -46,6 +50,16 @@ public class Format extends DomainEntity {
 
 	public void setMinimumTeams(final Integer minimumTeams) {
 		this.minimumTeams = minimumTeams;
+	}
+	
+	@Valid
+	@ManyToOne(optional = false)
+	public Federation getFederation() {
+		return this.federation;
+	}
+	
+	public void setFederation(Federation federation) {
+		this.federation = federation;
 	}
 
 }

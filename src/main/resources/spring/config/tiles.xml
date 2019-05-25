@@ -37,6 +37,7 @@
 		<value>/views/game/tiles.xml</value>
 		<value>/views/report/tiles.xml</value>
 		<value>/views/box/tiles.xml</value>
+		<value>/views/format/tiles.xml</value>
 
 
 	</util:list>

@@ -1924,12 +1924,14 @@
 		<property name="type" value="TOURNAMENT" />
 		<property name="minimumTeams" value="2" />
 		<property name="maximumTeams" value="16" />
+		<property name="federation" ref="federation1" />
 	</bean>
 
 	<bean id="format2" class="domain.Format">
 		<property name="type" value="LEAGUE" />
 		<property name="minimumTeams" value="2" />
 		<property name="maximumTeams" value="16" />
+		<property name="federation" ref="federation1" />
 	</bean>
 	
 	<!-- Histories -->
