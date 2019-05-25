@@ -28,6 +28,7 @@ public class Competition extends DomainEntity {
 	private Federation			federation;
 	private Collection<Team>	teams;
 	private Collection<Game>	games;
+	private Format				format;
 
 
 	@NotNull
@@ -97,6 +98,16 @@ public class Competition extends DomainEntity {
 
 	public void setGames(final Collection<Game> games) {
 		this.games = games;
+	}
+
+	@Valid
+	@ManyToOne(optional = false)
+	public Format getFormat() {
+		return this.format;
+	}
+
+	public void setFormat(final Format format) {
+		this.format = format;
 	}
 
 }

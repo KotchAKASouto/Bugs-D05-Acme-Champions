@@ -1904,6 +1904,7 @@
 		<property name="nameTrophy" value="Copa Andalucia Occidental" />
 		<property name="closed" value="false" />
 		<property name="federation" ref="federation1" />
+		<property name="format" ref="format1" />
 		<property name="teams">
 			<list>
 				<ref bean="team1" />
@@ -1920,14 +1921,15 @@
 	<!-- Formats -->
 
 	<bean id="format1" class="domain.Format">
-		<property name="type" value="Eliminatoria" />
+		<property name="type" value="TOURNAMENT" />
 		<property name="minimumTeams" value="2" />
 		<property name="maximumTeams" value="16" />
-		<property name="competitions">
-			<list>
-				<ref bean="competition1" />
-			</list>
-		</property>
+	</bean>
+
+	<bean id="format2" class="domain.Format">
+		<property name="type" value="LEAGUE" />
+		<property name="minimumTeams" value="2" />
+		<property name="maximumTeams" value="16" />
 	</bean>
 	
 	<!-- Histories -->
