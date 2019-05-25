@@ -8,12 +8,14 @@ import java.util.HashSet;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import repositories.MinutesRepository;
 import security.Authority;
 import domain.Actor;
+import domain.Competition;
 import domain.Game;
 import domain.Minutes;
 import domain.Player;
@@ -37,6 +39,9 @@ public class MinutesService {
 
 	@Autowired
 	private PlayerService			playerService;
+
+	@Autowired
+	private CompetitionService		competitionService;
 
 
 	//simple CRUD methods
@@ -252,12 +257,23 @@ public class MinutesService {
 
 	public void closeMinutes(final int minutesId) {
 		final Minutes result = this.findOne(minutesId);
+		final Competition competition = this.competitionService.findCompetitionByGameId(result.getId());
 		result.setClosed(true);
-
+		if (result.getHomeScore() == result.getVisitorScore()) {
+			if (!result.getGame().getFriendly())
+				try {
+					Assert.isTrue(competition.getFormat().getType() != "TOURNAMENT");
+				} catch (final Exception e) {
+					throw new DataIntegrityViolationException("tie-tournament");
+				}
+			result.setWinner(null);
+		} else if (result.getHomeScore() > result.getVisitorScore())
+			result.setWinner(result.getGame().getHomeTeam());
+		else
+			result.setWinner(result.getGame().getVisitorTeam());
 		this.save(result);
 
 	}
-
 	public Integer CountMinutesByGameId(final int gameId) {
 		Assert.notNull(gameId);
 		final Integer res = this.minutesRepository.CountMinutesByGameId(gameId);

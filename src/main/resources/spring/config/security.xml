@@ -203,7 +203,7 @@
 		
 		
 		<!-- Referee: Game -->
-		<security:intercept-url pattern="/game/referee/listGamesEnded.do" access="hasRole('REFEREE')" />
+		<security:intercept-url pattern="/game/referee/listMyGames.do" access="hasRole('REFEREE')" />
 		
 		<!-- Referee: Minutes -->
 		<security:intercept-url pattern="/minutes/referee/create.do" access="hasRole('REFEREE')" />

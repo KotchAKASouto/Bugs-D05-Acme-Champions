@@ -94,8 +94,8 @@
 		<security:authorize access="hasRole('REFEREE')">
 			<li><a class="fNiv"><spring:message	code="master.page.referee" /></a>
 				<ul>
-					<li class="arrow"></li>
-					<li><a href="game/referee/listGamesEnded.do"><spring:message code="master.page.games.ended" /></a></li>	
+					<li class="arrow"></li>	
+					<li><a href="game/referee/listMyGames.do"><spring:message code="master.page.my.games" /></a></li>	
 				</ul>
 			</li>
 		</security:authorize>

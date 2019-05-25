@@ -155,9 +155,9 @@ public class GameService {
 		return result;
 	}
 
-	public Collection<Game> findAllEndedGamesWithoutMinutes() {
+	public Collection<Game> findAllEndedGamesWithoutMinutes(final int refereeId) {
 
-		final Collection<Game> res = this.gameRepository.findAllEndedGamesWithoutMinutes();
+		final Collection<Game> res = this.gameRepository.findAllEndedGamesWithoutMinutes(refereeId);
 
 		return res;
 
@@ -167,6 +167,11 @@ public class GameService {
 
 		final Collection<Game> res = this.gameRepository.findByCompetitionId(id);
 
+		return res;
+	}
+
+	public Collection<Game> findGameByRefereeId(final int refereeId) {
+		final Collection<Game> res = this.gameRepository.findGameByRefereeId(refereeId);
 		return res;
 	}
 

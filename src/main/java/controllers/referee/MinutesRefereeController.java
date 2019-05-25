@@ -78,39 +78,12 @@ public class MinutesRefereeController extends AbstractController {
 		ModelAndView result;
 		final String banner = this.configurationService.findConfiguration().getBanner();
 		final Minutes minutes = this.minutesService.findOne(minutesId);
-		final Collection<Player> playersHome = this.playerService.findPlayersOfTeam(minutes.getGame().getHomeTeam().getId());
-		final Collection<Player> playersVisitor = this.playerService.findPlayersOfTeam(minutes.getGame().getVisitorTeam().getId());
+
 		final Actor actor = this.actorService.findByPrincipal();
 
 		if ((minutes != null || !minutes.getClosed()) && actor.getId() == minutes.getGame().getReferee().getId())
 			try {
-				final Integer countHome = this.playerService.countHomeGoalsByMinutesId(minutes.getId());
-				final Integer countYellowHome = this.playerService.countHomeYellowsByMinutesId(minutesId);
-				final Integer countRedHome = this.playerService.countHomeRedsByMinutesId(minutes.getId());
-				final Integer countVisitor = this.playerService.countVisitorGoalsByMinutesId(minutes.getId());
-				final Integer countYellowVisitor = this.playerService.countVisitorYellowsByMinutesId(minutesId);
-				final Integer countRedVisitor = this.playerService.countVisitorRedsByMinutesId(minutesId);
-				final Collection<Player> listPlayersScore = minutes.getPlayersScore();
-				final Collection<Player> listPlayersYellow = minutes.getPlayersYellow();
-				final Collection<Player> listPlayersRed = minutes.getPlayersRed();
-
-				result = new ModelAndView("player/listAdd");
-				result.addObject("players", playersHome);
-				result.addObject("minutes", minutes);
-				result.addObject("minutesId", minutes.getId());
-				result.addObject("playersVisitor", playersVisitor);
-				result.addObject("requestURI", "minutes/referee/listAddInterface.do");
-				result.addObject("banner", banner);
-				result.addObject("language", LocaleContextHolder.getLocale().getLanguage());
-				result.addObject("countHome", countHome);
-				result.addObject("countYellowHome", countYellowHome);
-				result.addObject("countRedHome", countRedHome);
-				result.addObject("countVisitor", countVisitor);
-				result.addObject("countYellowVisitor", countYellowVisitor);
-				result.addObject("countRedVisitor", countRedVisitor);
-				result.addObject("listPlayersScore", listPlayersScore);
-				result.addObject("listPlayersYellow", listPlayersYellow);
-				result.addObject("listPlayersRed", listPlayersRed);
+				result = this.createEditModelAndView(minutes, null);
 			} catch (final Throwable oops) {
 				result = new ModelAndView("misc/error");
 				result.addObject("banner", banner);
@@ -216,15 +189,57 @@ public class MinutesRefereeController extends AbstractController {
 			try {
 				this.minutesService.closeMinutes(minutesId);
 
-				result = new ModelAndView("redirect:/game/referee/listGamesEnded.do");
+				result = new ModelAndView("redirect:/game/referee/listMyGames.do");
 			} catch (final Throwable oops) {
-				result = new ModelAndView("misc/error");
-				result.addObject("banner", banner);
+				if (oops.getMessage() == "tie-tournament")
+					result = this.createEditModelAndView(minutes, "tie.tournament.game");
+				else {
+					result = new ModelAndView("misc/error");
+					result.addObject("banner", banner);
+				}
 			}
 		else {
 			result = new ModelAndView("misc/notExist");
 			result.addObject("banner", banner);
 		}
+		return result;
+	}
+
+	protected ModelAndView createEditModelAndView(final Minutes minutes, final String messageCode) {
+		ModelAndView result;
+		final String banner = this.configurationService.findConfiguration().getBanner();
+		final Collection<Player> playersHome = this.playerService.findPlayersOfTeam(minutes.getGame().getHomeTeam().getId());
+		final Collection<Player> playersVisitor = this.playerService.findPlayersOfTeam(minutes.getGame().getVisitorTeam().getId());
+
+		final Integer countHome = this.playerService.countHomeGoalsByMinutesId(minutes.getId());
+		final Integer countYellowHome = this.playerService.countHomeYellowsByMinutesId(minutes.getId());
+		final Integer countRedHome = this.playerService.countHomeRedsByMinutesId(minutes.getId());
+		final Integer countVisitor = this.playerService.countVisitorGoalsByMinutesId(minutes.getId());
+		final Integer countYellowVisitor = this.playerService.countVisitorYellowsByMinutesId(minutes.getId());
+		final Integer countRedVisitor = this.playerService.countVisitorRedsByMinutesId(minutes.getId());
+		final Collection<Player> listPlayersScore = minutes.getPlayersScore();
+		final Collection<Player> listPlayersYellow = minutes.getPlayersYellow();
+		final Collection<Player> listPlayersRed = minutes.getPlayersRed();
+
+		result = new ModelAndView("player/listAdd");
+		result.addObject("players", playersHome);
+		result.addObject("minutes", minutes);
+		result.addObject("minutesId", minutes.getId());
+		result.addObject("playersVisitor", playersVisitor);
+		result.addObject("requestURI", "minutes/referee/listAddInterface.do");
+		result.addObject("banner", banner);
+		result.addObject("language", LocaleContextHolder.getLocale().getLanguage());
+		result.addObject("countHome", countHome);
+		result.addObject("countYellowHome", countYellowHome);
+		result.addObject("countRedHome", countRedHome);
+		result.addObject("countVisitor", countVisitor);
+		result.addObject("countYellowVisitor", countYellowVisitor);
+		result.addObject("countRedVisitor", countRedVisitor);
+		result.addObject("listPlayersScore", listPlayersScore);
+		result.addObject("listPlayersYellow", listPlayersYellow);
+		result.addObject("listPlayersRed", listPlayersRed);
+		result.addObject("messageError", messageCode);
+
 		return result;
 	}
 }
