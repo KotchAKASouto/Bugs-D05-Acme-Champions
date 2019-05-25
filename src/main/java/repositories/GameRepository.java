@@ -27,4 +27,7 @@ public interface GameRepository extends JpaRepository<Game, Integer> {
 	@Query("select g from Game g where ((select count(m) from Minutes m where m.game.id=g.id)=0) and (g.gameDate<CURRENT_TIMESTAMP)")
 	Collection<Game> findAllEndedGamesWithoutMinutes();
 
+	@Query("select g from Competition c join c.games g where c.id=?1")
+	Collection<Game> findByCompetitionId(int id);
+
 }
