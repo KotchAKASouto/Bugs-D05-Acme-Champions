@@ -11,10 +11,15 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
+<spring:message code="dateFormat" var="format"/>
+<spring:message code="timeFormat" var="formatTime"/>
 
 <acme:display code="message.sender" property="${message1.sender.name} "/>
 	
-<acme:display code="message.moment" property="${message1.moment} "/>
+<div><spring:message code="message.moment" />:
+<fmt:formatDate type="date" value="${message1.moment}" pattern="${format}"/>
+<fmt:formatDate type="time" value="${message1.moment}" pattern="${formatTime}"/>	
+</div>
 	
 <acme:display code="message.subject" property="${message1.subject} "/>
 	

@@ -348,6 +348,20 @@ public class SponsorshipService {
 		return res;
 	}
 
+	public Collection<Sponsorship> findSponsorshipsByPlayerId(final int playerId) {
+
+		final Collection<Sponsorship> res = this.sponsorshipRepository.findSponsorshipsByPlayerId(playerId);
+
+		return res;
+	}
+
+	public Collection<Sponsorship> findSponsorshipsByTeamId(final int teamId) {
+
+		final Collection<Sponsorship> res = this.sponsorshipRepository.findSponsorshipsByTeamId(teamId);
+
+		return res;
+	}
+
 	public void deleteForDeleteGame(final Sponsorship sponsorship) {
 		final Authority authReferee = new Authority();
 		authReferee.setAuthority(Authority.REFEREE);

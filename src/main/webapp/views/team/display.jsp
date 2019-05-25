@@ -33,6 +33,16 @@
 <fmt:formatDate value="${team.establishmentDate}" pattern="yyyy/MM/dd"/>
 </div>
 
+<jstl:if test="${sponsorships!=null}">
+	<div>		
+		<c:forEach items="${sponsorships}" var="item">
+    		<fieldset>
+				<a target="_blank" href="${item.target}"><img src="${item.banner }" alt="Banner" width="10%" height="10%" /></a>
+			</fieldset>
+    		<br>
+</c:forEach>
+	</div>
+</jstl:if> 
 
 
 <acme:button name="edit" code="team.edit" onclick="javascript: relativeRedir('team/president/edit.do');" />

@@ -1,6 +1,8 @@
 
 package controllers.president;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
@@ -14,10 +16,12 @@ import security.Authority;
 import services.ActorService;
 import services.ConfigurationService;
 import services.PresidentService;
+import services.SponsorshipService;
 import services.TeamService;
 import controllers.AbstractController;
 import domain.Actor;
 import domain.President;
+import domain.Sponsorship;
 import domain.Team;
 
 @Controller
@@ -32,6 +36,9 @@ public class TeamPresidentController extends AbstractController {
 
 	@Autowired
 	private ActorService			actorService;
+
+	@Autowired
+	private SponsorshipService		sponsorshipService;
 
 	@Autowired
 	private ConfigurationService	configurationService;
@@ -146,6 +153,11 @@ public class TeamPresidentController extends AbstractController {
 				result.addObject("team", teamFind);
 				result.addObject("banner", banner);
 				result.addObject("existTeam", existTeam);
+
+				//Esto es para ver los sponsorships
+				final Collection<Sponsorship> sponsorships = this.sponsorshipService.findSponsorshipsByTeamId(teamFind.getId());
+				if (sponsorships != null && !sponsorships.isEmpty())
+					result.addObject("sponsorships", sponsorships);
 
 			} else
 				result = new ModelAndView("redirect:/welcome/index.do");
