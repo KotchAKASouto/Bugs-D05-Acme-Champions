@@ -168,38 +168,6 @@ public class ActorService {
 	//
 	//	}
 
-	//	public void convertToSpammerActor() {
-	//		final Actor actor = this.findByPrincipal();
-	//		final Collection<Authority> authorities = actor.getUserAccount().getAuthorities();
-	//
-	//		final Authority authAdmin = new Authority();
-	//		authAdmin.setAuthority(Authority.ADMIN);
-	//
-	//		final Authority authCompany = new Authority();
-	//		authCompany.setAuthority(Authority.COMPANY);
-	//
-	//		final Authority authRookie = new Authority();
-	//		authRookie.setAuthority(Authority.ROOKIE);
-	//
-	//		if (authorities.contains(authAdmin)) {
-	//			final Administrator administrator = this.administratorService.findByPrincipal();
-	//			administrator.setSpammer(true);
-	//			this.administratorService.save(administrator);
-	//
-	//		} else if (authorities.contains(authRookie)) {
-	//			final Rookie rookie = this.rookieService.findByPrincipal();
-	//			rookie.setSpammer(true);
-	//			this.rookieService.save(rookie);
-	//
-	//		} else if (authorities.contains(authCompany)) {
-	//			final Company company = this.companyService.findByPrincipal();
-	//			company.setSpammer(true);
-	//			this.companyService.save(company);
-	//
-	//		}
-	//
-	//	}
-
 	//	public void banOrUnBanActor(final Actor actor) {
 	//		final Collection<Authority> authorities = actor.getUserAccount().getAuthorities();
 	//

@@ -14,19 +14,16 @@
 
 <acme:display code="message.sender" property="${message1.sender.name} "/>
 	
-<div><spring:message code="message.moment" />:
-<spring:message code="dateFormat" var="format"/>
-<spring:message code="timeFormat" var="timeFormat"/>
-<fmt:formatDate type="date" value="${message.moment }" pattern="${format}" />
-<fmt:formatDate type="time" value="${message.moment }" pattern="${timeFormat}" />
-</div>
+<acme:display code="message.moment" property="${message1.moment} "/>
 	
 <acme:display code="message.subject" property="${message1.subject} "/>
 	
 <acme:display code="message.body" property="${message1.body} "/>
+	
+<acme:display code="message.priority" property="${message1.priority} "/>
+	
+<acme:display code="message.tags" property="${message1.tags} "/>
 
-<spring:message code="message.tags" />: <jstl:out value="${message1.tags}"></jstl:out><br>
+<acme:button name="delete" code="message.delete" onclick="javascript: relativeRedir('message/actor/delete.do?messageId=${message1.id}&boxId=${box.id}');" />
 
-<acme:button name="delete" code="message.delete" onclick="javascript: relativeRedir('message/actor/delete.do?messageId=${message1.id}');" />
-
-<acme:button name="back" code="message.back" onclick="javascript: relativeRedir('message/actor/list.do');" />
+<acme:button name="back" code="message.back" onclick="javascript: relativeRedir('welcome/index.do');" />

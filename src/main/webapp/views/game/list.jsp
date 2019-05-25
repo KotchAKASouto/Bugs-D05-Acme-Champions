@@ -13,9 +13,12 @@
 
 <display:table name="games" id="row" requestURI="${requestURI }" pagesize="5">
 
-
+	<spring:message code="dateFormat" var="format"/>
+	<spring:message code="timeFormat" var="formatTime"/>
 	<display:column titleKey="game.gameDate"> 
-		<fmt:formatDate value="${row.gameDate }" pattern="yyyy/MM/dd HH:mm" />
+		<fmt:formatDate type="date" value="${row.gameDate }" pattern="${format}" />
+		<fmt:formatDate type="time" value="${row.gameDate }" pattern="${formatTime}" />
+		
 	</display:column>
 	
 	<acme:column property="place" titleKey="game.place" value= "${row.place}: "/>
@@ -29,6 +32,10 @@
 	<acme:column property="visitorTeam.name" titleKey="game.visitorTeam" value= "${row.visitorTeam.name}: "/>
 	
 	<acme:column property="referee.name" titleKey="game.referee" value= "${row.referee.name}: "/>
+	
+	<security:authorize access="hasRole('REFEREE')">
+		<acme:url href="minutes/referee/create.do?gameId=${row.id}" code="game.create.minutes" />
+	</security:authorize>
 
 	</display:table>
 		

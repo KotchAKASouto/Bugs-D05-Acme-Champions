@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ActorService;
+import services.BoxService;
 import services.ConfigurationService;
 import services.MessageService;
 import controllers.AbstractController;
-import domain.Actor;
 import domain.Message;
 import forms.MessageForm;
 
@@ -29,6 +29,9 @@ public class MessageActorController extends AbstractController {
 	private MessageService			messageService;
 
 	@Autowired
+	private BoxService				boxService;
+
+	@Autowired
 	private ConfigurationService	configurationService;
 
 	@Autowired
@@ -36,37 +39,54 @@ public class MessageActorController extends AbstractController {
 
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list() {
+	public ModelAndView list(@RequestParam final int boxId) {
 		ModelAndView result;
-		final Collection<Message> messages, messagesDELETE, messagesSYSTEM;
-
-		final Actor actor = this.actorService.findByPrincipal();
+		final Collection<Message> messages;
+		Boolean security;
 
 		final String banner = this.configurationService.findConfiguration().getBanner();
 
-		messages = this.messageService.AllmessagePerActor(actor.getId());
+		final Boolean exist = this.boxService.existId(boxId);
 
-		result = new ModelAndView("message/list");
-		result.addObject("messages", messages);
-		result.addObject("banner", banner);
+		if (exist) {
 
-		result.addObject("requestURI", "message/actor/list.do");
+			security = this.boxService.boxSecurity(boxId);
 
+			if (security) {
+
+				messages = this.messageService.findMessagesByBoxId(boxId);
+
+				result = new ModelAndView("message/list");
+				result.addObject("messages", messages);
+				result.addObject("banner", banner);
+				result.addObject("boxId", boxId);
+				result.addObject("requestURI", "message/actor/list.do");
+
+			} else {
+				result = new ModelAndView("redirect:/welcome/index.do");
+				result.addObject("banner", banner);
+			}
+		} else {
+			result = new ModelAndView("misc/notExist");
+			result.addObject("banner", banner);
+		}
 		return result;
 	}
+
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
-	public ModelAndView display(@RequestParam final int messageId) {
+	public ModelAndView display(@RequestParam final int messageId, @RequestParam final int boxId) {
 		ModelAndView result;
 		final Message message1;
-		Boolean security = false;
+		final Boolean security;
 
 		final String banner = this.configurationService.findConfiguration().getBanner();
 
 		final Boolean existMessage = this.messageService.existId(messageId);
+		final Boolean existBox = this.boxService.existId(boxId);
 
-		if (existMessage) {
+		if (existMessage && existBox) {
 
-			security = this.messageService.securityDisplayMessage(messageId);
+			security = this.messageService.securityMessage(boxId);
 
 			if (security) {
 
@@ -74,6 +94,7 @@ public class MessageActorController extends AbstractController {
 
 				result = new ModelAndView("message/display");
 				result.addObject("message1", message1);
+				result.addObject("box", this.boxService.findOne(boxId));
 				result.addObject("banner", banner);
 				result.addObject("requestURI", "message/actor/display.do");
 
@@ -108,66 +129,52 @@ public class MessageActorController extends AbstractController {
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@ModelAttribute(value = "message") final MessageForm message2, final BindingResult binding) {
+		final Message message3 = this.messageService.reconstruct(message2, binding);
 		ModelAndView result;
-		Message message3 = null;
-		try {
-			Assert.isTrue(message2.getRecipientId() != 0);
-			message3 = this.messageService.reconstruct(message2, binding);
+		if (binding.hasErrors())
+			result = this.createEditModelAndView(message2);
+		else
+			try {
 
-			Assert.isTrue(message2.getId() == 0);
+				Assert.isTrue(message3.getSender() == this.actorService.findByPrincipal());
+				Assert.isTrue(message3.getRecipient() != this.actorService.findByPrincipal());
+				Assert.isTrue(message3.getId() == 0);
 
-			if (binding.hasErrors())
-				result = this.createEditModelAndView(message2);
-			else
-				try {
-
-					Assert.isTrue(message3.getSender() == this.actorService.findByPrincipal());
-					Assert.isTrue(message3.getRecipient() != this.actorService.findByPrincipal());
-					Assert.isTrue(message3.getId() == 0);
-
-					this.messageService.save(message3);
-					result = new ModelAndView("redirect:/message/actor/list.do");
-				} catch (final Throwable oops) {
-					result = this.createEditModelAndView(message2, "message.commit.error");
-				}
-
-		} catch (final Exception e) {
-			result = this.createEditModelAndView(message2, "message.commit.error");
-		}
-
+				this.messageService.save(message3);
+				result = new ModelAndView("redirect:/box/actor/list.do");
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(message2, "message.commit.error");
+			}
 		return result;
 	}
 
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
-	public ModelAndView delete(@RequestParam final int messageId) {
+	public ModelAndView delete(@RequestParam final int messageId, @RequestParam final int boxId) {
 
 		ModelAndView result;
 		final Message message1;
-		Boolean security = false;
-		final String banner = this.configurationService.findConfiguration().getBanner();
+		final Boolean security;
 
 		final Boolean existMessage = this.messageService.existId(messageId);
+		final Boolean existBox = this.boxService.existId(boxId);
 
-		if (existMessage) {
+		security = this.messageService.securityMessage(boxId);
 
-			security = this.messageService.securityMessage(messageId);
-
+		if (existMessage && existBox) {
 			if (security) {
+				final String banner = this.configurationService.findConfiguration().getBanner();
 
 				message1 = this.messageService.findOne(messageId);
 
 				this.messageService.delete(message1);
 
-				result = new ModelAndView("redirect:/message/actor/list.do");
+				result = new ModelAndView("redirect:/welcome/index.do");
 				result.addObject("banner", banner);
 
 			} else
-				result = new ModelAndView("redirect:/message/actor/list.do");
-		} else {
-
+				result = new ModelAndView("redirect:/welcome/index.do");
+		} else
 			result = new ModelAndView("misc/notExist");
-			result.addObject("banner", banner);
-		}
 
 		return result;
 	}

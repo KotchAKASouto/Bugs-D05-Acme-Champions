@@ -8,6 +8,7 @@ import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
 import org.hibernate.validator.constraints.URL;
 
@@ -34,7 +35,7 @@ public class Sponsorship extends DomainEntity {
 		this.creditCard = creditCard;
 	}
 
-	@NotNull
+	@NotBlank
 	@URL
 	@SafeHtml
 	public String getBanner() {
@@ -44,7 +45,7 @@ public class Sponsorship extends DomainEntity {
 		this.banner = banner;
 	}
 
-	@NotNull
+	@NotBlank
 	@URL
 	@SafeHtml
 	public String getTarget() {

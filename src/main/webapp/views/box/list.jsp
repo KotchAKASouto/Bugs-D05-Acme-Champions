@@ -5,25 +5,23 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@taglib prefix="security" uri="http://www.springframework.org/security/tags"%>
 <%@taglib prefix="display" uri="http://displaytag.sf.net"%>
-<%@taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 
-<form:form action="${enlace}" modelAttribute="message">
-	
-	<form:hidden path="id" />
-	<form:hidden path="version" />
-	<form:hidden path="senderId" />
-	
-	<acme:textbox code="message.subject" path="subject" obligatory="true"/>
+<display:table name="boxes" id="row" requestURI="${requestURI }" pagesize="5">
 
-	<acme:textarea code="message.body" path="body" obligatory="true"/>
 	
-	<acme:textbox code="message.tags" path="tags" readonly="true"/>
+	<acme:column property="name" titleKey="box.name" value= "${row.name}: "/>
+		
+	<display:column>
 	
-	<acme:submit name="save" code="message.save" />
+		<a href="message/actor/list.do?boxId=${row.id }"><spring:message code="box.displayMessages"/></a>
+		
+	</display:column>
 	
-	<acme:cancel code="message.cancel" url="welcome/index.do" />
-	
+</display:table>
 
-</form:form>  
+	
+	<a href="actor/list.do"><spring:message code="box.listActor"/></a>
+
+<acme:button name="back" code="box.back" onclick="javascript: relativeRedir('welcome/index.do');" />

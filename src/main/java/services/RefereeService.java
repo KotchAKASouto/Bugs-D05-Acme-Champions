@@ -1,6 +1,7 @@
 
 package services;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import security.LoginService;
 import security.UserAccount;
 import security.UserAccountService;
 import domain.Actor;
+import domain.Box;
 import domain.Referee;
 import forms.RegisterRefereeForm;
 
@@ -38,6 +40,9 @@ public class RefereeService {
 
 	@Autowired
 	private Validator			validator;
+
+	@Autowired
+	private BoxService			boxService;
 
 
 	// Methods -----------------------------------
@@ -111,6 +116,33 @@ public class RefereeService {
 			referee.setPhone(phone);
 
 			result = this.refereeRepository.save(referee);
+
+			Box inBox, outBox, trashBox, spamBox;
+			inBox = this.boxService.create();
+			outBox = this.boxService.create();
+			trashBox = this.boxService.create();
+			spamBox = this.boxService.create();
+
+			inBox.setName("in box");
+			outBox.setName("out box");
+			trashBox.setName("trash box");
+			spamBox.setName("spam box");
+
+			inBox.setActor(result);
+			outBox.setActor(result);
+			trashBox.setActor(result);
+			spamBox.setActor(result);
+
+			final Collection<Box> boxes = new ArrayList<>();
+			boxes.add(spamBox);
+			boxes.add(trashBox);
+			boxes.add(inBox);
+			boxes.add(outBox);
+
+			inBox = this.boxService.saveNewActor(inBox);
+			outBox = this.boxService.saveNewActor(outBox);
+			trashBox = this.boxService.saveNewActor(trashBox);
+			spamBox = this.boxService.saveNewActor(spamBox);
 
 		}
 		return result;

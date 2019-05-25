@@ -2,6 +2,7 @@
 package services;
 
 import java.util.Collection;
+import java.util.HashSet;
 
 import javax.transaction.Transactional;
 
@@ -15,6 +16,8 @@ import repositories.ConfigurationRepository;
 import security.Authority;
 import domain.Administrator;
 import domain.Configuration;
+import domain.Game;
+import domain.Minutes;
 
 @Service
 @Transactional
@@ -35,6 +38,12 @@ public class ConfigurationService {
 
 	@Autowired
 	private MessageService			messageService;
+
+	@Autowired
+	private GameService				gameService;
+
+	@Autowired
+	private MinutesService			minutesService;
 
 	@Autowired
 	private Validator				validator;
@@ -95,27 +104,6 @@ public class ConfigurationService {
 		return config;
 	}
 
-	//	public void spammerDetector(final int actorId) {
-	//
-	//		final Collection<Message> messages = this.messageService.messagePerActor(actorId);
-	//
-	//		int total = messages.size();
-	//
-	//		if (total == 0)
-	//			total = 1;
-	//
-	//		int ac = 0;
-	//
-	//		for (final Message m : messages)
-	//			if (m.getSpam() == true)
-	//				ac++;
-	//
-	//		final Double r = (ac / total) * 1.0;
-	//		if (r >= 0.1)
-	//			this.actorService.convertToSpammerActor();
-	//
-	//	}
-
 	public Boolean spamContent(final String text) {
 
 		Boolean result = false;
@@ -132,6 +120,47 @@ public class ConfigurationService {
 					}
 
 		}
+
+		return result;
+	}
+
+	public Double goalPrediction(final int teamId) {
+
+		final Collection<Game> localGames = this.gameService.localGamesByTeamId(teamId);
+		final Collection<Minutes> localMinutes = new HashSet<Minutes>();
+		Integer localGoals = 0;
+
+		for (final Game game : localGames) {
+
+			final Minutes m = this.minutesService.findMinuteByGameId(game.getId());
+
+			localMinutes.add(m);
+		}
+
+		for (final Minutes minutes : localMinutes)
+			localGoals = localGoals + minutes.getHomeScore();
+
+		final Collection<Game> visitorGames = this.gameService.visitorGamesByTeamId(teamId);
+		final Collection<Minutes> visitorMinutes = new HashSet<Minutes>();
+		Integer visitorGoals = 0;
+
+		for (final Game game : visitorGames) {
+
+			final Minutes m = this.minutesService.findMinuteByGameId(game.getId());
+
+			visitorMinutes.add(m);
+		}
+
+		for (final Minutes minutes : visitorMinutes)
+			visitorGoals = visitorGoals + minutes.getVisitorScore();
+
+		final Double totalGoals = (double) (localGoals + visitorGoals);
+		final Double totalGames = (double) (localGames.size() + visitorGames.size());
+
+		Double result = 0.0;
+
+		if (totalGames > 0)
+			result = (totalGoals / totalGames);
 
 		return result;
 	}

@@ -1841,11 +1841,21 @@
 		<property name="referee" ref="referee1" />
 	</bean>
 	
+	<bean id="game2" class="domain.Game">
+		<property name="gameDate" value="2019/05/07 20:00" />
+		<property name="place" value="Hispalis Arena" />
+		<property name="friendly" value="true" />
+		<property name="homeTeam" ref="team1" />
+		<property name="visitorTeam" ref="team3" />
+		<property name="referee" ref="referee1" />
+	</bean>
+	
 	<!-- Minutes -->
 
-	<bean id="minutes1" class="domain.Minutes">
-		<property name="homeScore" value="0" />
+	 <bean id="minutes1" class="domain.Minutes">
+		<property name="homeScore" value="2" />
 		<property name="visitorScore" value="0" />
+		<property name="closed" value="true" />
 		<property name="playersScore">
 			<list>
 
@@ -1862,7 +1872,29 @@
 			</list>
 		</property>
 		<property name="game" ref="game1" />
-	</bean>
+	</bean> 
+	
+	<bean id="minutes2" class="domain.Minutes">
+		<property name="homeScore" value="3" />
+		<property name="visitorScore" value="1" />
+		<property name="closed" value="true" />
+		<property name="playersScore">
+			<list>
+
+			</list>
+		</property>
+		<property name="playersYellow">
+			<list>
+
+			</list>
+		</property>
+		<property name="playersRed">
+			<list>
+				
+			</list>
+		</property>
+		<property name="game" ref="game2" />
+	</bean> 
 	
 	<!-- Competitions -->
 

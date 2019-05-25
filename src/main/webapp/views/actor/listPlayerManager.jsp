@@ -107,6 +107,16 @@
 	</div>
 </jstl:if>
 
+<h3><spring:message code="actor.goalPrediction" /></h3>
+<fieldset>
+
+	<ul>
+	<li><spring:message code="actor.goalAverage" />: ${goalPrediction} </li>
+
+	</ul>
+
+</fieldset>
+
 <acme:button name="back" code="actor.back" onclick="javascript: relativeRedir('welcome/index.do');" />
 
 <security:authorize access="hasRole('PRESIDENT')">
@@ -135,3 +145,4 @@
 	}
 </script>
 </security:authorize>
+
