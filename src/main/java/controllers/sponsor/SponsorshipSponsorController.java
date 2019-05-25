@@ -240,8 +240,20 @@ public class SponsorshipSponsorController extends AbstractController {
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@ModelAttribute(value = "sponsorship") Sponsorship sponsorship, final BindingResult binding) {
 		ModelAndView result;
+		final String banner = this.configurationService.findConfiguration().getBanner();
 
 		sponsorship = this.sponsorshipService.reconstruct(sponsorship, binding);
+
+		final Integer sponsorshipId = this.sponsorshipService.findSponsorshipByGameAndSponsorId(sponsorship.getGame().getId(), this.sponsorService.findByPrincipal().getId());
+		final Integer sponsorshipId1 = this.sponsorshipService.findSponsorshipByPlayerAndSponsorId(sponsorship.getPlayer().getId(), this.sponsorService.findByPrincipal().getId());
+		final Integer sponsorshipId2 = this.sponsorshipService.findSponsorshipByTeamAndSponsorId(sponsorship.getTeam().getId(), this.sponsorService.findByPrincipal().getId());
+
+		if (sponsorshipId != null || sponsorshipId1 != null || sponsorshipId2 != null) {
+
+			result = new ModelAndView("redirect:/welcome/index.do");
+			result.addObject("banner", banner);
+
+		}
 
 		if (binding.hasErrors())
 			result = this.createEditModelAndView(sponsorship, null);
