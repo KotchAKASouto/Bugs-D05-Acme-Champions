@@ -91,8 +91,7 @@ public class MinutesService {
 		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authReferee));
 
 		//un partido solo puede tener 1 minutes
-		final Minutes m = this.findMinuteByGameId(minutes.getGame().getId());
-		Assert.isTrue(m == null || !m.getClosed());
+		Assert.isTrue(this.CountMinutesByGameId(minutes.getGame().getId()) >= 0);
 
 		//el partido debe haber acabado
 		final Date currentDate = new Date(System.currentTimeMillis() - 1000);
@@ -185,7 +184,7 @@ public class MinutesService {
 		final Actor actor = this.actorService.findByPrincipal();
 		boolean res = true;
 
-		if (player == null || minutes == null || actor == null || (!playersHome.contains(player) && !playersVisitor.contains(player)) || minutes.getGame().getReferee().getId() != actor.getId())
+		if (player == null || minutes == null || minutes.getClosed() || actor == null || (!playersHome.contains(player) && !playersVisitor.contains(player)) || minutes.getGame().getReferee().getId() != actor.getId())
 			res = false;
 
 		return res;
@@ -200,6 +199,12 @@ public class MinutesService {
 		playersScored.add(player);
 
 		minutes.setPlayersScore(playersScored);
+
+		final Integer countHome = this.playerService.countHomeGoalsByMinutesId(minutesId);
+		final Integer countVisitor = this.playerService.countVisitorGoalsByMinutesId(minutesId);
+
+		minutes.setHomeScore(countHome);
+		minutes.setVisitorScore(countVisitor);
 
 		this.save(minutes);
 
@@ -228,6 +233,35 @@ public class MinutesService {
 
 		this.save(minutes);
 
+	}
+
+	public void clearMinutes(final int minutesId) {
+
+		final Minutes result = this.findOne(minutesId);
+
+		final Collection<Player> playersScore = new HashSet<Player>();
+		final Collection<Player> playersYellow = new HashSet<Player>();
+		final Collection<Player> playersRed = new HashSet<Player>();
+
+		result.setPlayersRed(playersRed);
+		result.setPlayersYellow(playersYellow);
+		result.setPlayersScore(playersScore);
+		result.setHomeScore(0);
+		result.setVisitorScore(0);
+	}
+
+	public void closeMinutes(final int minutesId) {
+		final Minutes result = this.findOne(minutesId);
+		result.setClosed(true);
+
+		this.save(result);
+
+	}
+
+	public Integer CountMinutesByGameId(final int gameId) {
+		Assert.notNull(gameId);
+		final Integer res = this.minutesRepository.CountMinutesByGameId(gameId);
+		return res;
 	}
 
 }
