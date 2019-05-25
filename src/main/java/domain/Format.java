@@ -1,15 +1,11 @@
 
 package domain;
 
-import java.util.Collection;
-
 import javax.persistence.Access;
 import javax.persistence.AccessType;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.validation.Valid;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.SafeHtml;
@@ -18,15 +14,14 @@ import org.hibernate.validator.constraints.SafeHtml;
 @Access(AccessType.PROPERTY)
 public class Format extends DomainEntity {
 
-	private String					type;
-	private Integer					maximumTeams;
-	private Integer					minimumTeams;
-
-	private Collection<Competition>	competitions;
+	private String	type;
+	private Integer	maximumTeams;
+	private Integer	minimumTeams;
 
 
 	@SafeHtml
 	@NotBlank
+	@Pattern(regexp = "\\ATOURNAMENT\\z|\\ALEAGUE\\z")
 	public String getType() {
 		return this.type;
 	}
@@ -51,17 +46,6 @@ public class Format extends DomainEntity {
 
 	public void setMinimumTeams(final Integer minimumTeams) {
 		this.minimumTeams = minimumTeams;
-	}
-
-	@ElementCollection
-	public Collection<Competition> getCompetitions() {
-		return this.competitions;
-	}
-
-	@Valid
-	@OneToMany
-	public void setCompetitions(final Collection<Competition> competitions) {
-		this.competitions = competitions;
 	}
 
 }
