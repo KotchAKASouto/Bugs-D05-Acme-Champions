@@ -211,6 +211,8 @@
 		<security:intercept-url pattern="/minutes/referee/listAddInterface.do" access="hasRole('REFEREE')" />
 		<security:intercept-url pattern="/minutes/referee/addPlayerYellowCard.do" access="hasRole('REFEREE')" />
 		<security:intercept-url pattern="/minutes/referee/addPlayerRedCard.do" access="hasRole('REFEREE')" />
+		<security:intercept-url pattern="/minutes/referee/clear.do" access="hasRole('REFEREE')" />
+		<security:intercept-url pattern="/minutes/referee/close.do" access="hasRole('REFEREE')" />
 		
 		<!-- Federation: Format -->
 		<security:intercept-url pattern="/format/federation/create.do" access="hasRole('FEDERATION')" />
