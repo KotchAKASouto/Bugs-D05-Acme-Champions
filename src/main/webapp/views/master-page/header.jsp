@@ -105,6 +105,7 @@
 				<ul>
 					<li class="arrow"></li>
 					<li><a href="format/federation/list.do"><spring:message code="master.page.formats" /></a></li>	
+					<li><a href="competition/federation/list.do"><spring:message code="master.page.competition" /></a></li>	
 				</ul>
 			</li>
 		</security:authorize>
