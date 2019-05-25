@@ -10,11 +10,18 @@
 
 <display:table name="messages" id="row" requestURI="${requestURI }" pagesize="5">
 
+	<spring:message code="dateFormat" var="format"/>
+	<spring:message code="timeFormat" var="formatTime"/>
+
 	<acme:column property="sender.name" titleKey="message.sender" value= "${row.sender.name}: "/>
 	
 	<acme:column property="recipient.name" titleKey="message.recipient" value= "${row.recipient.name}: "/>
 	
-	<acme:column property="moment" titleKey="message.moment" value= "${row.moment}: "/>
+	
+	<display:column titleKey="message.moment"> 
+		<fmt:formatDate type="date" value="${row.moment }" pattern="${format}" />
+		<fmt:formatDate type="time" value="${row.moment }" pattern="${formatTime}" />
+	</display:column>
 	
 	<acme:column property="subject" titleKey="message.subject" value= "${row.subject}: "/>
 	

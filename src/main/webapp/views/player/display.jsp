@@ -11,6 +11,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 <jsp:useBean id="now" class="java.util.Date" />
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 
 
 <h3><spring:message code="player.squad" />: <jstl:out value="${player.squadNumber}-${player.squadName}"/></h3>
@@ -54,6 +55,17 @@
 
 <acme:display code="statisticalData.accumulatedYellowCard" property="${statisticalData.accumulatedYellowCard}" /><br>
 
+<jstl:if test="${sponsorships!=null}">
+	<div>		
+		<c:forEach items="${sponsorships}" var="item">
+    		<fieldset>
+				<a target="_blank" href="${item.target}"><img src="${item.banner }" alt="Banner" width="10%" height="10%" /></a>
+			</fieldset>
+    		<br>
+</c:forEach>
+	</div>
+</jstl:if> 
+
 <security:authorize access="hasRole('PRESIDENT')">
 <acme:button name="back" code="actor.back.team" onclick="javascript: relativeRedir('team/president,manager/listByPresident.do');" />
 </security:authorize>
@@ -66,9 +78,4 @@
 <acme:button name="back" code="actor.back.finder" onclick="javascript: relativeRedir('finder/president/find.do');" />
 </security:authorize>
 
-<!-- 
-<jstl:if test="${find}">
-	<div>
-		<a target="_blank" href="${targetSponsorship}"><img src="${bannerSponsorship }" alt="Banner" width="10%" height="10%" /></a>
-	</div>
-</jstl:if> -->
+ 

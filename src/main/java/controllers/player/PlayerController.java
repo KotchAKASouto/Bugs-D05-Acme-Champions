@@ -1,6 +1,8 @@
 
 package controllers.player;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
@@ -11,9 +13,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.ConfigurationService;
 import services.PlayerService;
+import services.SponsorshipService;
 import services.StatisticalDataService;
 import controllers.AbstractController;
 import domain.Player;
+import domain.Sponsorship;
 import domain.StatisticalData;
 
 @Controller
@@ -28,6 +32,9 @@ public class PlayerController extends AbstractController {
 
 	@Autowired
 	private StatisticalDataService	statisticalDataService;
+
+	@Autowired
+	private SponsorshipService		sponsorshipService;
 
 
 	@RequestMapping(value = "/display", method = RequestMethod.GET)
@@ -49,21 +56,10 @@ public class PlayerController extends AbstractController {
 			result.addObject("banner", banner);
 			result.addObject("language", language);
 
-			//			try {
-			//				final Sponsorship s = this.sponsorshipService.ramdomSponsorship(positionId);
-			//
-			//				if (s != null) {
-			//					result.addObject("find", true);
-			//					result.addObject("bannerSponsorship", s.getBanner());
-			//					result.addObject("targetSponsorship", s.getTarget());
-			//				}
-			//
-			//				else
-			//					result.addObject("find", false);
-			//			} catch (final Throwable oops) {
-			//				result.addObject("find", false);
-			//			}
-
+			//Esto es para ver los sponsorships
+			final Collection<Sponsorship> sponsorships = this.sponsorshipService.findSponsorshipsByPlayerId(playerId);
+			if (sponsorships != null && !sponsorships.isEmpty())
+				result.addObject("sponsorships", sponsorships);
 		}
 		return result;
 	}
