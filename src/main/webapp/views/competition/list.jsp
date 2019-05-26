@@ -26,10 +26,14 @@
 	
 	<acme:column property="format.type" titleKey="competition.format.type" value= "${row.format.type}: "/>
 		
-	<jstl:if test="${!row.closed}">
-		<acme:url href="competition/federation/close.do?competitionId=${row.id}" code="competition.close"/>
-		<acme:url href="competition/federation/listAddTeam.do?competitionId=${row.id}" code="competition.addTeams"/>
-	</jstl:if>
+	<display:column>
+		<jstl:if test="${!row.closed}">
+		
+			<a href="competition/federation/close.do?competitionId=${row.id}"><spring:message code="competition.close"/></a>
+			<a href="competition/federation/listAddTeam.do?competitionId=${row.id}"><spring:message code="competition.addTeams"/></a>
+			
+		</jstl:if>
+	</display:column>
 	
 
 	</display:table>

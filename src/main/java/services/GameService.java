@@ -117,6 +117,15 @@ public class GameService {
 		return result;
 
 	}
+
+	public Game saveAlgorithm(final Game game) {
+
+		final Game result = this.gameRepository.save(game);
+
+		return result;
+
+	}
+
 	public void delete(final Game game) {
 		Assert.notNull(game);
 

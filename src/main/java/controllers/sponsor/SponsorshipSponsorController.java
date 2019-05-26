@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -238,15 +237,26 @@ public class SponsorshipSponsorController extends AbstractController {
 
 	//Save-------------------------------------------------------------------------------------------
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@ModelAttribute(value = "sponsorship") Sponsorship sponsorship, final BindingResult binding) {
+	public ModelAndView save(final Sponsorship sponsorship, final BindingResult binding) {
 		ModelAndView result;
 		final String banner = this.configurationService.findConfiguration().getBanner();
 
-		sponsorship = this.sponsorshipService.reconstruct(sponsorship, binding);
+		Sponsorship sponsorship2;
 
-		final Integer sponsorshipId = this.sponsorshipService.findSponsorshipByGameAndSponsorId(sponsorship.getGame().getId(), this.sponsorService.findByPrincipal().getId());
-		final Integer sponsorshipId1 = this.sponsorshipService.findSponsorshipByPlayerAndSponsorId(sponsorship.getPlayer().getId(), this.sponsorService.findByPrincipal().getId());
-		final Integer sponsorshipId2 = this.sponsorshipService.findSponsorshipByTeamAndSponsorId(sponsorship.getTeam().getId(), this.sponsorService.findByPrincipal().getId());
+		sponsorship2 = this.sponsorshipService.reconstruct(sponsorship, binding);
+
+		Integer sponsorshipId = null;
+		Integer sponsorshipId1 = null;
+		Integer sponsorshipId2 = null;
+
+		if (sponsorship2.getGame() != null)
+			sponsorshipId = this.sponsorshipService.findSponsorshipByGameAndSponsorId(sponsorship2.getGame().getId(), this.sponsorService.findByPrincipal().getId());
+
+		if (sponsorship2.getPlayer() != null)
+			sponsorshipId1 = this.sponsorshipService.findSponsorshipByPlayerAndSponsorId(sponsorship2.getPlayer().getId(), this.sponsorService.findByPrincipal().getId());
+
+		if (sponsorship2.getTeam() != null)
+			sponsorshipId2 = this.sponsorshipService.findSponsorshipByTeamAndSponsorId(sponsorship2.getTeam().getId(), this.sponsorService.findByPrincipal().getId());
 
 		if (sponsorshipId != null || sponsorshipId1 != null || sponsorshipId2 != null) {
 
@@ -256,13 +266,13 @@ public class SponsorshipSponsorController extends AbstractController {
 		}
 
 		if (binding.hasErrors())
-			result = this.createEditModelAndView(sponsorship, null);
+			result = this.createEditModelAndView(sponsorship2, null);
 		else
 			try {
-				this.sponsorshipService.save(sponsorship);
+				this.sponsorshipService.save(sponsorship2);
 				result = new ModelAndView("redirect:list.do");
 			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(sponsorship, "sponsorship.commit.error");
+				result = this.createEditModelAndView(sponsorship2, "sponsorship.commit.error");
 			}
 
 		return result;
