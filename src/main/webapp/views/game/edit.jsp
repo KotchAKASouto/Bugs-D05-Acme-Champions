@@ -23,6 +23,7 @@
 		<form:options items="${teams }" itemLabel="name"
 			itemValue="id" />
 	</form:select>
+	<form:errors path="homeTeam" cssClass="error" />
 	
 	<spring:message code="game.visitorTeam" />*: 
 	<form:select path="visitorTeam">
@@ -31,6 +32,7 @@
 		<form:options items="${teams }" itemLabel="name"
 			itemValue="id" />
 	</form:select>
+	<form:errors path="visitorTeam" cssClass="error" />
 	
 	
 	<br>

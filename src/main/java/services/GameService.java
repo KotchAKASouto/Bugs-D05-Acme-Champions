@@ -45,6 +45,9 @@ public class GameService {
 	@Autowired
 	private RefereeService		refereeService;
 
+	@Autowired
+	private TeamService			teamService;
+
 
 	//Simple CRUD methods
 
@@ -91,6 +94,10 @@ public class GameService {
 		//solo puede guardar partidos referee's y federation's
 		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authReferee) || actor.getUserAccount().getAuthorities().contains(authFederation));
 
+		//los equipos del partido deben ser funcionales
+		final Collection<Team> functionalTeams = this.teamService.findFunctionalTeams();
+		Assert.isTrue(functionalTeams.contains(game.getHomeTeam()) && functionalTeams.contains(game.getHomeTeam()));
+
 		//posthacking referee y federation
 		if (actor.getUserAccount().getAuthorities().contains(authReferee))
 			Assert.isTrue(game.getReferee().getId() == actor.getId());
@@ -117,7 +124,6 @@ public class GameService {
 		return result;
 
 	}
-
 	public Game saveAlgorithm(final Game game) {
 
 		final Game result = this.gameRepository.save(game);
@@ -158,7 +164,7 @@ public class GameService {
 
 	}
 	//Other business methods
-	public Collection<Game> findGamesOfTeam(final int teamId) {
+	public Collection<Game> findNextGamesOfTeam(final int teamId) {
 		return this.gameRepository.findNextGamesOfTeam(teamId);
 	}
 
@@ -223,14 +229,16 @@ public class GameService {
 
 		Assert.notNull(game);
 		if (game.getId() == 0) {
-			if (actor.getUserAccount().getAuthorities().contains(Authority.REFEREE)) {
-				game.setFriendly(false);
+			if (actor.getUserAccount().getAuthorities().contains(authReferee)) {
+				game.setFriendly(true);
 				final Referee referee = this.refereeService.findByPrincipal();
 				game.setReferee(referee);
-			}
+			} else
+				game.setFriendly(false);
 			if (game.getHomeTeam() != null)
 				game.setPlace(game.getHomeTeam().getStadiumName());
-
+			else
+				game.setPlace("");
 		} else {
 
 			final Game gameBBDD = this.findOne(game.getId());
@@ -244,5 +252,4 @@ public class GameService {
 
 		return game;
 	}
-
 }

@@ -52,7 +52,7 @@
 
 		<!-- Todo el mundo -->
 		<security:intercept-url pattern="/game/listAll.do" access="permitAll" />
-
+		<security:intercept-url pattern="/game/display.do" access="permitAll" />
 		<!-- Actor no autenticado -->
 		
 
@@ -105,8 +105,9 @@
 		<security:intercept-url pattern="/president/fireManager*" access="hasRole('PRESIDENT')" />
 		<security:intercept-url pattern="/president/canFire*" access="hasRole('PRESIDENT')" />
 		
+		<!-- Manager: Calendar -->
+		<security:intercept-url pattern="/calendar/manager/show.do" access="hasRole('MANAGER')" />
 		<!-- Manager: Training -->
-		<security:intercept-url pattern="/training/manager/list.do" access="hasRole('MANAGER')" />
 		<security:intercept-url pattern="/training/manager/edit.do" access="hasRole('MANAGER')" />
 		<security:intercept-url pattern="/training/manager/display.do" access="hasRole('MANAGER')" />
 		<security:intercept-url pattern="/training/manager/create.do" access="hasRole('MANAGER')" />

@@ -16,7 +16,6 @@ import org.springframework.web.servlet.ModelAndView;
 import services.ActorService;
 import services.ConfigurationService;
 import services.GameService;
-import services.RefereeService;
 import services.TeamService;
 import controllers.AbstractController;
 import domain.Actor;
@@ -26,9 +25,6 @@ import domain.Team;
 @Controller
 @RequestMapping("/game/referee")
 public class GameRefereeController extends AbstractController {
-
-	@Autowired
-	private RefereeService			refereeService;
 
 	@Autowired
 	private ConfigurationService	configurationService;
@@ -60,7 +56,7 @@ public class GameRefereeController extends AbstractController {
 		result.addObject("requestURI", "game/referee/listMyGames.do");
 		result.addObject("banner", banner);
 		result.addObject("language", LocaleContextHolder.getLocale().getLanguage());
-
+		result.addObject("AmInMyGamesController", true);
 		return result;
 	}
 
@@ -82,7 +78,9 @@ public class GameRefereeController extends AbstractController {
 
 		final Game game = this.gameService.findOne(gameId);
 
-		if (game.getId() != 0 && this.gameService.findOne(game.getId()) == null)
+		final Actor actor = this.actorService.findByPrincipal();
+
+		if (game.getId() != 0 && this.gameService.findOne(game.getId()) != null && game.getReferee().getId() == actor.getId())
 			result = this.createEditModelAndView(game, null);
 		else
 			result = new ModelAndView("redirect:/welcome/index.do");
@@ -100,20 +98,16 @@ public class GameRefereeController extends AbstractController {
 		if (game.getId() != 0 && this.gameService.findOne(game.getId()) == null) {
 			result = new ModelAndView("misc/notExist");
 			result.addObject("banner", banner);
-		} else {
-			game = this.gameService.reconstruct(game, binding);
+		} else if (binding.hasErrors())
+			result = this.createEditModelAndView(game, null);
+		else
+			try {
+				this.gameService.save(game);
+				result = new ModelAndView("redirect:listMyGames.do");
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(game, "game.commit.error");
 
-			if (binding.hasErrors())
-				result = this.createEditModelAndView(game, null);
-			else
-				try {
-					this.gameService.save(game);
-					result = new ModelAndView("redirect:list.do");
-				} catch (final Throwable oops) {
-					result = this.createEditModelAndView(game, "game.commit.error");
-
-				}
-		}
+			}
 		return result;
 	}
 
@@ -121,8 +115,9 @@ public class GameRefereeController extends AbstractController {
 	public ModelAndView delete(@ModelAttribute(value = "game") Game game, final BindingResult binding) {
 		ModelAndView result;
 		final String banner = this.configurationService.findConfiguration().getBanner();
+		final Actor actor = this.actorService.findByPrincipal();
 
-		if (game.getId() != 0 && this.gameService.findOne(game.getId()) == null) {
+		if (game.getId() != 0 && this.gameService.findOne(game.getId()) == null && game.getReferee().getId() == actor.getId()) {
 			result = new ModelAndView("misc/notExist");
 			result.addObject("banner", banner);
 		} else {
@@ -133,7 +128,7 @@ public class GameRefereeController extends AbstractController {
 			else
 				try {
 					this.gameService.delete(game);
-					result = new ModelAndView("redirect:list.do");
+					result = new ModelAndView("redirect:listMyGames.do");
 				} catch (final Throwable oops) {
 					result = this.createEditModelAndView(game, "game.commit.error");
 
@@ -147,7 +142,7 @@ public class GameRefereeController extends AbstractController {
 
 		final String banner = this.configurationService.findConfiguration().getBanner();
 
-		final Collection<Team> teams = this.teamService.findAll();
+		final Collection<Team> teams = this.teamService.findFunctionalTeams();
 
 		result = new ModelAndView("game/edit");
 		result.addObject("teams", teams);

@@ -8,6 +8,7 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ConfigurationService;
@@ -47,5 +48,24 @@ public class GameController extends AbstractController {
 
 		return result;
 
+	}
+
+	@RequestMapping(value = "/display", method = RequestMethod.GET)
+	public ModelAndView display(@RequestParam final int gameId) {
+		ModelAndView result;
+
+		final Game gameFind = this.gameService.findOne(gameId);
+		final String banner = this.configurationService.findConfiguration().getBanner();
+
+		if (gameFind == null) {
+			result = new ModelAndView("misc/notExist");
+			result.addObject("banner", banner);
+		} else {
+
+			result = new ModelAndView("game/display");
+			result.addObject("game", gameFind);
+			result.addObject("banner", banner);
+		}
+		return result;
 	}
 }

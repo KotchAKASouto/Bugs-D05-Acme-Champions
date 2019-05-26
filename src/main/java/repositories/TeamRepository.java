@@ -26,4 +26,7 @@ public interface TeamRepository extends JpaRepository<Team, Integer> {
 	@Query("select t from Team t where t.president.id =?1")
 	Team findTeamByPresidentId(int presidentId);
 
+	@Query("select t from Team t where t.functional=true")
+	Collection<Team> findFunctionalTeams();
+
 }

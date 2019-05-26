@@ -70,7 +70,7 @@ public class TeamPresidentManagerController extends AbstractController {
 
 			boolean canFire = false;
 
-			final Collection<Game> games = this.gameService.findGamesOfTeam(team.getId());
+			final Collection<Game> games = this.gameService.findNextGamesOfTeam(team.getId());
 
 			if (games.isEmpty())
 				canFire = true;
