@@ -257,16 +257,17 @@ public class MinutesService {
 
 	public void closeMinutes(final int minutesId) {
 		final Minutes result = this.findOne(minutesId);
-		final Competition competition = this.competitionService.findCompetitionByGameId(result.getId());
+		final Competition competition = this.competitionService.findCompetitionByGameId(result.getGame().getId());
 		result.setClosed(true);
 		if (result.getHomeScore() == result.getVisitorScore()) {
 			if (!result.getGame().getFriendly())
 				try {
-					Assert.isTrue(competition.getFormat().getType() != "TOURNAMENT");
+					Assert.isTrue(competition.getFormat().getType() == "TOURNAMENT");
 				} catch (final Exception e) {
 					throw new DataIntegrityViolationException("tie-tournament");
 				}
 			result.setWinner(null);
+
 		} else if (result.getHomeScore() > result.getVisitorScore())
 			result.setWinner(result.getGame().getHomeTeam());
 		else

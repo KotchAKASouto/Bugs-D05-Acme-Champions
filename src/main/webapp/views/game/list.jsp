@@ -35,9 +35,9 @@
 	
 	<acme:column property="referee.name" titleKey="game.referee" value= "${row2.referee.name}: "/>
 	
-	<security:authorize access="hasRole('REFEREE')">
-		<acme:url href="minutes/referee/create.do?gameId=${row2.id}" code="game.create.minutes" />
-	</security:authorize>
+	<acme:url href="minutes/referee/create.do?gameId=${row2.id}" code="game.create.minutes" />
+	
+	<acme:url href="game/display.do?gameId=${row2.id}" code="game.display" />
 
 	</display:table>
 
@@ -67,10 +67,22 @@
 	<acme:column property="visitorTeam.name" titleKey="game.visitorTeam" value= "${row.visitorTeam.name}: "/>
 	
 	<acme:column property="referee.name" titleKey="game.referee" value= "${row.referee.name}: "/>
+	
+	<security:authorize access="hasRole('REFEREE')">
+	<jstl:if test="${AmInMyGamesController}">
+	<acme:url href="game/referee/edit.do?gameId=${row.id }" code="game.edit"/>
+	</jstl:if>
+	</security:authorize>
+	
+	<acme:url href="game/display.do?gameId=${row.id}" code="game.display" />
 
 	</display:table>
 	
 	<security:authorize access="hasRole('REFEREE')">
+	<jstl:if test="${AmInMyGamesController}">
+	<a href="game/referee/create.do"><spring:message code="game.create"/></a>
+	</jstl:if>
+	
 
 <jstl:if test="${requestURI == 'game/referee/listMyGames.do' }">
 <h3><spring:message code="games.ended.withMinutes" /></h3>
@@ -85,10 +97,10 @@
 		
 	</display:column>
 	
-	<acme:column property="place" titleKey="game.place" value= "${row2.place}: "/>
+	<acme:column property="place" titleKey="game.place" value= "${row3.place}: "/>
 	
 	<display:column titleKey="game.friendly"> 
-			<spring:message code="game.${row2.friendly }" />
+			<spring:message code="game.${row3.friendly }" />
 	</display:column>
 	
 	<acme:column property="homeTeam.name" titleKey="game.homeTeam" value= "${row3.homeTeam.name}: "/>
@@ -96,6 +108,8 @@
 	<acme:column property="visitorTeam.name" titleKey="game.visitorTeam" value= "${row3.visitorTeam.name}: "/>
 	
 	<acme:column property="referee.name" titleKey="game.referee" value= "${row3.referee.name}: "/>
+	
+	<acme:url href="game/display.do?gameId=${row3.id}" code="game.display" />
 
 	</display:table>
 

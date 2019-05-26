@@ -198,4 +198,10 @@ public class TeamService {
 		return res;
 	}
 
+	public Collection<Team> findFunctionalTeams() {
+		final Collection<Team> res = this.teamRepository.findFunctionalTeams();
+
+		return res;
+	}
+
 }

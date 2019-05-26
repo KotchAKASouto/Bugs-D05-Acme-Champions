@@ -85,7 +85,7 @@ public class MinutesRefereeController extends AbstractController {
 
 		final Actor actor = this.actorService.findByPrincipal();
 
-		if ((minutes != null || !minutes.getClosed()) && actor.getId() == minutes.getGame().getReferee().getId())
+		if ((minutes != null && !minutes.getClosed()) && actor.getId() == minutes.getGame().getReferee().getId())
 			try {
 				result = this.createEditModelAndView(minutes, null);
 			} catch (final Throwable oops) {
@@ -166,7 +166,7 @@ public class MinutesRefereeController extends AbstractController {
 		final String banner = this.configurationService.findConfiguration().getBanner();
 		final Actor actor = this.actorService.findByPrincipal();
 
-		if ((minutes != null || !minutes.getClosed()) && actor.getId() == minutes.getGame().getReferee().getId())
+		if ((minutes != null && !minutes.getClosed()) && actor.getId() == minutes.getGame().getReferee().getId())
 			try {
 				this.minutesService.clearMinutes(minutesId);
 
@@ -185,11 +185,11 @@ public class MinutesRefereeController extends AbstractController {
 	@RequestMapping(value = "/close", method = RequestMethod.GET)
 	public ModelAndView closeMinutes(@RequestParam final int minutesId) {
 		ModelAndView result;
-		final Minutes minutes = this.minutesService.findOne(minutesId);
+		Minutes minutes = this.minutesService.findOne(minutesId);
 		final String banner = this.configurationService.findConfiguration().getBanner();
 		final Actor actor = this.actorService.findByPrincipal();
 
-		if ((minutes != null || !minutes.getClosed()) && actor.getId() == minutes.getGame().getReferee().getId())
+		if ((minutes != null && !minutes.getClosed()) && actor.getId() == minutes.getGame().getReferee().getId())
 			try {
 				this.minutesService.closeMinutes(minutesId);
 
@@ -199,12 +199,15 @@ public class MinutesRefereeController extends AbstractController {
 				result = new ModelAndView("redirect:/game/referee/listMyGames.do");
 
 			} catch (final Throwable oops) {
-				if (oops.getMessage() == "tie-tournament")
+				if (oops.getMessage() == "tie-tournament") {
+					this.minutesService.clearMinutes(minutesId);
+					minutes = this.minutesService.findOne(minutesId);
 					result = this.createEditModelAndView(minutes, "tie.tournament.game");
-				else {
+				} else {
 					result = new ModelAndView("misc/error");
 					result.addObject("banner", banner);
 				}
+
 			}
 		else {
 			result = new ModelAndView("misc/notExist");
@@ -212,7 +215,6 @@ public class MinutesRefereeController extends AbstractController {
 		}
 		return result;
 	}
-
 	protected ModelAndView createEditModelAndView(final Minutes minutes, final String messageCode) {
 		ModelAndView result;
 		final String banner = this.configurationService.findConfiguration().getBanner();

@@ -46,31 +46,6 @@ public class TrainingManagerController extends AbstractController {
 	private ConfigurationService	configurationService;
 
 
-	//List---------------------------------------------------------------------------
-	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public ModelAndView list() {
-
-		final ModelAndView result;
-		final Collection<Training> trainings;
-		final Manager manag;
-
-		manag = this.managerService.findByPrincipal();
-
-		trainings = this.trainingService.findTrainingsByManagerId(manag.getId());
-
-		final String banner = this.configurationService.findConfiguration().getBanner();
-
-		result = new ModelAndView("training/list");
-		result.addObject("trainings", trainings);
-		result.addObject("requestURI", "training/manager/list.do");
-		result.addObject("pagesize", 5);
-		result.addObject("banner", banner);
-		result.addObject("language", LocaleContextHolder.getLocale().getLanguage());
-		result.addObject("autoridad", "manager");
-
-		return result;
-
-	}
 	//Create-----------------------------------------------------------------------------------------
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create() {
@@ -133,7 +108,7 @@ public class TrainingManagerController extends AbstractController {
 			else
 				try {
 					this.trainingService.save(training);
-					result = new ModelAndView("redirect:list.do");
+					result = new ModelAndView("redirect:/calendar/manager/show.do");
 				} catch (final Throwable oops) {
 					if (oops.getMessage() == "Invalid Dates")
 						result = this.createEditModelAndView(training, "url.error");
@@ -160,7 +135,7 @@ public class TrainingManagerController extends AbstractController {
 			if (training.getManager().getId() == manager.getId() || startDateGood)
 				try {
 					this.trainingService.delete(training);
-					result = new ModelAndView("redirect:list.do");
+					result = new ModelAndView("redirect:/calendar/manager/show.do");
 				} catch (final Throwable oops) {
 					result = this.createEditModelAndView(training, "training.commit.error");
 				}

@@ -47,7 +47,7 @@
 <acme:button onclick="javascript: relativeRedir('training/manager/addPlayer.do?trainingId=${training.id }');" name="add" code="training.add" />
 </jstl:if>
 
-<acme:button name="back" code="training.back" onclick="javascript: relativeRedir('training/manager/list.do');" />
+<acme:button name="back" code="training.back" onclick="javascript: relativeRedir('calendar/manager/show.do');" />
 
 </security:authorize>
 

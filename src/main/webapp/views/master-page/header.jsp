@@ -41,10 +41,9 @@
 				<ul>
 					<li class="arrow"></li>
 
-					<li><a href="training/manager/list.do"><spring:message code="master.page.list.trainings" /></a></li>			
+					<li><a href="calendar/manager/show.do"><spring:message code="master.page.calendar" /></a></li>			
 					<li><a href="hiring/manager/list.do"><spring:message code="master.page.hiring" /></a></li>	
-					<li><a href="team/president,manager/listByManager.do"><spring:message code="master.page.team.display" /></a></li>
-					<li><a href="training/manager/list.do"><spring:message code="master.page.list.trainings" /></a></li>	
+					<li><a href="team/president,manager/listByManager.do"><spring:message code="master.page.team.display" /></a></li>	
 					<li><a href="report/manager/list.do"><spring:message code="master.page.reports" /></a></li>		
 				</ul>
 			</li>
