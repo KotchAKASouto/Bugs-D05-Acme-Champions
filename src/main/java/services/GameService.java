@@ -96,11 +96,18 @@ public class GameService {
 
 		//los equipos del partido deben ser funcionales
 		final Collection<Team> functionalTeams = this.teamService.findFunctionalTeams();
-		Assert.isTrue(functionalTeams.contains(game.getHomeTeam()) && functionalTeams.contains(game.getHomeTeam()));
+		Assert.isTrue(functionalTeams.contains(game.getHomeTeam()) && functionalTeams.contains(game.getVisitorTeam()));
 
 		//posthacking referee y federation
 		if (actor.getUserAccount().getAuthorities().contains(authReferee))
 			Assert.isTrue(game.getReferee().getId() == actor.getId());
+
+		//si el partido ya pasó no puede ser editado
+		final Date currentDate = new Date(System.currentTimeMillis() - 1000);
+		if (game.getId() != 0) {
+			final Game gameBBDD = this.findOne(game.getId());
+			Assert.isTrue(gameBBDD.getGameDate().after(currentDate));
+		}
 
 		//el equipo local y visitante no pueden ser el mismo
 		Assert.isTrue(!game.getHomeTeam().equals(game.getVisitorTeam()));
@@ -112,7 +119,6 @@ public class GameService {
 			Assert.isTrue(!game.getFriendly());
 
 		//Ya sea al crearse o editarse, la fecha ha de ser futura
-		final Date currentDate = new Date(System.currentTimeMillis() - 1000);
 		Assert.isTrue(game.getGameDate().after(currentDate));
 
 		//el lugar del partido debe coincidir con el estadio del equipo local

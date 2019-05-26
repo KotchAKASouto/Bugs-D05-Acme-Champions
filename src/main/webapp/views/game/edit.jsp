@@ -38,7 +38,9 @@
 	<br>
 	
 	<acme:submit name="save" code="game.save" />
+	<jstl:if test="${game.id!=0 }">
 	<acme:submit name="delete" code="game.delete" />
+	</jstl:if>
 	<acme:cancel code="game.cancel" url="game/referee/listMyGames.do" />
 
 

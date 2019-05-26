@@ -2,6 +2,7 @@
 package controllers.referee;
 
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -80,60 +81,58 @@ public class GameRefereeController extends AbstractController {
 
 		final Actor actor = this.actorService.findByPrincipal();
 
-		if (game.getId() != 0 && this.gameService.findOne(game.getId()) != null && game.getReferee().getId() == actor.getId())
-			result = this.createEditModelAndView(game, null);
-		else
-			result = new ModelAndView("redirect:/welcome/index.do");
+		final String banner = this.configurationService.findConfiguration().getBanner();
 
+		if (game == null || (game.getId() != 0 && game.getReferee().getId() != actor.getId())) {
+			result = new ModelAndView("misc/notExist");
+			result.addObject("banner", banner);
+		} else
+			result = this.createEditModelAndView(game, null);
 		return result;
 	}
-
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@ModelAttribute(value = "game") Game game, final BindingResult binding) {
 		ModelAndView result;
 		final String banner = this.configurationService.findConfiguration().getBanner();
 
-		game = this.gameService.reconstruct(game, binding);
-
 		if (game.getId() != 0 && this.gameService.findOne(game.getId()) == null) {
-			result = new ModelAndView("misc/notExist");
-			result.addObject("banner", banner);
-		} else if (binding.hasErrors())
-			result = this.createEditModelAndView(game, null);
-		else
-			try {
-				this.gameService.save(game);
-				result = new ModelAndView("redirect:listMyGames.do");
-			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(game, "game.commit.error");
-
-			}
-		return result;
-	}
-
-	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
-	public ModelAndView delete(@ModelAttribute(value = "game") Game game, final BindingResult binding) {
-		ModelAndView result;
-		final String banner = this.configurationService.findConfiguration().getBanner();
-		final Actor actor = this.actorService.findByPrincipal();
-
-		if (game.getId() != 0 && this.gameService.findOne(game.getId()) == null && game.getReferee().getId() == actor.getId()) {
 			result = new ModelAndView("misc/notExist");
 			result.addObject("banner", banner);
 		} else {
 			game = this.gameService.reconstruct(game, binding);
-
 			if (binding.hasErrors())
 				result = this.createEditModelAndView(game, null);
 			else
 				try {
-					this.gameService.delete(game);
+					this.gameService.save(game);
 					result = new ModelAndView("redirect:listMyGames.do");
 				} catch (final Throwable oops) {
 					result = this.createEditModelAndView(game, "game.commit.error");
 
 				}
 		}
+
+		return result;
+	}
+	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
+	public ModelAndView delete(Game game, final BindingResult binding) {
+		ModelAndView result;
+		final String banner = this.configurationService.findConfiguration().getBanner();
+		final Actor actor = this.actorService.findByPrincipal();
+		game = this.gameService.findOne(game.getId());
+		final Date currentDate = new Date(System.currentTimeMillis() - 1000);
+
+		if (game == null || (game.getId() != 0 && game.getReferee().getId() != actor.getId()) || game.getGameDate().before(currentDate)) {
+			result = new ModelAndView("misc/notExist");
+			result.addObject("banner", banner);
+		} else
+			try {
+				this.gameService.delete(game);
+				result = new ModelAndView("redirect:listMyGames.do");
+			} catch (final Throwable oops) {
+				result = this.createEditModelAndView(game, "game.commit.error");
+
+			}
 		return result;
 	}
 
