@@ -134,4 +134,8 @@ public class SportRecordService {
 
 		return result;
 	}
+
+	public void flush() {
+		this.sportRecordRepository.flush();
+	}
 }
