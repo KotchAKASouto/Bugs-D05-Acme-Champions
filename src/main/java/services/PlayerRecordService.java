@@ -133,4 +133,8 @@ public class PlayerRecordService {
 
 		return result;
 	}
+
+	public void flush() {
+		this.playerRecordRepository.flush();
+	}
 }
