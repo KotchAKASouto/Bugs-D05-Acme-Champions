@@ -296,7 +296,7 @@ public class CompetitionService {
 
 				final Minutes minutesFind = this.minutesService.findMinuteByGameId(game.getId());
 
-				if (minutes != null)
+				if (minutesFind != null)
 					minutesNow.add(minutesFind);
 
 			}
@@ -313,12 +313,8 @@ public class CompetitionService {
 
 					final Minutes minute = this.minutesService.findMinuteByGameId(game.getId());
 
-					if (nextTeams.get(minute.getWinner()) != null) {
-
-						final Integer value = nextTeams.get(minute.getWinner());
-						nextTeams.put(minute.getWinner(), value + 1);
-
-					}
+					final Integer value = nextTeams.get(minute.getWinner());
+					nextTeams.put(minute.getWinner(), value == null ? 1 : value + 1);
 
 				}
 
@@ -336,7 +332,9 @@ public class CompetitionService {
 
 				final Integer gamesToPlay = teams.size() / 2;
 
-				final Date start = minutes.getGame().getGameDate();
+				final Date start = new Date();
+
+				start.setTime(minutes.getGame().getGameDate().getTime());
 
 				for (int i = 0; i < gamesToPlay; i++) {
 
@@ -367,7 +365,7 @@ public class CompetitionService {
 					game.setVisitorTeam(team2);
 					game.setReferee(random);
 
-					final Game saved = this.gameService.save(game);
+					final Game saved = this.gameService.saveAlgorithm(game);
 
 					gamesNow.add(saved);
 
