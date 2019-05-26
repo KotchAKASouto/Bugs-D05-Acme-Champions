@@ -376,4 +376,8 @@ public class PlayerService {
 
 		return res;
 	}
+
+	public void flush() {
+		this.playerRepository.flush();
+	}
 }
