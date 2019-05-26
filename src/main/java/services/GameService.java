@@ -9,11 +9,14 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.GameRepository;
 import security.Authority;
 import domain.Actor;
 import domain.Game;
+import domain.Referee;
 import domain.Sponsorship;
 import domain.Team;
 
@@ -36,6 +39,12 @@ public class GameService {
 	@Autowired
 	private CompetitionService	competitionService;
 
+	@Autowired
+	private Validator			validator;
+
+	@Autowired
+	private RefereeService		refereeService;
+
 
 	//Simple CRUD methods
 
@@ -43,10 +52,11 @@ public class GameService {
 
 		final Game result = new Game();
 
+		result.setFriendly(true);
+
 		return result;
 
 	}
-
 	public Collection<Game> findAll() {
 
 		final Collection<Game> result = this.gameRepository.findAll();
@@ -74,12 +84,19 @@ public class GameService {
 		final Actor actor = this.actorService.findByPrincipal();
 		Assert.notNull(actor);
 
+		//Solo se pueden editar partidos amistosos
+		if (game.getId() != 0)
+			Assert.isTrue(game.getFriendly());
+
 		//solo puede guardar partidos referee's y federation's
 		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authReferee) || actor.getUserAccount().getAuthorities().contains(authFederation));
 
 		//posthacking referee y federation
 		if (actor.getUserAccount().getAuthorities().contains(authReferee))
 			Assert.isTrue(game.getReferee().getId() == actor.getId());
+
+		//el equipo local y visitante no pueden ser el mismo
+		Assert.isTrue(!game.getHomeTeam().equals(game.getVisitorTeam()));
 
 		//si el que guarda partido es referee el partido es amistoso, si es federation es competitivo
 		if (actor.getUserAccount().getAuthorities().contains(authReferee))
@@ -184,4 +201,39 @@ public class GameService {
 		final Collection<Game> res = this.gameRepository.findAllEndedGamesWithMinutes(refereeId);
 		return res;
 	}
+
+	public Game reconstruct(final Game game, final BindingResult binding) {
+		final Authority authReferee = new Authority();
+		authReferee.setAuthority(Authority.REFEREE);
+		final Authority authFederation = new Authority();
+		authFederation.setAuthority(Authority.FEDERATION);
+
+		//Hay que estar logeado
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+
+		Assert.notNull(game);
+		if (game.getId() == 0) {
+			if (actor.getUserAccount().getAuthorities().contains(Authority.REFEREE)) {
+				game.setFriendly(false);
+				final Referee referee = this.refereeService.findByPrincipal();
+				game.setReferee(referee);
+			}
+			if (game.getHomeTeam() != null)
+				game.setPlace(game.getHomeTeam().getStadiumName());
+
+		} else {
+
+			final Game gameBBDD = this.findOne(game.getId());
+			game.setFriendly(true);
+			game.setReferee(gameBBDD.getReferee());
+			if (game.getHomeTeam() != null)
+				game.setPlace(game.getHomeTeam().getStadiumName());
+		}
+
+		this.validator.validate(game, binding);
+
+		return game;
+	}
+
 }

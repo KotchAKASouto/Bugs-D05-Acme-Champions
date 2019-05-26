@@ -204,6 +204,9 @@
 		
 		<!-- Referee: Game -->
 		<security:intercept-url pattern="/game/referee/listMyGames.do" access="hasRole('REFEREE')" />
+		<security:intercept-url pattern="/game/referee/create.do" access="hasRole('REFEREE')" />
+		<security:intercept-url pattern="/game/referee/edit.do" access="hasRole('REFEREE')" />
+		
 		
 		<!-- Referee: Minutes -->
 		<security:intercept-url pattern="/minutes/referee/create.do" access="hasRole('REFEREE')" />

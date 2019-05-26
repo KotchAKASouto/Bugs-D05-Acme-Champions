@@ -67,10 +67,15 @@
 	<acme:column property="visitorTeam.name" titleKey="game.visitorTeam" value= "${row.visitorTeam.name}: "/>
 	
 	<acme:column property="referee.name" titleKey="game.referee" value= "${row.referee.name}: "/>
+	
+	<acme:url href="game/referee/edit.do?gameId=${row.id }" code="game.edit"/>
 
 	</display:table>
 	
 	<security:authorize access="hasRole('REFEREE')">
+	<br><a href="game/referee/create.do"><spring:message code="game.create"/></a>
+	
+	
 
 <jstl:if test="${requestURI == 'game/referee/listMyGames.do' }">
 <h3><spring:message code="games.ended.withMinutes" /></h3>
