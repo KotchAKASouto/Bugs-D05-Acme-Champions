@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ActorService;
 import services.ConfigurationService;
 import services.GameService;
 import services.RefereeService;
 import controllers.AbstractController;
+import domain.Actor;
 import domain.Game;
 
 @Controller
@@ -29,20 +31,28 @@ public class GameRefereeController extends AbstractController {
 	@Autowired
 	private GameService				gameService;
 
+	@Autowired
+	private ActorService			actorService;
 
-	@RequestMapping(value = "/listGamesEnded", method = RequestMethod.GET)
-	public ModelAndView listGamesEnded() {
+
+	@RequestMapping(value = "/listMyGames", method = RequestMethod.GET)
+	public ModelAndView listMyGames() {
 		final ModelAndView result;
 		final String banner = this.configurationService.findConfiguration().getBanner();
+		final Actor actor = this.actorService.findByPrincipal();
 
-		final Collection<Game> gamesEndedWithoutMinutes = this.gameService.findAllEndedGamesWithoutMinutes();
+		final Collection<Game> myFutureGames = this.gameService.findFutureGamesByRefereeId(actor.getId());
+		final Collection<Game> myEndedGamesWithMinutes = this.gameService.findAllEndedGamesWithMinutes(actor.getId());
+		final Collection<Game> myEndedGamesWithoutMinutes = this.gameService.findAllEndedGamesWithoutMinutes(actor.getId());
+
 		result = new ModelAndView("game/list");
-		result.addObject("games", gamesEndedWithoutMinutes);
-		result.addObject("requestURI", "game/referee/listGamesEnded.do");
+		result.addObject("games", myFutureGames);
+		result.addObject("myEndedGamesWithMinutes", myEndedGamesWithMinutes);
+		result.addObject("myEndedGamesWithoutMinutes", myEndedGamesWithoutMinutes);
+		result.addObject("requestURI", "game/referee/listMyGames.do");
 		result.addObject("banner", banner);
 		result.addObject("language", LocaleContextHolder.getLocale().getLanguage());
 
 		return result;
 	}
-
 }
