@@ -140,11 +140,11 @@ public class PlayerService {
 			final String phone = this.actorService.checkPhone(player.getPhone());
 			player.setPhone(phone);
 
-			final StatisticalData data = this.statisticalDataService.create();
-			data.setPlayer(player);
-			this.statisticalDataService.save(data);
-
 			result = this.playerRepository.save(player);
+
+			final StatisticalData data = this.statisticalDataService.create();
+			data.setPlayer(result);
+			this.statisticalDataService.save(data);
 
 			Box inBox, outBox, trashBox, spamBox;
 			inBox = this.boxService.create();

@@ -12,6 +12,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 
 import repositories.ReportRepository;
+import security.Authority;
+import domain.Actor;
 import domain.Manager;
 import domain.Player;
 import domain.Report;
@@ -32,6 +34,9 @@ public class ReportService {
 
 	@Autowired
 	private ManagerService		managerService;
+
+	@Autowired
+	private ActorService		actorService;
 
 	@Autowired
 	private Validator			validator;
@@ -69,6 +74,12 @@ public class ReportService {
 
 	public void delete(final Report report) {
 
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.MANAGER);
+		Assert.isTrue((actor.getUserAccount().getAuthorities().contains(authority)));
+
 		Assert.notNull(report);
 		Assert.isTrue(report.getId() != 0);
 
@@ -101,6 +112,12 @@ public class ReportService {
 	}
 
 	public Collection<Report> findByTeamId(final int temaId) {
+
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.MANAGER);
+		Assert.isTrue((actor.getUserAccount().getAuthorities().contains(authority)));
 
 		final Collection<Report> result = this.reportRepository.findByTeamId(temaId);
 
@@ -138,5 +155,9 @@ public class ReportService {
 			result = true;
 
 		return result;
+	}
+
+	public void flush() {
+		this.reportRepository.flush();
 	}
 }
