@@ -175,4 +175,13 @@ public class GameService {
 		return res;
 	}
 
+	public Collection<Game> findFutureGamesByRefereeId(final int refereeId) {
+		final Collection<Game> res = this.gameRepository.findFutureGamesByRefereeId(refereeId);
+		return res;
+	}
+
+	public Collection<Game> findAllEndedGamesWithMinutes(final int refereeId) {
+		final Collection<Game> res = this.gameRepository.findAllEndedGamesWithMinutes(refereeId);
+		return res;
+	}
 }

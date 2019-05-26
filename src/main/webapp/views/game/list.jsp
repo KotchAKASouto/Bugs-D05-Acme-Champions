@@ -13,7 +13,7 @@
 <jstl:if test="${requestURI == 'game/referee/listMyGames.do' }">
 <h3><spring:message code="games.ended" /></h3>
 
-<display:table name="gamesEnded" id="row2" requestURI="${requestURI }" pagesize="5">
+<display:table name="myEndedGamesWithoutMinutes" id="row2" requestURI="${requestURI }" pagesize="5">
 
 	<spring:message code="dateFormat" var="format"/>
 	<spring:message code="timeFormat" var="formatTime"/>
@@ -36,9 +36,7 @@
 	<acme:column property="referee.name" titleKey="game.referee" value= "${row2.referee.name}: "/>
 	
 	<security:authorize access="hasRole('REFEREE')">
-		<jstl:if test="${row2.gameDate<Date}">
 		<acme:url href="minutes/referee/create.do?gameId=${row2.id}" code="game.create.minutes" />
-		</jstl:if>
 	</security:authorize>
 
 	</display:table>
@@ -71,6 +69,38 @@
 	<acme:column property="referee.name" titleKey="game.referee" value= "${row.referee.name}: "/>
 
 	</display:table>
+	
+	<security:authorize access="hasRole('REFEREE')">
+
+<jstl:if test="${requestURI == 'game/referee/listMyGames.do' }">
+<h3><spring:message code="games.ended.withMinutes" /></h3>
+
+<display:table name="myEndedGamesWithMinutes" id="row3" requestURI="${requestURI }" pagesize="5">
+
+	<spring:message code="dateFormat" var="format"/>
+	<spring:message code="timeFormat" var="formatTime"/>
+	<display:column titleKey="game.gameDate"> 
+		<fmt:formatDate type="date" value="${row3.gameDate }" pattern="${format}" />
+		<fmt:formatDate type="time" value="${row3.gameDate }" pattern="${formatTime}" />
+		
+	</display:column>
+	
+	<acme:column property="place" titleKey="game.place" value= "${row2.place}: "/>
+	
+	<display:column titleKey="game.friendly"> 
+			<spring:message code="game.${row2.friendly }" />
+	</display:column>
+	
+	<acme:column property="homeTeam.name" titleKey="game.homeTeam" value= "${row3.homeTeam.name}: "/>
+	
+	<acme:column property="visitorTeam.name" titleKey="game.visitorTeam" value= "${row3.visitorTeam.name}: "/>
+	
+	<acme:column property="referee.name" titleKey="game.referee" value= "${row3.referee.name}: "/>
+
+	</display:table>
+
+</jstl:if>
+</security:authorize>
 		
 	<acme:button name="back" code="game.back" onclick="javascript: relativeRedir('welcome/index.do');" />
 

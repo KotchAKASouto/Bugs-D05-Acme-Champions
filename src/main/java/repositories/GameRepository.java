@@ -24,8 +24,11 @@ public interface GameRepository extends JpaRepository<Game, Integer> {
 	@Query("select g from Game g where g.visitorTeam.id=?1 and g.gameDate < current_date")
 	Collection<Game> visitorGamesByTeamId(int teamId);
 
-	@Query("select g from Game g where ((select count(m) from Minutes m where m.game.id=g.id and m.closed=true)=0) and (g.gameDate<CURRENT_TIMESTAMP) and (g.referee.id=?1)")
+	@Query("select g from Game g where (((select count(m) from Minutes m where m.game.id=g.id and m.closed=false)=1) or ((select count(m) from Minutes m where m.game.id=g.id and m.closed=true)=0)) and (g.gameDate<CURRENT_TIMESTAMP) and (g.referee.id=?1)")
 	Collection<Game> findAllEndedGamesWithoutMinutes(int refereeId);
+
+	@Query("select g from Game g where ((select count(m) from Minutes m where m.game.id=g.id and m.closed=true)=1) and (g.gameDate<CURRENT_TIMESTAMP) and (g.referee.id=?1)")
+	Collection<Game> findAllEndedGamesWithMinutes(int refereeId);
 
 	@Query("select g from Competition c join c.games g where c.id=?1")
 	Collection<Game> findByCompetitionId(int id);
@@ -33,4 +36,6 @@ public interface GameRepository extends JpaRepository<Game, Integer> {
 	@Query("select g from Game g where g.referee.id = ?1")
 	Collection<Game> findGameByRefereeId(int refereeId);
 
+	@Query("select g from Game g where g.referee.id = ?1 and g.gameDate>CURRENT_TIMESTAMP")
+	Collection<Game> findFutureGamesByRefereeId(int refereeId);
 }

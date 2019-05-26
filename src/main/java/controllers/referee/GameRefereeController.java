@@ -41,9 +41,14 @@ public class GameRefereeController extends AbstractController {
 		final String banner = this.configurationService.findConfiguration().getBanner();
 		final Actor actor = this.actorService.findByPrincipal();
 
-		final Collection<Game> myGames = this.gameService.findGameByRefereeId(actor.getId());
+		final Collection<Game> myFutureGames = this.gameService.findFutureGamesByRefereeId(actor.getId());
+		final Collection<Game> myEndedGamesWithMinutes = this.gameService.findAllEndedGamesWithMinutes(actor.getId());
+		final Collection<Game> myEndedGamesWithoutMinutes = this.gameService.findAllEndedGamesWithoutMinutes(actor.getId());
+
 		result = new ModelAndView("game/list");
-		result.addObject("games", myGames);
+		result.addObject("games", myFutureGames);
+		result.addObject("myEndedGamesWithMinutes", myEndedGamesWithMinutes);
+		result.addObject("myEndedGamesWithoutMinutes", myEndedGamesWithoutMinutes);
 		result.addObject("requestURI", "game/referee/listMyGames.do");
 		result.addObject("banner", banner);
 		result.addObject("language", LocaleContextHolder.getLocale().getLanguage());
