@@ -1771,7 +1771,7 @@
 	
 	<!-- Reports -->
 
-	<bean id="Report1" class="domain.Report">
+	<bean id="report1" class="domain.Report">
 		<property name="moment" value="2019/05/18" />
 		<property name="description" value="Ha llegado tarde al entrenamiento. No es la primera vez que pasa" />
 		<property name="player" ref="player11" />

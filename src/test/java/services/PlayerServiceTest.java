@@ -2,6 +2,7 @@
 package services;
 
 import javax.transaction.Transactional;
+import javax.validation.ConstraintViolationException;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -38,6 +39,12 @@ public class PlayerServiceTest extends AbstractTest {
 			{
 				"name1", "surnames", "https://google.com", "email1@gmail.com", "672195205", "address1", "GOALKEEPER", "PORTERO", "7", "Raúl", "playerTest", "playerTest", null
 			},//1. All fine
+			{
+				"name1", "surnames", "https://google.com", "email1@gmail.com", "672195205", "address1", "GOALKEEPER", "PORTERO", "7", "		", "playerTest", "playerTest", ConstraintViolationException.class
+			},//2. SquadName = blank
+			{
+				"name1", "surnames", "https://google.com", "email1@gmail.com", "672195205", "address1", "GOALKEEPER", "PORTERO", "7", null, "playerTest", "playerTest", ConstraintViolationException.class
+			},//2. SquadName = null
 
 		};
 
@@ -75,6 +82,67 @@ public class PlayerServiceTest extends AbstractTest {
 
 			player.getUserAccount().setUsername(username);
 			player.getUserAccount().setPassword(password);
+
+			this.playerService.save(player);
+			this.playerService.flush();
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		this.rollbackTransaction();
+		super.checkExceptions(expected, caught);
+
+	}
+
+	@Test
+	public void driverEditPlayer() {
+		final Object testingData[][] = {
+			{
+				"name1", "surnames", "https://google.com", "email1@gmail.com", "672195205", "address1", "GOALKEEPER", "PORTERO", "7", "Raúl", "player1", "player1", null
+			},//1. All fine
+			{
+				"name1", "surnames", "https://google.com", "email1@gmail.com", "672195205", "address1", "GOALKEEPER", "PORTERO", "-7", "Raúl", "player1", "player1", ConstraintViolationException.class
+			},//2. SquadNumber < 1
+			{
+				"name1", "surnames", "https://google.com", "email1@gmail.com", "672195205", "address1", "GOALKEEPER", "PORTERO", "200", "Raúl", "player1", "player1", ConstraintViolationException.class
+			},//3. SquadNumber > 99
+
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateEditPlayer((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (String) testingData[i][5], (String) testingData[i][6],
+				(String) testingData[i][7], Integer.valueOf((String) testingData[i][8]), (String) testingData[i][9], (String) testingData[i][10], (String) testingData[i][11], (Class<?>) testingData[i][12]);
+	}
+
+	protected void templateEditPlayer(final String name, final String surnames, final String photo, final String email, final String phone, final String address, final String positionEnglish, final String positionSpanish, final Integer squadNumber,
+		final String squadName, final String username, final String bean, final Class<?> expected) {
+
+		Class<?> caught;
+
+		caught = null;
+		try {
+
+			this.startTransaction();
+
+			this.authenticate(username);
+
+			final Player player = this.playerService.findOne(super.getEntityId(bean));
+
+			player.setName(name);
+			player.setSurnames(surnames);
+			player.setPhoto(photo);
+			player.setEmail(email);
+			player.setPhone(phone);
+			player.setAddress(address);
+
+			player.setBuyoutClause(0.0);
+			player.setInjured(false);
+			player.setPositionEnglish(positionEnglish);
+			player.setPositionSpanish(positionSpanish);
+			player.setSquadName(squadName);
+			player.setSquadNumber(squadNumber);
+			player.setPunished(false);
 
 			this.playerService.save(player);
 			this.playerService.flush();

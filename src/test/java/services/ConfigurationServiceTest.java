@@ -1,6 +1,9 @@
 
 package services;
 
+import java.util.Collection;
+import java.util.HashSet;
+
 import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
 
@@ -50,23 +53,24 @@ public class ConfigurationServiceTest extends AbstractTest {
 	public void EditConfigurationTest() {
 		final Object testingData[][] = {
 			{
-				"admin", "http://example.com", "+34", "2", "40", "example", "example", null
+				"admin", "http://example.com", "+34", "2", "40", "example", "example", "VISA", null
 			},//1. All fine
 			{
-				"admin", "http://example.com", "+34", "-1", "40", "example", "example", ConstraintViolationException.class
+				"admin", "http://example.com", "+34", "-1", "40", "example", "example", "VISA", ConstraintViolationException.class
 			},//2. Finder time < 1
 			{
-				"admin", "http://example.com", "+34", "102", "40", "example", "example", ConstraintViolationException.class
+				"admin", "http://example.com", "+34", "102", "40", "example", "example", "VISA", ConstraintViolationException.class
 			},//3. Finder time > 100
 
 		};
 
 		for (int i = 0; i < testingData.length; i++)
 			this.EditConfigurationTemplate((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], Integer.valueOf((String) testingData[i][3]), Integer.valueOf((String) testingData[i][4]), (String) testingData[i][5],
-				(String) testingData[i][6], (Class<?>) testingData[i][7]);
+				(String) testingData[i][6], (String) testingData[i][7], (Class<?>) testingData[i][8]);
 	}
 
-	protected void EditConfigurationTemplate(final String username, final String banner, final String countryCode, final Integer finderTime, final Integer finderResult, final String welcomeMessage, final String welcomeMessageEs, final Class<?> expected) {
+	protected void EditConfigurationTemplate(final String username, final String banner, final String countryCode, final Integer finderTime, final Integer finderResult, final String welcomeMessage, final String welcomeMessageEs, final String make1,
+		final Class<?> expected) {
 		Class<?> caught;
 
 		caught = null;
@@ -84,6 +88,11 @@ public class ConfigurationServiceTest extends AbstractTest {
 			config.setFinderTime(finderTime);
 			config.setWelcomeMessage(welcomeMessage);
 			config.setWelcomeMessageEs(welcomeMessageEs);
+
+			final Collection<String> makes = new HashSet<>();
+			makes.add(make1);
+
+			config.setMakes(makes);
 
 			this.configurationService.save(config);
 			this.configurationService.flush();
