@@ -36,7 +36,7 @@
 	<acme:column property="referee.name" titleKey="game.referee" value= "${row2.referee.name}: "/>
 	
 	<security:authorize access="hasRole('REFEREE')">
-		<jstl:if test="${row2.gameDate<Date()}">
+		<jstl:if test="${row2.gameDate<Date}">
 		<acme:url href="minutes/referee/create.do?gameId=${row2.id}" code="game.create.minutes" />
 		</jstl:if>
 	</security:authorize>
