@@ -419,6 +419,12 @@ public class CompetitionService {
 
 	public Collection<Competition> findByFederationId(final int id) {
 
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.FEDERATION);
+		Assert.isTrue((actor.getUserAccount().getAuthorities().contains(authority)));
+
 		final Collection<Competition> res = this.competitionRepository.findByFederationId(id);
 
 		return res;
