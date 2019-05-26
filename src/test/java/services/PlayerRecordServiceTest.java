@@ -15,6 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import utilities.AbstractTest;
+import domain.History;
 import domain.PlayerRecord;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -27,6 +28,9 @@ public class PlayerRecordServiceTest extends AbstractTest {
 	//The SUT----------------------------------------------------
 	@Autowired
 	private PlayerRecordService	playerRecordService;
+
+	@Autowired
+	private HistoryService		historyService;
 
 
 	/*
@@ -89,6 +93,58 @@ public class PlayerRecordServiceTest extends AbstractTest {
 
 	}
 
+	@Test
+	public void driverEditPlayerRecord() {
+		final Object testingData[][] = {
+			{
+				"player1", "1998/06/29", "2000/06/29", "22000.0", "7", "playerRecord1", null
+			},//1. All fine
+			{
+				"player1", "1998/06/29", "2000/06/29", "22000.0", "-7", "playerRecord1", ConstraintViolationException.class
+			},//2. SquadNumber < 0
+			{
+				"player1", "1998/06/29", "2000/06/29", "22000.0", "700", "playerRecord1", ConstraintViolationException.class
+			},//3. SquadNumber > 99
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateEditPlayerRecord((String) testingData[i][0], this.convertStringToDate((String) testingData[i][1]), this.convertStringToDate((String) testingData[i][2]), this.convertStringToDouble((String) testingData[i][3]),
+				this.convertStringToInteger((String) testingData[i][4]), (String) testingData[i][5], (Class<?>) testingData[i][6]);
+	}
+
+	protected void templateEditPlayerRecord(final String username, final Date startDate, final Date endDate, final Double salary, final Integer squadNumber, final String bean, final Class<?> expected) {
+
+		Class<?> caught;
+
+		caught = null;
+		try {
+
+			this.startTransaction();
+
+			super.authenticate(username);
+
+			final PlayerRecord record = this.playerRecordService.findOne(super.getEntityId(bean));
+
+			record.setStartDate(startDate);
+			record.setEndDate(endDate);
+			record.setSalary(salary);
+			record.setSquadNumber(squadNumber);
+
+			this.playerRecordService.save(record);
+			this.playerRecordService.flush();
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		this.unauthenticate();
+
+		this.rollbackTransaction();
+
+		super.checkExceptions(expected, caught);
+
+	}
+
 	//Methods
 
 	protected Date convertStringToDate(final String dateString) {
@@ -106,11 +162,71 @@ public class PlayerRecordServiceTest extends AbstractTest {
 		return date;
 	}
 
+	@Test
+	public void driverDeletePlayerRecord() {
+		final Object testingData[][] = {
+			{
+				"player1", "playerRecord1", null
+			},//1. All fine
+			{
+				"manager1", "playerRecord1", IllegalArgumentException.class
+			},//2. Invalid authority
+			{
+				"player1", "manager1", IllegalArgumentException.class
+			},//3. Not sport record
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateDeletePlayerRecord((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
+	}
+	protected void templateDeletePlayerRecord(final String username, final String bean, final Class<?> expected) {
+
+		Class<?> caught;
+
+		caught = null;
+		try {
+
+			this.startTransaction();
+
+			super.authenticate(username);
+
+			final PlayerRecord record = this.playerRecordService.findOne(super.getEntityId(bean));
+
+			if (record != null) {
+				final History history = this.historyService.historyPerPlayerRecordId(record.getId());
+				history.getPlayerRecords().remove(record);
+				this.historyService.save(history);
+			}
+
+			this.playerRecordService.delete(record);
+			this.playerRecordService.flush();
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		this.unauthenticate();
+
+		this.rollbackTransaction();
+
+		super.checkExceptions(expected, caught);
+
+	}
+	//Methods 
 	protected Double convertStringToDouble(final String doubleString) {
 		Double result = null;
 
 		if (doubleString != null)
 			result = Double.valueOf(doubleString);
+
+		return result;
+	}
+
+	protected Integer convertStringToInteger(final String integerString) {
+		Integer result = null;
+
+		if (integerString != null)
+			result = Integer.valueOf(integerString);
 
 		return result;
 	}

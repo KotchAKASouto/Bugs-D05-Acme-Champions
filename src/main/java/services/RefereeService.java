@@ -207,4 +207,8 @@ public class RefereeService {
 		return result;
 
 	}
+
+	public void flush() {
+		this.refereeRepository.flush();
+	}
 }

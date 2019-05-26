@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
 import domain.History;
@@ -44,6 +45,50 @@ public class HistoryServiceTest extends AbstractTest {
 	 */
 
 	@Test
+	public void driverDisplayHistory() {
+		final Object testingData[][] = {
+
+			{
+				"history1", null
+			},//1. All fine
+			{
+				"player2", IllegalArgumentException.class
+			},//2. Not history
+			{
+				null, AssertionError.class
+			},//3. Null object
+
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateDisplayHistory((String) testingData[i][0], (Class<?>) testingData[i][1]);
+
+	}
+
+	protected void templateDisplayHistory(final String historyBean, final Class<?> expected) {
+
+		Class<?> caught;
+
+		caught = null;
+		try {
+
+			this.startTransaction();
+
+			final History history = this.historyService.findOne(super.getEntityId(historyBean));
+
+			Assert.isTrue(history != null);
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		this.rollbackTransaction();
+
+		super.checkExceptions(expected, caught);
+
+	}
+
+	@Test
 	public void driverCreateHistory() {
 		final Object testingData[][] = {
 			{
@@ -52,6 +97,9 @@ public class HistoryServiceTest extends AbstractTest {
 			{
 				"manager1", IllegalArgumentException.class
 			},//2. Invalid authority
+			{
+				null, AssertionError.class
+			},//3. Null authenticate
 		};
 
 		for (int i = 0; i < testingData.length; i++)
@@ -103,20 +151,23 @@ public class HistoryServiceTest extends AbstractTest {
 		final Object testingData[][] = {
 
 			{
-				"history1", null
+				"player1", "history1", null
 			},//1. All fine
 			{
-				"player2", IllegalArgumentException.class
+				"player1", "player2", IllegalArgumentException.class
 			},//2. Not history
+			{
+				"manager1", "history1", IllegalArgumentException.class
+			},//3. Invalid authority
 
 		};
 
 		for (int i = 0; i < testingData.length; i++)
-			this.templateDeleteHistory((String) testingData[i][0], (Class<?>) testingData[i][1]);
+			this.templateDeleteHistory((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
 
 	}
 
-	protected void templateDeleteHistory(final String historyBean, final Class<?> expected) {
+	protected void templateDeleteHistory(final String username, final String historyBean, final Class<?> expected) {
 
 		Class<?> caught;
 
@@ -125,11 +176,17 @@ public class HistoryServiceTest extends AbstractTest {
 
 			this.startTransaction();
 
-			this.historyService.delete(this.historyService.findOne(super.getEntityId(historyBean)));
+			this.authenticate(username);
+
+			final History history = this.historyService.findOne(super.getEntityId(historyBean));
+
+			this.historyService.delete(history);
 
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
 		}
+
+		this.unauthenticate();
 
 		this.rollbackTransaction();
 

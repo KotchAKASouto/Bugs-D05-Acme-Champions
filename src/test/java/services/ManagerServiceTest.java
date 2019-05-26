@@ -85,4 +85,61 @@ public class ManagerServiceTest extends AbstractTest {
 		super.checkExceptions(expected, caught);
 
 	}
+
+	@Test
+	public void driverEditManager() {
+		final Object testingData[][] = {
+			{
+				"name1", "surnames", "https://google.com", "email1@gmail.com", "672195205", "address1", "manager1", "manager1", null
+			},//1. All fine
+			{
+				"name1", "surnames", "https://google.com", "		", "672195205", "address1", "manager1", "manager1", ConstraintViolationException.class
+			},//2. Email = blank
+			{
+				"name1", "surnames", "https://google.com", null, "672195205", "address1", "manager1", "manager1", ConstraintViolationException.class
+			},//3. Email = null
+			{
+				"name1", "surnames", "https://google.com", "noEmail", "672195205", "address1", "manager1", "manager1", ConstraintViolationException.class
+			},//4. Invalid email
+
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateEditManager((String) testingData[i][0], (String) testingData[i][1], (String) testingData[i][2], (String) testingData[i][3], (String) testingData[i][4], (String) testingData[i][5], (String) testingData[i][6],
+				(String) testingData[i][7], (Class<?>) testingData[i][8]);
+	}
+
+	protected void templateEditManager(final String name, final String surnames, final String photo, final String email, final String phone, final String address, final String username, final String bean, final Class<?> expected) {
+
+		Class<?> caught;
+
+		caught = null;
+		try {
+
+			this.startTransaction();
+
+			this.authenticate(username);
+
+			final Manager manager = this.managerService.findOne(super.getEntityId(bean));
+
+			manager.setName(name);
+			manager.setSurnames(surnames);
+			manager.setPhoto(photo);
+			manager.setEmail(email);
+			manager.setPhone(phone);
+			manager.setAddress(address);
+
+			this.managerService.save(manager);
+			this.managerService.flush();
+
+			this.unauthenticate();
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		this.rollbackTransaction();
+		super.checkExceptions(expected, caught);
+
+	}
 }

@@ -15,6 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import utilities.AbstractTest;
+import domain.History;
 import domain.SportRecord;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -27,6 +28,9 @@ public class SportRecordServiceTest extends AbstractTest {
 	//The SUT----------------------------------------------------
 	@Autowired
 	private SportRecordService	sportRecordService;
+
+	@Autowired
+	private HistoryService		historyService;
 
 
 	/*
@@ -45,10 +49,10 @@ public class SportRecordServiceTest extends AbstractTest {
 			},//1. All fine
 			{
 				"player1", "1998/06/29", "2000/06/29", null, ConstraintViolationException.class
-			},//2. sportName = null
+			},//2. SportName = null
 			{
 				"player1", "1998/06/29", "2000/06/29", "		", ConstraintViolationException.class
-			},//3. sportName = blank
+			},//3. SportName = blank
 		};
 
 		for (int i = 0; i < testingData.length; i++)
@@ -73,6 +77,109 @@ public class SportRecordServiceTest extends AbstractTest {
 			record.setTeamSport(true);
 
 			this.sportRecordService.save(record);
+			this.sportRecordService.flush();
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		this.unauthenticate();
+
+		this.rollbackTransaction();
+
+		super.checkExceptions(expected, caught);
+
+	}
+
+	@Test
+	public void drivereEditSportRecord() {
+		final Object testingData[][] = {
+			{
+				"player1", "1998/06/29", "2000/06/29", "Fútbol", "sportRecord1", null
+			},//1. All fine
+			{
+				"player1", null, "2000/06/29", "Fútbol", "sportRecord1", ConstraintViolationException.class
+			},//2. Start date = null
+			{
+				"player1", "2001/06/29", "2000/06/29", "Fútbol", "sportRecord1", IllegalArgumentException.class
+			},//3. Start date > End date
+
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateEditSportRecord((String) testingData[i][0], this.convertStringToDate((String) testingData[i][1]), this.convertStringToDate((String) testingData[i][2]), (String) testingData[i][3], (String) testingData[i][4],
+				(Class<?>) testingData[i][5]);
+	}
+	protected void templateEditSportRecord(final String username, final Date startDate, final Date endDate, final String sportName, final String bean, final Class<?> expected) {
+
+		Class<?> caught;
+
+		caught = null;
+		try {
+
+			this.startTransaction();
+
+			super.authenticate(username);
+
+			final SportRecord record = this.sportRecordService.findOne(super.getEntityId(bean));
+
+			record.setStartDate(startDate);
+			record.setEndDate(endDate);
+			record.setSportName(sportName);
+			record.setTeamSport(true);
+
+			this.sportRecordService.save(record);
+			this.sportRecordService.flush();
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		this.unauthenticate();
+
+		this.rollbackTransaction();
+
+		super.checkExceptions(expected, caught);
+
+	}
+
+	@Test
+	public void driverDeleteSportRecord() {
+		final Object testingData[][] = {
+			{
+				"player1", "sportRecord1", null
+			},//1. All fine
+			{
+				"manager1", "sportRecord1", IllegalArgumentException.class
+			},//2. Invalid authority
+			{
+				"player1", "manager1", IllegalArgumentException.class
+			},//3. Not sport record
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateDeleteSportRecord((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
+	}
+	protected void templateDeleteSportRecord(final String username, final String bean, final Class<?> expected) {
+
+		Class<?> caught;
+
+		caught = null;
+		try {
+
+			this.startTransaction();
+
+			super.authenticate(username);
+
+			final SportRecord record = this.sportRecordService.findOne(super.getEntityId(bean));
+
+			if (record != null) {
+				final History history = this.historyService.historyPerSportRecordId(record.getId());
+				history.getSportRecords().remove(record);
+				this.historyService.save(history);
+			}
+
+			this.sportRecordService.delete(record);
 			this.sportRecordService.flush();
 
 		} catch (final Throwable oops) {

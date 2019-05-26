@@ -83,7 +83,8 @@ public class SportRecordService {
 
 		Assert.notNull(record);
 
-		Assert.isTrue(!record.getStartDate().after(record.getEndDate()));
+		if (record.getStartDate() != null && record.getEndDate() != null)
+			Assert.isTrue(!record.getStartDate().after(record.getEndDate()));
 
 		SportRecord result;
 

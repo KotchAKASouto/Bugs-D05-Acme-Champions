@@ -1941,10 +1941,12 @@
 		<property name="personalData" ref="personalData1" />
 		<property name="playerRecords">
 			<list>
+				<ref bean="playerRecord1" />
 			</list>
 		</property>
 		<property name="sportRecords">
 			<list>
+				<ref bean="sportRecord1" />
 			</list>
 		</property>
 	</bean>
@@ -1961,7 +1963,26 @@
 		<property name="socialNetworkProfilelink" value="http://instagram.com/" />
 	</bean>
 	
+	<!-- Sport Records -->
+
+	<bean id="sportRecord1" class="domain.SportRecord">
+		<property name="sportName" value="Football" />
+		<property name="startDate" value="1998/06/07" />
+		<property name="endDate" value="2012/07/21" />
+		<property name="teamSport" value="true" />
+	</bean>
+	
+	<!-- Player Records -->
+
+	<bean id="playerRecord1" class="domain.PlayerRecord">
+		<property name="startDate" value="1998/06/07" />
+		<property name="endDate" value="2012/07/21" />
+		<property name="salary" value="4.0" />
+		<property name="squadNumber" value="9" />
+	</bean>
+	
 	<!-- Sponsorships -->
+	
 
 	<bean id="sponsorship1" class="domain.Sponsorship">
 		<property name="creditCard" ref="creditCard1" />
