@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ActorService;
+import services.CompetitionService;
 import services.ConfigurationService;
 import services.GameService;
 import services.MinutesService;
@@ -40,6 +41,9 @@ public class MinutesRefereeController extends AbstractController {
 
 	@Autowired
 	private ActorService			actorService;
+
+	@Autowired
+	private CompetitionService		competitionService;
 
 
 	//create 
@@ -215,6 +219,9 @@ public class MinutesRefereeController extends AbstractController {
 		if ((minutes != null || !minutes.getClosed()) && actor.getId() == minutes.getGame().getReferee().getId())
 			try {
 				this.minutesService.closeMinutes(minutesId);
+
+				if (!minutes.getGame().getFriendly())
+					this.competitionService.nextRounds(minutes);
 
 				result = new ModelAndView("redirect:/game/referee/listGamesEnded.do");
 			} catch (final Throwable oops) {

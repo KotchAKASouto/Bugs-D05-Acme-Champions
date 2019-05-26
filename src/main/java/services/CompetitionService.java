@@ -4,7 +4,10 @@ package services;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -201,7 +204,9 @@ public class CompetitionService {
 
 				} else {
 
-					final List<Team> teamsThisRound = (List<Team>) competition.getTeams();
+					final List<Team> teamsThisRound = new ArrayList<>();
+
+					teamsThisRound.addAll(competition.getTeams());
 
 					final Integer gamesToPlay = competition.getTeams().size() / 2;
 
@@ -236,12 +241,14 @@ public class CompetitionService {
 
 						final Game saved = this.gameService.save(game);
 
-						games.add(saved);
-
 						teamsThisRound.remove(team1);
 						teamsThisRound.remove(team2);
 
+						games.add(saved);
+
 					}
+
+					competition.setGames(games);
 
 					competition.setEndDate(start);
 
@@ -258,15 +265,9 @@ public class CompetitionService {
 		return res;
 	}
 
-	public void nextRounds(final Competition competition, final Minutes minutes) {
+	public void nextRounds(final Minutes minutes) {
 
-		final Collection<Game> gamesAll = this.gameService.findByCompetitionId(competition.getId());
-		final Collection<Game> gamesNow = competition.getGames();
-
-		final Collection<Game> actualGames = new ArrayList<>();
-
-		actualGames.addAll(gamesAll);
-		actualGames.removeAll(gamesNow);
+		final Competition competition = this.competitionRepository.findCompetitionByGameId(minutes.getGame().getId());
 
 		if (competition.getFormat().getType().equals("LEAGUE")) {
 
@@ -288,31 +289,69 @@ public class CompetitionService {
 
 		} else {
 
+			final Collection<Game> gamesNow = competition.getGames();
+			final Collection<Minutes> minutesNow = new ArrayList<>();
+
+			for (final Game game : gamesNow) {
+
+				final Minutes minutesFind = this.minutesService.findMinuteByGameId(game.getId());
+
+				if (minutes != null)
+					minutesNow.add(minutesFind);
+
+			}
+
 			final List<Referee> referees = (List<Referee>) this.refereeService.findAll();
 
-			if (actualGames.size() >= 2) {
+			if (gamesNow.size() == minutesNow.size()) {
 
-				final List<Team> teams = new ArrayList<>();
+				List<Team> teams = new ArrayList<>();
 
-				for (final Game game : actualGames) {
+				final Map<Team, Integer> nextTeams = new HashMap<>();
+
+				for (final Game game : gamesNow) {
 
 					final Minutes minute = this.minutesService.findMinuteByGameId(game.getId());
 
-					teams.add(minute.getWinner());
+					if (nextTeams.get(minute.getWinner()) != null) {
+
+						final Integer value = nextTeams.get(minute.getWinner());
+						nextTeams.put(minute.getWinner(), value + 1);
+
+					}
 
 				}
+
+				Entry<Team, Integer> max = null;
+
+				for (final Entry<Team, Integer> e : nextTeams.entrySet())
+					if (max == null || e.getValue() == max.getValue()) {
+						teams.add(e.getKey());
+						if (max == null || e.getValue() > max.getValue()) {
+							teams = new ArrayList<>();
+							teams.add(e.getKey());
+							max = e;
+						}
+					}
 
 				final Integer gamesToPlay = teams.size() / 2;
 
 				final Date start = minutes.getGame().getGameDate();
 
-				for (int i = 0; i <= gamesToPlay; i++) {
+				for (int i = 0; i < gamesToPlay; i++) {
 
 					final Random rand1 = new Random();
 					final Team team1 = teams.get(rand1.nextInt(teams.size()));
 
-					final Random rand2 = new Random();
-					final Team team2 = teams.get(rand2.nextInt(teams.size()));
+					Random rand2 = new Random();
+					Team team2 = teams.get(rand2.nextInt(teams.size()));
+
+					while (team1.equals(team2)) {
+
+						rand2 = new Random();
+						team2 = teams.get(rand2.nextInt(teams.size()));
+
+					}
 
 					final Game game = new Game();
 
@@ -332,9 +371,13 @@ public class CompetitionService {
 
 					gamesNow.add(saved);
 
-					competition.setGames(gamesNow);
+					teams.remove(team1);
+					teams.remove(team2);
 
 				}
+				competition.setGames(gamesNow);
+
+				this.competitionRepository.save(competition);
 
 			}
 		}
