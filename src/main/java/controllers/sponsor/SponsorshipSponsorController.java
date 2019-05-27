@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -237,7 +238,7 @@ public class SponsorshipSponsorController extends AbstractController {
 
 	//Save-------------------------------------------------------------------------------------------
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(final Sponsorship sponsorship, final BindingResult binding) {
+	public ModelAndView save(@ModelAttribute("sponsorship") final Sponsorship sponsorship, final BindingResult binding) {
 		ModelAndView result;
 		final String banner = this.configurationService.findConfiguration().getBanner();
 
@@ -266,7 +267,7 @@ public class SponsorshipSponsorController extends AbstractController {
 		}
 
 		if (binding.hasErrors())
-			result = this.createEditModelAndView(sponsorship2, null);
+			result = this.createEditModelAndView(sponsorship, null);
 		else
 			try {
 				this.sponsorshipService.save(sponsorship2);

@@ -20,10 +20,8 @@
 	
 	
 	<acme:textbox code="sponsorship.banner" size="100" path="banner" obligatory="true"/>
-	<form:errors path="banner" cssClass="error" />
 	
 	<acme:textbox code="sponsorship.target" size="100" path="target" obligatory="true"/>
-	<form:errors path="target" cssClass="error" />
 	
 	<acme:submit name="save" code="sponsorship.save" />
 	
