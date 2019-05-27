@@ -7,11 +7,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.FormatRepository;
 import security.Authority;
 import domain.Actor;
+import domain.Federation;
 import domain.Format;
+import domain.Game;
+import domain.Referee;
 
 @Service
 @Transactional
@@ -24,6 +29,13 @@ public class FormatService {
 	// Supporting Services -------------------
 	@Autowired
 	private ActorService		actorService;
+	
+	@Autowired
+	private FederationService	federationService;
+	
+	@Autowired
+	private Validator			validator;
+
 
 
 	//Simple CRUD methods
@@ -86,6 +98,28 @@ public class FormatService {
 	}
 
 	// Methods -------------------------------
+	
+	public Format reconstruct(final Format format, final BindingResult binding) {
+		
+		//Hay que estar logeado
+		final Actor actor = this.actorService.findByPrincipal();
+		final Federation fede = this.federationService.findByUserAccount(actor.getUserAccount());
+		Assert.notNull(actor);
+
+		Assert.notNull(format);
+		
+		Assert.isTrue(format.getType().equals("TOURNAMENT") || format.getType().equals("LEAGUE"));
+
+		final Format formatBBDD = this.findOne(format.getId());
+		format.setType(format.getType());
+		format.setMinimumTeams(format.getMinimumTeams());
+		format.setMaximumTeams(format.getMaximumTeams());
+		format.setFederation(fede);
+
+		this.validator.validate(format, binding);
+
+		return format;
+	}
 
 	public Collection<Format> findFormatByFederationId(final int federationId) {
 		return this.formatRepository.findFormatByFederationId(federationId);

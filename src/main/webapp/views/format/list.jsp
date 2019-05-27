@@ -19,9 +19,13 @@
 	
 	<acme:column property="minimumTeams" titleKey="format.minTeams" value= "${row.maximumTeams}: "/>
 	
+	<acme:url href="format/federation/edit.do?formatId=${row.id}" code="format.display" />
+	
 	</display:table>
 		
-	<acme:button name="back" code="game.back" onclick="javascript: relativeRedir('welcome/index.do');" />
+	<acme:button name="back" code="format.new" onclick="javascript: relativeRedir('format/federation/create.do');" />
+	
+	<acme:button name="back" code="back" onclick="javascript: relativeRedir('welcome/index.do');" />
 
 
 

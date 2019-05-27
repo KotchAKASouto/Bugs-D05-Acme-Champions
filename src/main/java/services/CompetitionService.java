@@ -429,5 +429,9 @@ public class CompetitionService {
 
 		return res;
 	}
+	
+	public Collection<Competition> findByFormatId(int id) {
+		return this.competitionRepository.findByFormatId(id);
+	}
 
 }
