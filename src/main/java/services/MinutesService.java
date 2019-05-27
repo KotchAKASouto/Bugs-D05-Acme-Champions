@@ -184,17 +184,20 @@ public class MinutesService {
 
 		final Player player = this.playerService.findOne(playerId);
 		final Minutes minutes = this.findOne(minutesId);
-		final Collection<Player> playersHome = this.playerService.findPlayersOfTeam(minutes.getGame().getHomeTeam().getId());
-		final Collection<Player> playersVisitor = this.playerService.findPlayersOfTeam(minutes.getGame().getVisitorTeam().getId());
+
 		final Actor actor = this.actorService.findByPrincipal();
 		boolean res = true;
 
-		if (player == null || minutes == null || minutes.getClosed() || actor == null || (!playersHome.contains(player) && !playersVisitor.contains(player)) || minutes.getGame().getReferee().getId() != actor.getId())
+		if (player == null || minutes == null)
 			res = false;
-
+		else {
+			final Collection<Player> playersHome = this.playerService.findPlayersOfTeam(minutes.getGame().getHomeTeam().getId());
+			final Collection<Player> playersVisitor = this.playerService.findPlayersOfTeam(minutes.getGame().getVisitorTeam().getId());
+			if (minutes.getClosed() || actor == null || (!playersHome.contains(player) && !playersVisitor.contains(player)) || minutes.getGame().getReferee().getId() != actor.getId())
+				res = false;
+		}
 		return res;
 	}
-
 	public void addPlayerScored(final int playerId, final int minutesId) {
 
 		final Minutes minutes = this.findOne(minutesId);
