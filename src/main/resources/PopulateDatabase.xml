@@ -1792,7 +1792,7 @@
 				<ref bean="player2" />
 				<ref bean="player3" />
 				<ref bean="player4" />
-				<ref bean="player5" />
+
 			</list>
 		</property>
 	</bean>
@@ -1815,8 +1815,8 @@
 	</bean>
 	
 	<bean id="training3" class="domain.Training">
-		<property name="startDate" value="2019/05/30 09:00" />
-		<property name="endingDate" value="2019/05/30 13:00" />
+		<property name="startDate" value="2019/09/30 09:00" />
+		<property name="endingDate" value="2019/09/30 13:00" />
 		<property name="place" value="Gimnasio" />
 		<property name="description" value="Sesión de musculación" />
 		<property name="manager" ref="manager3" />
@@ -1824,7 +1824,6 @@
 			<list>
 				<ref bean="player11" />
 				<ref bean="player12" />
-				<ref bean="player13" />
 
 			</list>
 		</property>

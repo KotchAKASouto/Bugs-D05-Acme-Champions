@@ -167,4 +167,77 @@ public class SponsorServiceTest extends AbstractTest {
 
 	}
 
+	/*
+	 * ACME-CHAMPIONS
+	 * a)(Level A) Requirement 43.2: Actors that are authenticated as a sponsor must be able to: Edit his/her credit card
+	 * 
+	 * b) Negative cases:
+	 * 2.Not training
+	 * 3.Null object
+	 * 
+	 * c) Sentence coverage
+	 * -findOne():
+	 * 
+	 * 
+	 * d) Data coverage
+	 * -Sponsorship = 0%
+	 */
+
+	@Test
+	public void driverEditSponsorCreditCard() {
+		final Object testingData[][] = {
+			{
+				"sponsor1", "123", "12", "2021", "Iñigo Montoya", "VISA", "1111222233334444", null
+			},//1. All fine
+			{
+				"sponsor1", "123", "12", "2020", "Iñigo Montoya", "VISA", "1234567891234567", ConstraintViolationException.class
+			},//2. Credit card number is incorrect
+			{
+				"sponsor1", "123", "12", "2010", "Iñigo Montoya", "VISA", "1111222233334444", IllegalArgumentException.class
+			},//3. Year is past
+
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateEditSponsorCreditCard((String) testingData[i][0], Integer.valueOf((String) testingData[i][1]), Integer.valueOf((String) testingData[i][2]), Integer.valueOf((String) testingData[i][3]), (String) testingData[i][4],
+				(String) testingData[i][5], (String) testingData[i][6], (Class<?>) testingData[i][7]);
+	}
+
+	protected void templateEditSponsorCreditCard(final String username, final Integer cvv, final Integer expMonth, final Integer expYear, final String holderName, final String make, final String number, final Class<?> expected) {
+
+		Class<?> caught;
+
+		caught = null;
+		try {
+
+			this.startTransaction();
+
+			this.authenticate(username);
+
+			final Sponsor sponsor = this.sponsorService.findOne(super.getEntityId(username));
+
+			final CreditCard creditCard = new CreditCard();
+			creditCard.setCvv(cvv);
+			creditCard.setExpMonth(expMonth);
+			creditCard.setExpYear(expYear);
+			creditCard.setHolderName(holderName);
+			creditCard.setMake(make);
+			creditCard.setNumber(number);
+			sponsor.setCreditCard(creditCard);
+
+			this.sponsorService.save(sponsor);
+			this.sponsorService.flush();
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		this.unauthenticate();
+
+		this.rollbackTransaction();
+
+		super.checkExceptions(expected, caught);
+
+	}
+
 }
