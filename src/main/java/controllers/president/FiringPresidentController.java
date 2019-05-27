@@ -35,29 +35,30 @@ public class FiringPresidentController extends AbstractController {
 	// Services ---------------------------------------------------
 
 	@Autowired
-	PresidentService				presidentService;
+	PresidentService		presidentService;
 
 	@Autowired
-	PlayerService					playerService;
+	PlayerService			playerService;
 
 	@Autowired
-	ManagerService					managerService;
+	ManagerService			managerService;
 
 	@Autowired
-	private TeamService				teamService;
+	private TeamService		teamService;
 
 	@Autowired
-	private GameService				gameService;
+	private GameService		gameService;
 
 	@Autowired
-	private SigningService			signingService;
+	private SigningService	signingService;
 
 	@Autowired
-	private HiringService			hiringService;
-	
+	private HiringService	hiringService;
+
 	@Autowired
-	private TrainingService			trainingService;
-	
+	private TrainingService	trainingService;
+
+
 	@RequestMapping(value = "/canFire", method = RequestMethod.GET)
 	public boolean canFire() {
 		boolean result = false;
@@ -65,15 +66,13 @@ public class FiringPresidentController extends AbstractController {
 
 		final Team team = this.teamService.findTeamByPresidentId(president.getId());
 
-		final Collection<Game> games = this.gameService.findGamesOfTeam(team.getId());
+		final Collection<Game> games = this.gameService.findNextGamesOfTeam(team.getId());
 
-		if (games.isEmpty()) {
+		if (games.isEmpty())
 			result = true;
-		}
-		
+
 		return result;
 	}
-	
 
 	@RequestMapping(value = "/firePlayer", method = RequestMethod.GET)
 	public ModelAndView firePlayer(@RequestParam final int playerId) {
@@ -83,7 +82,7 @@ public class FiringPresidentController extends AbstractController {
 
 		final Team team = this.teamService.findTeamByPresidentId(president.getId());
 
-		final Collection<Game> games = this.gameService.findGamesOfTeam(team.getId());
+		final Collection<Game> games = this.gameService.findNextGamesOfTeam(team.getId());
 
 		final Collection<Player> players = this.playerService.findPlayersOfTeam(team.getId());
 
@@ -98,19 +97,18 @@ public class FiringPresidentController extends AbstractController {
 					this.signingService.delete(signing);
 					player.setTeam(null);
 					this.playerService.save(player);
-					
+
 					result = new ModelAndView("redirect:/team/president,manager/listByPresident.do");
 				} else
 					// NO AUTORIZADO!
-				result = new ModelAndView("redirect:/welcome/index.do");
+					result = new ModelAndView("redirect:/welcome/index.do");
 			} else
 				// TIENE PARTIDOS!
 				result = new ModelAndView("redirect:/welcome/index.do");
-			
-		} else {
+
+		} else
 			// NO EXISTE EL JUGADOR!
 			result = new ModelAndView("misc/notExist");
-		}
 
 		return result;
 
@@ -124,7 +122,7 @@ public class FiringPresidentController extends AbstractController {
 
 		final Team team = this.teamService.findTeamByPresidentId(president.getId());
 
-		final Collection<Game> games = this.gameService.findGamesOfTeam(team.getId());
+		final Collection<Game> games = this.gameService.findNextGamesOfTeam(team.getId());
 
 		final Manager manager = this.managerService.findOne(managerId);
 
@@ -136,16 +134,15 @@ public class FiringPresidentController extends AbstractController {
 
 				if (hiring != null) {
 					this.hiringService.delete(hiring);
-					
-					Collection<Training> trainings = this.trainingService.findFutureTrainingsByManagerId(manager.getId());
-					
-					for (Training t: trainings) {
+
+					final Collection<Training> trainings = this.trainingService.findFutureTrainingsByManagerId(manager.getId());
+
+					for (final Training t : trainings)
 						this.trainingService.delete(t);
-					}
-					
+
 					manager.setTeam(null);
 					this.managerService.save(manager);
-					
+
 					result = new ModelAndView("redirect:/team/president,manager/listByPresident.do");
 				} else
 					// NO AUTORIZADO!
@@ -153,11 +150,10 @@ public class FiringPresidentController extends AbstractController {
 			} else
 				// TIENE PARTIDOS!
 				result = new ModelAndView("redirect:/welcome/index.do");
-		} else {
+		} else
 			// NO EXISTE EL MANAGER!
 			result = new ModelAndView("misc/notExist");
-		}
-		
+
 		return result;
 
 	}

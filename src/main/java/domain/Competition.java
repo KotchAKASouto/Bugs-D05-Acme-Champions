@@ -41,7 +41,6 @@ public class Competition extends DomainEntity {
 		this.startDate = startDate;
 	}
 
-	@NotNull
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	public Date getEndDate() {
 		return this.endDate;

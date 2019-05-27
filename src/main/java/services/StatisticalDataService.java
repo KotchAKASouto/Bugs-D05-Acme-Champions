@@ -4,11 +4,8 @@ package services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 import repositories.StatisticalDataRepository;
-import security.Authority;
-import domain.Actor;
 import domain.StatisticalData;
 
 @Service
@@ -43,14 +40,6 @@ public class StatisticalDataService {
 	}
 
 	public StatisticalData save(final StatisticalData data) {
-		final Authority authReferee = new Authority();
-		authReferee.setAuthority(Authority.REFEREE);
-
-		//Hay que estar logeado
-		final Actor actor = this.actorService.findByPrincipal();
-		Assert.notNull(actor);
-
-		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authReferee));
 
 		final StatisticalData result = this.statisticalDataRepository.save(data);
 

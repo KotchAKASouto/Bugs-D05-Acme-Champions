@@ -28,7 +28,7 @@
 	
 	<acme:submit name="save" code="training.save" />	
 
-	<acme:cancel code="training.cancel" url="training/manager/list.do" />
+	<acme:cancel code="training.cancel" url="calendar/manager/show.do" />
 	
 	<jstl:if test="${training.id != 0}">
 		<acme:delete code="training.delete" />

@@ -3,6 +3,7 @@ package services;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
@@ -94,6 +95,10 @@ public class FederationService {
 			final String phone = this.actorService.checkPhone(federation.getPhone());
 			federation.setPhone(phone);
 
+			final Date now = new Date(System.currentTimeMillis() - 1000);
+
+			Assert.isTrue(!now.before(federation.getEstablishmentDate()));
+
 			result = this.federationRepository.save(federation);
 
 		} else {
@@ -114,6 +119,10 @@ public class FederationService {
 
 			final String phone = this.actorService.checkPhone(federation.getPhone());
 			federation.setPhone(phone);
+
+			final Date now = new Date(System.currentTimeMillis() - 1000);
+
+			Assert.isTrue(!now.before(federation.getEstablishmentDate()));
 
 			result = this.federationRepository.save(federation);
 
@@ -207,5 +216,9 @@ public class FederationService {
 		result = federation;
 		return result;
 
+	}
+
+	public void flush() {
+		this.federationRepository.flush();
 	}
 }

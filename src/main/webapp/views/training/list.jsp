@@ -30,16 +30,8 @@
 	<acme:column property="place" titleKey="training.place" value= "${row.place}: "/>
 	
 	<acme:column property="description" titleKey="training.description" value= "${row.description}: "/>
-	
-	<security:authorize access="hasRole('MANAGER')">
-		<acme:url href="training/manager/display.do?trainingId=${row.id }" code="training.display" />
-	</security:authorize>
 
 	</display:table>
-	
-	<security:authorize access="hasRole('MANAGER')">
-		<a href="training/manager/create.do"><spring:message code="training.create"/></a>
-	</security:authorize>
 		
 	<acme:button name="back" code="training.back" onclick="javascript: relativeRedir('welcome/index.do');" />
 

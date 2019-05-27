@@ -8,12 +8,14 @@ import java.util.HashSet;
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import repositories.MinutesRepository;
 import security.Authority;
 import domain.Actor;
+import domain.Competition;
 import domain.Game;
 import domain.Minutes;
 import domain.Player;
@@ -37,6 +39,9 @@ public class MinutesService {
 
 	@Autowired
 	private PlayerService			playerService;
+
+	@Autowired
+	private CompetitionService		competitionService;
 
 
 	//simple CRUD methods
@@ -91,8 +96,7 @@ public class MinutesService {
 		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authReferee));
 
 		//un partido solo puede tener 1 minutes
-		final Minutes m = this.findMinuteByGameId(minutes.getGame().getId());
-		Assert.isTrue(m == null || !m.getClosed());
+		Assert.isTrue(this.CountMinutesByGameId(minutes.getGame().getId()) >= 0);
 
 		//el partido debe haber acabado
 		final Date currentDate = new Date(System.currentTimeMillis() - 1000);
@@ -180,17 +184,20 @@ public class MinutesService {
 
 		final Player player = this.playerService.findOne(playerId);
 		final Minutes minutes = this.findOne(minutesId);
-		final Collection<Player> playersHome = this.playerService.findPlayersOfTeam(minutes.getGame().getHomeTeam().getId());
-		final Collection<Player> playersVisitor = this.playerService.findPlayersOfTeam(minutes.getGame().getVisitorTeam().getId());
+
 		final Actor actor = this.actorService.findByPrincipal();
 		boolean res = true;
 
-		if (player == null || minutes == null || actor == null || (!playersHome.contains(player) && !playersVisitor.contains(player)) || minutes.getGame().getReferee().getId() != actor.getId())
+		if (player == null || minutes == null)
 			res = false;
-
+		else {
+			final Collection<Player> playersHome = this.playerService.findPlayersOfTeam(minutes.getGame().getHomeTeam().getId());
+			final Collection<Player> playersVisitor = this.playerService.findPlayersOfTeam(minutes.getGame().getVisitorTeam().getId());
+			if (minutes.getClosed() || actor == null || (!playersHome.contains(player) && !playersVisitor.contains(player)) || minutes.getGame().getReferee().getId() != actor.getId())
+				res = false;
+		}
 		return res;
 	}
-
 	public void addPlayerScored(final int playerId, final int minutesId) {
 
 		final Minutes minutes = this.findOne(minutesId);
@@ -200,6 +207,12 @@ public class MinutesService {
 		playersScored.add(player);
 
 		minutes.setPlayersScore(playersScored);
+
+		final Integer countHome = this.playerService.countHomeGoalsByMinutesId(minutesId);
+		final Integer countVisitor = this.playerService.countVisitorGoalsByMinutesId(minutesId);
+
+		minutes.setHomeScore(countHome);
+		minutes.setVisitorScore(countVisitor);
 
 		this.save(minutes);
 
@@ -228,6 +241,47 @@ public class MinutesService {
 
 		this.save(minutes);
 
+	}
+
+	public void clearMinutes(final int minutesId) {
+
+		final Minutes result = this.findOne(minutesId);
+
+		final Collection<Player> playersScore = new HashSet<Player>();
+		final Collection<Player> playersYellow = new HashSet<Player>();
+		final Collection<Player> playersRed = new HashSet<Player>();
+
+		result.setPlayersRed(playersRed);
+		result.setPlayersYellow(playersYellow);
+		result.setPlayersScore(playersScore);
+		result.setHomeScore(0);
+		result.setVisitorScore(0);
+	}
+
+	public void closeMinutes(final int minutesId) {
+		final Minutes result = this.findOne(minutesId);
+		final Competition competition = this.competitionService.findCompetitionByGameId(result.getGame().getId());
+		result.setClosed(true);
+		if (result.getHomeScore() == result.getVisitorScore()) {
+			if (!result.getGame().getFriendly())
+				try {
+					Assert.isTrue(competition.getFormat().getType() == "TOURNAMENT");
+				} catch (final Exception e) {
+					throw new DataIntegrityViolationException("tie-tournament");
+				}
+			result.setWinner(null);
+
+		} else if (result.getHomeScore() > result.getVisitorScore())
+			result.setWinner(result.getGame().getHomeTeam());
+		else
+			result.setWinner(result.getGame().getVisitorTeam());
+		this.save(result);
+
+	}
+	public Integer CountMinutesByGameId(final int gameId) {
+		Assert.notNull(gameId);
+		final Integer res = this.minutesRepository.CountMinutesByGameId(gameId);
+		return res;
 	}
 
 }

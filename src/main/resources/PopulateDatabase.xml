@@ -1771,7 +1771,7 @@
 	
 	<!-- Reports -->
 
-	<bean id="Report1" class="domain.Report">
+	<bean id="report1" class="domain.Report">
 		<property name="moment" value="2019/05/18" />
 		<property name="description" value="Ha llegado tarde al entrenamiento. No es la primera vez que pasa" />
 		<property name="player" ref="player11" />
@@ -1792,7 +1792,7 @@
 				<ref bean="player2" />
 				<ref bean="player3" />
 				<ref bean="player4" />
-				<ref bean="player5" />
+
 			</list>
 		</property>
 	</bean>
@@ -1815,8 +1815,8 @@
 	</bean>
 	
 	<bean id="training3" class="domain.Training">
-		<property name="startDate" value="2019/05/30 09:00" />
-		<property name="endingDate" value="2019/05/30 13:00" />
+		<property name="startDate" value="2019/09/30 09:00" />
+		<property name="endingDate" value="2019/09/30 13:00" />
 		<property name="place" value="Gimnasio" />
 		<property name="description" value="Sesión de musculación" />
 		<property name="manager" ref="manager3" />
@@ -1824,7 +1824,6 @@
 			<list>
 				<ref bean="player11" />
 				<ref bean="player12" />
-				<ref bean="player13" />
 
 			</list>
 		</property>
@@ -1852,7 +1851,7 @@
 	
 	<!-- Minutes -->
 
-	 <bean id="minutes1" class="domain.Minutes">
+	<!--<bean id="minutes1" class="domain.Minutes">
 		<property name="homeScore" value="2" />
 		<property name="visitorScore" value="0" />
 		<property name="closed" value="true" />
@@ -1872,7 +1871,7 @@
 			</list>
 		</property>
 		<property name="game" ref="game1" />
-	</bean> 
+	</bean> -->
 	
 	<bean id="minutes2" class="domain.Minutes">
 		<property name="homeScore" value="3" />
@@ -1941,10 +1940,12 @@
 		<property name="personalData" ref="personalData1" />
 		<property name="playerRecords">
 			<list>
+				<ref bean="playerRecord1" />
 			</list>
 		</property>
 		<property name="sportRecords">
 			<list>
+				<ref bean="sportRecord1" />
 			</list>
 		</property>
 	</bean>
@@ -1961,7 +1962,26 @@
 		<property name="socialNetworkProfilelink" value="http://instagram.com/" />
 	</bean>
 	
+	<!-- Sport Records -->
+
+	<bean id="sportRecord1" class="domain.SportRecord">
+		<property name="sportName" value="Football" />
+		<property name="startDate" value="1998/06/07" />
+		<property name="endDate" value="2012/07/21" />
+		<property name="teamSport" value="true" />
+	</bean>
+	
+	<!-- Player Records -->
+
+	<bean id="playerRecord1" class="domain.PlayerRecord">
+		<property name="startDate" value="1998/06/07" />
+		<property name="endDate" value="2012/07/21" />
+		<property name="salary" value="4.0" />
+		<property name="squadNumber" value="9" />
+	</bean>
+	
 	<!-- Sponsorships -->
+	
 
 	<bean id="sponsorship1" class="domain.Sponsorship">
 		<property name="creditCard" ref="creditCard1" />

@@ -83,7 +83,8 @@ public class SportRecordService {
 
 		Assert.notNull(record);
 
-		Assert.isTrue(!record.getStartDate().after(record.getEndDate()));
+		if (record.getStartDate() != null && record.getEndDate() != null)
+			Assert.isTrue(!record.getStartDate().after(record.getEndDate()));
 
 		SportRecord result;
 
@@ -133,5 +134,9 @@ public class SportRecordService {
 			result = true;
 
 		return result;
+	}
+
+	public void flush() {
+		this.sportRecordRepository.flush();
 	}
 }

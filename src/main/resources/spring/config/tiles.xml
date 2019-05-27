@@ -38,6 +38,7 @@
 		<value>/views/report/tiles.xml</value>
 		<value>/views/box/tiles.xml</value>
 		<value>/views/format/tiles.xml</value>
+		<value>/views/competition/tiles.xml</value>
 
 
 	</util:list>

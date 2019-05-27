@@ -144,6 +144,12 @@ public class HiringService {
 
 	public Collection<Hiring> findByPresident(final int id) {
 
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.PRESIDENT);
+		Assert.isTrue((actor.getUserAccount().getAuthorities().contains(authority)));
+
 		final Team team = this.teamService.findByPresidentId(id);
 
 		final Manager manager = this.teamService.findManagerByTeamId((team.getId()));

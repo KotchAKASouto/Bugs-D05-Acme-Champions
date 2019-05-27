@@ -9,12 +9,14 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import repositories.GameRepository;
 import security.Authority;
 import domain.Actor;
-import domain.Competition;
 import domain.Game;
+import domain.Referee;
 import domain.Sponsorship;
 import domain.Team;
 
@@ -37,6 +39,15 @@ public class GameService {
 	@Autowired
 	private CompetitionService	competitionService;
 
+	@Autowired
+	private Validator			validator;
+
+	@Autowired
+	private RefereeService		refereeService;
+
+	@Autowired
+	private TeamService			teamService;
+
 
 	//Simple CRUD methods
 
@@ -44,10 +55,11 @@ public class GameService {
 
 		final Game result = new Game();
 
+		result.setFriendly(true);
+
 		return result;
 
 	}
-
 	public Collection<Game> findAll() {
 
 		final Collection<Game> result = this.gameRepository.findAll();
@@ -75,16 +87,30 @@ public class GameService {
 		final Actor actor = this.actorService.findByPrincipal();
 		Assert.notNull(actor);
 
+		//Solo se pueden editar partidos amistosos
+		if (game.getId() != 0)
+			Assert.isTrue(game.getFriendly());
+
 		//solo puede guardar partidos referee's y federation's
 		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authReferee) || actor.getUserAccount().getAuthorities().contains(authFederation));
+
+		//los equipos del partido deben ser funcionales
+		final Collection<Team> functionalTeams = this.teamService.findFunctionalTeams();
+		Assert.isTrue(functionalTeams.contains(game.getHomeTeam()) && functionalTeams.contains(game.getVisitorTeam()));
 
 		//posthacking referee y federation
 		if (actor.getUserAccount().getAuthorities().contains(authReferee))
 			Assert.isTrue(game.getReferee().getId() == actor.getId());
-		else {
-			final Competition competition = this.competitionService.findCompetitionByGameId(game.getId());
-			Assert.isTrue(competition.getFederation().getId() == actor.getId());
+
+		//si el partido ya pasó no puede ser editado
+		final Date currentDate = new Date(System.currentTimeMillis() - 1000);
+		if (game.getId() != 0) {
+			final Game gameBBDD = this.findOne(game.getId());
+			Assert.isTrue(gameBBDD.getGameDate().after(currentDate));
 		}
+
+		//el equipo local y visitante no pueden ser el mismo
+		Assert.isTrue(!game.getHomeTeam().equals(game.getVisitorTeam()));
 
 		//si el que guarda partido es referee el partido es amistoso, si es federation es competitivo
 		if (actor.getUserAccount().getAuthorities().contains(authReferee))
@@ -93,7 +119,6 @@ public class GameService {
 			Assert.isTrue(!game.getFriendly());
 
 		//Ya sea al crearse o editarse, la fecha ha de ser futura
-		final Date currentDate = new Date(System.currentTimeMillis() - 1000);
 		Assert.isTrue(game.getGameDate().after(currentDate));
 
 		//el lugar del partido debe coincidir con el estadio del equipo local
@@ -105,6 +130,14 @@ public class GameService {
 		return result;
 
 	}
+	public Game saveAlgorithm(final Game game) {
+
+		final Game result = this.gameRepository.save(game);
+
+		return result;
+
+	}
+
 	public void delete(final Game game) {
 		Assert.notNull(game);
 
@@ -137,7 +170,7 @@ public class GameService {
 
 	}
 	//Other business methods
-	public Collection<Game> findGamesOfTeam(final int teamId) {
+	public Collection<Game> findNextGamesOfTeam(final int teamId) {
 		return this.gameRepository.findNextGamesOfTeam(teamId);
 	}
 
@@ -160,9 +193,9 @@ public class GameService {
 		return result;
 	}
 
-	public Collection<Game> findAllEndedGamesWithoutMinutes() {
+	public Collection<Game> findAllEndedGamesWithoutMinutes(final int refereeId) {
 
-		final Collection<Game> res = this.gameRepository.findAllEndedGamesWithoutMinutes();
+		final Collection<Game> res = this.gameRepository.findAllEndedGamesWithoutMinutes(refereeId);
 
 		return res;
 
@@ -175,4 +208,54 @@ public class GameService {
 		return res;
 	}
 
+	public Collection<Game> findGameByRefereeId(final int refereeId) {
+		final Collection<Game> res = this.gameRepository.findGameByRefereeId(refereeId);
+		return res;
+	}
+
+	public Collection<Game> findFutureGamesByRefereeId(final int refereeId) {
+		final Collection<Game> res = this.gameRepository.findFutureGamesByRefereeId(refereeId);
+		return res;
+	}
+
+	public Collection<Game> findAllEndedGamesWithMinutes(final int refereeId) {
+		final Collection<Game> res = this.gameRepository.findAllEndedGamesWithMinutes(refereeId);
+		return res;
+	}
+
+	public Game reconstruct(final Game game, final BindingResult binding) {
+		final Authority authReferee = new Authority();
+		authReferee.setAuthority(Authority.REFEREE);
+		final Authority authFederation = new Authority();
+		authFederation.setAuthority(Authority.FEDERATION);
+
+		//Hay que estar logeado
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+
+		Assert.notNull(game);
+		if (game.getId() == 0) {
+			if (actor.getUserAccount().getAuthorities().contains(authReferee)) {
+				game.setFriendly(true);
+				final Referee referee = this.refereeService.findByPrincipal();
+				game.setReferee(referee);
+			} else
+				game.setFriendly(false);
+			if (game.getHomeTeam() != null)
+				game.setPlace(game.getHomeTeam().getStadiumName());
+			else
+				game.setPlace("");
+		} else {
+
+			final Game gameBBDD = this.findOne(game.getId());
+			game.setFriendly(true);
+			game.setReferee(gameBBDD.getReferee());
+			if (game.getHomeTeam() != null)
+				game.setPlace(game.getHomeTeam().getStadiumName());
+		}
+
+		this.validator.validate(game, binding);
+
+		return game;
+	}
 }

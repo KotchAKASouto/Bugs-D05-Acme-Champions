@@ -97,6 +97,12 @@ public class HistoryService {
 
 	public void delete(final History history) {
 
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.PLAYER);
+		Assert.isTrue((actor.getUserAccount().getAuthorities().contains(authority)));
+
 		Assert.notNull(history);
 
 		this.historyRepository.delete(history);

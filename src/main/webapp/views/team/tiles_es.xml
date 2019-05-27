@@ -31,5 +31,10 @@
 		<put-attribute name="body" value="/views/team/edit.jsp" />
 	</definition>
 	
+	<definition name="team/calendar" extends="master.page">	
+		<put-attribute name="title" value="Equipo: Calendario" />
+		<put-attribute name="body" value="/views/team/calendar.jsp" />
+	</definition>
+	
 	
 </tiles-definitions>

@@ -52,7 +52,7 @@
 
 		<!-- Todo el mundo -->
 		<security:intercept-url pattern="/game/listAll.do" access="permitAll" />
-
+		<security:intercept-url pattern="/game/display.do" access="permitAll" />
 		<!-- Actor no autenticado -->
 		
 
@@ -105,8 +105,9 @@
 		<security:intercept-url pattern="/president/fireManager*" access="hasRole('PRESIDENT')" />
 		<security:intercept-url pattern="/president/canFire*" access="hasRole('PRESIDENT')" />
 		
+		<!-- Manager: Calendar -->
+		<security:intercept-url pattern="/calendar/manager/show.do" access="hasRole('MANAGER')" />
 		<!-- Manager: Training -->
-		<security:intercept-url pattern="/training/manager/list.do" access="hasRole('MANAGER')" />
 		<security:intercept-url pattern="/training/manager/edit.do" access="hasRole('MANAGER')" />
 		<security:intercept-url pattern="/training/manager/display.do" access="hasRole('MANAGER')" />
 		<security:intercept-url pattern="/training/manager/create.do" access="hasRole('MANAGER')" />
@@ -203,7 +204,10 @@
 		
 		
 		<!-- Referee: Game -->
-		<security:intercept-url pattern="/game/referee/listGamesEnded.do" access="hasRole('REFEREE')" />
+		<security:intercept-url pattern="/game/referee/listMyGames.do" access="hasRole('REFEREE')" />
+		<security:intercept-url pattern="/game/referee/create.do" access="hasRole('REFEREE')" />
+		<security:intercept-url pattern="/game/referee/edit.do" access="hasRole('REFEREE')" />
+		
 		
 		<!-- Referee: Minutes -->
 		<security:intercept-url pattern="/minutes/referee/create.do" access="hasRole('REFEREE')" />
@@ -211,6 +215,8 @@
 		<security:intercept-url pattern="/minutes/referee/listAddInterface.do" access="hasRole('REFEREE')" />
 		<security:intercept-url pattern="/minutes/referee/addPlayerYellowCard.do" access="hasRole('REFEREE')" />
 		<security:intercept-url pattern="/minutes/referee/addPlayerRedCard.do" access="hasRole('REFEREE')" />
+		<security:intercept-url pattern="/minutes/referee/clear.do" access="hasRole('REFEREE')" />
+		<security:intercept-url pattern="/minutes/referee/close.do" access="hasRole('REFEREE')" />
 		
 		<!-- Federation: Format -->
 		<security:intercept-url pattern="/format/federation/create.do" access="hasRole('FEDERATION')" />
@@ -218,6 +224,14 @@
 		<security:intercept-url pattern="/format/federation/edit.do" access="hasRole('FEDERATION')" />
 		<security:intercept-url pattern="/format/federation/display.do" access="hasRole('FEDERATION')" />
 		<security:intercept-url pattern="/format/federation/delete.do" access="hasRole('FEDERATION')" />
+		
+		<!-- Federation: Competition -->
+		<security:intercept-url pattern="/competition/federation/create.do" access="hasRole('FEDERATION')" />
+		<security:intercept-url pattern="/competition/federation/edit.do" access="hasRole('FEDERATION')" />
+		<security:intercept-url pattern="/competition/federation/list.do" access="hasRole('FEDERATION')" />
+		<security:intercept-url pattern="/competition/federation/listAddTeam.do" access="hasRole('FEDERATION')" />
+		<security:intercept-url pattern="/competition/federation/addTeam.do" access="hasRole('FEDERATION')" />
+		<security:intercept-url pattern="/competition/federation/close.do" access="hasRole('FEDERATION')" />
 		
 		<security:intercept-url pattern="/**" access="hasRole('NONE')" />
 

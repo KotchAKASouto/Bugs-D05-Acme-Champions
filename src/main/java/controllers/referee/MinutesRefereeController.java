@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import services.ActorService;
+import services.CompetitionService;
 import services.ConfigurationService;
 import services.GameService;
 import services.MinutesService;
@@ -41,11 +42,15 @@ public class MinutesRefereeController extends AbstractController {
 	@Autowired
 	private ActorService			actorService;
 
+	@Autowired
+	private CompetitionService		competitionService;
 
-	//create 1 step
+
+	//create 
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create(@RequestParam final int gameId) {
 		ModelAndView result;
+		final String banner = this.configurationService.findConfiguration().getBanner();
 
 		final Actor actor = this.actorService.findByPrincipal();
 
@@ -62,56 +67,42 @@ public class MinutesRefereeController extends AbstractController {
 
 			} catch (final Throwable oops) {
 				result = new ModelAndView("misc/error");
+				result.addObject("banner", banner);
 			}
-		else
-			result = new ModelAndView("misc/notExist");
-
+		else if (!m.getClosed())
+			result = new ModelAndView("redirect:listAddInterface.do?minutesId=" + m.getId());
+		else {
+			result = new ModelAndView("misc/error");
+			result.addObject("banner", banner);
+		}
 		return result;
 	}
-
 	@RequestMapping(value = "/listAddInterface", method = RequestMethod.GET)
 	public ModelAndView listAddInterface(@RequestParam final int minutesId) {
 		ModelAndView result;
 		final String banner = this.configurationService.findConfiguration().getBanner();
 		final Minutes minutes = this.minutesService.findOne(minutesId);
-		final Collection<Player> playersHome = this.playerService.findPlayersOfTeam(minutes.getGame().getHomeTeam().getId());
-		final Collection<Player> playersVisitor = this.playerService.findPlayersOfTeam(minutes.getGame().getVisitorTeam().getId());
+
 		final Actor actor = this.actorService.findByPrincipal();
 
-		if (minutes != null && actor.getId() == minutes.getGame().getReferee().getId())
+		if ((minutes != null && !minutes.getClosed()) && actor.getId() == minutes.getGame().getReferee().getId())
 			try {
-				final Integer countHome = this.playerService.countHomeGoalsByMinutesId(minutes.getId());
-				final Integer countYellowHome = this.playerService.countHomeYellowsByMinutesId(minutesId);
-				final Integer countRedHome = this.playerService.countHomeRedsByMinutesId(minutes.getId());
-				final Integer countVisitor = this.playerService.countVisitorGoalsByMinutesId(minutes.getId());
-				final Integer countYellowVisitor = this.playerService.countVisitorYellowsByMinutesId(minutesId);
-				final Integer counRedVisitor = this.playerService.countVisitorRedsByMinutesId(minutesId);
-
-				result = new ModelAndView("player/listAdd");
-				result.addObject("players", playersHome);
-				result.addObject("minutesId", minutes.getId());
-				result.addObject("playersVisitor", playersVisitor);
-				result.addObject("requestURI", "minutes/referee/listAddInterface.do");
-				result.addObject("banner", banner);
-				result.addObject("language", LocaleContextHolder.getLocale().getLanguage());
-				result.addObject("countHome", countHome);
-				result.addObject("countYellowHome", countYellowHome);
-				result.addObject("countRedHome", countRedHome);
-				result.addObject("countVisitor", countVisitor);
-				result.addObject("countYellowVisitor", countYellowVisitor);
-				result.addObject("counRedVisitor", counRedVisitor);
+				result = this.createEditModelAndView(minutes, null);
 			} catch (final Throwable oops) {
 				result = new ModelAndView("misc/error");
+				result.addObject("banner", banner);
 			}
-		else
+		else {
 			result = new ModelAndView("misc/notExist");
+			result.addObject("banner", banner);
+		}
 		return result;
 	}
 
 	@RequestMapping(value = "/addPlayerScored", method = RequestMethod.GET)
 	public ModelAndView addPlayerScored(@RequestParam final int playerId, @RequestParam final int minutesId) {
 		ModelAndView result;
-
+		final String banner = this.configurationService.findConfiguration().getBanner();
 		if (this.minutesService.security(playerId, minutesId))
 			try {
 				this.minutesService.addPlayerScored(playerId, minutesId);
@@ -119,16 +110,19 @@ public class MinutesRefereeController extends AbstractController {
 				result = new ModelAndView("redirect:listAddInterface.do?minutesId=" + minutesId);
 			} catch (final Throwable oops) {
 				result = new ModelAndView("misc/error");
+				result.addObject("banner", banner);
 			}
-		else
+		else {
 			result = new ModelAndView("misc/notExist");
+			result.addObject("banner", banner);
+		}
 		return result;
 	}
 
 	@RequestMapping(value = "/addPlayerYellowCard", method = RequestMethod.GET)
 	public ModelAndView addPlayerYellowCard(@RequestParam final int playerId, @RequestParam final int minutesId) {
 		ModelAndView result;
-
+		final String banner = this.configurationService.findConfiguration().getBanner();
 		if (this.minutesService.security(playerId, minutesId))
 			try {
 				this.minutesService.addPlayerYellowCard(playerId, minutesId);
@@ -136,16 +130,19 @@ public class MinutesRefereeController extends AbstractController {
 				result = new ModelAndView("redirect:listAddInterface.do?minutesId=" + minutesId);
 			} catch (final Throwable oops) {
 				result = new ModelAndView("misc/error");
+				result.addObject("banner", banner);
 			}
-		else
+		else {
 			result = new ModelAndView("misc/notExist");
+			result.addObject("banner", banner);
+		}
 		return result;
 	}
 
 	@RequestMapping(value = "/addPlayerRedCard", method = RequestMethod.GET)
 	public ModelAndView addPlayerRedCard(@RequestParam final int playerId, @RequestParam final int minutesId) {
 		ModelAndView result;
-
+		final String banner = this.configurationService.findConfiguration().getBanner();
 		if (this.minutesService.security(playerId, minutesId))
 			try {
 				this.minutesService.addPlayerRedCard(playerId, minutesId);
@@ -153,9 +150,106 @@ public class MinutesRefereeController extends AbstractController {
 				result = new ModelAndView("redirect:listAddInterface.do?minutesId=" + minutesId);
 			} catch (final Throwable oops) {
 				result = new ModelAndView("misc/error");
+				result.addObject("banner", banner);
 			}
-		else
+		else {
 			result = new ModelAndView("misc/notExist");
+			result.addObject("banner", banner);
+		}
+		return result;
+	}
+
+	@RequestMapping(value = "/clear", method = RequestMethod.GET)
+	public ModelAndView clearMinutes(@RequestParam final int minutesId) {
+		ModelAndView result;
+		final Minutes minutes = this.minutesService.findOne(minutesId);
+		final String banner = this.configurationService.findConfiguration().getBanner();
+		final Actor actor = this.actorService.findByPrincipal();
+
+		if ((minutes != null && !minutes.getClosed()) && actor.getId() == minutes.getGame().getReferee().getId())
+			try {
+				this.minutesService.clearMinutes(minutesId);
+
+				result = new ModelAndView("redirect:listAddInterface.do?minutesId=" + minutesId);
+			} catch (final Throwable oops) {
+				result = new ModelAndView("misc/error");
+				result.addObject("banner", banner);
+			}
+		else {
+			result = new ModelAndView("misc/notExist");
+			result.addObject("banner", banner);
+		}
+		return result;
+	}
+
+	@RequestMapping(value = "/close", method = RequestMethod.GET)
+	public ModelAndView closeMinutes(@RequestParam final int minutesId) {
+		ModelAndView result;
+		Minutes minutes = this.minutesService.findOne(minutesId);
+		final String banner = this.configurationService.findConfiguration().getBanner();
+		final Actor actor = this.actorService.findByPrincipal();
+
+		if ((minutes != null && !minutes.getClosed()) && actor.getId() == minutes.getGame().getReferee().getId())
+			try {
+				this.minutesService.closeMinutes(minutesId);
+
+				if (!minutes.getGame().getFriendly())
+					this.competitionService.nextRounds(minutes);
+
+				result = new ModelAndView("redirect:/game/referee/listMyGames.do");
+
+			} catch (final Throwable oops) {
+				if (oops.getMessage() == "tie-tournament") {
+					this.minutesService.clearMinutes(minutesId);
+					minutes = this.minutesService.findOne(minutesId);
+					result = this.createEditModelAndView(minutes, "tie.tournament.game");
+				} else {
+					result = new ModelAndView("misc/error");
+					result.addObject("banner", banner);
+				}
+
+			}
+		else {
+			result = new ModelAndView("misc/notExist");
+			result.addObject("banner", banner);
+		}
+		return result;
+	}
+	protected ModelAndView createEditModelAndView(final Minutes minutes, final String messageCode) {
+		ModelAndView result;
+		final String banner = this.configurationService.findConfiguration().getBanner();
+		final Collection<Player> playersHome = this.playerService.findPlayersOfTeam(minutes.getGame().getHomeTeam().getId());
+		final Collection<Player> playersVisitor = this.playerService.findPlayersOfTeam(minutes.getGame().getVisitorTeam().getId());
+
+		final Integer countHome = this.playerService.countHomeGoalsByMinutesId(minutes.getId());
+		final Integer countYellowHome = this.playerService.countHomeYellowsByMinutesId(minutes.getId());
+		final Integer countRedHome = this.playerService.countHomeRedsByMinutesId(minutes.getId());
+		final Integer countVisitor = this.playerService.countVisitorGoalsByMinutesId(minutes.getId());
+		final Integer countYellowVisitor = this.playerService.countVisitorYellowsByMinutesId(minutes.getId());
+		final Integer countRedVisitor = this.playerService.countVisitorRedsByMinutesId(minutes.getId());
+		final Collection<Player> listPlayersScore = minutes.getPlayersScore();
+		final Collection<Player> listPlayersYellow = minutes.getPlayersYellow();
+		final Collection<Player> listPlayersRed = minutes.getPlayersRed();
+
+		result = new ModelAndView("player/listAdd");
+		result.addObject("players", playersHome);
+		result.addObject("minutes", minutes);
+		result.addObject("minutesId", minutes.getId());
+		result.addObject("playersVisitor", playersVisitor);
+		result.addObject("requestURI", "minutes/referee/listAddInterface.do");
+		result.addObject("banner", banner);
+		result.addObject("language", LocaleContextHolder.getLocale().getLanguage());
+		result.addObject("countHome", countHome);
+		result.addObject("countYellowHome", countYellowHome);
+		result.addObject("countRedHome", countRedHome);
+		result.addObject("countVisitor", countVisitor);
+		result.addObject("countYellowVisitor", countYellowVisitor);
+		result.addObject("countRedVisitor", countRedVisitor);
+		result.addObject("listPlayersScore", listPlayersScore);
+		result.addObject("listPlayersYellow", listPlayersYellow);
+		result.addObject("listPlayersRed", listPlayersRed);
+		result.addObject("messageError", messageCode);
+
 		return result;
 	}
 }
