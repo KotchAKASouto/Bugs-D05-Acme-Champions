@@ -1,6 +1,7 @@
 
 package services;
 
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -9,9 +10,11 @@ import java.util.Date;
 import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
 
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -40,18 +43,18 @@ public class TrainingServiceTest extends AbstractTest {
 	 * ----CALCULATE COVERAGE----
 	 * The previous delivery, we calculate it manually. In this one instead we are using the plugin called EclEmma,
 	 * with which we can automatically calculate the percentage.
-	 * 
+	 *
 	 * Each of the test have their result just before them, and the coverage of the complete test is shown at the end of the document.
 	 */
 
 	/*
 	 * ACME.CHAMPIONS
 	 * a)(Level C) Requirement 12.1: An actor who is authenticated as a manager must be able to: Manage their trainings: Create training
-	 * 
+	 *
 	 * b) Negative cases:
 	 * 2. Player is trying to create a training
 	 * 3. End date is past
-	 * 
+	 *
 	 * c) Sentence coverage
 	 * -create():100%
 	 * -save():97.8%
@@ -110,11 +113,11 @@ public class TrainingServiceTest extends AbstractTest {
 	/*
 	 * ACME.CHAMPIONS
 	 * a)(Level C) Requirement 12.1: An actor who is authenticated as a manager must be able to: Manage their trainings: Display training
-	 * 
+	 *
 	 * b) Negative cases:
 	 * 2. Not training
 	 * 3. Null object
-	 * 
+	 *
 	 * c) Sentence coverage
 	 * -findOne():100%
 	 * -
@@ -168,14 +171,14 @@ public class TrainingServiceTest extends AbstractTest {
 	/*
 	 * ACME.CHAMPIONS
 	 * a)(Level C) Requirement 12.1: An actor who is authenticated as a manager must be able to: Manage their trainings: List trainings
-	 * 
+	 *
 	 * b) Negative cases:
 	 * 2.The number of trainings is incorrect
 	 * 3.Not manager
-	 * 
+	 *
 	 * c) Sentence coverage
 	 * -findTrainingsByManagerId():100%
-	 * 
+	 *
 	 * d) Data coverage
 	 * -Training: 0%
 	 */
@@ -221,11 +224,11 @@ public class TrainingServiceTest extends AbstractTest {
 	/*
 	 * ACME.CHAMPIONS
 	 * a)(Level C) Requirement 12.1: An actor who is authenticated as a manager must be able to: Manage their trainings: Delete trainings
-	 * 
+	 *
 	 * b) Negative cases:
 	 * 2.The manager is not the correct manager of the training
 	 * 3.The authority is not correct
-	 * 
+	 *
 	 * c) Sentence coverage
 	 * -findOne():100%
 	 * -delete():100%
@@ -275,7 +278,7 @@ public class TrainingServiceTest extends AbstractTest {
 	/*
 	 * ACME.CHAMPIONS
 	 * a)(Level C) Requirement 12.1: An actor who is authenticated as a manager must be able to: Manage their trainings: Edit trainings
-	 * 
+	 *
 	 * b) Negative cases:
 	 * 2. The start date is past
 	 * 3. The end date is past
@@ -286,7 +289,7 @@ public class TrainingServiceTest extends AbstractTest {
 	 * 8. The place is not Safe HTML
 	 * 9. The description is blank
 	 * 10. The place is blank
-	 * 
+	 *
 	 * c) Sentence coverage
 	 * -findOne():100%
 	 * -save():100%
@@ -367,11 +370,11 @@ public class TrainingServiceTest extends AbstractTest {
 	 * ACME.CHAMPIONS
 	 * a)(Level C) Requirement 12.2: An actor who is authenticated as a manager must be able to: Manage their trainings: Train the team in which they are. That is, assign each player to a
 	 * training.
-	 * 
+	 *
 	 * b) Negative cases:
 	 * 2. President cannot add player to training
 	 * 3. The manager is not the correct manager of the training
-	 * 
+	 *
 	 * c) Sentence coverage
 	 * -findOne():100%
 	 * -addPlayerToTraining():96.5%
@@ -435,6 +438,46 @@ public class TrainingServiceTest extends AbstractTest {
 		}
 
 		return date;
+	}
+
+	@Test
+	public void driverListTrainingOfPlayer() {
+		final Object testingData[][] = {
+
+			{
+				"player1", 1, null
+			},//1. All fine
+			{
+				null, 1000, IllegalArgumentException.class
+			},//2. Incorrect results
+
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateListTrainingOfPlayer((String) testingData[i][0], (Integer) testingData[i][1], (Class<?>) testingData[i][2]);
+
+	}
+
+	protected void templateListTrainingOfPlayer(final String username, final Integer expectedInt, final Class<?> expected) {
+
+		Class<?> caught;
+
+		caught = null;
+		try {
+
+			super.authenticate(username);
+
+			final int id = this.playerService.findByPrincipal().getId();
+
+			final Integer result = this.trainingService.findTrainingsByPlayerId(id).size();
+			Assert.isTrue(expectedInt == result);
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		super.checkExceptions(expected, caught);
+
 	}
 
 }
