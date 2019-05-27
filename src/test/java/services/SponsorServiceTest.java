@@ -176,8 +176,8 @@ public class SponsorServiceTest extends AbstractTest {
 	 * 3.Null object
 	 * 
 	 * c) Sentence coverage
-	 * -findOne():
-	 * 
+	 * -findOne():100%
+	 * -save():30.6%
 	 * 
 	 * d) Data coverage
 	 * -Sponsorship = 0%

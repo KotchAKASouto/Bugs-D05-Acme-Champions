@@ -53,8 +53,8 @@ public class TrainingServiceTest extends AbstractTest {
 	 * 3. End date is past
 	 * 
 	 * c) Sentence coverage
-	 * -create():
-	 * -save():
+	 * -create():100%
+	 * -save():97.8%
 	 * d) Data coverage
 	 * -Training: 0%
 	 */
@@ -116,7 +116,7 @@ public class TrainingServiceTest extends AbstractTest {
 	 * 3. Null object
 	 * 
 	 * c) Sentence coverage
-	 * -findOne():
+	 * -findOne():100%
 	 * -
 	 * d) Data coverage
 	 * -Training: 0%
@@ -174,7 +174,7 @@ public class TrainingServiceTest extends AbstractTest {
 	 * 3.Not manager
 	 * 
 	 * c) Sentence coverage
-	 * -findTrainingsByManagerId():
+	 * -findTrainingsByManagerId():100%
 	 * 
 	 * d) Data coverage
 	 * -Training: 0%
@@ -227,8 +227,8 @@ public class TrainingServiceTest extends AbstractTest {
 	 * 3.The authority is not correct
 	 * 
 	 * c) Sentence coverage
-	 * -findOne():
-	 * -delete():
+	 * -findOne():100%
+	 * -delete():100%
 	 * d) Data coverage
 	 * -Training: 0%
 	 */
@@ -288,8 +288,8 @@ public class TrainingServiceTest extends AbstractTest {
 	 * 10. The place is blank
 	 * 
 	 * c) Sentence coverage
-	 * -findOne():
-	 * -save():
+	 * -findOne():100%
+	 * -save():100%
 	 * d) Data coverage
 	 * -Training: 100%
 	 */
@@ -373,8 +373,8 @@ public class TrainingServiceTest extends AbstractTest {
 	 * 3. The manager is not the correct manager of the training
 	 * 
 	 * c) Sentence coverage
-	 * -findOne():
-	 * -addPlayerToTraining():
+	 * -findOne():100%
+	 * -addPlayerToTraining():96.5%
 	 * d) Data coverage
 	 * -Training: 0%
 	 */

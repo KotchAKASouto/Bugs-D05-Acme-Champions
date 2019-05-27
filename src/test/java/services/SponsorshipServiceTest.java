@@ -47,7 +47,8 @@ public class SponsorshipServiceTest extends AbstractTest {
 	 * 3. Banner is not an URL
 	 * 
 	 * c) Sentence coverage
-	 * -save() =
+	 * -save() = 86.3%
+	 * -createWithTeam():98.1%
 	 * 
 	 * 
 	 * d) Data coverage
@@ -113,7 +114,7 @@ public class SponsorshipServiceTest extends AbstractTest {
 	 * 3. Wrong authority
 	 * 
 	 * c) Sentence coverage
-	 * -findAllBySponsorId():
+	 * -findAllBySponsorId():100%
 	 * 
 	 * 
 	 * d) Data coverage
@@ -170,7 +171,7 @@ public class SponsorshipServiceTest extends AbstractTest {
 	 * 3.Null object
 	 * 
 	 * c) Sentence coverage
-	 * -findOne():
+	 * -findOne():100%
 	 * 
 	 * 
 	 * d) Data coverage
