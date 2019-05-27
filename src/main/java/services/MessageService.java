@@ -93,8 +93,7 @@ public class MessageService {
 		result.setSender(actor);
 		result.setMoment(momentSent);
 		result.setSpam(spam);
-		result.setBoxes(new ArrayList<Box>());
-		result.setPriority("NORMAL");
+		result.setPriority("NEUTRAL");
 
 		return result;
 

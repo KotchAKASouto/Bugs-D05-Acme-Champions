@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
 import domain.Manager;
@@ -22,7 +23,10 @@ public class ManagerServiceTest extends AbstractTest {
 
 	//The SUT----------------------------------------------------
 	@Autowired
-	private ManagerService	managerService;
+	private ManagerService			managerService;
+
+	@Autowired
+	private ConfigurationService	configurationService;
 
 
 	/*
@@ -139,6 +143,48 @@ public class ManagerServiceTest extends AbstractTest {
 		}
 
 		this.rollbackTransaction();
+		super.checkExceptions(expected, caught);
+
+	}
+
+	@Test
+	public void driverGoalPrediction() {
+		final Object testingData[][] = {
+
+			{
+				"manager1", 2.5, null
+			},//1. All fine 
+			{
+				null, 999.999, IllegalArgumentException.class
+			},//2. Incorrect results
+
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateGoalPrediction((String) testingData[i][0], (Double) testingData[i][1], (Class<?>) testingData[i][2]);
+
+	}
+
+	protected void templateGoalPrediction(final String username, final Double expectedValue, final Class<?> expected) {
+
+		Class<?> caught;
+
+		caught = null;
+		try {
+
+			super.authenticate(username);
+
+			final int id = this.managerService.findByPrincipal().getId();
+
+			final Manager manager = this.managerService.findOne(id);
+
+			final Double result = this.configurationService.goalPrediction(manager.getTeam().getId());
+			Assert.isTrue(expectedValue == result);
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
 		super.checkExceptions(expected, caught);
 
 	}
