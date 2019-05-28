@@ -107,6 +107,7 @@
 	</div>
 </jstl:if>
 
+<jstl:if test="${requestURI == 'team/president&manager/listByPresident.do' }">
 <h3><spring:message code="actor.goalPrediction" /></h3>
 <fieldset>
 
@@ -116,6 +117,7 @@
 	</ul>
 
 </fieldset>
+</jstl:if>
 
 <acme:button name="back" code="actor.back" onclick="javascript: relativeRedir('welcome/index.do');" />
 
