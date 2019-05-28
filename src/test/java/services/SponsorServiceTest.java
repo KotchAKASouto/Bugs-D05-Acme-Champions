@@ -34,6 +34,22 @@ public class SponsorServiceTest extends AbstractTest {
 	 * Each of the test have their result just before them, and the coverage of the complete test is shown at the end of the document.
 	 */
 
+	/*
+	 * ACME.CHAMPIONS
+	 * a)(Level A) Requirement 42.1: An actor who is not authenticated must be able to register to the system as a sponsor.
+	 * 
+	 * b) Negative cases:
+	 * 2. Photo = not url
+	 * 3. Photo = javaScript
+	 * 
+	 * c) Sentence coverage
+	 * -create(): 100%
+	 * -save():63%
+	 * 
+	 * d) Data coverage
+	 * -Sponsor: 14,28571%
+	 */
+
 	@Test
 	public void driverRegisterSponsor() {
 		final Object testingData[][] = {
@@ -45,7 +61,7 @@ public class SponsorServiceTest extends AbstractTest {
 			},//2. Photo = not url
 			{
 				"name1", "surnames", "<script>Hola mundo<script/>", "email1@gmail.com", "672195205", "address1", "sponsorTest", "sponsorTest", "123", "12", "2020", "Iñigo Montoya", "VISA", "1111222233334444", ConstraintViolationException.class
-			},//2. Photo = not url
+			},//3. Photo = javaScript
 
 		};
 
@@ -97,6 +113,23 @@ public class SponsorServiceTest extends AbstractTest {
 		super.checkExceptions(expected, caught);
 
 	}
+
+	/*
+	 * ACME.CHAMPIONS
+	 * a)(Level C) Requirement 10.2: An actor who is authenticated must be able to edit their personal data.
+	 * 
+	 * b) Negative cases:
+	 * 2. Email = blank
+	 * 3. Email = null
+	 * 4. Invalid email
+	 * 
+	 * c) Sentence coverage
+	 * -findOne(): 100%
+	 * -save(): 30,2%
+	 * 
+	 * d) Data coverage
+	 * -Sponsor: 14,28571%
+	 */
 
 	@Test
 	public void driverEditSponsor() {
@@ -239,5 +272,15 @@ public class SponsorServiceTest extends AbstractTest {
 		super.checkExceptions(expected, caught);
 
 	}
+
+	/*
+	 * -------Coverage SponsorService-------
+	 * 
+	 * ----TOTAL SENTENCE COVERAGE:
+	 * SponsorService = 69,1%
+	 * 
+	 * ----TOTAL DATA COVERAGE:
+	 * Sponsor = 28,57143%
+	 */
 
 }
