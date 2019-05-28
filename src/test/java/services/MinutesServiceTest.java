@@ -34,14 +34,15 @@ public class MinutesServiceTest extends AbstractTest {
 	 * 2. the referee is not the owner
 	 * 3. the game has already had a minutes
 	 * c) Sentence coverage
-	 * 
+	 * save():22,9%
+	 * create():100%
 	 * d) Data coverage
 	 */
 	@Test
 	public void driverMinutes() {
 		final Object testingData[][] = {
 			{
-				"referee1", "game5", "player1", "player2", "player3", null
+				"referee1", "game6", "player1", "player2", "player3", null
 			},//1. All fine filter
 			{
 				"referee2", "game5", "player1", "player2", "player3", IllegalArgumentException.class
@@ -62,21 +63,14 @@ public class MinutesServiceTest extends AbstractTest {
 		caught = null;
 
 		try {
+			this.startTransaction();
 			this.authenticate(username);
 
 			final Game gameFinded = this.gameService.findOne(super.getEntityId(game));
 
 			final Minutes minutes = this.minutesService.create(gameFinded);
 
-			final Minutes saved = this.minutesService.save(minutes);
-
-			this.minutesService.addPlayerScored(super.getEntityId(player1), saved.getId());
-
-			this.minutesService.addPlayerRedCard(super.getEntityId(player2), saved.getId());
-
-			this.minutesService.addPlayerYellowCard(super.getEntityId(player2), saved.getId());
-
-			this.minutesService.closeMinutes(saved.getId());
+			this.minutesService.save(minutes);
 
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
@@ -84,5 +78,16 @@ public class MinutesServiceTest extends AbstractTest {
 
 		this.unauthenticate();
 		super.checkExceptions(expected, caught);
+		this.rollbackTransaction();
 	}
+
+	/*
+	 * -------Coverage MinutesService-------
+	 * 
+	 * ----TOTAL SENTENCE COVERAGE:
+	 * MinutesService: 19,9%
+	 * 
+	 * ----TOTAL DATA COVERAGE:
+	 * Minutes: 0%
+	 */
 }

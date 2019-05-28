@@ -43,6 +43,9 @@ public class MinutesService {
 	@Autowired
 	private CompetitionService		competitionService;
 
+	@Autowired
+	private GameService				gameService;
+
 
 	//simple CRUD methods
 
@@ -95,8 +98,15 @@ public class MinutesService {
 		//solo puede guardar partidos referee's
 		Assert.isTrue(actor.getUserAccount().getAuthorities().contains(authReferee));
 
+		//la persona que guarda el minutes es la misma que creó o gestionó el partido
+		final Collection<Game> gamesByReferee = this.gameService.findGameByRefereeId(actor.getId());
+		Assert.isTrue(gamesByReferee.contains(minutes.getGame()));
+
 		//un partido solo puede tener 1 minutes
-		Assert.isTrue(this.CountMinutesByGameId(minutes.getGame().getId()) >= 0);
+		if (minutes.getId() == 0)
+			Assert.isTrue(this.CountMinutesByGameId(minutes.getGame().getId()) == 0);
+		else
+			Assert.isTrue(this.CountMinutesByGameId(minutes.getGame().getId()) == 1);
 
 		//el partido debe haber acabado
 		final Date currentDate = new Date(System.currentTimeMillis() - 1000);
@@ -172,7 +182,6 @@ public class MinutesService {
 		return result;
 
 	}
-
 	//Other business methods
 
 	public Minutes findMinuteByGameId(final int gameId) {
@@ -282,6 +291,10 @@ public class MinutesService {
 		Assert.notNull(gameId);
 		final Integer res = this.minutesRepository.CountMinutesByGameId(gameId);
 		return res;
+	}
+
+	public void flush(final int minutesId) {
+		this.minutesRepository.flush();
 	}
 
 }

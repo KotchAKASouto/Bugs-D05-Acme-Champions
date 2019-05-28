@@ -2513,6 +2513,15 @@
 		<property name="referee" ref="referee1" />
 	</bean>
 	
+	<bean id="game6" class="domain.Game">
+		<property name="gameDate" value="2019/05/15 20:00" />
+		<property name="place" value="Hispalis Arena" />
+		<property name="friendly" value="true" />
+		<property name="homeTeam" ref="team1" />
+		<property name="visitorTeam" ref="team2" />
+		<property name="referee" ref="referee1" />
+	</bean>
+	
 	<!-- Minutes -->
 
 	<bean id="minutes1" class="domain.Minutes">
