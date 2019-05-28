@@ -17,5 +17,8 @@ public interface CompetitionRepository extends JpaRepository<Competition, Intege
 
 	@Query("select c from Competition c where c.federation.id = ?1")
 	Collection<Competition> findByFederationId(int id);
+	
+	@Query("select c from Competition c where c.format.id = ?1")
+	Collection<Competition> findByFormatId(int id);
 
 }
