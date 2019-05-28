@@ -1,6 +1,8 @@
 
 package services;
 
+import java.util.Collection;
+
 import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
 
@@ -9,8 +11,10 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
+import domain.Manager;
 import domain.Player;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -23,6 +27,9 @@ public class PlayerServiceTest extends AbstractTest {
 	//The SUT----------------------------------------------------
 	@Autowired
 	private PlayerService	playerService;
+
+	@Autowired
+	private ManagerService	managerService;
 
 
 	/*
@@ -189,10 +196,144 @@ public class PlayerServiceTest extends AbstractTest {
 	}
 
 	/*
+	 * ACME.CHAMPIONS
+	 * a)(Level C) Requirement 11.4: An actor who is authenticated as president must be able to fire a player.
+	 * 
+	 * b) Negative cases:
+	 * 2. Invalid authority
+	 * 3. Not player
+	 * 
+	 * c) Sentence coverage
+	 * -findOne(): 100%
+	 * -save(): 35,3%
+	 * 
+	 * d) Data coverage
+	 * -Player: 0%
+	 */
+
+	@Test
+	public void driverFirePlayer() {
+		final Object testingData[][] = {
+			{
+				"president1", "player1", null
+			},//1. All fine
+			{
+				"spononsor1", "player1", IllegalArgumentException.class
+			},//2. Invalid authority
+			{
+				"president1", "manager1", IllegalArgumentException.class
+			},//3. Not player
+
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateFirePlayer((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
+	}
+
+	protected void templateFirePlayer(final String usernamePresident, final String beanPlayer, final Class<?> expected) {
+
+		Class<?> caught;
+
+		caught = null;
+		try {
+
+			this.startTransaction();
+
+			this.authenticate(usernamePresident);
+
+			final Player player = this.playerService.findOne(super.getEntityId(beanPlayer));
+
+			Assert.isTrue(player != null);
+
+			player.setTeam(null);
+
+			this.playerService.save(player);
+			this.playerService.flush();
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		this.rollbackTransaction();
+		super.checkExceptions(expected, caught);
+
+	}
+
+	/*
+	 * ACME.CHAMPIONS
+	 * a)(Level C) Requirement 12.4: An actor who is authenticated as manager must be able to list his/her players.
+	 * 
+	 * b) Negative cases:
+	 * 2. Invalid player
+	 * 3. Unexpected number
+	 * 
+	 * c) Sentence coverage
+	 * -findOne(): 100%
+	 * -findPlayersOfTeam(): 100%
+	 * 
+	 * d) Data coverage
+	 * -Player: 0%
+	 */
+
+	@Test
+	public void driverListPlayer() {
+		final Object testingData[][] = {
+			{
+				"manager1", "player1", 5, null
+			},//1. All fine
+			{
+				"manager1", "player8", 5, IllegalArgumentException.class
+			},//2. Invalid player
+			{
+				"manager1", "player1", 15, IllegalArgumentException.class
+			},//3. Unexpected number
+
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateListPlayer((String) testingData[i][0], (String) testingData[i][1], (Integer) testingData[i][2], (Class<?>) testingData[i][3]);
+	}
+
+	protected void templateListPlayer(final String usernameManager, final String beanPlayer, final Integer expectedNumberOfPlayer, final Class<?> expected) {
+
+		Class<?> caught;
+
+		caught = null;
+		try {
+
+			this.startTransaction();
+
+			this.authenticate(usernameManager);
+
+			final Manager manager = this.managerService.findOne(super.getEntityId(usernameManager));
+
+			final Player player = this.playerService.findOne(super.getEntityId(beanPlayer));
+
+			Assert.isTrue(player != null);
+
+			final Collection<Player> players = this.playerService.findPlayersOfTeam(manager.getTeam().getId());
+
+			final Integer sizePlayer = players.size();
+
+			Assert.isTrue(sizePlayer == expectedNumberOfPlayer);
+
+			Assert.isTrue(players.contains(player));
+
+			this.playerService.flush();
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		this.rollbackTransaction();
+		super.checkExceptions(expected, caught);
+
+	}
+	/*
 	 * -------Coverage PlayerService-------
 	 * 
 	 * ----TOTAL SENTENCE COVERAGE:
-	 * PlayerService = 37,3%
+	 * PlayerService = 40,2%
 	 * 
 	 * ----TOTAL DATA COVERAGE:
 	 * Player = 14,28571%
