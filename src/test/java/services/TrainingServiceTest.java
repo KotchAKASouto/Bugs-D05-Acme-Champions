@@ -437,6 +437,21 @@ public class TrainingServiceTest extends AbstractTest {
 		return date;
 	}
 
+	/*
+	 * ACME.CHAMPIONS
+	 * a)(Level C) Requirement 12.1: An actor who is authenticated as a player must be able to: List all the trainings that the manager has assign them.
+	 * 
+	 * b) Negative cases:
+	 * 2.Wrong number of trainings
+	 * 3.Not player
+	 * 
+	 * c) Sentence coverage
+	 * -findTrainingsByPlayerId():100%
+	 * 
+	 * d) Data coverage
+	 * -Training: 0%
+	 */
+
 	@Test
 	public void driverListTrainingOfPlayer() {
 		final Object testingData[][] = {
@@ -445,8 +460,11 @@ public class TrainingServiceTest extends AbstractTest {
 				"player1", 1, null
 			},//1. All fine
 			{
-				null, 1000, IllegalArgumentException.class
-			},//2. Incorrect results
+				"player1", 10, IllegalArgumentException.class
+			},//2. Wrong number of trainings
+			{
+				"president1", 10, IllegalArgumentException.class
+			},//3. Not player
 
 		};
 

@@ -16,6 +16,8 @@ import org.springframework.util.Assert;
 import utilities.AbstractTest;
 import domain.Manager;
 import domain.Player;
+import domain.President;
+import domain.Team;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -26,10 +28,16 @@ public class PlayerServiceTest extends AbstractTest {
 
 	//The SUT----------------------------------------------------
 	@Autowired
-	private PlayerService	playerService;
+	private PlayerService		playerService;
 
 	@Autowired
-	private ManagerService	managerService;
+	private ManagerService		managerService;
+
+	@Autowired
+	private PresidentService	presidentService;
+
+	@Autowired
+	private TeamService			teamService;
 
 
 	/*
@@ -184,6 +192,79 @@ public class PlayerServiceTest extends AbstractTest {
 			player.setPunished(false);
 
 			this.playerService.save(player);
+			this.playerService.flush();
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		this.rollbackTransaction();
+		super.checkExceptions(expected, caught);
+
+	}
+
+	/*
+	 * ACME.CHAMPIONS
+	 * a)(Level C) Requirement 11.4: An actor who is authenticated as president must be able to: List all the players that are joined to the team.
+	 * 
+	 * b) Negative cases:
+	 * 2. Invalid player
+	 * 3. Unexpected number
+	 * 
+	 * c) Sentence coverage
+	 * -findPlayersOfTeam(): 100%
+	 * -findTeamByPresidentId()=100%
+	 * 
+	 * d) Data coverage
+	 * -Player: 0%
+	 */
+
+	@Test
+	public void driverListPlayerPresident() {
+		final Object testingData[][] = {
+			{
+				"president1", "player1", 5, null
+			},//1. All fine
+			{
+				"president1", "player8", 5, IllegalArgumentException.class
+			},//2. Invalid player
+			{
+				"president1", "player1", 15, IllegalArgumentException.class
+			},//3. Unexpected number
+
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateListPlayerPresident((String) testingData[i][0], (String) testingData[i][1], (Integer) testingData[i][2], (Class<?>) testingData[i][3]);
+	}
+
+	protected void templateListPlayerPresident(final String usernamePresident, final String beanPlayer, final Integer expectedNumberOfPlayer, final Class<?> expected) {
+
+		Class<?> caught;
+
+		caught = null;
+		try {
+
+			this.startTransaction();
+
+			this.authenticate(usernamePresident);
+
+			final President president = this.presidentService.findOne(super.getEntityId(usernamePresident));
+
+			final Player player = this.playerService.findOne(super.getEntityId(beanPlayer));
+
+			Assert.isTrue(player != null);
+
+			final Team team = this.teamService.findTeamByPresidentId(president.getId());
+
+			final Collection<Player> players = this.playerService.findPlayersOfTeam(team.getId());
+
+			final Integer sizePlayer = players.size();
+
+			Assert.isTrue(sizePlayer == expectedNumberOfPlayer);
+
+			Assert.isTrue(players.contains(player));
+
 			this.playerService.flush();
 
 		} catch (final Throwable oops) {
