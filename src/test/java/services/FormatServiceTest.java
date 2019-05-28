@@ -37,6 +37,7 @@ public class FormatServiceTest extends AbstractTest {
 	 * Manage their formats: Create
 	 * b) Negative cases:
 	 * 2. The min of the property minimumTeams must be 2
+	 * 3. The type of format is TOURNAMENT or LEAGUE
 	 * c) Sentence coverage
 	 * - create(): 100%
 	 * - findAll(): 100%
@@ -53,6 +54,9 @@ public class FormatServiceTest extends AbstractTest {
 			{
 				"federation1", "LEAGUE", 1, 2, ConstraintViolationException.class
 			},//2. The min of the property minimumTeams must be 2
+			{
+				"federation1", "otro", 2, 2, ConstraintViolationException.class
+			},//3. The type of format is TOURNAMENT or LEAGUE
 
 		};
 
@@ -96,6 +100,7 @@ public class FormatServiceTest extends AbstractTest {
 	 * Manage their formats: Edit
 	 * b) Negative cases:
 	 * 2. The type of format is TOURNAMENT or LEAGUE
+	 * 3. The property type is null
 	 * c) Sentence coverage
 	 * - save(Format): 100%
 	 * d) Data coverage
@@ -109,6 +114,9 @@ public class FormatServiceTest extends AbstractTest {
 			{
 				"federation1", "format1", "otro", 2, 2, ConstraintViolationException.class
 			},//2. The type of format is TOURNAMENT or LEAGUE
+			{
+				"federation1", "format1", null, 2, 2, ConstraintViolationException.class
+			},//3. The property type is null
 
 		};
 
@@ -149,6 +157,7 @@ public class FormatServiceTest extends AbstractTest {
 	 * Manage their formats: List
 	 * b) Negative cases:
 	 * 2. The number of format finded is wrong
+	 * 3. The query hasn't found any format
 	 * c) Sentence coverage
 	 * - findFormatByFederationId(int): 100%
 	 * d) Data coverage
@@ -162,6 +171,9 @@ public class FormatServiceTest extends AbstractTest {
 			{
 				"federation1", 3, IllegalArgumentException.class
 			},//2. The number of format finded is wrong
+			{
+				"federation1", null, NullPointerException.class
+			},//3. The query hasn't found any format
 
 		};
 
@@ -194,6 +206,7 @@ public class FormatServiceTest extends AbstractTest {
 	 * Manage their formats: Delete
 	 * b) Negative cases:
 	 * 2. The actor is not the owner
+	 * 3. The format is null
 	 * c) Sentence coverage
 	 * - delete(Format): 97,2%
 	 * d) Data coverage
@@ -207,6 +220,9 @@ public class FormatServiceTest extends AbstractTest {
 			{
 				"president1", "format1", IllegalArgumentException.class
 			},//2. The actor is not the owner
+			{
+				"president1", null, NullPointerException.class
+			},//3. The format is null
 
 		};
 
@@ -239,6 +255,7 @@ public class FormatServiceTest extends AbstractTest {
 	 * Manage their formats: Display
 	 * b) Negative cases:
 	 * 2. The object not exist
+	 * 3. The query hasn't found any format
 	 * c) Sentence coverage
 	 * - findOne(): 100%
 	 * d) Data coverage
@@ -252,6 +269,9 @@ public class FormatServiceTest extends AbstractTest {
 			{
 				"federation1", "format33", NumberFormatException.class
 			},//2. The number of format finded is wrong
+			{
+				"federation1", null, NullPointerException.class
+			},//3. The query hasn't found any format
 
 		};
 
@@ -283,7 +303,7 @@ public class FormatServiceTest extends AbstractTest {
 	 * -------Coverage FormatService-------
 	 * 
 	 * ----TOTAL SENTENCE COVERAGE:
-	 * FormatService = 84,1%
+	 * FormatService = 56,5%
 	 * 
 	 * ----TOTAL DATA COVERAGE:
 	 * Format = 0%

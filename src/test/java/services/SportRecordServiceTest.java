@@ -41,6 +41,22 @@ public class SportRecordServiceTest extends AbstractTest {
 	 * Each of the test have their result just before them, and the coverage of the complete test is shown at the end of the document.
 	 */
 
+	/*
+	 * ACME.CHAMPIONS
+	 * a)(Level C) Requirement 13.3: An actor who is authenticated as player must be able to create her/his sport record.
+	 * 
+	 * b) Negative cases:
+	 * 2. SportName = null
+	 * 3. SportName = blank
+	 * 
+	 * c) Sentence coverage
+	 * -create(): 100%
+	 * -save(): 95,6%
+	 * 
+	 * d) Data coverage
+	 * -SportRecord: 25%
+	 */
+
 	@Test
 	public void driverCreateSportRecord() {
 		final Object testingData[][] = {
@@ -90,6 +106,22 @@ public class SportRecordServiceTest extends AbstractTest {
 		super.checkExceptions(expected, caught);
 
 	}
+
+	/*
+	 * ACME.CHAMPIONS
+	 * a)(Level C) Requirement 13.3: An actor who is authenticated as player must be able to edit her/his sport record.
+	 * 
+	 * b) Negative cases:
+	 * 2. Start date = null
+	 * 3. Start date > End date
+	 * 
+	 * c) Sentence coverage
+	 * -findOne(): 100%
+	 * -save(): 100%
+	 * 
+	 * d) Data coverage
+	 * -SportRecord: 25%
+	 */
 
 	@Test
 	public void drivereEditSportRecord() {
@@ -142,6 +174,22 @@ public class SportRecordServiceTest extends AbstractTest {
 		super.checkExceptions(expected, caught);
 
 	}
+
+	/*
+	 * ACME.CHAMPIONS
+	 * a)(Level C) Requirement 13.3: An actor who is authenticated as player must be able to delete her/his sport record.
+	 * 
+	 * b) Negative cases:
+	 * 2. Invalid authority
+	 * 3. Not sport record
+	 * 
+	 * c) Sentence coverage
+	 * -findOne(): 100%
+	 * -delete(): 97%
+	 * 
+	 * d) Data coverage
+	 * -SportRecord: 0%
+	 */
 
 	@Test
 	public void driverDeleteSportRecord() {
@@ -219,4 +267,14 @@ public class SportRecordServiceTest extends AbstractTest {
 
 		return result;
 	}
+
+	/*
+	 * -------Coverage SportRecordService-------
+	 * 
+	 * ----TOTAL SENTENCE COVERAGE:
+	 * SportRecordService = 67,8%
+	 * 
+	 * ----TOTAL DATA COVERAGE:
+	 * SportRecord = 50%%
+	 */
 }

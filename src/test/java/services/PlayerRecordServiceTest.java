@@ -41,6 +41,22 @@ public class PlayerRecordServiceTest extends AbstractTest {
 	 * Each of the test have their result just before them, and the coverage of the complete test is shown at the end of the document.
 	 */
 
+	/*
+	 * ACME.CHAMPIONS
+	 * a)(Level C) Requirement 13.3: An actor who is authenticated as player must be able to create her/his player record.
+	 * 
+	 * b) Negative cases:
+	 * 2. Salary = null
+	 * 3. Salary < 0.0
+	 * 
+	 * c) Sentence coverage
+	 * -create(): 100%
+	 * -save(): 95,6%
+	 * 
+	 * d) Data coverage
+	 * -PlayerRecord: 25%
+	 */
+
 	@Test
 	public void driverCreatePlayerRecord() {
 		final Object testingData[][] = {
@@ -92,6 +108,22 @@ public class PlayerRecordServiceTest extends AbstractTest {
 		super.checkExceptions(expected, caught);
 
 	}
+
+	/*
+	 * ACME.CHAMPIONS
+	 * a)(Level C) Requirement 13.3: An actor who is authenticated as player must be able to edit her/his player record.
+	 * 
+	 * b) Negative cases:
+	 * 2. SquadNumber < 0
+	 * 3. SquadNumber > 99
+	 * 
+	 * c) Sentence coverage
+	 * -findOne(): 100%
+	 * -save(): 95,6%
+	 * 
+	 * d) Data coverage
+	 * -PlayerRecord: 25%
+	 */
 
 	@Test
 	public void driverEditPlayerRecord() {
@@ -162,6 +194,22 @@ public class PlayerRecordServiceTest extends AbstractTest {
 		return date;
 	}
 
+	/*
+	 * ACME.CHAMPIONS
+	 * a)(Level C) Requirement 13.3: An actor who is authenticated as player must be able to delete her/his player record.
+	 * 
+	 * b) Negative cases:
+	 * 2. Invalid authority
+	 * 3. Not player record
+	 * 
+	 * c) Sentence coverage
+	 * -findOne(): 100%
+	 * -delete(): 97%
+	 * 
+	 * d) Data coverage
+	 * -PlayerRecord: 0%
+	 */
+
 	@Test
 	public void driverDeletePlayerRecord() {
 		final Object testingData[][] = {
@@ -173,7 +221,7 @@ public class PlayerRecordServiceTest extends AbstractTest {
 			},//2. Invalid authority
 			{
 				"player1", "manager1", IllegalArgumentException.class
-			},//3. Not sport record
+			},//3. Not player record
 		};
 
 		for (int i = 0; i < testingData.length; i++)
@@ -230,4 +278,14 @@ public class PlayerRecordServiceTest extends AbstractTest {
 
 		return result;
 	}
+
+	/*
+	 * -------Coverage PlayerRecordService-------
+	 * 
+	 * ----TOTAL SENTENCE COVERAGE:
+	 * PlayerRecordService = 66,7%
+	 * 
+	 * ----TOTAL DATA COVERAGE:
+	 * PlayerRecord = 50%%
+	 */
 }

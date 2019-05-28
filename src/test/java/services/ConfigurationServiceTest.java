@@ -37,7 +37,10 @@ public class ConfigurationServiceTest extends AbstractTest {
 	 */
 
 	/*
-	 * a)Manage system's configuration
+
+	 * ACME.CHAMPIONS
+	 * a)Manage system's configuration.
+	 * 
 	 * b) Negative cases:
 	 * 2. Finder time < 1
 	 * 3. Finder time > 100
@@ -45,8 +48,9 @@ public class ConfigurationServiceTest extends AbstractTest {
 	 * c) Sentence coverage
 	 * -findConfiguration(): 100%
 	 * -save(): 100%
+	 * 
 	 * d) Data coverage
-	 * -Company: 0%
+	 * -Configuration: 0%
 	 */
 	@Test
 	public void EditConfigurationTest() {
@@ -111,7 +115,7 @@ public class ConfigurationServiceTest extends AbstractTest {
 	 * -------Coverage ConfigurationService-------
 	 * 
 	 * ----TOTAL SENTENCE COVERAGE:
-	 * ConfigurationService = 22,6%
+	 * ConfigurationService = 14,7%
 	 * 
 	 * ----TOTAL DATA COVERAGE:
 	 * Configuration = 0%

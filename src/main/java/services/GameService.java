@@ -123,7 +123,7 @@ public class GameService {
 
 		//el lugar del partido debe coincidir con el estadio del equipo local
 		final Team homeTeam = game.getHomeTeam();
-		Assert.isTrue(game.getPlace() == homeTeam.getStadiumName());
+		Assert.isTrue(game.getPlace().equals(homeTeam.getStadiumName()));
 
 		final Game result = this.gameRepository.save(game);
 
@@ -257,5 +257,9 @@ public class GameService {
 		this.validator.validate(game, binding);
 
 		return game;
+	}
+
+	public void flush() {
+		this.gameRepository.flush();
 	}
 }

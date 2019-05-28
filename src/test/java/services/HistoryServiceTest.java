@@ -44,6 +44,21 @@ public class HistoryServiceTest extends AbstractTest {
 	 * Each of the test have their result just before them, and the coverage of the complete test is shown at the end of the document.
 	 */
 
+	/*
+	 * ACME.CHAMPIONS
+	 * a)(Level C) Requirement 13.3: An actor who is authenticated as player must be able to display her/his history.
+	 * 
+	 * b) Negative cases:
+	 * 2. Not history
+	 * 3. Null object
+	 * 
+	 * c) Sentence coverage
+	 * -findOne(): 100%
+	 * 
+	 * d) Data coverage
+	 * -History: 0%
+	 */
+
 	@Test
 	public void driverDisplayHistory() {
 		final Object testingData[][] = {
@@ -87,6 +102,22 @@ public class HistoryServiceTest extends AbstractTest {
 		super.checkExceptions(expected, caught);
 
 	}
+
+	/*
+	 * ACME.CHAMPIONS
+	 * a)(Level C) Requirement 13.3: An actor who is authenticated as player must be able to create her/his history.
+	 * 
+	 * b) Negative cases:
+	 * 2. Invalid authority
+	 * 3. Null authenticate
+	 * 
+	 * c) Sentence coverage
+	 * -create(): 100%
+	 * -save(): 100%
+	 * 
+	 * d) Data coverage
+	 * -History: 0%
+	 */
 
 	@Test
 	public void driverCreateHistory() {
@@ -146,6 +177,22 @@ public class HistoryServiceTest extends AbstractTest {
 
 	}
 
+	/*
+	 * ACME.CHAMPIONS
+	 * a)(Level C) Requirement 13.3: An actor who is authenticated as player must be able to delete her/his history.
+	 * 
+	 * b) Negative cases:
+	 * 2. Not history
+	 * 3. Invalid authority
+	 * 
+	 * c) Sentence coverage
+	 * -delete(): 100%
+	 * -findOne(): 100%
+	 * 
+	 * d) Data coverage
+	 * -History: 0%
+	 */
+
 	@Test
 	public void driverDeleteHistory() {
 		final Object testingData[][] = {
@@ -193,4 +240,14 @@ public class HistoryServiceTest extends AbstractTest {
 		super.checkExceptions(expected, caught);
 
 	}
+
+	/*
+	 * -------Coverage HistoryService-------
+	 * 
+	 * ----TOTAL SENTENCE COVERAGE:
+	 * HistoryService = 79,2%
+	 * 
+	 * ----TOTAL DATA COVERAGE:
+	 * History = 28,57143%
+	 */
 }

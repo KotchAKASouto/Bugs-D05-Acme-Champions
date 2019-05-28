@@ -51,6 +51,22 @@ public class ReportServiceTest extends AbstractTest {
 	 * Each of the test have their result just before them, and the coverage of the complete test is shown at the end of the document.
 	 */
 
+	/*
+	 * ACME.CHAMPIONS
+	 * a)(Level B) Requirement 32.1: An actor who is authenticated as a manager must be able to create a report about a player.
+	 * 
+	 * b) Negative cases:
+	 * 2. Description = blank
+	 * 3. Description = null
+	 * 
+	 * c) Sentence coverage
+	 * -create(): 100%
+	 * -save(): 100%
+	 * 
+	 * d) Data coverage
+	 * -Report: 33,33333%
+	 */
+
 	@Test
 	public void driverCreateReport() {
 		final Object testingData[][] = {
@@ -99,6 +115,22 @@ public class ReportServiceTest extends AbstractTest {
 
 	}
 
+	/*
+	 * ACME.CHAMPIONS
+	 * a)(Level B) Requirement 32.1: An actor who is authenticated as a manager must be able to delete a report about a player.
+	 * 
+	 * b) Negative cases:
+	 * 2. Not report
+	 * 3. Invalid authority
+	 * 
+	 * c) Sentence coverage
+	 * -findOne(): 100%
+	 * -delete(): 97%
+	 * 
+	 * d) Data coverage
+	 * -Report: 0%
+	 */
+
 	@Test
 	public void driverDeleteReport() {
 		final Object testingData[][] = {
@@ -145,6 +177,21 @@ public class ReportServiceTest extends AbstractTest {
 		super.checkExceptions(expected, caught);
 
 	}
+
+	/*
+	 * ACME.CHAMPIONS
+	 * a)(Level B) Requirement 32.1: An actor who is authenticated as a manager must be able to list the reports about a player.
+	 * 
+	 * b) Negative cases:
+	 * 2. Not report
+	 * 3. Invalid authority
+	 * 
+	 * c) Sentence coverage
+	 * -findByTeamId(): 100%
+	 * 
+	 * d) Data coverage
+	 * -Report: 0%
+	 */
 
 	@Test
 	public void driverListReport() {
@@ -211,4 +258,14 @@ public class ReportServiceTest extends AbstractTest {
 
 		return date;
 	}
+
+	/*
+	 * -------Coverage ReportService-------
+	 * 
+	 * ----TOTAL SENTENCE COVERAGE:
+	 * ReportService = 51,4%
+	 * 
+	 * ----TOTAL DATA COVERAGE:
+	 * Report = 33,33333%
+	 */
 }

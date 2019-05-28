@@ -33,6 +33,22 @@ public class AdministratorServiceTest extends AbstractTest {
 	 * Each of the test have their result just before them, and the coverage of the complete test is shown at the end of the document.
 	 */
 
+	/*
+	 * ACME.CHAMPIONS
+	 * a)(Level C) Requirement 14.1: An actor who is authenticated must be able to create user accounts for new administrators.
+	 * 
+	 * b) Negative cases:
+	 * 2. Name = blank
+	 * 3. Name = null
+	 * 
+	 * c) Sentence coverage
+	 * -create(): 100%
+	 * -save():72%
+	 * 
+	 * d) Data coverage
+	 * -Administrator: 16,66667%
+	 */
+
 	@Test
 	public void driverRegisterAdmin() {
 		final Object testingData[][] = {
@@ -90,6 +106,22 @@ public class AdministratorServiceTest extends AbstractTest {
 
 	}
 
+	/*
+	 * ACME.CHAMPIONS
+	 * a)(Level C) Requirement 10.2: An actor who is authenticated must be able to edit their personal data.
+	 * 
+	 * b) Negative cases:
+	 * 2. Surname = blank
+	 * 3. Surname = null
+	 * 
+	 * c) Sentence coverage
+	 * -findOne(): 100%
+	 * -save():30,3%
+	 * 
+	 * d) Data coverage
+	 * -Administrator: 16,66667%
+	 */
+
 	@Test
 	public void driverEditAdmin() {
 		final Object testingData[][] = {
@@ -97,11 +129,11 @@ public class AdministratorServiceTest extends AbstractTest {
 				"name1", "surnames", "https://google.com", "email1@gmail.com", "672195205", "address1", "admin", "administrator1", null
 			},//1. All fine
 			{
-				"		", "surnames", "https://google.com", "email1@gmail.com", "672195205", "address1", "admin", "administrator1", ConstraintViolationException.class
-			},//2. Name = blank
+				"name1", "		", "https://google.com", "email1@gmail.com", "672195205", "address1", "admin", "administrator1", ConstraintViolationException.class
+			},//2. Surname = blank
 			{
-				null, "surnames", "https://google.com", "email1@gmail.com", "672195205", "address1", "admin", "administrator1", ConstraintViolationException.class
-			},//3. Name = null
+				"name1", null, "https://google.com", "email1@gmail.com", "672195205", "address1", "admin", "administrator1", ConstraintViolationException.class
+			},//3. Surname = null
 
 		};
 
@@ -147,10 +179,10 @@ public class AdministratorServiceTest extends AbstractTest {
 	 * -------Coverage AdministratorService-------
 	 * 
 	 * ----TOTAL SENTENCE COVERAGE:
-	 * AdministratorService = 58%
+	 * AdministratorService = 71,5%
 	 * 
 	 * ----TOTAL DATA COVERAGE:
-	 * Administrator = 12,5%%
+	 * Administrator = 33,33333%
 	 */
 
 }
