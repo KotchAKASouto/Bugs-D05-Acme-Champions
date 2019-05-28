@@ -33,6 +33,22 @@ public class RefereeServiceTest extends AbstractTest {
 	 * Each of the test have their result just before them, and the coverage of the complete test is shown at the end of the document.
 	 */
 
+	/*
+	 * ACME.CHAMPIONS
+	 * a)(Level B) Requirement 29.1: An actor who is not authenticated must be able to register to the system as a referee.
+	 * 
+	 * b) Negative cases:
+	 * 2. Name = blank
+	 * 3. Name = null
+	 * 
+	 * c) Sentence coverage
+	 * -create(): 100%
+	 * -save(): 70,6%
+	 * 
+	 * d) Data coverage
+	 * -Referee: 16,66667%
+	 */
+
 	@Test
 	public void driverRegisterReferee() {
 		final Object testingData[][] = {
@@ -88,6 +104,22 @@ public class RefereeServiceTest extends AbstractTest {
 
 	}
 
+	/*
+	 * ACME.CHAMPIONS
+	 * a)(Level C) Requirement 10.2: An actor who is authenticated must be able to edit their personal data.
+	 * 
+	 * b) Negative cases:
+	 * 2. Name = blank
+	 * 3. Name = null
+	 * 
+	 * c) Sentence coverage
+	 * -findOne(): 100%
+	 * -save(): 28,9%
+	 * 
+	 * d) Data coverage
+	 * -Referee: 16,66667%
+	 */
+
 	@Test
 	public void driverEditPresident() {
 		final Object testingData[][] = {
@@ -140,4 +172,14 @@ public class RefereeServiceTest extends AbstractTest {
 		super.checkExceptions(expected, caught);
 
 	}
+
+	/*
+	 * -------Coverage RefereeService-------
+	 * 
+	 * ----TOTAL SENTENCE COVERAGE:
+	 * RefereeService = 68,1%
+	 * 
+	 * ----TOTAL DATA COVERAGE:
+	 * Referee = 16,66667%
+	 */
 }

@@ -37,6 +37,22 @@ public class PersonalDataServiceTest extends AbstractTest {
 	 * Each of the test have their result just before them, and the coverage of the complete test is shown at the end of the document.
 	 */
 
+	/*
+	 * ACME.CHAMPIONS
+	 * a)(Level C) Requirement 13.3: An actor who is authenticated as a player must be able to create her/his personal data.
+	 * 
+	 * b) Negative cases:
+	 * 2. Photo not url
+	 * 3. SocialNetworkProfilelink = not url
+	 * 
+	 * c) Sentence coverage
+	 * -create(): 100%
+	 * -save(): 100%
+	 * 
+	 * d) Data coverage
+	 * -PersonalData: 50%
+	 */
+
 	@Test
 	public void driverCreatePersonalData() {
 		final Object testingData[][] = {
@@ -46,6 +62,9 @@ public class PersonalDataServiceTest extends AbstractTest {
 			{
 				"player1", "test", "http://test.com/", DataIntegrityViolationException.class
 			},//2. Photo not url
+			{
+				"player1", "http://test.com/", "test", ConstraintViolationException.class
+			},//3. SocialNetworkProfilelink = not url
 		};
 
 		for (int i = 0; i < testingData.length; i++)
@@ -84,6 +103,23 @@ public class PersonalDataServiceTest extends AbstractTest {
 		super.checkExceptions(expected, caught);
 
 	}
+
+	/*
+	 * ACME.CHAMPIONS
+	 * a)(Level C) Requirement 13.3: An actor who is authenticated as a player must be able to edit her/his personal data.
+	 * 
+	 * b) Negative cases:
+	 * 2. SocialNetworkProfilelink = not url
+	 * 3. SocialNetworkProfilelink = Blank
+	 * 4. SocialNetworkProfilelink = null
+	 * 
+	 * c) Sentence coverage
+	 * -findOne(): 100%
+	 * -save(): 100%
+	 * 
+	 * d) Data coverage
+	 * -PersonalData: 50%
+	 */
 
 	@Test
 	public void driverEditPersonalData() {
@@ -134,4 +170,14 @@ public class PersonalDataServiceTest extends AbstractTest {
 		super.checkExceptions(expected, caught);
 
 	}
+
+	/*
+	 * -------Coverage PersonalDataService-------
+	 * 
+	 * ----TOTAL SENTENCE COVERAGE:
+	 * PersonalDataService = 40%
+	 * 
+	 * ----TOTAL DATA COVERAGE:
+	 * PersonalData = 100%
+	 */
 }

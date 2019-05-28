@@ -33,6 +33,22 @@ public class PlayerServiceTest extends AbstractTest {
 	 * Each of the test have their result just before them, and the coverage of the complete test is shown at the end of the document.
 	 */
 
+	/*
+	 * ACME.CHAMPIONS
+	 * a)(Level C) Requirement 9.1: An actor who is not authenticated must be able to register to the system as a player.
+	 * 
+	 * b) Negative cases:
+	 * 2. SquadName = blank
+	 * 3. SquadName = null
+	 * 
+	 * c) Sentence coverage
+	 * -create(): 100%
+	 * -save(): 64,2%
+	 * 
+	 * d) Data coverage
+	 * -Player: 7,14286%
+	 */
+
 	@Test
 	public void driverRegisterPlayer() {
 		final Object testingData[][] = {
@@ -44,7 +60,7 @@ public class PlayerServiceTest extends AbstractTest {
 			},//2. SquadName = blank
 			{
 				"name1", "surnames", "https://google.com", "email1@gmail.com", "672195205", "address1", "GOALKEEPER", "PORTERO", "7", null, "playerTest", "playerTest", ConstraintViolationException.class
-			},//2. SquadName = null
+			},//3. SquadName = null
 
 		};
 
@@ -94,6 +110,22 @@ public class PlayerServiceTest extends AbstractTest {
 		super.checkExceptions(expected, caught);
 
 	}
+
+	/*
+	 * ACME.CHAMPIONS
+	 * a)(Level C) Requirement 10.2: An actor who is authenticated must be able to edit their personal data.
+	 * 
+	 * b) Negative cases:
+	 * 2. SquadNumber < 1
+	 * 3. SquadNumber > 99
+	 * 
+	 * c) Sentence coverage
+	 * -findOne(): 100%
+	 * -save(): 30,2%
+	 * 
+	 * d) Data coverage
+	 * -Player: 7,14286%
+	 */
 
 	@Test
 	public void driverEditPlayer() {
@@ -155,4 +187,14 @@ public class PlayerServiceTest extends AbstractTest {
 		super.checkExceptions(expected, caught);
 
 	}
+
+	/*
+	 * -------Coverage PlayerService-------
+	 * 
+	 * ----TOTAL SENTENCE COVERAGE:
+	 * PlayerService = 37,3%
+	 * 
+	 * ----TOTAL DATA COVERAGE:
+	 * Player = 14,28571%
+	 */
 }
