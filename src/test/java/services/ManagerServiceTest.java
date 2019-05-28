@@ -33,6 +33,22 @@ public class ManagerServiceTest extends AbstractTest {
 	 * Each of the test have their result just before them, and the coverage of the complete test is shown at the end of the document.
 	 */
 
+	/*
+	 * ACME.CHAMPIONS
+	 * a)(Level C) Requirement 9.1: An actor who is not authenticated must be able to register to the system as a manager.
+	 * 
+	 * b) Negative cases:
+	 * 2. Name = blank
+	 * 3. Name = null
+	 * 
+	 * c) Sentence coverage
+	 * -create(): 100%
+	 * -save(): 66,2%
+	 * 
+	 * d) Data coverage
+	 * -Player: 14,28571%
+	 */
+
 	@Test
 	public void driverRegisterManager() {
 		final Object testingData[][] = {
@@ -85,6 +101,23 @@ public class ManagerServiceTest extends AbstractTest {
 		super.checkExceptions(expected, caught);
 
 	}
+
+	/*
+	 * ACME.CHAMPIONS
+	 * a)(Level C) Requirement 10.2: An actor who is authenticated must be able to edit their personal data.
+	 * 
+	 * b) Negative cases:
+	 * 2. Email = blank
+	 * 3. Email = null
+	 * 4. Invalid email
+	 * 
+	 * c) Sentence coverage
+	 * -findOne(): 100%
+	 * -save(): 30,4%
+	 * 
+	 * d) Data coverage
+	 * -Manager: 14,28571%
+	 */
 
 	@Test
 	public void driverEditManager() {
@@ -142,4 +175,14 @@ public class ManagerServiceTest extends AbstractTest {
 		super.checkExceptions(expected, caught);
 
 	}
+
+	/*
+	 * -------Coverage ManagerService-------
+	 * 
+	 * ----TOTAL SENTENCE COVERAGE:
+	 * ManagerService = 57,1%
+	 * 
+	 * ----TOTAL DATA COVERAGE:
+	 * Manager = 33,33333%
+	 */
 }

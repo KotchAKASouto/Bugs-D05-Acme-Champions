@@ -37,6 +37,22 @@ public class FederationServiceTest extends AbstractTest {
 	 * Each of the test have their result just before them, and the coverage of the complete test is shown at the end of the document.
 	 */
 
+	/*
+	 * ACME.CHAMPIONS
+	 * a)(Level A) Requirement 42.1: An actor who is not authenticated must be able to register to the system as a federation.
+	 * 
+	 * b) Negative cases:
+	 * 2. Name = blank
+	 * 3. Name = null
+	 * 
+	 * c) Sentence coverage
+	 * -create(): 100%
+	 * -save(): 66,8%
+	 * 
+	 * d) Data coverage
+	 * -Federation: 14,28571%
+	 */
+
 	@Test
 	public void driverRegisterFederation() {
 		final Object testingData[][] = {
@@ -94,6 +110,22 @@ public class FederationServiceTest extends AbstractTest {
 
 	}
 
+	/*
+	 * ACME.CHAMPIONS
+	 * a)(Level C) Requirement 10.2: An actor who is authenticated must be able to edit their personal data.
+	 * 
+	 * b) Negative cases:
+	 * 2. EstablishmentDate = null
+	 * 3. EstablishmentDate = not past
+	 * 
+	 * c) Sentence coverage
+	 * -findOne(): 100%
+	 * -save(): 31,0%
+	 * 
+	 * d) Data coverage
+	 * -Federation: 14,28571%
+	 */
+
 	@Test
 	public void driverEditFederation() {
 		final Object testingData[][] = {
@@ -101,11 +133,11 @@ public class FederationServiceTest extends AbstractTest {
 				"name1", "surnames", "https://google.com", "email1@gmail.com", "672195205", "address1", "1998/06/29", "federation1", "federation1", null
 			},//1. All fine
 			{
-				"		", "surnames", "https://google.com", "email1@gmail.com", "672195205", "address1", "1998/06/29", "federation1", "federation1", ConstraintViolationException.class
-			},//2. Name = blank
+				"name1", "surnames", "https://google.com", "email1@gmail.com", "672195205", "address1", null, "federation1", "federation1", ConstraintViolationException.class
+			},//2. EstablishmentDate = null
 			{
-				null, "surnames", "https://google.com", "email1@gmail.com", "672195205", "address1", "1998/06/29", "federation1", "federation1", ConstraintViolationException.class
-			},//3. Name = null
+				"name1", "surnames", "https://google.com", "email1@gmail.com", "672195205", "address1", "2050/06/29", "federation1", "federation1", ConstraintViolationException.class
+			},//3. EstablishmentDate = not past
 
 		};
 
@@ -165,4 +197,14 @@ public class FederationServiceTest extends AbstractTest {
 
 		return date;
 	}
+
+	/*
+	 * -------Coverage FederationService-------
+	 * 
+	 * ----TOTAL SENTENCE COVERAGE:
+	 * FederationService = 69,1%
+	 * 
+	 * ----TOTAL DATA COVERAGE:
+	 * Federation = 28,57143%
+	 */
 }
