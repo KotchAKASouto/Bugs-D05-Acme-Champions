@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
 import domain.President;
@@ -126,6 +127,78 @@ public class TeamServiceTest extends AbstractTest {
 			team.setStadiumName(nameStadium);
 			team.setBadgeUrl(badgeUrl);
 			team.setTrackRecord(trackRecord);
+
+			this.teamService.save(team);
+			this.teamService.flush();
+
+			this.unauthenticate();
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		this.rollbackTransaction();
+		super.checkExceptions(expected, caught);
+
+	}
+
+	/*
+	 * ACME.CHAMPIONS
+	 * a)(Level C) Requirement 11.1: An actor who is authenticated as president must be able to display his/her team.
+	 * 
+	 * b) Negative cases:
+	 * 2. The team does not belongs to the president
+	 * 3. Not team
+	 * 
+	 * c) Sentence coverage
+	 * -findTeamByPresidentId(): 100%
+	 * -save(): 92.2%
+	 * -findPlayersByTeamId(): 100%
+	 * -findManagerByTeamId(): 100%
+	 * 
+	 * d) Data coverage
+	 * -Team: 0%
+	 */
+
+	@Test
+	public void driverDisplayTeam() {
+		final Object testingData[][] = {
+			{
+				"president1", "team1", null
+			},//1. All fine
+			{
+				"president1", "team2", IllegalArgumentException.class
+			},//2. The team does not belongs to the president
+			{
+				"president1", "manager1", IllegalArgumentException.class
+			},//3. Not team
+
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateDisplayTeam((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
+	}
+
+	protected void templateDisplayTeam(final String username, final String beanTeamExpected, final Class<?> expected) {
+
+		Class<?> caught;
+
+		caught = null;
+		try {
+
+			this.startTransaction();
+
+			this.authenticate(username);
+
+			final President president = this.presidentService.findOne(super.getEntityId(username));
+
+			final Team team = this.teamService.findTeamByPresidentId(president.getId());
+
+			Assert.isTrue(team != null);
+
+			final Team teamExpected = this.teamService.findOne(super.getEntityId(beanTeamExpected));
+
+			Assert.isTrue(team.equals(teamExpected));
 
 			this.teamService.save(team);
 			this.teamService.flush();
