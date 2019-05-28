@@ -53,6 +53,9 @@ public class PlayerService {
 	@Autowired
 	private BoxService				boxService;
 
+	@Autowired
+	private TeamService				teamService;
+
 
 	// Methods -----------------------------------
 
@@ -90,6 +93,8 @@ public class PlayerService {
 		player.setBuyoutClause(offeredClause);
 
 		this.playerRepository.save(player);
+
+		this.teamService.functional(team);
 
 	}
 

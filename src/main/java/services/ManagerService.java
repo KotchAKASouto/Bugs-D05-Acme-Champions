@@ -47,6 +47,9 @@ public class ManagerService {
 	@Autowired
 	private BoxService			boxService;
 
+	@Autowired
+	private TeamService			teamService;
+
 
 	// Methods -----------------------------------
 
@@ -83,6 +86,8 @@ public class ManagerService {
 		manager.setTeam(team);
 
 		this.managerRepository.save(manager);
+
+		this.teamService.functional(team);
 
 	}
 

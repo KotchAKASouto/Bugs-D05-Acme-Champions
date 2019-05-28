@@ -89,10 +89,15 @@ public class SigningPresidentController extends AbstractController {
 
 			final Player player = this.playerService.findOne(playerId);
 
-			final SigningForm signingForm = this.signingService.create(playerId);
-			result = this.createEditModelAndView(signingForm);
-			result.addObject("enlace", "signing/president/edit.do");
-			result.addObject("buyoutClause", player.getBuyoutClause());
+			if (player.getTeam().equals(this.teamService.findByPresidentId(this.presidentService.findByPrincipal().getId()))) {
+
+				final SigningForm signingForm = this.signingService.create(playerId);
+				result = this.createEditModelAndView(signingForm);
+				result.addObject("enlace", "signing/president/edit.do");
+				result.addObject("buyoutClause", player.getBuyoutClause());
+
+			} else
+				result = new ModelAndView("redirect:/welcome/index.do");
 
 		} else {
 
@@ -111,21 +116,28 @@ public class SigningPresidentController extends AbstractController {
 
 		if (exist) {
 
-			final Signing signing = this.signingService.reconstruct(signingForm, binding);
+			final Player player = this.playerService.findOne(signingForm.getPlayerId());
 
-			if (binding.hasErrors())
-				result = this.createEditModelAndView(signingForm, null);
-			else
-				try {
+			if (player.getTeam().equals(this.teamService.findByPresidentId(this.presidentService.findByPrincipal().getId()))) {
 
-					this.signingService.save(signing);
-					result = new ModelAndView("redirect:/signing/president/list.do");
+				final Signing signing = this.signingService.reconstruct(signingForm, binding);
 
-				} catch (final Throwable oops) {
+				if (binding.hasErrors())
+					result = this.createEditModelAndView(signingForm, null);
+				else
+					try {
 
-					result = this.createEditModelAndView(signingForm, "signing.commit.error");
+						this.signingService.save(signing);
+						result = new ModelAndView("redirect:/signing/president/list.do");
 
-				}
+					} catch (final Throwable oops) {
+
+						result = this.createEditModelAndView(signingForm, "signing.commit.error");
+
+					}
+
+			} else
+				result = new ModelAndView("redirect:/welcome/index.do");
 
 		} else
 			result = new ModelAndView("redirect:/welcome/index.do");
@@ -159,6 +171,8 @@ public class SigningPresidentController extends AbstractController {
 
 				for (final Signing oldOne : oldOnes)
 					this.signingService.delete(oldOne);
+
+				this.teamService.functional(this.teamService.findByPresidentId(signing.getPresident().getId()));
 
 				signing.setStatus("ACCEPTED");
 

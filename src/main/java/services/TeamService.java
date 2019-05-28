@@ -204,4 +204,15 @@ public class TeamService {
 		return res;
 	}
 
+	public void functional(final Team team) {
+
+		if (this.teamRepository.findManagerByTeamId(team.getId()) != null && this.teamRepository.findPlayersByTeamId(team.getId()).size() > 5) {
+			team.setFunctional(true);
+			this.teamRepository.save(team);
+		} else {
+			team.setFunctional(false);
+			this.teamRepository.save(team);
+		}
+	}
+
 }
