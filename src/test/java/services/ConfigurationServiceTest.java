@@ -12,9 +12,11 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
 import domain.Configuration;
+import domain.Team;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
@@ -27,6 +29,9 @@ public class ConfigurationServiceTest extends AbstractTest {
 	@Autowired
 	private ConfigurationService	configurationService;
 
+	@Autowired
+	private TeamService				teamService;
+
 
 	/*
 	 * ----CALCULATE COVERAGE----
@@ -37,7 +42,7 @@ public class ConfigurationServiceTest extends AbstractTest {
 	 */
 
 	/*
-
+	 * 
 	 * ACME.CHAMPIONS
 	 * a)Manage system's configuration.
 	 * 
@@ -52,6 +57,7 @@ public class ConfigurationServiceTest extends AbstractTest {
 	 * d) Data coverage
 	 * -Configuration: 0%
 	 */
+
 	@Test
 	public void EditConfigurationTest() {
 		final Object testingData[][] = {
@@ -112,10 +118,70 @@ public class ConfigurationServiceTest extends AbstractTest {
 	}
 
 	/*
+	 * ACME.CHAMPIONS
+	 * a)(Level B) Requirement 32.2: An actor who is authenticated as a manager must be able to see a prediction of the next matches.
+	 * 
+	 * b) Negative cases:
+	 * 2. Not team
+	 * 3. Incorrect number
+	 * 
+	 * c) Sentence coverage
+	 * -goalPrediction(): 81%
+	 * 
+	 * d) Data coverage
+	 * -Configuration: 0%
+	 */
+
+	@Test
+	public void GoalPredictionTest() {
+		final Object testingData[][] = {
+			{
+				"team1", 1, null
+			},//1. All fine
+			{
+				"manager1", 1, IllegalArgumentException.class
+			},//2. Not team
+			{
+				"team1", 100, IllegalArgumentException.class
+			},//3. Incorrect number
+
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.goalPredictionTemplate((String) testingData[i][0], (Integer) testingData[i][1], (Class<?>) testingData[i][2]);
+	}
+
+	protected void goalPredictionTemplate(final String teamBean, final Integer predictionExpected, final Class<?> expected) {
+		Class<?> caught;
+
+		caught = null;
+		try {
+
+			this.startTransaction();
+
+			final Team team = this.teamService.findOne(super.getEntityId(teamBean));
+
+			Assert.isTrue(team != null);
+
+			final Double goals = this.configurationService.goalPrediction(team.getId());
+
+			Assert.isTrue((goals.intValue() == predictionExpected));
+
+			this.configurationService.flush();
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		this.rollbackTransaction();
+
+		this.checkExceptions(expected, caught);
+	}
+	/*
 	 * -------Coverage ConfigurationService-------
 	 * 
 	 * ----TOTAL SENTENCE COVERAGE:
-	 * ConfigurationService = 14,7%
+	 * ConfigurationService = 49,4%
 	 * 
 	 * ----TOTAL DATA COVERAGE:
 	 * Configuration = 0%
