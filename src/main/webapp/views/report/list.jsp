@@ -35,3 +35,5 @@
 </display:table>
 
 <a href="team/president,manager/listByManager.do"><spring:message code="report.create"/></a>
+<br/>
+<acme:cancel code="report.back" url="welcome/index.do" />
