@@ -37,7 +37,6 @@ public class ConfigurationServiceTest extends AbstractTest {
 	 */
 
 	/*
-	 * ACME.HACKERRANK
 	 * a)Manage system's configuration
 	 * b) Negative cases:
 	 * 2. Finder time < 1
