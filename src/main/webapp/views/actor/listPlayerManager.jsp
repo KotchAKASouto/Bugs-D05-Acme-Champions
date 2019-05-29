@@ -109,15 +109,9 @@
 
 <security:authorize access="hasRole('MANAGER')">
 <jstl:if test="${requestURI == 'team/president,manager/listByManager.do' }">
-<h3><spring:message code="actor.goalPrediction" /></h3>
-<fieldset>
+<h3 style="background-color:orange;"><spring:message code="actor.goalPrediction" />: ${goalPrediction} <spring:message code="actor.goalAverage" /> </h3>
 
-	<ul>
-	<li><spring:message code="actor.goalAverage" />: ${goalPrediction} </li>
 
-	</ul>
-
-</fieldset>
 </jstl:if>
 </security:authorize>
 
