@@ -86,7 +86,7 @@ public class TeamPresidentManagerController extends AbstractController {
 			result.addObject("AmInFinder", false);
 
 		} else {
-			result = new ModelAndView("misc/notExist");
+			result = new ModelAndView("misc/noTeam");
 			result.addObject("banner", banner);
 		}
 
@@ -125,7 +125,7 @@ public class TeamPresidentManagerController extends AbstractController {
 			result.addObject("goalPrediction", goalPrediction);
 
 		} else {
-			result = new ModelAndView("misc/notExist");
+			result = new ModelAndView("misc/noTeam");
 			result.addObject("banner", banner);
 		}
 
