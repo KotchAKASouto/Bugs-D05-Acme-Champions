@@ -2545,6 +2545,7 @@
 			</list>
 		</property>
 		<property name="game" ref="game1" />
+		<property name="winner" ref="team1"/>
 	</bean> 
 	
 	<bean id="minutes2" class="domain.Minutes">
@@ -2570,6 +2571,7 @@
 			</list>
 		</property>
 		<property name="game" ref="game2" />
+		<property name="winner" ref="team1"/>
 	</bean> 
 	
 	<bean id="minutes3" class="domain.Minutes">
