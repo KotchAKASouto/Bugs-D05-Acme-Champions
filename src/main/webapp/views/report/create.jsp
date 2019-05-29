@@ -18,7 +18,7 @@
 	
 	<acme:submit name="save" code="report.save" />	
 
-	<acme:cancel code="team.back" url="team/president,manager/listByManager.do.do" />
+	<acme:cancel code="report.back" url="team/president,manager/listByManager.do" />
 		
 	
 

@@ -51,7 +51,10 @@ public class ReportPresidentController extends AbstractController {
 
 		final Team team = this.teamService.findTeamByPresidentId(president.getId());
 
-		players = this.reportService.findPlayerWithReportPerTeamId(team.getId());
+		if (team != null)
+			players = this.reportService.findPlayerWithReportPerTeamId(team.getId());
+		else
+			players = null;
 
 		final String banner = this.configurationService.findConfiguration().getBanner();
 

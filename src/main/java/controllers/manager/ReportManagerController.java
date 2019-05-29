@@ -47,7 +47,10 @@ public class ReportManagerController extends AbstractController {
 
 		manag = this.managerService.findByPrincipal();
 
-		reports = this.reportService.findByTeamId(manag.getTeam().getId());
+		if (manag.getTeam() != null)
+			reports = this.reportService.findByTeamId(manag.getTeam().getId());
+		else
+			reports = null;
 
 		final String banner = this.configurationService.findConfiguration().getBanner();
 
