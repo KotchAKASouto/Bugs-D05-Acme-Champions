@@ -30,7 +30,7 @@
 
 <h3><spring:message code="player" /></h3>
 
-<display:table name="players" id="row1" requestURI="${requestURI }" pagesize="${pagesize }" >
+<display:table name="players" id="row1" requestURI="${requestURI }" pagesize="${pagesize}" >
 
 	<acme:column property="surnames" titleKey="actor.surnames" value= "${row1.surnames}"/>
 	
@@ -79,7 +79,7 @@
 
 <h3><spring:message code="manager" /></h3>
 
-<display:table name="managers" id="row2" requestURI="${requestURI }" pagesize="${pagesize }" >
+<display:table name="managers" id="row2" requestURI="${requestURI }" pagesize="${pagesize}" >
 
 	<acme:column property="surnames" titleKey="actor.surnames" value= "${row2.surnames}"/>
 	
@@ -107,7 +107,8 @@
 	</div>
 </jstl:if>
 
-<jstl:if test="${requestURI == 'team/president&manager/listByPresident.do' }">
+<security:authorize access="hasRole('MANAGER')">
+<jstl:if test="${requestURI == 'team/president,manager/listByManager.do' }">
 <h3><spring:message code="actor.goalPrediction" /></h3>
 <fieldset>
 
@@ -118,6 +119,7 @@
 
 </fieldset>
 </jstl:if>
+</security:authorize>
 
 <acme:button name="back" code="actor.back" onclick="javascript: relativeRedir('welcome/index.do');" />
 
