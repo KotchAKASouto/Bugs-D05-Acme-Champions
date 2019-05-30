@@ -158,9 +158,10 @@ public class MessageActorController extends AbstractController {
 		final Boolean existMessage = this.messageService.existId(messageId);
 		final Boolean existBox = this.boxService.existId(boxId);
 
-		security = this.messageService.securityMessage(boxId);
-
 		if (existMessage && existBox) {
+
+			security = this.messageService.securityMessage(boxId);
+
 			if (security) {
 				final String banner = this.configurationService.findConfiguration().getBanner();
 
