@@ -58,7 +58,6 @@
 					<li><a href="hiring/president/list.do"><spring:message code="master.page.hiring" /></a></li>		
 					<li><a href="signing/president/list.do"><spring:message code="master.page.signing" /></a></li>	
 					<li><a href="team/president/display.do"><spring:message code="master.page.team.display" /></a></li>
-					<li><a href="team/president,manager/listByPresident.do"><spring:message code="master.page.team" /></a></li>
 					<li><a href="report/president/listPlayers.do"><spring:message code="master.page.playerReports" /></a></li>
 
 

@@ -16,6 +16,12 @@
 
 <jstl:if test="${existTeam }">
 
+<jstl:if test="${team.functional }">
+<h3 style="color: green;"><spring:message code="team.functional.${team.functional }" /></h3>
+</jstl:if>
+<jstl:if test="${!team.functional }">
+<h3 style="color: red;"><spring:message code="team.functional.${team.functional }" /></h3>
+</jstl:if>
 
 <acme:display code="team.name" property="${team.name }" />
 
@@ -27,10 +33,10 @@
 
 <acme:display code="team.trackRecord" property="${team.trackRecord }" />
 
-<acme:display code="team.functional" property="${team.functional }" />
-
 <div><spring:message code="team.establishmentDate" />:
-<fmt:formatDate value="${team.establishmentDate}" pattern="yyyy/MM/dd"/>
+<spring:message code="dateFormat" var="format"/>
+	<spring:message code="timeFormat" var="formatTime"/>
+		<fmt:formatDate type="date" value="${team.establishmentDate }" pattern="${format}" />
 </div>
 
 <jstl:if test="${sponsorships!=null}">

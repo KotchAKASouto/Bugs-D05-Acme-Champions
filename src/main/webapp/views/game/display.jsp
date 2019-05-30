@@ -13,7 +13,28 @@
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 
 
-
+<jstl:if test="${haveMinutesClosed}">
+<h2 style="color: blue;"><spring:message code="game.winner" />: 
+<jstl:if test="${minutesByGame.winner!=null }">
+${minutesByGame.winner.name}
+</jstl:if>
+<jstl:if test="${minutesByGame.winner==null }">
+<spring:message code="game.tie" />
+</jstl:if>
+</h2>
+<h3>
+<spring:message code="game.result" />: ${minutesByGame.homeScore}-${minutesByGame.visitorScore}<br>
+<spring:message code="game.score" />: <c:forEach items="${minutesByGame.playersScore}" var="playersScore">
+    ${playersScore.squadNumber} - ${playersScore.squadName} |
+</c:forEach><br>
+<spring:message code="game.yellow" />: <c:forEach items="${minutesByGame.playersYellow}" var="playersYellow">
+    ${playersYellow.squadNumber} - ${playersYellow.squadName} |
+</c:forEach><br>
+<spring:message code="game.red" />: <c:forEach items="${minutesByGame.playersRed}" var="playersRed">
+    ${playersRed.squadNumber} - ${playersRed.squadName} |
+</c:forEach>
+</h3>
+</jstl:if>
 
 <spring:message code="dateFormat" var="format"/>
 <spring:message code="timeFormat" var="formatTime"/>

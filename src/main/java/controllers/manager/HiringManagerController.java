@@ -101,6 +101,8 @@ public class HiringManagerController extends AbstractController {
 
 				this.managerService.save(manager);
 
+				this.teamService.functional(this.teamService.findByPresidentId(hiring.getPresident().getId()));
+
 				hiring.setStatus("ACCEPTED");
 
 				this.hiringService.save(hiring);

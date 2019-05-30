@@ -180,6 +180,71 @@ public class ManagerServiceTest extends AbstractTest {
 
 	}
 
+	/*
+	 * ACME.CHAMPIONS
+	 * a)(Level C) Requirement 11.4: An actor who is authenticated as president must be able to fire a manager.
+	 * 
+	 * b) Negative cases:
+	 * 2. Invalid authority
+	 * 3. Not player
+	 * 
+	 * c) Sentence coverage
+	 * -findOne(): 100%
+	 * -save(): 36,3%
+	 * 
+	 * d) Data coverage
+	 * -Player: 0%
+	 */
+
+	@Test
+	public void driverFireManager() {
+		final Object testingData[][] = {
+			{
+				"president1", "manager1", null
+			},//1. All fine
+			{
+				"spononsor1", "manager1", IllegalArgumentException.class
+			},//2. Invalid authority
+			{
+				"president1", "player1", IllegalArgumentException.class
+			},//3. Not player
+
+		};
+
+		for (int i = 0; i < testingData.length; i++)
+			this.templateFireManager((String) testingData[i][0], (String) testingData[i][1], (Class<?>) testingData[i][2]);
+	}
+
+	protected void templateFireManager(final String usernamePresident, final String beanManager, final Class<?> expected) {
+
+		Class<?> caught;
+
+		caught = null;
+		try {
+
+			this.startTransaction();
+
+			this.authenticate(usernamePresident);
+
+			final Manager manager = this.managerService.findOne(super.getEntityId(beanManager));
+
+			Assert.isTrue(manager != null);
+
+			manager.setTeam(null);
+
+			this.managerService.save(manager);
+			this.managerService.flush();
+
+		} catch (final Throwable oops) {
+			caught = oops.getClass();
+		}
+
+		this.rollbackTransaction();
+		super.checkExceptions(expected, caught);
+
+	}
+
+	//Falta la cabecera de este Test
 	@Test
 	public void driverGoalPrediction() {
 		final Object testingData[][] = {

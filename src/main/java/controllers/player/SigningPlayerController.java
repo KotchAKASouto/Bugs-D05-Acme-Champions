@@ -96,10 +96,14 @@ public class SigningPlayerController extends AbstractController {
 
 				this.playerService.save(player);
 
+				this.teamService.functional(this.teamService.findByPresidentId(signing.getPresident().getId()));
+
 				final Collection<Signing> oldOnes = this.signingService.findAllByPlayer(player.getId());
 
 				for (final Signing oldOne : oldOnes)
 					this.signingService.delete(oldOne);
+
+				this.teamService.functional(this.teamService.findByPresidentId(signing.getPresident().getId()));
 
 				signing.setStatus("ACCEPTED");
 

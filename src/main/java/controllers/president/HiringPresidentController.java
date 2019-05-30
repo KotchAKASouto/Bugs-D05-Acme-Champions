@@ -87,9 +87,16 @@ public class HiringPresidentController extends AbstractController {
 
 		if (exist) {
 
-			final HiringForm hiringForm = this.hiringService.create(managerId);
-			result = this.createEditModelAndView(hiringForm);
-			result.addObject("enlace", "hiring/president/edit.do");
+			final Manager manager = this.managerService.findOne(managerId);
+
+			if (manager.getTeam().equals(this.teamService.findByPresidentId(this.presidentService.findByPrincipal().getId()))) {
+
+				final HiringForm hiringForm = this.hiringService.create(managerId);
+				result = this.createEditModelAndView(hiringForm);
+				result.addObject("enlace", "hiring/president/edit.do");
+
+			} else
+				result = new ModelAndView("redirect:/welcome/index.do");
 
 		} else {
 
@@ -108,21 +115,28 @@ public class HiringPresidentController extends AbstractController {
 
 		if (exist) {
 
-			final Hiring hiring = this.hiringService.reconstruct(hiringForm, binding);
+			final Manager manager = this.managerService.findOne(hiringForm.getManagerId());
 
-			if (binding.hasErrors())
-				result = this.createEditModelAndView(hiringForm, null);
-			else
-				try {
+			if (manager.getTeam().equals(this.teamService.findByPresidentId(this.presidentService.findByPrincipal().getId()))) {
 
-					this.hiringService.save(hiring);
-					result = new ModelAndView("redirect:/hiring/president/list.do");
+				final Hiring hiring = this.hiringService.reconstruct(hiringForm, binding);
 
-				} catch (final Throwable oops) {
+				if (binding.hasErrors())
+					result = this.createEditModelAndView(hiringForm, null);
+				else
+					try {
 
-					result = this.createEditModelAndView(hiringForm, "hiring.commit.error");
+						this.hiringService.save(hiring);
+						result = new ModelAndView("redirect:/hiring/president/list.do");
 
-				}
+					} catch (final Throwable oops) {
+
+						result = this.createEditModelAndView(hiringForm, "hiring.commit.error");
+
+					}
+
+			} else
+				result = new ModelAndView("redirect:/welcome/index.do");
 
 		} else
 			result = new ModelAndView("redirect:/welcome/index.do");
@@ -156,6 +170,8 @@ public class HiringPresidentController extends AbstractController {
 
 				for (final Hiring oldOne : oldOnes)
 					this.hiringService.delete(oldOne);
+
+				this.teamService.functional(this.teamService.findByPresidentId(hiring.getPresident().getId()));
 
 				hiring.setStatus("ACCEPTED");
 

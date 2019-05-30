@@ -78,7 +78,7 @@ public class TeamPresidentManagerController extends AbstractController {
 			result = new ModelAndView("actor/listPlayerManager");
 			result.addObject("players", players);
 			result.addObject("managers", managers);
-			result.addObject("requestURI", "team/president&manager/listByPresident.do");
+			result.addObject("requestURI", "team/president,manager/listByPresident.do");
 			result.addObject("pagesize", 5);
 			result.addObject("banner", banner);
 			result.addObject("canFire", canFire);
@@ -86,7 +86,7 @@ public class TeamPresidentManagerController extends AbstractController {
 			result.addObject("AmInFinder", false);
 
 		} else {
-			result = new ModelAndView("misc/notExist");
+			result = new ModelAndView("misc/noTeam");
 			result.addObject("banner", banner);
 		}
 
@@ -117,7 +117,7 @@ public class TeamPresidentManagerController extends AbstractController {
 			result = new ModelAndView("actor/listPlayerManager");
 			result.addObject("players", players);
 			result.addObject("managers", managers);
-			result.addObject("requestURI", "team/president&manager/listByPresident.do");
+			result.addObject("requestURI", "team/president,manager/listByManager.do");
 			result.addObject("pagesize", 5);
 			result.addObject("banner", banner);
 			result.addObject("language", LocaleContextHolder.getLocale().getLanguage());
@@ -125,7 +125,7 @@ public class TeamPresidentManagerController extends AbstractController {
 			result.addObject("goalPrediction", goalPrediction);
 
 		} else {
-			result = new ModelAndView("misc/notExist");
+			result = new ModelAndView("misc/noTeam");
 			result.addObject("banner", banner);
 		}
 

@@ -195,7 +195,7 @@ public class CompetitionFederationController {
 				final Competition competition = this.competitionService.findOne(competitionId);
 
 				final Collection<Team> teamsNow = competition.getTeams();
-				final Collection<Team> teamsAll = this.teamService.findAll();
+				final Collection<Team> teamsAll = this.teamService.findFunctionalTeams();
 
 				teamsAll.removeAll(teamsNow);
 
@@ -230,13 +230,19 @@ public class CompetitionFederationController {
 
 			if (security) {
 
-				final Competition competition = this.competitionService.findOne(competitionId);
 				final Team team = this.teamService.findOne(teamId);
 
-				this.competitionService.addTeam(competition, team);
+				if (team.getFunctional()) {
 
-				result = new ModelAndView("redirect:/competition/federation/listAddTeam.do");
-				result.addObject("competitionId", competitionId);
+					final Competition competition = this.competitionService.findOne(competitionId);
+
+					this.competitionService.addTeam(competition, team);
+
+					result = new ModelAndView("redirect:/competition/federation/listAddTeam.do");
+					result.addObject("competitionId", competitionId);
+
+				} else
+					result = new ModelAndView("redirect:/welcome/index.do");
 
 			} else
 				result = new ModelAndView("redirect:/welcome/index.do");
