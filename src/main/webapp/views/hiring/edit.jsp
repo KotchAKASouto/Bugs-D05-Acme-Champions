@@ -29,7 +29,17 @@
 	
 	<acme:submit name="save" code="hiring.save" />
 	
-	<acme:cancel code="hiring.cancel" url="hiring/${autoridad}/list.do" />
+	<jstl:if test="${hiring.id != 0 }">
+	
+		<acme:cancel code="hiring.cancel" url="hiring/${autoridad}/list.do" />
+		
+	</jstl:if>
+	
+	<jstl:if test="${hiring.id == 0 }">
+		
+		<acme:cancel code="hiring.cancel" url="finder/president/find.do" />
+		
+	</jstl:if>
 
 
 </form:form>    

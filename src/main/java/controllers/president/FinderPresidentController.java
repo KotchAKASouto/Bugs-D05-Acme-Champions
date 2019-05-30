@@ -15,10 +15,14 @@ import org.springframework.web.servlet.ModelAndView;
 import services.ActorService;
 import services.ConfigurationService;
 import services.FinderService;
+import services.HiringService;
 import services.PresidentService;
+import services.SigningService;
+import services.TeamService;
 import controllers.AbstractController;
 import domain.Actor;
 import domain.Finder;
+import domain.Manager;
 
 @Controller
 @RequestMapping("/finder/president")
@@ -37,6 +41,15 @@ public class FinderPresidentController extends AbstractController {
 
 	@Autowired
 	private ConfigurationService	configurationService;
+
+	@Autowired
+	private TeamService				teamService;
+
+	@Autowired
+	private SigningService			signingService;
+
+	@Autowired
+	private HiringService			hiringService;
 
 
 	@RequestMapping(value = "/find", method = RequestMethod.GET)
@@ -59,6 +72,20 @@ public class FinderPresidentController extends AbstractController {
 		if (interval.toDuration().getStandardHours() > timeOut)
 			this.finderService.deleteManagersPlayers(finder);
 
+		final Integer teamId = this.teamService.findByPresidentId(actor.getId()) != null ? this.teamService.findByPresidentId(actor.getId()).getId() : null;
+
+		Integer numPlayers = null;
+		Integer numManager = null;
+
+		if (teamId != null) {
+			numPlayers = this.teamService.findPlayersByTeamId(teamId).size();
+			final Manager manager = this.teamService.findManagerByTeamId(teamId);
+			if (manager != null)
+				numManager = 1;
+			else
+				numManager = 0;
+		}
+
 		result = new ModelAndView("actor/listPlayerManager");
 		result.addObject("players", finder.getPlayers());
 		result.addObject("managers", finder.getManagers());
@@ -70,6 +97,9 @@ public class FinderPresidentController extends AbstractController {
 		result.addObject("AmILogged", true);
 		result.addObject("AmInFinder", true);
 		result.addObject("language", language);
+		result.addObject("teamNow", teamId);
+		result.addObject("numPlayers", numPlayers);
+		result.addObject("numManager", numManager);
 
 		return result;
 

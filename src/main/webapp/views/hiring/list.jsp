@@ -12,6 +12,8 @@
 
 <display:table name="hirings" id="row" requestURI="${requestURI }" pagesize="5">
 
+	<acme:column property="manager.name" titleKey="hiring.manager" value= "${row.manager.name}: "/>
+
 	<display:column titleKey="hiring.price">
 		<fmt:formatNumber type="number" maxFractionDigits="5" value="${row.price}" />
 	</display:column>

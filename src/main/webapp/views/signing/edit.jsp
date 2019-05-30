@@ -15,11 +15,15 @@
 	<form:hidden path="version" />
 	<form:hidden path="playerId" />
 	
-	<div><spring:message code="signing.offeredClause.now" />:
+	<security:authorize access="hasRole('MANAGER')">
+		<div><spring:message code="signing.offeredClause.now" />:
+			<jstl:if test="${signing.id != 0 }">
+				<fmt:formatNumber type="number" maxFractionDigits="5" value="${buyoutClause}" />
+			</jstl:if>
+		</div>
+	</security:authorize>
 	
-		<fmt:formatNumber type="number" maxFractionDigits="5" value="${buyoutClause}" />
-		
-	</div>
+	
 	
 	
 	<jstl:if test="${signing.id == 0 }">
@@ -37,7 +41,17 @@
 	
 	<acme:submit name="save" code="signing.save" />
 	
-	<acme:cancel code="signing.cancel" url="signing/${autoridad}/list.do" />
+	<jstl:if test="${signing.id != 0 }">
+	
+		<acme:cancel code="signing.cancel" url="signing/${autoridad}/list.do" />
+		
+	</jstl:if>
+	
+	<jstl:if test="${signing.id == 0 }">
+		
+		<acme:cancel code="signing.cancel" url="finder/president/find.do" />
+		
+	</jstl:if>
 
 
 </form:form>    

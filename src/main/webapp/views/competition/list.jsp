@@ -8,6 +8,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="acme" tagdir="/WEB-INF/tags" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+<jsp:useBean id="now" class="java.util.Date" />
 
 
 
@@ -28,10 +29,10 @@
 		
 	<display:column>
 		<jstl:if test="${!row.closed}">
-		
-			<a href="competition/federation/close.do?competitionId=${row.id}"><spring:message code="competition.close"/></a>
-			<a href="competition/federation/listAddTeam.do?competitionId=${row.id}"><spring:message code="competition.addTeams"/></a>
-			
+			<jstl:if test="${row.startDate > now}">
+				<a href="competition/federation/close.do?competitionId=${row.id}"><spring:message code="competition.close"/></a>
+				<a href="competition/federation/listAddTeam.do?competitionId=${row.id}"><spring:message code="competition.addTeams"/></a>
+			</jstl:if>	
 		</jstl:if>
 	</display:column>
 	

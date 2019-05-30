@@ -86,11 +86,13 @@ public class ManagerService {
 
 	public void editTeam(final Manager manager, final Team team) {
 
+		final Team old = manager.getTeam();
+
 		manager.setTeam(team);
 
 		this.managerRepository.save(manager);
 
-		this.teamService.functional(team);
+		this.teamService.functional(old);
 
 	}
 

@@ -87,36 +87,38 @@ public class SigningPlayerController extends AbstractController {
 			final Signing signing = this.signingService.findOne(signingId);
 			final Player loged = this.playerService.findByPrincipal();
 
-			if (signing.getPlayer().equals(loged) && loged.getTeam() == null && signing.getStatus().equals("PENDING")) {
+			if (loged.getTeam() == null) {
 
-				final Player player = this.playerService.findOne(signing.getPlayer().getId());
+				if (signing.getPlayer().equals(loged) && loged.getTeam() == null && signing.getStatus().equals("PENDING")) {
 
-				player.setTeam(this.teamService.findByPresidentId(signing.getPresident().getId()));
-				player.setBuyoutClause(signing.getOfferedClause());
+					final Player player = this.playerService.findOne(signing.getPlayer().getId());
 
-				this.playerService.save(player);
+					player.setTeam(this.teamService.findByPresidentId(signing.getPresident().getId()));
+					player.setBuyoutClause(signing.getOfferedClause());
 
-				this.teamService.functional(this.teamService.findByPresidentId(signing.getPresident().getId()));
+					this.playerService.save(player);
 
-				final Collection<Signing> oldOnes = this.signingService.findAllByPlayer(player.getId());
+					this.teamService.functional(this.teamService.findByPresidentId(signing.getPresident().getId()));
 
-				for (final Signing oldOne : oldOnes)
-					this.signingService.delete(oldOne);
+					final Collection<Signing> oldOnes = this.signingService.findAllByPlayer(player.getId());
 
-				this.teamService.functional(this.teamService.findByPresidentId(signing.getPresident().getId()));
+					for (final Signing oldOne : oldOnes)
+						this.signingService.delete(oldOne);
 
-				signing.setStatus("ACCEPTED");
+					this.teamService.functional(this.teamService.findByPresidentId(signing.getPresident().getId()));
 
-				this.signingService.save(signing);
+					signing.setStatus("ACCEPTED");
 
-				result = new ModelAndView("redirect:/signing/player/list.do");
-				result.addObject("banner", banner);
+					this.signingService.save(signing);
 
-			} else {
+					result = new ModelAndView("redirect:/signing/player/list.do");
+					result.addObject("banner", banner);
 
+				} else
+					result = new ModelAndView("redirect:/welcome/index.do");
+
+			} else
 				result = new ModelAndView("redirect:/welcome/index.do");
-				result.addObject("banner", banner);
-			}
 
 		} else {
 
@@ -141,18 +143,19 @@ public class SigningPlayerController extends AbstractController {
 
 			final Player loged = this.playerService.findByPrincipal();
 
-			if (signing.getPlayer().equals(loged) && loged.getTeam() == null && signing.getStatus().equals("PENDING")) {
+			if (loged.getTeam() == null) {
 
-				final SigningForm signingForm = this.signingService.editForm(signing);
+				if (signing.getPlayer().equals(loged) && loged.getTeam() == null && signing.getStatus().equals("PENDING")) {
 
-				result = this.createEditModelAndView(signingForm);
-				result.addObject("enlace", "signing/player/reject.do");
+					final SigningForm signingForm = this.signingService.editForm(signing);
 
-			} else {
+					result = this.createEditModelAndView(signingForm);
+					result.addObject("enlace", "signing/player/reject.do");
 
+				} else
+					result = new ModelAndView("redirect:/welcome/index.do");
+			} else
 				result = new ModelAndView("redirect:/welcome/index.do");
-				result.addObject("banner", banner);
-			}
 
 		} else {
 
@@ -175,21 +178,26 @@ public class SigningPlayerController extends AbstractController {
 
 			final Player loged = this.playerService.findByPrincipal();
 
-			if (signing.getPlayer().equals(loged) && loged.getTeam() == null && signing.getStatus().equals("PENDING")) {
+			if (loged.getTeam() == null) {
 
-				if (binding.hasErrors())
-					result = this.createEditModelAndView(signingForm, null);
-				else
-					try {
-						signing.setStatus("REJECTED");
-						this.signingService.save(signing);
-						result = new ModelAndView("redirect:/signing/player/list.do");
+				if (signing.getPlayer().equals(loged) && loged.getTeam() == null && signing.getStatus().equals("PENDING")) {
 
-					} catch (final Throwable oops) {
+					if (binding.hasErrors())
+						result = this.createEditModelAndView(signingForm, null);
+					else
+						try {
+							signing.setStatus("REJECTED");
+							this.signingService.save(signing);
+							result = new ModelAndView("redirect:/signing/player/list.do");
 
-						result = this.createEditModelAndView(signingForm, "signing.commit.error");
+						} catch (final Throwable oops) {
 
-					}
+							result = this.createEditModelAndView(signingForm, "signing.commit.error");
+
+						}
+
+				} else
+					result = new ModelAndView("redirect:/welcome/index.do");
 
 			} else
 				result = new ModelAndView("redirect:/welcome/index.do");

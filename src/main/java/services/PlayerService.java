@@ -95,12 +95,14 @@ public class PlayerService {
 
 	public void editTeam(final Player player, final Team team, final Double offeredClause) {
 
+		final Team old = player.getTeam();
+
 		player.setTeam(team);
 		player.setBuyoutClause(offeredClause);
 
 		this.playerRepository.save(player);
 
-		this.teamService.functional(team);
+		this.teamService.functional(old);
 
 	}
 
