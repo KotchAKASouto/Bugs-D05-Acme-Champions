@@ -5,7 +5,6 @@ import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -131,20 +130,32 @@ public class MessageActorController extends AbstractController {
 	public ModelAndView save(@ModelAttribute(value = "message") final MessageForm message2, final BindingResult binding) {
 		final Message message3 = this.messageService.reconstruct(message2, binding);
 		ModelAndView result;
-		if (binding.hasErrors())
-			result = this.createEditModelAndView(message2);
-		else
-			try {
+		Boolean exist1, exist2, exist3;
+		exist1 = this.messageService.existId(message3.getId());
+		exist2 = this.actorService.existActor(message3.getSender().getId());
+		exist3 = this.actorService.existActor(message3.getRecipient().getId());
+		if (exist1 && exist2 && exist3) {
 
-				Assert.isTrue(message3.getSender() == this.actorService.findByPrincipal());
-				Assert.isTrue(message3.getRecipient() != this.actorService.findByPrincipal());
-				Assert.isTrue(message3.getId() == 0);
+			if (binding.hasErrors())
+				result = this.createEditModelAndView(message2);
+			else
+				try {
 
-				this.messageService.save(message3);
-				result = new ModelAndView("redirect:/box/actor/list.do");
-			} catch (final Throwable oops) {
-				result = this.createEditModelAndView(message2, "message.commit.error");
-			}
+					final Boolean cond1 = (message3.getSender() == this.actorService.findByPrincipal());
+					final Boolean cond2 = (message3.getRecipient() != this.actorService.findByPrincipal());
+					final Boolean cond3 = (message3.getId() == 0);
+
+					if (cond1 && cond2 && cond3) {
+						this.messageService.save(message3);
+						result = new ModelAndView("redirect:/box/actor/list.do");
+					} else
+						result = new ModelAndView("redirect:/welcome/index.do");
+
+				} catch (final Throwable oops) {
+					result = this.createEditModelAndView(message2, "message.commit.error");
+				}
+		} else
+			result = new ModelAndView("redirect:/welcome/index.do");
 		return result;
 	}
 
@@ -153,16 +164,17 @@ public class MessageActorController extends AbstractController {
 
 		ModelAndView result;
 		final Message message1;
-		final Boolean security;
+		final Boolean security1;
 
 		final Boolean existMessage = this.messageService.existId(messageId);
 		final Boolean existBox = this.boxService.existId(boxId);
 
-		security = this.messageService.securityMessage(boxId);
+		security1 = this.messageService.securityMessage(boxId);
+
+		final String banner = this.configurationService.findConfiguration().getBanner();
 
 		if (existMessage && existBox) {
-			if (security) {
-				final String banner = this.configurationService.findConfiguration().getBanner();
+			if (security1) {
 
 				message1 = this.messageService.findOne(messageId);
 
@@ -173,8 +185,11 @@ public class MessageActorController extends AbstractController {
 
 			} else
 				result = new ModelAndView("redirect:/welcome/index.do");
+			result.addObject("banner", banner);
+
 		} else
 			result = new ModelAndView("misc/notExist");
+		result.addObject("banner", banner);
 
 		return result;
 	}
