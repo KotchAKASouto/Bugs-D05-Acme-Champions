@@ -42,6 +42,7 @@ public class FinderServiceTest extends AbstractTest {
 	 * Browse managers and players via finder, hire managers and sign players to join the team.
 	 * b) Negative cases:
 	 * 2. The number of the players finded is wrong
+	 * 3. The actor is not authenticated
 	 * c) Sentence coverage
 	 * - save(Finder): 84,4%
 	 * - findFinderByPresident(int): 100%
@@ -56,6 +57,9 @@ public class FinderServiceTest extends AbstractTest {
 			{
 				"", "president1", 1, IllegalArgumentException.class
 			},//2. The number of the players finded is wrong
+			{
+				"", null, 1, IllegalArgumentException.class
+			},//3. The actor is not authenticated
 
 		};
 
