@@ -248,7 +248,7 @@ public class GameService {
 		} else {
 
 			final Game gameBBDD = this.findOne(game.getId());
-			game.setFriendly(true);
+			game.setFriendly(gameBBDD.getFriendly());
 			game.setReferee(gameBBDD.getReferee());
 			if (game.getHomeTeam() != null)
 				game.setPlace(game.getHomeTeam().getStadiumName());
@@ -261,5 +261,11 @@ public class GameService {
 
 	public void flush() {
 		this.gameRepository.flush();
+	}
+
+	public Collection<Game> findFutureFriendlyGamesByRefereeId(final int refereeId) {
+		final Collection<Game> res = this.gameRepository.findFutureFriendlyGamesByRefereeId(refereeId);
+
+		return res;
 	}
 }

@@ -138,7 +138,7 @@
 </security:authorize>
 
 <security:authorize access="hasRole('MANAGER')">
-<acme:button name="back" code="player.back" onclick="javascript: relativeRedir('training/manager/list.do');" />
+<acme:button name="back" code="player.back" onclick="javascript: relativeRedir('calendar/manager/show.do');" />
 </security:authorize>
 <security:authorize access="hasRole('REFEREE')">
 <acme:button name="back" code="player.back" onclick="javascript: relativeRedir('game/referee/listMyGames.do');" />
