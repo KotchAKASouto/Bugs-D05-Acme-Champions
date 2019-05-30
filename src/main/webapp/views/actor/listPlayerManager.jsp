@@ -76,7 +76,7 @@
 	</security:authorize>
 	
 	<security:authorize access="hasRole('PRESIDENT')">
-		<jstl:if test="!${AmInFinder }">
+		<jstl:if test="${requestURI == 'team/president,manager/listByPresident.do' }">
 			<display:column>
 				<a href="president/firePlayer.do?playerId=${row1.id}"><spring:message code="player.fire" /></a>
 			</display:column>
@@ -118,11 +118,11 @@
 	</security:authorize>
 	
 	<security:authorize access="hasRole('PRESIDENT')">
-		<display:column>
-			<jstl:if test="${canFire == true}">
-					<a href="president/fireManager.do?managerId=${row2.id}" ><spring:message code="manager.fire" /></a>
-			</jstl:if>
-		</display:column>
+		<jstl:if test="${requestURI == 'team/president,manager/listByPresident.do' }">
+			<display:column>
+				<a href="president/fireManager.do?managerId=${row2.id}" ><spring:message code="manager.fire" /></a>
+			</display:column>
+		</jstl:if>
 	</security:authorize>
 	
 </display:table>
