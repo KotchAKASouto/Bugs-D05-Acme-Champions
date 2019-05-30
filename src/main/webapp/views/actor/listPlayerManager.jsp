@@ -75,6 +75,14 @@
 		</jstl:if>
 	</security:authorize>
 	
+	<security:authorize access="hasRole('MANAGER')">
+	<jstl:if test="${requestURI == 'team/president,manager/listByManager.do' }">
+	<display:column>
+				<a href="player/manager/injured.do?playerId=${row1.id}"><spring:message code="player.manager.${row1.injured}" /></a>
+	</display:column>
+	</jstl:if>
+	</security:authorize>
+	
 </display:table>
 
 <h3><spring:message code="manager" /></h3>
@@ -137,7 +145,7 @@
 	  var tdStatus = trTags[i].children[5];
 	  if (tdStatus.innerText == "NO") {
 		  trTags[i].style.backgroundColor = "#98FB98";
-	  } else if (tdStatus.innerText == "YES") {
+	  } else if (tdStatus.innerText == "YES" || tdStatus.innerText == "SÍ") {
 		  trTags[i].style.backgroundColor = "#FFA07A";
 	  }
 	}
