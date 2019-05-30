@@ -28,21 +28,24 @@ public class SponsorService {
 
 	// Managed Repository ------------------------
 	@Autowired
-	private SponsorRepository	sponsorRepository;
+	private SponsorRepository		sponsorRepository;
 
 	// Suporting services ------------------------
 
 	@Autowired
-	private ActorService		actorService;
+	private ActorService			actorService;
 
 	@Autowired
-	private BoxService			boxService;
+	private BoxService				boxService;
 
 	@Autowired
-	private UserAccountService	userAccountService;
+	private UserAccountService		userAccountService;
 
 	@Autowired
-	private Validator			validator;
+	private Validator				validator;
+
+	@Autowired
+	private ConfigurationService	configurationService;
 
 
 	public Sponsor create() {
@@ -96,6 +99,9 @@ public class SponsorService {
 			final String phone = this.actorService.checkPhone(sponsor.getPhone());
 			sponsor.setPhone(phone);
 
+			final String newUrl = this.configurationService.checkURL(sponsor.getPhoto());
+			sponsor.setPhoto(newUrl);
+
 			result = this.sponsorRepository.save(sponsor);
 
 		} else {
@@ -121,6 +127,9 @@ public class SponsorService {
 
 			final String phone = this.actorService.checkPhone(sponsor.getPhone());
 			sponsor.setPhone(phone);
+
+			final String newUrl = this.configurationService.checkURL(sponsor.getPhoto());
+			sponsor.setPhoto(newUrl);
 
 			result = this.sponsorRepository.save(sponsor);
 

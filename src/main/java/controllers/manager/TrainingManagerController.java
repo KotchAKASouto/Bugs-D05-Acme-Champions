@@ -132,7 +132,7 @@ public class TrainingManagerController extends AbstractController {
 			final Manager manager = this.managerService.findByPrincipal();
 			final Boolean startDateGood = this.checkStartDate(training);
 
-			if (training.getManager().getId() == manager.getId() || startDateGood)
+			if (training.getManager().getId() == manager.getId() && startDateGood)
 				try {
 					this.trainingService.delete(training);
 					result = new ModelAndView("redirect:/calendar/manager/show.do");
@@ -214,6 +214,7 @@ public class TrainingManagerController extends AbstractController {
 		final String banner = this.configurationService.findConfiguration().getBanner();
 		final Boolean security1;
 		Boolean security2;
+		final String language = LocaleContextHolder.getLocale().getLanguage();
 
 		if (player == null || training == null) {
 			result = new ModelAndView("misc/notExist");
@@ -237,6 +238,7 @@ public class TrainingManagerController extends AbstractController {
 					result.addObject("pagesize", 5);
 					result.addObject("banner", banner);
 					result.addObject("trainingId", trainingId);
+					result.addObject("language", language);
 
 				} catch (final Throwable oops) {
 
@@ -251,6 +253,7 @@ public class TrainingManagerController extends AbstractController {
 					result.addObject("messageError", "player.addToTraining.error");
 					result.addObject("banner", banner);
 					result.addObject("trainingId", trainingId);
+					result.addObject("language", language);
 				}
 			else
 				result = new ModelAndView("redirect:/welcome/index.do");

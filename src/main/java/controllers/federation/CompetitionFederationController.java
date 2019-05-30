@@ -2,6 +2,7 @@
 package controllers.federation;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,11 +16,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import services.ActorService;
 import services.CompetitionService;
 import services.ConfigurationService;
 import services.FederationService;
 import services.FormatService;
 import services.TeamService;
+import domain.Actor;
 import domain.Competition;
 import domain.Federation;
 import domain.Format;
@@ -46,6 +49,9 @@ public class CompetitionFederationController {
 
 	@Autowired
 	private TeamService				teamService;
+
+	@Autowired
+	private ActorService			actorService;
 
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
@@ -89,35 +95,53 @@ public class CompetitionFederationController {
 	public ModelAndView save(@ModelAttribute(value = "competition") final CompetitionForm competitionForm, final BindingResult binding) {
 		ModelAndView result;
 
-		final Boolean exist = this.formatService.exist(competitionForm.getFormatId());
+		final String banner = this.configurationService.findConfiguration().getBanner();
 
-		if (exist) {
+		if (competitionForm.getId() == 0) {
 
-			final Competition competition = this.competitionService.reconstruct(competitionForm, binding);
+			final Boolean exist = this.formatService.exist(competitionForm.getFormatId());
 
-			if (binding.hasErrors())
-				result = this.createEditModelAndView(competitionForm, null);
-			else
-				try {
+			if (exist) {
 
-					this.competitionService.save(competition);
-					result = new ModelAndView("redirect:/competition/federation/list.do");
+				final Boolean security = this.formatService.security(competitionForm.getFormatId());
 
-				} catch (final Throwable oops) {
+				if (security) {
 
-					result = this.createEditModelAndView(competitionForm, "competition.commit.error");
+					final Competition competition = this.competitionService.reconstruct(competitionForm, binding);
 
-				}
+					if (binding.hasErrors())
+						result = this.createEditModelAndView(competitionForm, null);
+					else
+						try {
+
+							this.competitionService.save(competition);
+							result = new ModelAndView("redirect:/competition/federation/list.do");
+
+						} catch (final Throwable oops) {
+
+							result = this.createEditModelAndView(competitionForm, "competition.commit.error");
+
+						}
+
+				} else
+					result = new ModelAndView("redirect:/welcome/index.do");
+
+			} else {
+
+				result = new ModelAndView("misc/notExist");
+				result.addObject("banner", banner);
+			}
 
 		} else
 			result = new ModelAndView("redirect:/welcome/index.do");
 
 		return result;
 	}
-
 	@RequestMapping(value = "/close", method = RequestMethod.GET)
 	public ModelAndView close(@RequestParam final Integer competitionId) {
 		ModelAndView result;
+
+		final String banner = this.configurationService.findConfiguration().getBanner();
 
 		final Boolean exist2 = this.competitionService.exist(competitionId);
 
@@ -129,51 +153,59 @@ public class CompetitionFederationController {
 
 				final Competition competition = this.competitionService.findOne(competitionId);
 
-				if (competition.getFormat().getType().equals("LEAGUE") && competition.getTeams().size() >= 2 && competition.getTeams().size() >= competition.getFormat().getMinimumTeams()
-					&& competition.getTeams().size() <= competition.getFormat().getMaximumTeams()) {
+				final Date now = new Date();
 
-					competition.setClosed(true);
+				if (competition.getStartDate().after(now)) {
 
-					this.competitionService.save(competition);
+					if (competition.getFormat().getType().equals("LEAGUE") && competition.getTeams().size() >= 2 && competition.getTeams().size() >= competition.getFormat().getMinimumTeams()
+						&& competition.getTeams().size() <= competition.getFormat().getMaximumTeams()) {
 
-					result = new ModelAndView("redirect:/competition/federation/list.do");
+						competition.setClosed(true);
 
-				} else if ((Math.log(competition.getTeams().size()) / Math.log(2)) % 1 == 0 && competition.getTeams().size() >= competition.getFormat().getMinimumTeams() && competition.getTeams().size() <= competition.getFormat().getMaximumTeams()) {
+						this.competitionService.save(competition);
 
-					competition.setClosed(true);
+						result = new ModelAndView("redirect:/competition/federation/list.do");
 
-					this.competitionService.save(competition);
+					} else if ((Math.log(competition.getTeams().size()) / Math.log(2)) % 1 == 0 && competition.getTeams().size() >= competition.getFormat().getMinimumTeams() && competition.getTeams().size() <= competition.getFormat().getMaximumTeams()) {
 
-					result = new ModelAndView("redirect:/competition/federation/list.do");
+						competition.setClosed(true);
 
-				} else {
+						this.competitionService.save(competition);
 
-					final Collection<Competition> competitions;
-					final Federation federation;
+						result = new ModelAndView("redirect:/competition/federation/list.do");
 
-					federation = this.federationService.findByPrincipal();
+					} else {
 
-					competitions = this.competitionService.findByFederationId(federation.getId());
+						final Collection<Competition> competitions;
+						final Federation federation;
 
-					final String banner = this.configurationService.findConfiguration().getBanner();
+						federation = this.federationService.findByPrincipal();
 
-					result = new ModelAndView("competition/list");
-					result.addObject("competitions", competitions);
-					result.addObject("requestURI", "competition/federation/list.do");
-					result.addObject("pagesize", 5);
-					result.addObject("banner", banner);
-					result.addObject("language", LocaleContextHolder.getLocale().getLanguage());
-					result.addObject("autoridad", "federation");
+						competitions = this.competitionService.findByFederationId(federation.getId());
 
-					result.addObject("teamError", true);
+						result = new ModelAndView("competition/list");
+						result.addObject("competitions", competitions);
+						result.addObject("requestURI", "competition/federation/list.do");
+						result.addObject("pagesize", 5);
+						result.addObject("banner", banner);
+						result.addObject("language", LocaleContextHolder.getLocale().getLanguage());
+						result.addObject("autoridad", "federation");
 
-				}
+						result.addObject("teamError", true);
+
+					}
+
+				} else
+					result = new ModelAndView("redirect:/welcome/index.do");
 
 			} else
 				result = new ModelAndView("redirect:/welcome/index.do");
 
-		} else
-			result = new ModelAndView("redirect:/welcome/index.do");
+		} else {
+
+			result = new ModelAndView("misc/notExist");
+			result.addObject("banner", banner);
+		}
 
 		return result;
 	}
@@ -182,6 +214,8 @@ public class CompetitionFederationController {
 	public ModelAndView listAddTeam(@RequestParam final Integer competitionId) {
 		ModelAndView result;
 
+		final String banner = this.configurationService.findConfiguration().getBanner();
+
 		final Boolean exist2 = this.competitionService.exist(competitionId);
 
 		if (exist2) {
@@ -189,8 +223,6 @@ public class CompetitionFederationController {
 			final Boolean security = this.competitionService.security(competitionId);
 
 			if (security) {
-
-				final String banner = this.configurationService.findConfiguration().getBanner();
 
 				final Competition competition = this.competitionService.findOne(competitionId);
 
@@ -211,8 +243,11 @@ public class CompetitionFederationController {
 			} else
 				result = new ModelAndView("redirect:/welcome/index.do");
 
-		} else
-			result = new ModelAndView("redirect:/welcome/index.do");
+		} else {
+
+			result = new ModelAndView("misc/notExist");
+			result.addObject("banner", banner);
+		}
 
 		return result;
 	}
@@ -220,6 +255,8 @@ public class CompetitionFederationController {
 	@RequestMapping(value = "/addTeam", method = RequestMethod.GET)
 	public ModelAndView addTeam(@RequestParam final Integer teamId, @RequestParam final Integer competitionId) {
 		ModelAndView result;
+
+		final String banner = this.configurationService.findConfiguration().getBanner();
 
 		final Boolean exist = this.teamService.exist(teamId);
 		final Boolean exist2 = this.competitionService.exist(competitionId);
@@ -247,8 +284,11 @@ public class CompetitionFederationController {
 			} else
 				result = new ModelAndView("redirect:/welcome/index.do");
 
-		} else
-			result = new ModelAndView("redirect:/welcome/index.do");
+		} else {
+
+			result = new ModelAndView("misc/notExist");
+			result.addObject("banner", banner);
+		}
 
 		return result;
 	}
@@ -264,7 +304,9 @@ public class CompetitionFederationController {
 
 		final String banner = this.configurationService.findConfiguration().getBanner();
 
-		final Collection<Format> formats = this.formatService.findAll();
+		final Actor actor = this.actorService.findByPrincipal();
+
+		final Collection<Format> formats = this.formatService.findFormatByFederationId(actor.getId());
 
 		final Map<Integer, String> formatMap = new HashMap<>();
 

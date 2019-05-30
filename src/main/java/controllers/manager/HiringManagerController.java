@@ -88,33 +88,35 @@ public class HiringManagerController extends AbstractController {
 
 			final Manager loged = this.managerService.findByPrincipal();
 
-			if (hiring.getManager().equals(loged) && loged.getTeam() == null && hiring.getStatus().equals("PENDING")) {
+			if (loged.getTeam() == null) {
 
-				final Manager manager = this.managerService.findOne(hiring.getManager().getId());
+				if (hiring.getManager().equals(loged) && loged.getTeam() == null && hiring.getStatus().equals("PENDING")) {
 
-				manager.setTeam(this.teamService.findByPresidentId(hiring.getPresident().getId()));
+					final Manager manager = this.managerService.findOne(hiring.getManager().getId());
 
-				final Collection<Hiring> oldOnes = this.hiringService.findAllByManager(manager.getId());
+					manager.setTeam(this.teamService.findByPresidentId(hiring.getPresident().getId()));
 
-				for (final Hiring oldOne : oldOnes)
-					this.hiringService.delete(oldOne);
+					final Collection<Hiring> oldOnes = this.hiringService.findAllByManager(manager.getId());
 
-				this.managerService.save(manager);
+					for (final Hiring oldOne : oldOnes)
+						this.hiringService.delete(oldOne);
 
-				this.teamService.functional(this.teamService.findByPresidentId(hiring.getPresident().getId()));
+					this.managerService.save(manager);
 
-				hiring.setStatus("ACCEPTED");
+					this.teamService.functional(this.teamService.findByPresidentId(hiring.getPresident().getId()));
 
-				this.hiringService.save(hiring);
+					hiring.setStatus("ACCEPTED");
 
-				result = new ModelAndView("redirect:/hiring/manager/list.do");
-				result.addObject("banner", banner);
+					this.hiringService.save(hiring);
 
-			} else {
+					result = new ModelAndView("redirect:/hiring/manager/list.do");
+					result.addObject("banner", banner);
 
+				} else
+					result = new ModelAndView("redirect:/welcome/index.do");
+
+			} else
 				result = new ModelAndView("redirect:/welcome/index.do");
-				result.addObject("banner", banner);
-			}
 
 		} else {
 
@@ -139,18 +141,20 @@ public class HiringManagerController extends AbstractController {
 
 			final Manager loged = this.managerService.findByPrincipal();
 
-			if (hiring.getManager().equals(loged) && loged.getTeam() == null && hiring.getStatus().equals("PENDING")) {
+			if (loged.getTeam() == null) {
 
-				final HiringForm hiringForm = this.hiringService.editForm(hiring);
+				if (hiring.getManager().equals(loged) && loged.getTeam() == null && hiring.getStatus().equals("PENDING")) {
 
-				result = this.createEditModelAndView(hiringForm);
-				result.addObject("enlace", "hiring/manager/reject.do");
+					final HiringForm hiringForm = this.hiringService.editForm(hiring);
 
-			} else {
+					result = this.createEditModelAndView(hiringForm);
+					result.addObject("enlace", "hiring/manager/reject.do");
 
+				} else
+					result = new ModelAndView("redirect:/welcome/index.do");
+
+			} else
 				result = new ModelAndView("redirect:/welcome/index.do");
-				result.addObject("banner", banner);
-			}
 
 		} else {
 
@@ -173,21 +177,26 @@ public class HiringManagerController extends AbstractController {
 
 			final Manager loged = this.managerService.findByPrincipal();
 
-			if (hiring.getManager().equals(loged) && loged.getTeam() == null && hiring.getStatus().equals("PENDING")) {
+			if (loged.getTeam() == null) {
 
-				if (binding.hasErrors())
-					result = this.createEditModelAndView(hiringForm, null);
-				else
-					try {
-						hiring.setStatus("REJECTED");
-						this.hiringService.save(hiring);
-						result = new ModelAndView("redirect:/hiring/manager/list.do");
+				if (hiring.getManager().equals(loged) && loged.getTeam() == null && hiring.getStatus().equals("PENDING")) {
 
-					} catch (final Throwable oops) {
+					if (binding.hasErrors())
+						result = this.createEditModelAndView(hiringForm, null);
+					else
+						try {
+							hiring.setStatus("REJECTED");
+							this.hiringService.save(hiring);
+							result = new ModelAndView("redirect:/hiring/manager/list.do");
 
-						result = this.createEditModelAndView(hiringForm, "hiring.commit.error");
+						} catch (final Throwable oops) {
 
-					}
+							result = this.createEditModelAndView(hiringForm, "hiring.commit.error");
+
+						}
+
+				} else
+					result = new ModelAndView("redirect:/welcome/index.do");
 
 			} else
 				result = new ModelAndView("redirect:/welcome/index.do");

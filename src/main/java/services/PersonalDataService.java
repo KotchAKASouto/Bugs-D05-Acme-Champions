@@ -3,6 +3,7 @@ package services;
 
 import java.net.URL;
 import java.util.Collection;
+import java.util.HashSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -43,6 +44,9 @@ public class PersonalDataService {
 	@Autowired
 	private Validator				validator;
 
+	@Autowired
+	private ConfigurationService	configurationService;
+
 
 	// Simple CRUD methods -----------------------
 
@@ -81,7 +85,11 @@ public class PersonalDataService {
 
 		Assert.notNull(personal);
 
-		this.checkPictures(personal.getPhotos());
+		final Collection<String> newAttachments = this.checkPictures(personal.getPhotos());
+		personal.setPhotos(newAttachments);
+
+		final String newUrl = this.configurationService.checkURL(personal.getSocialNetworkProfilelink());
+		personal.setSocialNetworkProfilelink(newUrl);
 
 		PersonalData result;
 
@@ -162,13 +170,18 @@ public class PersonalDataService {
 		this.personalDataRepository.flush();
 	}
 
-	public void checkPictures(final Collection<String> links) {
+	public Collection<String> checkPictures(final Collection<String> links) {
 
+		final Collection<String> newAttachments = new HashSet<String>();
 		for (final String url : links)
 			try {
 				new URL(url);
+				final String newUrl = this.configurationService.checkURL(url);
+				newAttachments.add(newUrl);
 			} catch (final Exception e) {
 				throw new DataIntegrityViolationException("Invalid URL");
 			}
+
+		return newAttachments;
 	}
 }

@@ -148,10 +148,10 @@
 <script type="text/javascript">
 	var trTags = document.getElementsByTagName("tr");
 	for (var i = 0; i < trTags.length; i++) {
-	  var tdStatus = trTags[i].children[3];
+	  var tdStatus = trTags[i].children[4];
 	  if (tdStatus.innerText == "NO") {
 		  trTags[i].style.backgroundColor = "#98FB98";
-	  } else if (tdStatus.innerText == "YES") {
+	  } else if (tdStatus.innerText == "YES" || tdStatus.innerText == "Sí") {
 		  trTags[i].style.backgroundColor = "#FFA07A";
 	  }
 	}

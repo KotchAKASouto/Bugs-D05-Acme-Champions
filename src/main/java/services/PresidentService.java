@@ -107,6 +107,9 @@ public class PresidentService {
 			final String phone = this.actorService.checkPhone(president.getPhone());
 			president.setPhone(phone);
 
+			final String newUrl = this.configurationService.checkURL(president.getPhoto());
+			president.setPhoto(newUrl);
+
 			result = this.presidentRepository.save(president);
 
 		} else {
@@ -127,6 +130,9 @@ public class PresidentService {
 
 			final String phone = this.actorService.checkPhone(president.getPhone());
 			president.setPhone(phone);
+
+			final String newUrl = this.configurationService.checkURL(president.getPhoto());
+			president.setPhoto(newUrl);
 
 			result = this.presidentRepository.save(president);
 

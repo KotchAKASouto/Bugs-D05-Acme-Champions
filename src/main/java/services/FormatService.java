@@ -15,8 +15,6 @@ import security.Authority;
 import domain.Actor;
 import domain.Federation;
 import domain.Format;
-import domain.Game;
-import domain.Referee;
 
 @Service
 @Transactional
@@ -29,13 +27,12 @@ public class FormatService {
 	// Supporting Services -------------------
 	@Autowired
 	private ActorService		actorService;
-	
+
 	@Autowired
 	private FederationService	federationService;
-	
+
 	@Autowired
 	private Validator			validator;
-
 
 
 	//Simple CRUD methods
@@ -98,16 +95,16 @@ public class FormatService {
 	}
 
 	// Methods -------------------------------
-	
+
 	public Format reconstruct(final Format format, final BindingResult binding) {
-		
+
 		//Hay que estar logeado
 		final Actor actor = this.actorService.findByPrincipal();
 		final Federation fede = this.federationService.findByUserAccount(actor.getUserAccount());
 		Assert.notNull(actor);
 
 		Assert.notNull(format);
-		
+
 		Assert.isTrue(format.getType().equals("TOURNAMENT") || format.getType().equals("LEAGUE"));
 
 		final Format formatBBDD = this.findOne(format.getId());
@@ -132,6 +129,19 @@ public class FormatService {
 		final Format format = this.formatRepository.findOne(formatId);
 
 		if (format != null)
+			res = true;
+
+		return res;
+	}
+
+	public Boolean security(final int formatId) {
+
+		Boolean res = false;
+
+		final Format format = this.formatRepository.findOne(formatId);
+		final Actor actor = this.actorService.findByPrincipal();
+
+		if (format.getFederation().getId() == actor.getId())
 			res = true;
 
 		return res;

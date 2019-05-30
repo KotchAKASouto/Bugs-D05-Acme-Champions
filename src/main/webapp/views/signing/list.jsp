@@ -12,6 +12,8 @@
 
 <display:table name="signings" id="row" requestURI="${requestURI }" pagesize="5">
 
+	<acme:column property="player.name" titleKey="signing.player" value= "${row.player.name}: "/>
+
 	<display:column titleKey="signing.price">
 		<fmt:formatNumber type="number" maxFractionDigits="5" value="${row.price}" />
 	</display:column>

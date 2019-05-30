@@ -28,21 +28,24 @@ public class RefereeService {
 
 	// Managed Repository ------------------------
 	@Autowired
-	private RefereeRepository	refereeRepository;
+	private RefereeRepository		refereeRepository;
 
 	// Suporting services ------------------------
 
 	@Autowired
-	private ActorService		actorService;
+	private ActorService			actorService;
 
 	@Autowired
-	private UserAccountService	userAccountService;
+	private UserAccountService		userAccountService;
 
 	@Autowired
-	private Validator			validator;
+	private Validator				validator;
 
 	@Autowired
-	private BoxService			boxService;
+	private BoxService				boxService;
+
+	@Autowired
+	private ConfigurationService	configurationService;
 
 
 	// Methods -----------------------------------
@@ -91,6 +94,9 @@ public class RefereeService {
 			this.actorService.checkEmail(referee.getEmail(), false);
 			this.actorService.checkPhone(referee.getPhone());
 
+			final String newUrl = this.configurationService.checkURL(referee.getPhoto());
+			referee.setPhoto(newUrl);
+
 			final String phone = this.actorService.checkPhone(referee.getPhone());
 			referee.setPhone(phone);
 
@@ -111,6 +117,9 @@ public class RefereeService {
 
 			this.actorService.checkEmail(referee.getEmail(), false);
 			this.actorService.checkPhone(referee.getPhone());
+
+			final String newUrl = this.configurationService.checkURL(referee.getPhoto());
+			referee.setPhoto(newUrl);
 
 			final String phone = this.actorService.checkPhone(referee.getPhone());
 			referee.setPhone(phone);
