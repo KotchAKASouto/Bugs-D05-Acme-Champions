@@ -64,15 +64,23 @@
 	</security:authorize>
 	
 	<security:authorize access="hasRole('PRESIDENT')">
-	<acme:url href="signing/president/create.do?playerId=${row1.id}" code="actor.signig"/>
+		<jstl:if test="${teamNow != null}">
+			<display:column>
+				<jstl:if test="${row1.team.id != teamNow}">
+					<jstl:if test="${numPlayers < 14}">
+						<acme:url href="signing/president/create.do?playerId=${row1.id}" code="actor.signig"/>
+					</jstl:if>
+				</jstl:if>
+			</display:column>
+		</jstl:if>
 	</security:authorize>
 	
 	<security:authorize access="hasRole('PRESIDENT')">
-		<jstl:if test="${canFire == true}">
-			<display:column>
+		<display:column>
+			<jstl:if test="${canFire == true}">
 				<a href="president/firePlayer.do?playerId=${row1.id}"><spring:message code="player.fire" /></a>
-			</display:column>
-		</jstl:if>
+			</jstl:if>
+		</display:column>
 	</security:authorize>
 	
 </display:table>
@@ -89,14 +97,24 @@
 
 	<acme:url href="manager/display.do?managerId=${row2.id}" code="actor.display"/>
 	
-	<acme:url href="hiring/president/create.do?managerId=${row2.id}" code="actor.hiring"/>
-	
 	<security:authorize access="hasRole('PRESIDENT')">
-		<jstl:if test="${canFire == true}">
+		<jstl:if test="${teamNow != null}">
 			<display:column>
-				<a href="president/fireManager.do?managerId=${row2.id}" ><spring:message code="manager.fire" /></a>
+				<jstl:if test="${row2.team.id != teamNow}">
+					<jstl:if test="${numManager == 0}">
+						<acme:url href="hiring/president/create.do?managerId=${row2.id}" code="actor.hiring"/>
+					</jstl:if>
+				</jstl:if>
 			</display:column>
 		</jstl:if>
+	</security:authorize>
+	
+	<security:authorize access="hasRole('PRESIDENT')">
+		<display:column>
+			<jstl:if test="${canFire == true}">
+					<a href="president/fireManager.do?managerId=${row2.id}" ><spring:message code="manager.fire" /></a>
+			</jstl:if>
+		</display:column>
 	</security:authorize>
 	
 </display:table>

@@ -11,18 +11,18 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.util.Assert;
 
 import utilities.AbstractTest;
-import domain.Hiring;
-import forms.HiringForm;
+import domain.Signing;
+import forms.SigningForm;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {
 	"classpath:spring/junit.xml"
 })
-public class HiringServiceTest extends AbstractTest {
+public class SigningServiceTest extends AbstractTest {
 
 	//The SUT----------------------------------------------------
 	@Autowired
-	private HiringService	hiringService;
+	private SigningService	signingService;
 
 
 	/*
@@ -35,7 +35,7 @@ public class HiringServiceTest extends AbstractTest {
 
 	/*
 	 * ACME.CHAMPIONS
-	 * a)(Level A) Requirement 12.5: An actor who is authenticated as a president must be able to: Hire a manager
+	 * a)(Level A) Requirement 12.5: An actor who is authenticated as a president must be able to: Hire a player
 	 * 
 	 * b) Negative cases:
 	 * 2. Wrong authority
@@ -45,7 +45,7 @@ public class HiringServiceTest extends AbstractTest {
 	 * -create(): 100%
 	 * 
 	 * d) Data coverage
-	 * -Hiring: 0%
+	 * -Signing: 0%
 	 */
 
 	@Test
@@ -54,13 +54,13 @@ public class HiringServiceTest extends AbstractTest {
 		final Object testingData[][] = {
 
 			{
-				"president1", "manager2", null
+				"president1", "player2", null
 			}, //1. All fine
 			{
-				"administrator1", "manager2", IllegalArgumentException.class
+				"administrator1", "player2", IllegalArgumentException.class
 			}, //2. Wrong authority
 			{
-				null, "manager2", IllegalArgumentException.class
+				null, "player2", IllegalArgumentException.class
 			}, //3. No loged actor
 
 		};
@@ -70,7 +70,7 @@ public class HiringServiceTest extends AbstractTest {
 
 	}
 
-	protected void templateCreate(final String actorBean, final String manager, final Class<?> expected) {
+	protected void templateCreate(final String actorBean, final String player, final Class<?> expected) {
 
 		Class<?> caught;
 
@@ -82,9 +82,9 @@ public class HiringServiceTest extends AbstractTest {
 
 			super.authenticate(actorBean);
 
-			final HiringForm hiring = this.hiringService.create(super.getEntityId(manager));
+			final SigningForm signing = this.signingService.create(super.getEntityId(player));
 
-			Assert.notNull(hiring);
+			Assert.notNull(signing);
 
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
@@ -100,7 +100,7 @@ public class HiringServiceTest extends AbstractTest {
 
 	/*
 	 * ACME.CHAMPIONS
-	 * a)(Level A) Requirement 12.5: An actor who is authenticated as a president must be able to: Hire a manager
+	 * a)(Level A) Requirement 12.5: An actor who is authenticated as a president must be able to: Hire a player
 	 * 
 	 * b) Negative cases:
 	 * 2. Wrong authority
@@ -110,7 +110,7 @@ public class HiringServiceTest extends AbstractTest {
 	 * -findByPresidentId(): 100%
 	 * 
 	 * d) Data coverage
-	 * -Hiring: 0%
+	 * -Signing: 0%
 	 */
 
 	@Test
@@ -147,9 +147,9 @@ public class HiringServiceTest extends AbstractTest {
 
 			super.authenticate(actorBean);
 
-			final Collection<Hiring> hiring = this.hiringService.findByPresident(super.getEntityId(actorBean));
+			final Collection<Signing> signing = this.signingService.findByPresident(super.getEntityId(actorBean));
 
-			Assert.notNull(hiring);
+			Assert.notNull(signing);
 
 		} catch (final Throwable oops) {
 			caught = oops.getClass();
@@ -165,7 +165,7 @@ public class HiringServiceTest extends AbstractTest {
 
 	/*
 	 * ACME.CHAMPIONS
-	 * a)(Level A) Requirement 12.5: An actor who is authenticated as a president must be able to: Hire a manager
+	 * a)(Level A) Requirement 12.5: An actor who is authenticated as a president must be able to: Hire a player
 	 * 
 	 * b) Negative cases:
 	 * 2. Wrong authority
@@ -173,10 +173,10 @@ public class HiringServiceTest extends AbstractTest {
 	 * 
 	 * c) Sentence coverage
 	 * -save(): 46,2%
-	 * -reconstruct():51,4%
+	 * -reconstruct():51,2%
 	 * 
 	 * d) Data coverage
-	 * -Hiring: 0%
+	 * -Signing: 0%
 	 */
 
 	@Test
@@ -185,13 +185,13 @@ public class HiringServiceTest extends AbstractTest {
 		final Object testingData[][] = {
 
 			{
-				"president1", "manager2", null
+				"president1", "player2", null
 			}, //1. All fine
 			{
-				"administrator1", "manager2", IllegalArgumentException.class
+				"administrator1", "player2", IllegalArgumentException.class
 			}, //2. Wrong authority
 			{
-				null, "manager2", IllegalArgumentException.class
+				null, "player2", IllegalArgumentException.class
 			}, //3. No loged actor
 
 		};
@@ -201,7 +201,7 @@ public class HiringServiceTest extends AbstractTest {
 
 	}
 
-	protected void templateSave(final String actorBean, final String manager, final Class<?> expected) {
+	protected void templateSave(final String actorBean, final String player, final Class<?> expected) {
 
 		Class<?> caught;
 
@@ -213,13 +213,14 @@ public class HiringServiceTest extends AbstractTest {
 
 			super.authenticate(actorBean);
 
-			final HiringForm hiringForm = this.hiringService.create(super.getEntityId(manager));
+			final SigningForm signingForm = this.signingService.create(super.getEntityId(player));
 
-			hiringForm.setPrice(150000.50);
+			signingForm.setPrice(150000.50);
+			signingForm.setOfferedClause(150000.50);
 
-			final Hiring hiring = this.hiringService.reconstruct(hiringForm, null);
+			final Signing signing = this.signingService.reconstruct(signingForm, null);
 
-			final Hiring saved = this.hiringService.save(hiring);
+			final Signing saved = this.signingService.save(signing);
 
 			Assert.notNull(saved);
 
@@ -236,12 +237,12 @@ public class HiringServiceTest extends AbstractTest {
 	}
 
 	/*
-	 * -------Coverage HiringService-------
+	 * -------Coverage SigningService-------
 	 * 
 	 * ----TOTAL SENTENCE COVERAGE:
-	 * HiringService = 32,7%
+	 * SigningService = 44,1%
 	 * 
 	 * ----TOTAL DATA COVERAGE:
-	 * Hiring = 0%
+	 * Signing = 0%
 	 */
 }

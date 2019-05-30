@@ -89,12 +89,11 @@ public class SigningPresidentController extends AbstractController {
 
 			final Player player = this.playerService.findOne(playerId);
 
-			if (player.getTeam().equals(this.teamService.findByPresidentId(this.presidentService.findByPrincipal().getId()))) {
+			if ((player.getTeam() != null && player.getTeam().equals(this.teamService.findByPresidentId(this.presidentService.findByPrincipal().getId())))
+				|| this.teamService.findPlayersByTeamId(this.teamService.findByPresidentId(this.presidentService.findByPrincipal().getId()).getId()).size() <= 14) {
 
 				final SigningForm signingForm = this.signingService.create(playerId);
 				result = this.createEditModelAndView(signingForm);
-				result.addObject("enlace", "signing/president/edit.do");
-				result.addObject("buyoutClause", player.getBuyoutClause());
 
 			} else
 				result = new ModelAndView("redirect:/welcome/index.do");
@@ -118,7 +117,8 @@ public class SigningPresidentController extends AbstractController {
 
 			final Player player = this.playerService.findOne(signingForm.getPlayerId());
 
-			if (player.getTeam().equals(this.teamService.findByPresidentId(this.presidentService.findByPrincipal().getId()))) {
+			if ((player.getTeam() != null && player.getTeam().equals(this.teamService.findByPresidentId(this.presidentService.findByPrincipal().getId())))
+				|| this.teamService.findPlayersByTeamId(this.teamService.findByPresidentId(this.presidentService.findByPrincipal().getId()).getId()).size() <= 14) {
 
 				final Signing signing = this.signingService.reconstruct(signingForm, binding);
 
@@ -283,11 +283,15 @@ public class SigningPresidentController extends AbstractController {
 
 		final String banner = this.configurationService.findConfiguration().getBanner();
 
+		final Player player = this.playerService.findOne(signing.getPlayerId());
+
 		result = new ModelAndView("signing/edit");
 		result.addObject("messageError", errorText);
 		result.addObject("signing", signing);
 		result.addObject("banner", banner);
 		result.addObject("autoridad", "president");
+		result.addObject("enlace", "signing/president/edit.do");
+		result.addObject("buyoutClause", player.getBuyoutClause());
 
 		return result;
 	}

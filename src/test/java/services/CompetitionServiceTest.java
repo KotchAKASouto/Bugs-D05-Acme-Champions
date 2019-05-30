@@ -48,17 +48,18 @@ public class CompetitionServiceTest extends AbstractTest {
 	 */
 
 	/*
-	 * ACME.HACKERRANK
-	 * a)(Level A) Requirement 24.3: An actor who is authenticated as an administrator must be able to: Ban an actor
+	 * ACME.CHAMPIONS
+	 * a)(Level A) Requirement 44.1: An actor who is authenticated as a federation must be able to: Create competitions
 	 * 
 	 * b) Negative cases:
-	 * 2. Ban yourself
+	 * 2. Wrong authority
+	 * 3. No loged actor
 	 * 
 	 * c) Sentence coverage
-	 * -banOrUnBanActor(): 58.5%
+	 * -create(): 100%
 	 * 
 	 * d) Data coverage
-	 * -Actor: 0%
+	 * -Competition: 0%
 	 */
 
 	@Test
@@ -111,6 +112,21 @@ public class CompetitionServiceTest extends AbstractTest {
 
 	}
 
+	/*
+	 * ACME.CHAMPIONS
+	 * a)(Level A) Requirement 44.2: An actor who is authenticated as a federation must be able to: List competitions
+	 * 
+	 * b) Negative cases:
+	 * 2. Wrong authority
+	 * 3. Wrong authority
+	 * 
+	 * c) Sentence coverage
+	 * -findByFederation(): 100%
+	 * 
+	 * d) Data coverage
+	 * -Competition: 0%
+	 */
+
 	@Test
 	public void driverList() {
 
@@ -124,7 +140,7 @@ public class CompetitionServiceTest extends AbstractTest {
 			}, //2. Wrong authority
 			{
 				"referee1", IllegalArgumentException.class
-			}, //3. No loged actor
+			}, //3. Wrong authority
 
 		};
 
@@ -161,6 +177,21 @@ public class CompetitionServiceTest extends AbstractTest {
 
 	}
 
+	/*
+	 * ACME.CHAMPIONS
+	 * a)(Level A) Requirement 44.1: An actor who is authenticated as a federation must be able to: Create competitions
+	 * 
+	 * b) Negative cases:
+	 * 2. blank field
+	 * 3. javascript
+	 * 
+	 * c) Sentence coverage
+	 * -save(): 11,9%
+	 * 
+	 * d) Data coverage
+	 * -Competition: 25%
+	 */
+
 	@Test
 	public void driverSave() {
 
@@ -171,10 +202,10 @@ public class CompetitionServiceTest extends AbstractTest {
 			}, //1. All fine
 			{
 				"federation1", "format1", "", "2020/12/12 12:00:00", NullPointerException.class
-			}, //2. Wrong authority
+			}, //2. blank field
 			{
 				"federation1", "format1", "<script>alert('test');</script>", "2020/12/12 12:00:00", NullPointerException.class
-			}, //3. No loged actor
+			}, //3. javascript
 
 		};
 
@@ -227,27 +258,13 @@ public class CompetitionServiceTest extends AbstractTest {
 	}
 
 	/*
-	 * ACME.HACKERRANK
-	 * a)(Level A) Requirement 24.4: An actor who is authenticated as an administrator must be able to: Unban an actor
-	 * 
-	 * b) Negative cases:
-	 * 2. Unban yourself
-	 * 
-	 * c) Sentence coverage
-	 * -banOrUnBanActor(): 56.1%
-	 * 
-	 * d) Data coverage
-	 * -Actor: 0%
-	 */
-
-	/*
-	 * -------Coverage ActorService-------
+	 * -------Coverage CompetitionService-------
 	 * 
 	 * ----TOTAL SENTENCE COVERAGE:
-	 * ActorService = 25,8%
+	 * CompetitionService = 10,7%
 	 * 
 	 * ----TOTAL DATA COVERAGE:
-	 * Actor = 0%
+	 * Competition = 25%
 	 */
 
 	protected Date convertStringToDate(final String dateString) {
