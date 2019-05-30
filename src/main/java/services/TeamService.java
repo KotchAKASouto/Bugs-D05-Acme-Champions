@@ -200,7 +200,7 @@ public class TeamService {
 
 	public void functional(final Team team) {
 
-		if (this.teamRepository.findManagerByTeamId(team.getId()) != null && this.teamRepository.findPlayersByTeamId(team.getId()).size() > 5) {
+		if (this.teamRepository.findManagerByTeamId(team.getId()) != null && this.teamRepository.findPlayersByTeamId(team.getId()).size() >= 5) {
 			team.setFunctional(true);
 			this.teamRepository.save(team);
 		} else {

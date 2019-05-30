@@ -59,19 +59,28 @@ public class HiringPresidentController extends AbstractController {
 		final Collection<Hiring> hirings;
 		final President president;
 
-		president = this.presidentService.findByPrincipal();
-
-		hirings = this.hiringService.findByPresident(president.getId());
-
 		final String banner = this.configurationService.findConfiguration().getBanner();
 
-		result = new ModelAndView("hiring/list");
-		result.addObject("hirings", hirings);
-		result.addObject("requestURI", "hiring/president/list.do");
-		result.addObject("pagesize", 5);
-		result.addObject("banner", banner);
-		result.addObject("language", LocaleContextHolder.getLocale().getLanguage());
-		result.addObject("autoridad", "president");
+		president = this.presidentService.findByPrincipal();
+
+		if (this.teamService.findByPresidentId(president.getId()) != null) {
+
+			hirings = this.hiringService.findByPresident(president.getId());
+
+			result = new ModelAndView("hiring/list");
+			result.addObject("hirings", hirings);
+			result.addObject("requestURI", "hiring/president/list.do");
+			result.addObject("pagesize", 5);
+			result.addObject("banner", banner);
+			result.addObject("language", LocaleContextHolder.getLocale().getLanguage());
+			result.addObject("autoridad", "president");
+
+		} else {
+
+			result = new ModelAndView("misc/noTeam");
+			result.addObject("banner", banner);
+
+		}
 
 		return result;
 
@@ -83,32 +92,41 @@ public class HiringPresidentController extends AbstractController {
 
 		final String banner = this.configurationService.findConfiguration().getBanner();
 
-		if (this.teamService.findManagerByTeamId(this.teamService.findByPresidentId(this.presidentService.findByPrincipal().getId()).getId()) == null) {
+		if (this.teamService.findByPresidentId(this.presidentService.findByPrincipal().getId()) != null) {
 
-			final Boolean exist = this.managerService.exist(managerId);
+			if (this.teamService.findManagerByTeamId(this.teamService.findByPresidentId(this.presidentService.findByPrincipal().getId()).getId()) == null) {
 
-			if (exist) {
+				final Boolean exist = this.managerService.exist(managerId);
 
-				final Manager manager = this.managerService.findOne(managerId);
+				if (exist) {
 
-				if ((manager.getTeam() != null && manager.getTeam().equals(this.teamService.findByPresidentId(this.presidentService.findByPrincipal().getId())))
-					|| this.teamService.findManagerByTeamId(this.teamService.findByPresidentId(this.presidentService.findByPrincipal().getId()).getId()) == null) {
+					final Manager manager = this.managerService.findOne(managerId);
+					final Team team = this.teamService.findByPresidentId(this.presidentService.findByPrincipal().getId());
 
-					final HiringForm hiringForm = this.hiringService.create(managerId);
-					result = this.createEditModelAndView(hiringForm);
-					result.addObject("enlace", "hiring/president/edit.do");
+					if (manager.getTeam() == null || !manager.getTeam().equals(team)) {
 
-				} else
-					result = new ModelAndView("redirect:/welcome/index.do");
+						final HiringForm hiringForm = this.hiringService.create(managerId);
+						result = this.createEditModelAndView(hiringForm);
+						result.addObject("enlace", "hiring/president/edit.do");
 
-			} else {
+					} else
+						result = new ModelAndView("redirect:/welcome/index.do");
 
-				result = new ModelAndView("misc/notExist");
-				result.addObject("banner", banner);
-			}
+				} else {
 
-		} else
-			result = new ModelAndView("redirect:/welcome/index.do");
+					result = new ModelAndView("misc/notExist");
+					result.addObject("banner", banner);
+				}
+
+			} else
+				result = new ModelAndView("redirect:/welcome/index.do");
+
+		} else {
+
+			result = new ModelAndView("misc/noTeam");
+			result.addObject("banner", banner);
+
+		}
 
 		return result;
 	}
@@ -121,25 +139,33 @@ public class HiringPresidentController extends AbstractController {
 
 		if (exist) {
 
-			if (this.teamService.findManagerByTeamId(this.teamService.findByPresidentId(this.presidentService.findByPrincipal().getId()).getId()) == null) {
+			final Manager manager = this.managerService.findOne(hiringForm.getManagerId());
+			final Team team = this.teamService.findByPresidentId(this.presidentService.findByPrincipal().getId());
 
-				if (hiringForm.getId() == 0) {
+			if (manager.getTeam() == null || !manager.getTeam().equals(team)) {
 
-					final Hiring hiring = this.hiringService.reconstruct(hiringForm, binding);
+				if (this.teamService.findManagerByTeamId(this.teamService.findByPresidentId(this.presidentService.findByPrincipal().getId()).getId()) == null) {
 
-					if (binding.hasErrors())
-						result = this.createEditModelAndView(hiringForm, null);
-					else
-						try {
+					if (hiringForm.getId() == 0) {
 
-							this.hiringService.save(hiring);
-							result = new ModelAndView("redirect:/finder/president/find.do");
+						final Hiring hiring = this.hiringService.reconstruct(hiringForm, binding);
 
-						} catch (final Throwable oops) {
+						if (binding.hasErrors())
+							result = this.createEditModelAndView(hiringForm, null);
+						else
+							try {
 
-							result = this.createEditModelAndView(hiringForm, "hiring.commit.error");
+								this.hiringService.save(hiring);
+								result = new ModelAndView("redirect:/finder/president/find.do");
 
-						}
+							} catch (final Throwable oops) {
+
+								result = this.createEditModelAndView(hiringForm, "hiring.commit.error");
+
+							}
+
+					} else
+						result = new ModelAndView("redirect:/welcome/index.do");
 
 				} else
 					result = new ModelAndView("redirect:/welcome/index.do");

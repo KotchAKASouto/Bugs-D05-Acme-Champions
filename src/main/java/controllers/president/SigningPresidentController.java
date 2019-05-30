@@ -59,19 +59,28 @@ public class SigningPresidentController extends AbstractController {
 		final Collection<Signing> signings;
 		final President president;
 
-		president = this.presidentService.findByPrincipal();
-
-		signings = this.signingService.findByPresident(president.getId());
-
 		final String banner = this.configurationService.findConfiguration().getBanner();
 
-		result = new ModelAndView("signing/list");
-		result.addObject("signings", signings);
-		result.addObject("requestURI", "signing/president/list.do");
-		result.addObject("pagesize", 5);
-		result.addObject("banner", banner);
-		result.addObject("language", LocaleContextHolder.getLocale().getLanguage());
-		result.addObject("autoridad", "president");
+		president = this.presidentService.findByPrincipal();
+
+		if (this.teamService.findByPresidentId(president.getId()) != null) {
+
+			signings = this.signingService.findByPresident(president.getId());
+
+			result = new ModelAndView("signing/list");
+			result.addObject("signings", signings);
+			result.addObject("requestURI", "signing/president/list.do");
+			result.addObject("pagesize", 5);
+			result.addObject("banner", banner);
+			result.addObject("language", LocaleContextHolder.getLocale().getLanguage());
+			result.addObject("autoridad", "president");
+
+		} else {
+
+			result = new ModelAndView("misc/noTeam");
+			result.addObject("banner", banner);
+
+		}
 
 		return result;
 
@@ -83,25 +92,40 @@ public class SigningPresidentController extends AbstractController {
 
 		final String banner = this.configurationService.findConfiguration().getBanner();
 
-		final Boolean exist = this.playerService.exist(playerId);
+		if (this.teamService.findByPresidentId(this.presidentService.findByPrincipal().getId()) != null) {
 
-		if (exist) {
+			if (this.teamService.findPlayersByTeamId(this.teamService.findByPresidentId(this.presidentService.findByPrincipal().getId()).getId()).size() < 14) {
 
-			final Player player = this.playerService.findOne(playerId);
+				final Boolean exist = this.playerService.exist(playerId);
 
-			if ((player.getTeam() != null && player.getTeam().equals(this.teamService.findByPresidentId(this.presidentService.findByPrincipal().getId())))
-				|| this.teamService.findPlayersByTeamId(this.teamService.findByPresidentId(this.presidentService.findByPrincipal().getId()).getId()).size() <= 14) {
+				if (exist) {
 
-				final SigningForm signingForm = this.signingService.create(playerId);
-				result = this.createEditModelAndView(signingForm);
+					final Player player = this.playerService.findOne(playerId);
+					final Team team = this.teamService.findByPresidentId(this.presidentService.findByPrincipal().getId());
+
+					if (player.getTeam() == null || !player.getTeam().equals(team)) {
+
+						final SigningForm signingForm = this.signingService.create(playerId);
+						result = this.createEditModelAndView(signingForm);
+						result.addObject("enlace", "signing/president/edit.do");
+
+					} else
+						result = new ModelAndView("redirect:/welcome/index.do");
+
+				} else {
+
+					result = new ModelAndView("misc/notExist");
+					result.addObject("banner", banner);
+				}
 
 			} else
 				result = new ModelAndView("redirect:/welcome/index.do");
 
 		} else {
 
-			result = new ModelAndView("misc/notExist");
+			result = new ModelAndView("misc/noTeam");
 			result.addObject("banner", banner);
+
 		}
 
 		return result;
@@ -116,25 +140,35 @@ public class SigningPresidentController extends AbstractController {
 		if (exist) {
 
 			final Player player = this.playerService.findOne(signingForm.getPlayerId());
+			final Team team = this.teamService.findByPresidentId(this.presidentService.findByPrincipal().getId());
 
-			if ((player.getTeam() != null && player.getTeam().equals(this.teamService.findByPresidentId(this.presidentService.findByPrincipal().getId())))
-				|| this.teamService.findPlayersByTeamId(this.teamService.findByPresidentId(this.presidentService.findByPrincipal().getId()).getId()).size() <= 14) {
+			if (player.getTeam() == null || !player.getTeam().equals(team)) {
 
-				final Signing signing = this.signingService.reconstruct(signingForm, binding);
+				if (this.teamService.findPlayersByTeamId(this.teamService.findByPresidentId(this.presidentService.findByPrincipal().getId()).getId()).size() < 14) {
 
-				if (binding.hasErrors())
-					result = this.createEditModelAndView(signingForm, null);
-				else
-					try {
+					if (signingForm.getId() == 0) {
 
-						this.signingService.save(signing);
-						result = new ModelAndView("redirect:/signing/president/list.do");
+						final Signing signing = this.signingService.reconstruct(signingForm, binding);
 
-					} catch (final Throwable oops) {
+						if (binding.hasErrors())
+							result = this.createEditModelAndView(signingForm, null);
+						else
+							try {
 
-						result = this.createEditModelAndView(signingForm, "signing.commit.error");
+								this.signingService.save(signing);
+								result = new ModelAndView("redirect:/finder/president/find.do");
 
-					}
+							} catch (final Throwable oops) {
+
+								result = this.createEditModelAndView(signingForm, "signing.commit.error");
+
+							}
+
+					} else
+						result = new ModelAndView("redirect:/welcome/index.do");
+
+				} else
+					result = new ModelAndView("redirect:/welcome/index.do");
 
 			} else
 				result = new ModelAndView("redirect:/welcome/index.do");
