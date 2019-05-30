@@ -69,7 +69,7 @@ public class MinutesRefereeController extends AbstractController {
 				result = new ModelAndView("misc/error");
 				result.addObject("banner", banner);
 			}
-		else if (!m.getClosed())
+		else if (m != null && !m.getClosed() && game != null && game.getReferee().getId() == actor.getId())
 			result = new ModelAndView("redirect:listAddInterface.do?minutesId=" + m.getId());
 		else {
 			result = new ModelAndView("misc/error");

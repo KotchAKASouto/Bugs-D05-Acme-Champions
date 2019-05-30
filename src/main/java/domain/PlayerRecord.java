@@ -55,6 +55,7 @@ public class PlayerRecord extends DomainEntity {
 		this.salary = salary;
 	}
 
+	@NotNull
 	@Range(min = 1, max = 99)
 	public Integer getSquadNumber() {
 		return this.squadNumber;

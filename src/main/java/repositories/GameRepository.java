@@ -38,4 +38,7 @@ public interface GameRepository extends JpaRepository<Game, Integer> {
 
 	@Query("select g from Game g where g.referee.id = ?1 and g.gameDate>CURRENT_TIMESTAMP")
 	Collection<Game> findFutureGamesByRefereeId(int refereeId);
+
+	@Query("select g from Game g where g.referee.id = ?1 and g.gameDate>CURRENT_TIMESTAMP and g.friendly=true")
+	Collection<Game> findFutureFriendlyGamesByRefereeId(int refereeId);
 }

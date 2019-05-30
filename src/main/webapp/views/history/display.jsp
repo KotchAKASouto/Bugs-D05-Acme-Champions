@@ -27,7 +27,7 @@
 
 
 <div><spring:message code="history.socialNetworkProfilelink" />:
-<a href="${curriculum.personalData.socialNetworkProfilelink}" target="_blank">${history.personalData.socialNetworkProfilelink }</a>
+<a href="${history.personalData.socialNetworkProfilelink}" target="_blank">${history.personalData.socialNetworkProfilelink }</a>
 </div>
 
 <br/>

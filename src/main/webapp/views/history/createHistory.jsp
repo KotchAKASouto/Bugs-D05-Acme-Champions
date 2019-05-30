@@ -10,9 +10,9 @@
 
 <form:form action="history/player/edit.do" modelAttribute="history">
 	
-	<acme:textbox path="photos" code="history.photos"/>
+	<acme:textbox path="photos" code="history.photos" size="100" placeholder="http(s)://www.___.___,http(s)://www.___.___"/>
 	
-	<acme:textbox path="socialNetworkProfilelink" code="history.socialNetworkProfilelink" obligatory="true"/>
+	<acme:textbox path="socialNetworkProfilelink" code="history.socialNetworkProfilelink" obligatory="true" size="100"/>
   	
 	<acme:submit name="save" code="history.save" />	
 
