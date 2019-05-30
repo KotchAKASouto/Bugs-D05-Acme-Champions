@@ -231,20 +231,43 @@ public class MinutesService {
 		final Minutes minutes = this.findOne(minutesId);
 		final Player player = this.playerService.findOne(playerId);
 
+		//controlamos que no se pongan dos amarillas, aconsejamos al usuario que añada una roja
+		//en ese caso
+		final Integer countYellow = this.playerService.countYellowsOfPlayerByMinutePlayerId(minutesId, playerId);
+
+		try {
+			Assert.isTrue(countYellow == 0);
+		} catch (final Exception e) {
+			throw new DataIntegrityViolationException("two-yellows");
+		}
+
 		final Collection<Player> playersYellowCards = minutes.getPlayersYellow();
 		playersYellowCards.add(player);
 
 		minutes.setPlayersYellow(playersYellowCards);
 
+		final Collection<Player> playersRedCards = minutes.getPlayersRed();
+		playersRedCards.remove(player);
+
 		this.save(minutes);
 	}
-
 	public void addPlayerRedCard(final int playerId, final int minutesId) {
 		final Minutes minutes = this.findOne(minutesId);
 		final Player player = this.playerService.findOne(playerId);
 
+		//controlamos que no se pongan dos rojas, aconsejamos al usuario que lo corrija
+		final Integer countRed = this.playerService.countRedOfPlayerByMinutePlayerId(minutesId, playerId);
+		try {
+			Assert.isTrue(countRed == 0);
+		} catch (final Exception e) {
+			throw new DataIntegrityViolationException("two-reds");
+		}
+
 		final Collection<Player> playersRedCards = minutes.getPlayersRed();
 		playersRedCards.add(player);
+
+		final Collection<Player> playerYellowCards = minutes.getPlayersYellow();
+		playerYellowCards.remove(player);
 
 		minutes.setPlayersRed(playersRedCards);
 

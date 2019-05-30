@@ -36,8 +36,8 @@
 	
 	
 	<br>
-	
-	<acme:submit name="save" code="game.save" />
+	<spring:message code="game.confirmation" var="confirmation" />
+	<input type="submit" name="save" value="<spring:message code="game.save"/>" onClick="confirm('${confirmation}')" />
 	<jstl:if test="${game.id!=0 }">
 	<acme:submit name="delete" code="game.delete" />
 	</jstl:if>

@@ -110,7 +110,7 @@ public class ReportPresidentController extends AbstractController {
 	@RequestMapping(value = "/punish", method = RequestMethod.GET)
 	public ModelAndView punish(@RequestParam final int playerId) {
 
-		final ModelAndView result;
+		ModelAndView result;
 		final Collection<Report> reports;
 
 		final String banner = this.configurationService.findConfiguration().getBanner();
@@ -133,7 +133,8 @@ public class ReportPresidentController extends AbstractController {
 					player.setPunished(true);
 					this.playerService.savePresident(player);
 				} catch (final Throwable oops) {
-
+					result = new ModelAndView("misc/notExist");
+					result.addObject("banner", banner);
 				}
 
 				result = new ModelAndView("redirect:/report/president/listReports.do?playerId=" + playerId);
