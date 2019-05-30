@@ -1,10 +1,11 @@
 
 package controllers.player;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -85,7 +86,7 @@ public class SportRecordPlayerController extends AbstractController {
 		return result;
 	}
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
-	public ModelAndView save(@ModelAttribute("positionData") final SportRecord record, final BindingResult binding) {
+	public ModelAndView save(@Valid final SportRecord record, final BindingResult binding) {
 		ModelAndView result;
 
 		final String banner = this.configurationService.findConfiguration().getBanner();
@@ -127,7 +128,7 @@ public class SportRecordPlayerController extends AbstractController {
 		return result;
 	}
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
-	public ModelAndView delete(@ModelAttribute final SportRecord record, final BindingResult binding) {
+	public ModelAndView delete(@Valid final SportRecord record, final BindingResult binding) {
 		ModelAndView result;
 
 		final String banner = this.configurationService.findConfiguration().getBanner();
