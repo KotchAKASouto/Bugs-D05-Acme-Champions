@@ -33,7 +33,7 @@
 	
 	<acme:column property="visitorTeam.name" titleKey="game.visitorTeam" value= "${row2.visitorTeam.name}: "/>
 	
-	<acme:column property="referee.name" titleKey="game.referee" value= "${row2.referee.name}: "/>
+	<acme:column property="referee.surnames" titleKey="game.referee" value= "${row2.referee.surnames}: "/>
 	
 	<acme:url href="minutes/referee/create.do?gameId=${row2.id}" code="game.create.minutes" />
 	
@@ -66,7 +66,7 @@
 	
 	<acme:column property="visitorTeam.name" titleKey="game.visitorTeam" value= "${row.visitorTeam.name}: "/>
 	
-	<acme:column property="referee.name" titleKey="game.referee" value= "${row.referee.name}: "/>
+	<acme:column property="referee.surnames" titleKey="game.referee" value= "${row.referee.surnames}: "/>
 	
 	<security:authorize access="hasRole('REFEREE')">
 	<jstl:if test="${AmInMyGamesController}">
@@ -107,7 +107,7 @@
 	
 	<acme:column property="visitorTeam.name" titleKey="game.visitorTeam" value= "${row3.visitorTeam.name}: "/>
 	
-	<acme:column property="referee.name" titleKey="game.referee" value= "${row3.referee.name}: "/>
+	<acme:column property="referee.surnames" titleKey="game.referee" value= "${row3.referee.surnames}: "/>
 	
 	<acme:url href="game/display.do?gameId=${row3.id}" code="game.display" />
 
