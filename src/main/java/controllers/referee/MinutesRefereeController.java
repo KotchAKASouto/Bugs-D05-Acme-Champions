@@ -118,7 +118,6 @@ public class MinutesRefereeController extends AbstractController {
 		}
 		return result;
 	}
-
 	@RequestMapping(value = "/addPlayerYellowCard", method = RequestMethod.GET)
 	public ModelAndView addPlayerYellowCard(@RequestParam final int playerId, @RequestParam final int minutesId) {
 		ModelAndView result;
@@ -129,8 +128,11 @@ public class MinutesRefereeController extends AbstractController {
 
 				result = new ModelAndView("redirect:listAddInterface.do?minutesId=" + minutesId);
 			} catch (final Throwable oops) {
-				result = new ModelAndView("misc/error");
-				result.addObject("banner", banner);
+				final Minutes minutes = this.minutesService.findOne(minutesId);
+				if (oops.getMessage() == "two-yellows")
+					result = this.createEditModelAndView(minutes, "two-yellows.commit.error");
+				else
+					result = this.createEditModelAndView(minutes, "minutes.commit.error");
 			}
 		else {
 			result = new ModelAndView("misc/notExist");
@@ -149,8 +151,11 @@ public class MinutesRefereeController extends AbstractController {
 
 				result = new ModelAndView("redirect:listAddInterface.do?minutesId=" + minutesId);
 			} catch (final Throwable oops) {
-				result = new ModelAndView("misc/error");
-				result.addObject("banner", banner);
+				final Minutes minutes = this.minutesService.findOne(minutesId);
+				if (oops.getMessage() == "two-reds")
+					result = this.createEditModelAndView(minutes, "two-reds.commit.error");
+				else
+					result = this.createEditModelAndView(minutes, "minutes.commit.error");
 			}
 		else {
 			result = new ModelAndView("misc/notExist");
