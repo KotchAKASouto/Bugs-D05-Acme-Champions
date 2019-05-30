@@ -310,7 +310,7 @@ public class ProfileController extends AbstractController {
 
 		result.addObject("player", player);
 		result.addObject("authority", "player");
-		result.addObject("actionURI", "editPresident.do");
+		result.addObject("actionURI", "editPlayer.do");
 		result.addObject("banner", banner);
 		result.addObject("laguageURI", "profile/edit.do");
 		result.addObject("messageError", messageCode);

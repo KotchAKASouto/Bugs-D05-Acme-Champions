@@ -13,8 +13,13 @@
 
 
 <display:table name="competitions" id="row" requestURI="${requestURI }" pagesize="5">
-	
-	<acme:column property="startDate" titleKey="competition.startDate" value= "${row.startDate}: "/>
+
+	<spring:message code="dateFormat" var="format"/>
+	<spring:message code="timeFormat" var="formatTime"/>
+	<display:column titleKey="competition.startDate"> 
+		<fmt:formatDate type="date" value="${row.startDate }" pattern="${format}" />
+		<fmt:formatDate type="time" value="${row.startDate }" pattern="${formatTime}" />
+	</display:column>
 	
 	<acme:column property="nameTrophy" titleKey="competition.nameTrophy" value= "${row.nameTrophy}: "/>
 	
