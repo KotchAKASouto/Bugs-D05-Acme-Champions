@@ -40,5 +40,10 @@
 		<put-attribute name="title" value="Position not registered" />
 		<put-attribute name="body" value="/views/misc/noPosition.jsp" />
 	</definition>
+	
+	<definition name="misc/noTeam" extends="master.page">
+		<put-attribute name="title" value="Wait!" />
+		<put-attribute name="body" value="/views/misc/noTeam.jsp" />
+	</definition>
 
 </tiles-definitions>

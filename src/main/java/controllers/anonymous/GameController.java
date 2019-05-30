@@ -13,8 +13,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import services.ConfigurationService;
 import services.GameService;
+import services.MinutesService;
 import controllers.AbstractController;
 import domain.Game;
+import domain.Minutes;
 
 @Controller
 @RequestMapping("/game")
@@ -25,6 +27,9 @@ public class GameController extends AbstractController {
 
 	@Autowired
 	private ConfigurationService	configurationService;
+
+	@Autowired
+	private MinutesService			minutesService;
 
 
 	//List para todo el mundo ------------------------------------------------------------------------------
@@ -61,10 +66,19 @@ public class GameController extends AbstractController {
 			result = new ModelAndView("misc/notExist");
 			result.addObject("banner", banner);
 		} else {
+			final Minutes minutesByGame = this.minutesService.findMinuteByGameId(gameId);
+			Boolean haveMinutesClosed = false;
+
+			if (minutesByGame != null)
+				if (minutesByGame.getClosed())
+					haveMinutesClosed = true;
 
 			result = new ModelAndView("game/display");
 			result.addObject("game", gameFind);
 			result.addObject("banner", banner);
+			result.addObject("haveMinutesClosed", haveMinutesClosed);
+			if (haveMinutesClosed)
+				result.addObject("minutesByGame", minutesByGame);
 		}
 		return result;
 	}

@@ -105,6 +105,8 @@
 		<security:intercept-url pattern="/president/fireManager*" access="hasRole('PRESIDENT')" />
 		<security:intercept-url pattern="/president/canFire*" access="hasRole('PRESIDENT')" />
 		
+		<!-- Manager: Player -->
+		<security:intercept-url pattern="/player/manager/injured.do" access="hasRole('MANAGER')" />
 		<!-- Manager: Calendar -->
 		<security:intercept-url pattern="/calendar/manager/show.do" access="hasRole('MANAGER')" />
 		<!-- Manager: Training -->

@@ -139,7 +139,7 @@ public class ReportService {
 
 		final Player player = this.playerService.findOne(playerId);
 
-		if (manager.getTeam().equals(player.getTeam()))
+		if (manager.getTeam() != null && player.getTeam() != null && manager.getTeam().equals(player.getTeam()))
 			result = true;
 
 		return result;

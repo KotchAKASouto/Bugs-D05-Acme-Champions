@@ -134,7 +134,8 @@ public class ConfigurationService {
 
 			final Minutes m = this.minutesService.findMinuteByGameId(game.getId());
 
-			localMinutes.add(m);
+			if (m != null)
+				localMinutes.add(m);
 		}
 
 		for (final Minutes minutes : localMinutes)
@@ -148,7 +149,8 @@ public class ConfigurationService {
 
 			final Minutes m = this.minutesService.findMinuteByGameId(game.getId());
 
-			visitorMinutes.add(m);
+			if (m != null)
+				visitorMinutes.add(m);
 		}
 
 		for (final Minutes minutes : visitorMinutes)

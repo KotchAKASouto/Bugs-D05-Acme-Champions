@@ -56,6 +56,9 @@ public class PlayerService {
 	@Autowired
 	private TeamService				teamService;
 
+	@Autowired
+	private ManagerService			managerService;
+
 
 	// Methods -----------------------------------
 
@@ -113,12 +116,17 @@ public class PlayerService {
 
 			//si referee escribe un minute y se sanciona a jugador por roja o amarilla
 			final Authority referee = new Authority();
-			admin.setAuthority(Authority.REFEREE);
+			referee.setAuthority(Authority.REFEREE);
+
+			//si es manager y lo marca como lesionado
+			final Authority manager = new Authority();
+			manager.setAuthority(Authority.MANAGER);
 
 			final Actor actor = this.actorService.findByPrincipal();
 			Assert.notNull(actor);
 
-			Assert.isTrue(actor.getId() == player.getId() || actor.getUserAccount().getAuthorities().contains(admin) || actor.getUserAccount().getAuthorities().contains(president) || actor.getUserAccount().getAuthorities().contains(referee));
+			Assert.isTrue(actor.getId() == player.getId() || actor.getUserAccount().getAuthorities().contains(admin) || actor.getUserAccount().getAuthorities().contains(president) || actor.getUserAccount().getAuthorities().contains(referee)
+				|| actor.getUserAccount().getAuthorities().contains(manager));
 
 			this.actorService.checkEmail(player.getEmail(), false);
 			this.actorService.checkPhone(player.getPhone());
