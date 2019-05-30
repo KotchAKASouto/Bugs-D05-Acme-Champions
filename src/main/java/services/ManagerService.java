@@ -220,6 +220,7 @@ public class ManagerService {
 		if (managerBBDD != null) {
 
 			manager.setUserAccount(managerBBDD.getUserAccount());
+			manager.setTeam(managerBBDD.getTeam());
 
 			this.validator.validate(manager, binding);
 

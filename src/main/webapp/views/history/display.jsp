@@ -17,14 +17,17 @@
 <h3><spring:message code="history.personalData" /></h3>
 
 	<spring:message code="history.photos" />:
+	<br/>
 	<c:forEach items="${history.personalData.photos}" var="photos">
-			${photos}
-			<br/>
+		<div style="margin-top: 1px">
+			<img src="${photos}" style="max-width: 10%; max-heinght: 10%" />
+		</div>
+		<br/>
 	</c:forEach>
 
 
 <div><spring:message code="history.socialNetworkProfilelink" />:
-<a href="${curriculum.personalData.socialNetworkProfilelink}" target="_blank">${history.personalData.socialNetworkProfilelink }</a>
+<a href="${history.personalData.socialNetworkProfilelink}" target="_blank">${history.personalData.socialNetworkProfilelink }</a>
 </div>
 
 <br/>

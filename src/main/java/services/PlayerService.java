@@ -306,6 +306,7 @@ public class PlayerService {
 			player.setPunished(playerBBDD.getPunished());
 			player.setPositionEnglish(playerBBDD.getPositionEnglish());
 			player.setPositionSpanish(playerBBDD.getPositionSpanish());
+			player.setTeam(playerBBDD.getTeam());
 
 			this.validator.validate(player, binding);
 
