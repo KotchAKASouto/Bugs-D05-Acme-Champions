@@ -45,6 +45,9 @@ public class FederationService {
 	@Autowired
 	private BoxService				boxService;
 
+	@Autowired
+	private ConfigurationService	configurationService;
+
 
 	// Methods -----------------------------------
 
@@ -95,6 +98,9 @@ public class FederationService {
 			final String phone = this.actorService.checkPhone(federation.getPhone());
 			federation.setPhone(phone);
 
+			final String newUrl = this.configurationService.checkURL(federation.getPhoto());
+			federation.setPhoto(newUrl);
+
 			final Date now = new Date(System.currentTimeMillis() - 1000);
 
 			Assert.isTrue(!now.before(federation.getEstablishmentDate()));
@@ -119,6 +125,9 @@ public class FederationService {
 
 			final String phone = this.actorService.checkPhone(federation.getPhone());
 			federation.setPhone(phone);
+
+			final String newUrl = this.configurationService.checkURL(federation.getPhoto());
+			federation.setPhoto(newUrl);
 
 			final Date now = new Date(System.currentTimeMillis() - 1000);
 

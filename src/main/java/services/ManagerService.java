@@ -31,24 +31,27 @@ public class ManagerService {
 
 	// Managed Repository ------------------------
 	@Autowired
-	private ManagerRepository	managerRepository;
+	private ManagerRepository		managerRepository;
 
 	// Suporting services ------------------------
 
 	@Autowired
-	private ActorService		actorService;
+	private ActorService			actorService;
 
 	@Autowired
-	private UserAccountService	userAccountService;
+	private UserAccountService		userAccountService;
 
 	@Autowired
-	private Validator			validator;
+	private Validator				validator;
 
 	@Autowired
-	private BoxService			boxService;
+	private BoxService				boxService;
 
 	@Autowired
-	private TeamService			teamService;
+	private TeamService				teamService;
+
+	@Autowired
+	private ConfigurationService	configurationService;
 
 
 	// Methods -----------------------------------
@@ -109,6 +112,8 @@ public class ManagerService {
 
 			this.actorService.checkEmail(manager.getEmail(), false);
 			this.actorService.checkPhone(manager.getPhone());
+			final String newUrl = this.configurationService.checkURL(manager.getPhoto());
+			manager.setPhoto(newUrl);
 
 			final String phone = this.actorService.checkPhone(manager.getPhone());
 			manager.setPhone(phone);
@@ -130,6 +135,9 @@ public class ManagerService {
 
 			this.actorService.checkEmail(manager.getEmail(), false);
 			this.actorService.checkPhone(manager.getPhone());
+
+			final String newUrl = this.configurationService.checkURL(manager.getPhoto());
+			manager.setPhoto(newUrl);
 
 			final String phone = this.actorService.checkPhone(manager.getPhone());
 			manager.setPhone(phone);

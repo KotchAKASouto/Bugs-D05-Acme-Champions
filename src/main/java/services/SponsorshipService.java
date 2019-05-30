@@ -44,6 +44,9 @@ public class SponsorshipService {
 	private PlayerService			playerService;
 
 	@Autowired
+	private ConfigurationService	configurationService;
+
+	@Autowired
 	private Validator				validator;
 
 
@@ -147,6 +150,12 @@ public class SponsorshipService {
 
 		final Date now = new Date(System.currentTimeMillis() - 1000);
 
+		final String newBanner = this.configurationService.checkURL(sponsorship.getBanner());
+		sponsorship.setBanner(newBanner);
+
+		final String newTarjet = this.configurationService.checkURL(sponsorship.getTarget());
+		sponsorship.setTarget(newTarjet);
+
 		if (sponsorship.getGame() != null)
 			Assert.isTrue(sponsorship.getGame().getGameDate().after(now));
 
@@ -155,7 +164,6 @@ public class SponsorshipService {
 		return result;
 
 	}
-
 	public Boolean sponsorshipSponsorSecurity(final int sponsorhipId) {
 		Boolean res = false;
 

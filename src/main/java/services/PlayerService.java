@@ -59,6 +59,9 @@ public class PlayerService {
 	@Autowired
 	private ManagerService			managerService;
 
+	@Autowired
+	private ConfigurationService	configurationService;
+
 
 	// Methods -----------------------------------
 
@@ -129,6 +132,9 @@ public class PlayerService {
 			this.actorService.checkEmail(player.getEmail(), false);
 			this.actorService.checkPhone(player.getPhone());
 
+			final String newUrl = this.configurationService.checkURL(player.getPhoto());
+			player.setPhoto(newUrl);
+
 			final String phone = this.actorService.checkPhone(player.getPhone());
 			player.setPhone(phone);
 
@@ -149,6 +155,9 @@ public class PlayerService {
 
 			this.actorService.checkEmail(player.getEmail(), false);
 			this.actorService.checkPhone(player.getPhone());
+
+			final String newUrl = this.configurationService.checkURL(player.getPhoto());
+			player.setPhoto(newUrl);
 
 			final String phone = this.actorService.checkPhone(player.getPhone());
 			player.setPhone(phone);

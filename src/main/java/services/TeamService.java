@@ -26,18 +26,21 @@ public class TeamService {
 	// Managed repository
 
 	@Autowired
-	private TeamRepository		teamRepository;
+	private TeamRepository			teamRepository;
 
 	// Suporting services
 
 	@Autowired
-	private ActorService		actorService;
+	private ActorService			actorService;
 
 	@Autowired
-	private PresidentService	presidentService;
+	private PresidentService		presidentService;
 
 	@Autowired
-	private Validator			validator;
+	private ConfigurationService	configurationService;
+
+	@Autowired
+	private Validator				validator;
 
 
 	// Simple CRUD methods
@@ -95,6 +98,9 @@ public class TeamService {
 			team.setFunctional(true);
 		else
 			team.setFunctional(false);
+
+		final String newBadge = this.configurationService.checkURL(team.getBadgeUrl());
+		team.setBadgeUrl(newBadge);
 
 		result = this.teamRepository.save(team);
 
