@@ -133,7 +133,7 @@ public class ReportPresidentController extends AbstractController {
 					player.setPunished(true);
 					this.playerService.savePresident(player);
 				} catch (final Throwable oops) {
-					result = new ModelAndView("misc/notExist");
+					result = new ModelAndView("misc/error");
 					result.addObject("banner", banner);
 				}
 

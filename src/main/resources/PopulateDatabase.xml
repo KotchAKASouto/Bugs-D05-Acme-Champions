@@ -2907,8 +2907,8 @@
 	<bean id="personalData1" class="domain.PersonalData">
 		<property name="photos">
 			<list>
-				<value>"http://photo1.com/" </value>
-				<value>"http://photo2.com/" </value>
+				<value>http://photo1.com/ </value>
+				<value>http://photo2.com/ </value>
 			</list>
 		</property>
 		<property name="socialNetworkProfilelink" value="http://instagram.com/" />
@@ -2917,8 +2917,8 @@
 	<bean id="personalData2" class="domain.PersonalData">
 		<property name="photos">
 			<list>
-				<value>"http://photo3.com/" </value>
-				<value>"http://photo4.com/" </value>
+				<value>http://photo3.com/ </value>
+				<value>http://photo4.com/ </value>
 			</list>
 		</property>
 		<property name="socialNetworkProfilelink" value="http://facebook.com/" />
@@ -2927,8 +2927,8 @@
 	<bean id="personalData3" class="domain.PersonalData">
 		<property name="photos">
 			<list>
-				<value>"http://photo5.com/" </value>
-				<value>"http://photo6.com/" </value>
+				<value>http://photo5.com/ </value>
+				<value>http://photo6.com/ </value>
 			</list>
 		</property>
 		<property name="socialNetworkProfilelink" value="http://twitter.com/" />
