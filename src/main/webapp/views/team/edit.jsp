@@ -27,6 +27,7 @@
 	
 	<acme:textbox path="trackRecord" code="team.trackRecord" obligatory="true"/>
 		
+	<acme:textbox path="establishmentDate" code="team.establishmentDate" obligatory="true" placeholder="yyyy/MM/dd"/>
 	
 	
 	<acme:submit name="save" code="team.save" />	

@@ -446,7 +446,7 @@
 	
 	<bean id="userAccount37" class="security.UserAccount">
 		<property name="username" value="player19" />
-		<property name="password" value="e1ec6fc941af3ba79a4ac5242dd39735" />
+		<property name="password" value="1958317ad532fa7bfddb8f03c9bb5e32" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
@@ -458,7 +458,7 @@
 	
 	<bean id="userAccount38" class="security.UserAccount">
 		<property name="username" value="player20" />
-		<property name="password" value="e1ec6fc941af3ba79a4ac5242dd39735" />
+		<property name="password" value="ccddd3729eb1c4309a18f6b273621279" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
@@ -470,7 +470,7 @@
 	
 	<bean id="userAccount39" class="security.UserAccount">
 		<property name="username" value="manager5" />
-		<property name="password" value="e1ec6fc941af3ba79a4ac5242dd39735" />
+		<property name="password" value="029cb1d27c0b9c551703ccba2591c334" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
@@ -482,7 +482,7 @@
 	
 	<bean id="userAccount40" class="security.UserAccount">
 		<property name="username" value="manager6" />
-		<property name="password" value="e1ec6fc941af3ba79a4ac5242dd39735" />
+		<property name="password" value="46bae9ead851e0f288529e6322f4fd77" />
 		<property name="authorities">
 			<list>
 				<bean class="security.Authority">
@@ -497,7 +497,7 @@
 	<bean id="administrator1" class="domain.Administrator">
 		<property name="name" value="Francisco" />
 		<property name="surnames" value="Sánchez González" />
-		<property name="photo" value="http://www.dropbox.com/url1/" />
+		<property name="photo" value="http://cort.as/-IuHB" />
 		<property name="email" value="adminitrator1@mail.com" />
 		<property name="phone" value="+34 6769252365" />
 		<property name="address" value="Luna de Escacena 33" />
@@ -509,7 +509,7 @@
 	<bean id="president1" class="domain.President">
 		<property name="name" value="Florentino" />
 		<property name="surnames" value="Pérez Pérez" />
-		<property name="photo" value="http://www.dropbox.com/url2/" />
+		<property name="photo" value="http://cort.as/-IuHL" />
 		<property name="email" value="florentineza@mail.com" />
 		<property name="phone" value="+34 6769252367" />
 		<property name="address" value="Paseo de la Castellana" />
@@ -519,7 +519,7 @@
 	<bean id="president2" class="domain.President">
 		<property name="name" value="José María" />
 		<property name="surnames" value="Del Nido Benavente" />
-		<property name="photo" value="http://www.dropbox.com/url3/" />
+		<property name="photo" value="http://cort.as/-IuHS" />
 		<property name="email" value="delnido@mail.com" />
 		<property name="phone" value="+34 6769852365" />
 		<property name="address" value="Mariano Benlliure" />
@@ -529,7 +529,7 @@
 	<bean id="president3" class="domain.President">
 		<property name="name" value="Manuel" />
 		<property name="surnames" value="Ruiz de Lopera" />
-		<property name="photo" value="http://www.dropbox.com/url4/" />
+		<property name="photo" value="http://cort.as/-IuHe" />
 		<property name="email" value="donmanue@mail.com" />
 		<property name="phone" value="+34 6169252365" />
 		<property name="address" value="Calle Jabugo" />
@@ -539,7 +539,7 @@
 	<bean id="president4" class="domain.President">
 		<property name="name" value="Enrique" />
 		<property name="surnames" value="Cerezo" />
-		<property name="photo" value="http://www.dropbox.com/url5/" />
+		<property name="photo" value="http://cort.as/-IuHk" />
 		<property name="email" value="cerezo@mail.com" />
 		<property name="phone" value="+34 6769252305" />
 		<property name="address" value="Plaza de Neptuno" />
@@ -549,7 +549,7 @@
 	<bean id="president5" class="domain.President">
 		<property name="name" value="Juan" />
 		<property name="surnames" value="Lapuerta" />
-		<property name="photo" value="http://www.dropbox.com/url27/" />
+		<property name="photo" value="http://cort.as/-IuI7" />
 		<property name="email" value="lapuerta@mail.com" />
 		<property name="phone" value="+34 6700252305" />
 		<property name="address" value="La Ramblas" />
@@ -561,7 +561,7 @@
 	<bean id="player1" class="domain.Player">
 		<property name="name" value="Guillermo" />
 		<property name="surnames" value="Sara" />
-		<property name="photo" value="http://www.dropbox.com/url6/" />
+		<property name="photo" value="http://cort.as/-IuIO" />
 		<property name="email" value="gsara@mail.com" />
 		<property name="phone" value="+34 6789252067" />
 		<property name="address" value="La Pampa" />
@@ -579,7 +579,7 @@
 	<bean id="player2" class="domain.Player">
 		<property name="name" value="Aquivaldo" />
 		<property name="surnames" value="Mosquera" />
-		<property name="photo" value="http://www.dropbox.com/url7/" />
+		<property name="photo" value="http://cort.as/-IuIe" />
 		<property name="email" value="aquimosque@mail.com" />
 		<property name="phone" value="+34 6789852367" />
 		<property name="address" value="Paseo de las Delicias" />
@@ -919,7 +919,7 @@
 	<bean id="manager1" class="domain.Manager">
 		<property name="name" value="Louis" />
 		<property name="surnames" value="Van Gaal" />
-		<property name="photo" value="http://www.dropbox.com/url21/" />
+		<property name="photo" value="http://cort.as/-IuJk" />
 		<property name="email" value="siemprenegatifa@mail.com" />
 		<property name="phone" value="+34 6169252367" />
 		<property name="address" value="Puñonrostro" />
@@ -930,7 +930,7 @@
 	<bean id="manager2" class="domain.Manager">
 		<property name="name" value="José" />
 		<property name="surnames" value="Mourinho" />
-		<property name="photo" value="http://www.dropbox.com/url22/" />
+		<property name="photo" value="http://cort.as/-IuJs" />
 		<property name="email" value="mou@mail.com" />
 		<property name="phone" value="+34 776925257" />
 		<property name="address" value="Laraña" />
@@ -941,7 +941,7 @@
 	<bean id="manager3" class="domain.Manager">
 		<property name="name" value="Carlos Timoteo" />
 		<property name="surnames" value="Griguol" />
-		<property name="photo" value="http://www.dropbox.com/url23/" />
+		<property name="photo" value="http://cort.as/-IuKH" />
 		<property name="email" value="cartigri@mail.com" />
 		<property name="phone" value="+34 6760052367" />
 		<property name="address" value="Trajano" />
@@ -952,7 +952,7 @@
 	<bean id="manager4" class="domain.Manager">
 		<property name="name" value="Gregorio" />
 		<property name="surnames" value="Manzano" />
-		<property name="photo" value="http://www.dropbox.com/url36/" />
+		<property name="photo" value="http://cort.as/-IuKa" />
 		<property name="email" value="greman@mail.com" />
 		<property name="phone" value="+34 6768352367" />
 		<property name="address" value="Adriano" />
@@ -963,7 +963,7 @@
 	<bean id="manager5" class="domain.Manager">
 		<property name="name" value="Pepe" />
 		<property name="surnames" value="Mel" />
-		<property name="photo" value="http://www.dropbox.com/url39/" />
+		<property name="photo" value="http://cort.as/-IuKn" />
 		<property name="email" value="pepemer@mail.com" />
 		<property name="phone" value="+34 6768356111" />
 		<property name="address" value="Regina" />
@@ -973,7 +973,7 @@
 	<bean id="manager6" class="domain.Manager">
 		<property name="name" value="Rafa" />
 		<property name="surnames" value="Benítez" />
-		<property name="photo" value="http://www.dropbox.com/url40/" />
+		<property name="photo" value="http://cort.as/-IuL4" />
 		<property name="email" value="refben@mail.com" />
 		<property name="phone" value="+34 6779452367" />
 		<property name="address" value="Marqués de Pickman" />
@@ -985,7 +985,7 @@
 	<bean id="referee1" class="domain.Referee">
 		<property name="name" value="Mikel" />
 		<property name="surnames" value="Pérez Lasa" />
-		<property name="photo" value="http://www.dropbox.com/url33/" />
+		<property name="photo" value="http://cort.as/-IuLE" />
 		<property name="email" value="mipela@mail.com" />
 		<property name="phone" value="+34 7769252360" />
 		<property name="address" value="Avenida de la Buhaira" />
@@ -995,7 +995,7 @@
 	<bean id="referee2" class="domain.Referee">
 		<property name="name" value="Antonio" />
 		<property name="surnames" value="Mateu Lahoz" />
-		<property name="photo" value="http://www.dropbox.com/url31/" />
+		<property name="photo" value="http://cort.as/-IuLX" />
 		<property name="email" value="mala@mail.com" />
 		<property name="phone" value="+34 7769252990" />
 		<property name="address" value="Avenida de las Razas" />
@@ -1005,7 +1005,7 @@
 	<bean id="referee3" class="domain.Referee">
 		<property name="name" value="Bernardino" />
 		<property name="surnames" value="Gonzalez Vazquez" />
-		<property name="photo" value="http://www.dropbox.com/url32/" />
+		<property name="photo" value="http://cort.as/-IuLi" />
 		<property name="email" value="vergova@mail.com" />
 		<property name="phone" value="+34 7779252360" />
 		<property name="address" value="Avenida del Deporte" />
@@ -1017,7 +1017,7 @@
 	<bean id="federation1" class="domain.Federation">
 		<property name="name" value="Real Federación" />
 		<property name="surnames" value="Ibérica de Fútbol" />
-		<property name="photo" value="http://www.dropbox.com/url50/" />
+		<property name="photo" value="http://cort.as/-IuLq" />
 		<property name="email" value="rfif@mail.com" />
 		<property name="phone" value="+34 6769842365" />
 		<property name="address" value="Ronda del Tamarguillo" />
@@ -1029,7 +1029,7 @@
 	<bean id="federation2" class="domain.Federation">
 		<property name="name" value="Federación" />
 		<property name="surnames" value="Levantina de Fútbol" />
-		<property name="photo" value="http://www.dropbox.com/url33/" />
+		<property name="photo" value="http://cort.as/-IuLv" />
 		<property name="email" value="levan@mail.com" />
 		<property name="phone" value="+34 6169848365" />
 		<property name="address" value="Avenida de la Paz" />
@@ -1043,7 +1043,7 @@
 	<bean id="sponsor1" class="domain.Sponsor">
 		<property name="name" value="Manuel" />
 		<property name="surnames" value="Ramos" />
-		<property name="photo" value="http://www.dropbox.com/url55/" />
+		<property name="photo" value="http://cort.as/-IuM8" />
 		<property name="email" value="manram@mail.com" />
 		<property name="phone" value="+34 6769803365" />
 		<property name="address" value="Ronda de Capuchinos" />
@@ -1055,7 +1055,7 @@
 	<bean id="sponsor2" class="domain.Sponsor">
 		<property name="name" value="Eva" />
 		<property name="surnames" value="Lopez" />
-		<property name="photo" value="http://www.dropbox.com/url34/" />
+		<property name="photo" value="http://cort.as/-IuMZ" />
 		<property name="email" value="evlo@mail.com" />
 		<property name="phone" value="+34 6769643365" />
 		<property name="address" value="Sierpes" />
@@ -1067,7 +1067,7 @@
 	<bean id="sponsor3" class="domain.Sponsor">
 		<property name="name" value="Marina" />
 		<property name="surnames" value="Gil" />
-		<property name="photo" value="http://www.dropbox.com/url35/" />
+		<property name="photo" value="http://cort.as/-IuMy" />
 		<property name="email" value="margil@mail.com" />
 		<property name="phone" value="+34 6769803309" />
 		<property name="address" value="Alemanes" />
@@ -2887,6 +2887,21 @@
 		</property>
 	</bean>
 	
+	<bean id="history3" class="domain.History">
+		<property name="player" ref="player3" />
+		<property name="personalData" ref="personalData3" />
+		<property name="playerRecords">
+			<list>
+				
+			</list>
+		</property>
+		<property name="sportRecords">
+			<list>
+				
+			</list>
+		</property>
+	</bean>
+	
 	<!-- Personal Datas -->
 
 	<bean id="personalData1" class="domain.PersonalData">
@@ -2907,6 +2922,16 @@
 			</list>
 		</property>
 		<property name="socialNetworkProfilelink" value="http://facebook.com/" />
+	</bean>
+	
+	<bean id="personalData3" class="domain.PersonalData">
+		<property name="photos">
+			<list>
+				<value>"http://photo5.com/" </value>
+				<value>"http://photo6.com/" </value>
+			</list>
+		</property>
+		<property name="socialNetworkProfilelink" value="http://twitter.com/" />
 	</bean>
 	
 	<!-- Sport Records -->
@@ -2946,7 +2971,7 @@
 
 	<bean id="sponsorship1" class="domain.Sponsorship">
 		<property name="creditCard" ref="creditCard1" />
-		<property name="banner" value="http://lorempixel.com/200/200" />
+		<property name="banner" value="http://cort.as/-IuNE" />
 		<property name="target" value="http://target1.com/" />
 		<property name="sponsor" ref="sponsor1" />
 		<property name="game" ref="game1" />
@@ -2954,7 +2979,7 @@
 	
 	<bean id="sponsorship2" class="domain.Sponsorship">
 		<property name="creditCard" ref="creditCard2" />
-		<property name="banner" value="http://lorempixel.com/200/200" />
+		<property name="banner" value="http://cort.as/-IuNZ" />
 		<property name="target" value="http://target2.com/" />
 		<property name="sponsor" ref="sponsor2" />
 		<property name="team" ref="team1" />
@@ -2962,7 +2987,7 @@
 	
 	<bean id="sponsorship3" class="domain.Sponsorship">
 		<property name="creditCard" ref="creditCard3" />
-		<property name="banner" value="http://lorempixel.com/200/200" />
+		<property name="banner" value="http://cort.as/-IuNj" />
 		<property name="target" value="http://target3.com/" />
 		<property name="sponsor" ref="sponsor2" />
 		<property name="player" ref="player1" />
