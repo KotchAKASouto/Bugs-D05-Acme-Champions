@@ -85,7 +85,7 @@ public class ReportPresidentController extends AbstractController {
 
 			final Team team = this.teamService.findTeamByPresidentId(president.getId());
 
-			if (player.getTeam().equals(team)) {
+			if (team != null && player.getTeam() != null && player.getTeam().equals(team)) {
 
 				reports = this.reportService.findByPlayerId(playerId);
 
@@ -127,10 +127,14 @@ public class ReportPresidentController extends AbstractController {
 
 			reports = this.reportService.findByPlayerId(playerId);
 
-			if (player.getTeam().equals(team) && !reports.isEmpty() && !player.getPunished()) {
+			if (team != null && player.getTeam() != null && player.getTeam().equals(team) && !reports.isEmpty() && !player.getPunished()) {
 
-				player.setPunished(true);
-				this.playerService.savePresident(player);
+				try {
+					player.setPunished(true);
+					this.playerService.savePresident(player);
+				} catch (final Throwable oops) {
+
+				}
 
 				result = new ModelAndView("redirect:/report/president/listReports.do?playerId=" + playerId);
 
