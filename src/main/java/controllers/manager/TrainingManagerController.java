@@ -132,7 +132,7 @@ public class TrainingManagerController extends AbstractController {
 			final Manager manager = this.managerService.findByPrincipal();
 			final Boolean startDateGood = this.checkStartDate(training);
 
-			if (training.getManager().getId() == manager.getId() || startDateGood)
+			if (training.getManager().getId() == manager.getId() && startDateGood)
 				try {
 					this.trainingService.delete(training);
 					result = new ModelAndView("redirect:/calendar/manager/show.do");
