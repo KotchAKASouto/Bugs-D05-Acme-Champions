@@ -62,7 +62,7 @@ ${minutesByGame.winner.name}
 </security:authorize>
 
 <security:authorize access="hasRole('MANAGER')">
-<acme:button name="back" code="game.back.actor" onclick="javascript: relativeRedir('game/manager/listMyMatchsAndTrainings.do');" />
+<acme:button name="back" code="game.back.manager" onclick="javascript: relativeRedir('calendar/manager/show.do');" />
 </security:authorize>
 
 

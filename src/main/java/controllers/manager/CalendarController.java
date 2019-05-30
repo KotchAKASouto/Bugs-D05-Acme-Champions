@@ -54,7 +54,7 @@ public class CalendarController {
 
 		result = new ModelAndView("team/calendar");
 		result.addObject("trainings", trainings);
-		result.addObject("requestURI", "calendar/manager/list.do");
+		result.addObject("requestURI", "calendar/manager/show.do");
 		result.addObject("pagesize", 5);
 		result.addObject("banner", banner);
 		result.addObject("language", LocaleContextHolder.getLocale().getLanguage());

@@ -46,7 +46,7 @@ public class GameRefereeController extends AbstractController {
 		final String banner = this.configurationService.findConfiguration().getBanner();
 		final Actor actor = this.actorService.findByPrincipal();
 
-		final Collection<Game> myFutureGames = this.gameService.findFutureGamesByRefereeId(actor.getId());
+		final Collection<Game> myFutureGames = this.gameService.findFutureFriendlyGamesByRefereeId(actor.getId());
 		final Collection<Game> myEndedGamesWithMinutes = this.gameService.findAllEndedGamesWithMinutes(actor.getId());
 		final Collection<Game> myEndedGamesWithoutMinutes = this.gameService.findAllEndedGamesWithoutMinutes(actor.getId());
 
@@ -83,7 +83,7 @@ public class GameRefereeController extends AbstractController {
 
 		final String banner = this.configurationService.findConfiguration().getBanner();
 
-		if (game == null || (game.getId() != 0 && game.getReferee().getId() != actor.getId())) {
+		if (game == null || (game.getId() != 0 && game.getReferee().getId() != actor.getId()) || game.getId() != 0 && !game.getFriendly()) {
 			result = new ModelAndView("misc/notExist");
 			result.addObject("banner", banner);
 		} else
