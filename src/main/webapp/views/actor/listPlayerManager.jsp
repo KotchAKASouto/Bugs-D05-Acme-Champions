@@ -68,7 +68,7 @@
 	</security:authorize>
 	
 	<security:authorize access="hasRole('PRESIDENT')">
-		<jstl:if test="${canFire == true}">
+		<jstl:if test="!${AmInFinder }">
 			<display:column>
 				<a href="president/firePlayer.do?playerId=${row1.id}"><spring:message code="player.fire" /></a>
 			</display:column>
@@ -100,7 +100,7 @@
 	<acme:url href="hiring/president/create.do?managerId=${row2.id}" code="actor.hiring"/>
 	
 	<security:authorize access="hasRole('PRESIDENT')">
-		<jstl:if test="${canFire == true}">
+		<jstl:if test="!${AmInFinder }">
 			<display:column>
 				<a href="president/fireManager.do?managerId=${row2.id}" ><spring:message code="manager.fire" /></a>
 			</display:column>
@@ -108,12 +108,6 @@
 	</security:authorize>
 	
 </display:table>
-
-<jstl:if test="${canFire == false}">
-	<div class="no_firing_note">
-		<p><spring:message code="manager" /></p>
-	</div>
-</jstl:if>
 
 <security:authorize access="hasRole('MANAGER')">
 <jstl:if test="${requestURI == 'team/president,manager/listByManager.do' }">

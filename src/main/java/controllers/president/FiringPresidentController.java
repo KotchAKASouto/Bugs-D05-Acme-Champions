@@ -47,9 +47,6 @@ public class FiringPresidentController extends AbstractController {
 	private TeamService		teamService;
 
 	@Autowired
-	private GameService		gameService;
-
-	@Autowired
 	private SigningService	signingService;
 
 	@Autowired
@@ -59,21 +56,6 @@ public class FiringPresidentController extends AbstractController {
 	private TrainingService	trainingService;
 
 
-	@RequestMapping(value = "/canFire", method = RequestMethod.GET)
-	public boolean canFire() {
-		boolean result = false;
-		final President president = this.presidentService.findByPrincipal();
-
-		final Team team = this.teamService.findTeamByPresidentId(president.getId());
-
-		final Collection<Game> games = this.gameService.findNextGamesOfTeam(team.getId());
-
-		if (games.isEmpty())
-			result = true;
-
-		return result;
-	}
-
 	@RequestMapping(value = "/firePlayer", method = RequestMethod.GET)
 	public ModelAndView firePlayer(@RequestParam final int playerId) {
 		ModelAndView result = null;
@@ -82,7 +64,6 @@ public class FiringPresidentController extends AbstractController {
 
 		final Team team = this.teamService.findTeamByPresidentId(president.getId());
 
-		final Collection<Game> games = this.gameService.findNextGamesOfTeam(team.getId());
 
 		final Collection<Player> players = this.playerService.findPlayersOfTeam(team.getId());
 
@@ -90,21 +71,19 @@ public class FiringPresidentController extends AbstractController {
 
 		Signing signing;
 		if (player != null) {
-			if (games.isEmpty()) {
 				if (players.contains(player)) {
 					signing = this.signingService.findSigningOfPresidentAndPlayer(president.getId(), player.getId());
 
 					this.signingService.delete(signing);
 					player.setTeam(null);
 					this.playerService.save(player);
+					
+					this.teamService.functional(team);
 
 					result = new ModelAndView("redirect:/team/president,manager/listByPresident.do");
 				} else
 					// NO AUTORIZADO!
 					result = new ModelAndView("redirect:/welcome/index.do");
-			} else
-				// TIENE PARTIDOS!
-				result = new ModelAndView("redirect:/welcome/index.do");
 
 		} else
 			// NO EXISTE EL JUGADOR!
@@ -122,15 +101,13 @@ public class FiringPresidentController extends AbstractController {
 
 		final Team team = this.teamService.findTeamByPresidentId(president.getId());
 
-		final Collection<Game> games = this.gameService.findNextGamesOfTeam(team.getId());
-
 		final Manager manager = this.managerService.findOne(managerId);
 
 		final Hiring hiring;
 
 		if (manager != null) {
 			hiring = this.hiringService.findHiringOfPresidentAndManager(president.getId(), manager.getId());
-			if (games.isEmpty()) {
+			
 
 				if (hiring != null) {
 					this.hiringService.delete(hiring);
@@ -142,14 +119,14 @@ public class FiringPresidentController extends AbstractController {
 
 					manager.setTeam(null);
 					this.managerService.save(manager);
+					
+					team.setFunctional(false);
+					this.teamService.save(team);
 
 					result = new ModelAndView("redirect:/team/president,manager/listByPresident.do");
 				} else
 					// NO AUTORIZADO!
 					result = new ModelAndView("redirect:/welcome/index.do");
-			} else
-				// TIENE PARTIDOS!
-				result = new ModelAndView("redirect:/welcome/index.do");
 		} else
 			// NO EXISTE EL MANAGER!
 			result = new ModelAndView("misc/notExist");
