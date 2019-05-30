@@ -17,9 +17,12 @@
 <h3><spring:message code="history.personalData" /></h3>
 
 	<spring:message code="history.photos" />:
+	<br/>
 	<c:forEach items="${history.personalData.photos}" var="photos">
-			${photos}
-			<br/>
+		<div style="margin-top: 1px">
+			<img src="${photos}" style="max-width: 10%; max-heinght: 10%" />
+		</div>
+		<br/>
 	</c:forEach>
 
 
