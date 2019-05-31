@@ -26,7 +26,8 @@
 	<acme:textbox path="description" code="training.description" obligatory="true"/>	
 	
 	
-	<acme:submit name="save" code="training.save" />	
+	<spring:message code="training.confirmation" var="confirmation" />
+	<input type="submit" name="save" value="<spring:message code="game.save"/>" onClick="confirm('${confirmation}')" />
 
 	<acme:cancel code="training.cancel" url="calendar/manager/show.do" />
 	
