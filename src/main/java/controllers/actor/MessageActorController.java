@@ -128,14 +128,13 @@ public class MessageActorController extends AbstractController {
 
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@ModelAttribute(value = "message") final MessageForm message2, final BindingResult binding) {
-		final Message message3 = this.messageService.reconstruct(message2, binding);
-		ModelAndView result;
-		Boolean exist1, exist2, exist3;
-		exist1 = this.messageService.existId(message3.getId());
-		exist2 = this.actorService.existActor(message3.getSender().getId());
-		exist3 = this.actorService.existActor(message3.getRecipient().getId());
-		if (exist1 && exist2 && exist3) {
 
+		ModelAndView result;
+		Boolean exist1, exist2;
+		exist1 = this.actorService.existActor(message2.getSenderId());
+		exist2 = this.actorService.existActor(message2.getRecipientId());
+		if (exist1 && exist2) {
+			final Message message3 = this.messageService.reconstruct(message2, binding);
 			if (binding.hasErrors())
 				result = this.createEditModelAndView(message2);
 			else
@@ -164,17 +163,17 @@ public class MessageActorController extends AbstractController {
 
 		ModelAndView result;
 		final Message message1;
-		final Boolean security1;
+		final Boolean security;
 
 		final Boolean existMessage = this.messageService.existId(messageId);
 		final Boolean existBox = this.boxService.existId(boxId);
+		final String banner = this.configurationService.findConfiguration().getBanner();
 
 		if (existMessage && existBox) {
 
 			security = this.messageService.securityMessage(boxId);
 
 			if (security) {
-				final String banner = this.configurationService.findConfiguration().getBanner();
 
 				message1 = this.messageService.findOne(messageId);
 
