@@ -1953,25 +1953,25 @@
 	
 	<bean id="box137" class="domain.Box">
 		<property name="name" value="in box" />
-		<property name="actor" ref="sponsor2" />
+		<property name="actor" ref="sponsor3" />
 		
 	</bean>
 
 	<bean id="box138" class="domain.Box">
 		<property name="name" value="out box" />
-		<property name="actor" ref="sponsor2" />
+		<property name="actor" ref="sponsor3" />
 	
 	</bean>
 
 	<bean id="box139" class="domain.Box">
 		<property name="name" value="trash box" />
-		<property name="actor" ref="sponsor2" />
+		<property name="actor" ref="sponsor3" />
 		
 	</bean>
 
 	<bean id="box140" class="domain.Box">
 		<property name="name" value="spam box" />
-		<property name="actor" ref="sponsor2" />
+		<property name="actor" ref="sponsor3" />
 	</bean>
 	
 	<bean id="box141" class="domain.Box">
