@@ -209,4 +209,17 @@ public class SigningService {
 	public Signing findSigningOfPresidentAndPlayer(final int presidentId, final int playerId) {
 		return this.signingRepository.findSigningOfPresidentAndPlayer(presidentId, playerId);
 	}
+
+	public Collection<Signing> findAllByPresident(final int id) {
+
+		final Actor actor = this.actorService.findByPrincipal();
+		Assert.notNull(actor);
+		final Authority authority = new Authority();
+		authority.setAuthority(Authority.PRESIDENT);
+		Assert.isTrue((actor.getUserAccount().getAuthorities().contains(authority)));
+
+		final Collection<Signing> res = this.signingRepository.findAllByTeamId(id);
+
+		return res;
+	}
 }

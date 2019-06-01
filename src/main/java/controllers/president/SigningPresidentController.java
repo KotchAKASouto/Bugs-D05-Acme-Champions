@@ -94,7 +94,7 @@ public class SigningPresidentController extends AbstractController {
 
 		if (this.teamService.findByPresidentId(this.presidentService.findByPrincipal().getId()) != null) {
 
-			if (this.teamService.findPlayersByTeamId(this.teamService.findByPresidentId(this.presidentService.findByPrincipal().getId()).getId()).size() < 14) {
+			if (this.signingService.findAllByPresident(this.presidentService.findByPrincipal().getId()).size() < 14) {
 
 				final Boolean exist = this.playerService.exist(playerId);
 
@@ -144,7 +144,7 @@ public class SigningPresidentController extends AbstractController {
 
 			if (player.getTeam() == null || !player.getTeam().equals(team)) {
 
-				if (this.teamService.findPlayersByTeamId(this.teamService.findByPresidentId(this.presidentService.findByPrincipal().getId()).getId()).size() < 14) {
+				if (this.signingService.findAllByPresident(this.presidentService.findByPrincipal().getId()).size() < 14) {
 
 					if (signingForm.getId() == 0) {
 
