@@ -59,7 +59,7 @@ public class ActorService {
 
 		final Actor actor = this.actorRepository.findOne(ActorId);
 
-		Assert.notNull(actor);
+		//Assert.notNull(actor);
 
 		return actor;
 	}

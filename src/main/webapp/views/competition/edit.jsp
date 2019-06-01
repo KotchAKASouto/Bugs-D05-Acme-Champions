@@ -27,7 +27,8 @@
 	<form:errors cssClass="error" path="formatId"></form:errors>
 	<br />
 	
-	<acme:submit name="save" code="competition.save" />
+	<spring:message code="competition.confirmation" var="confirmation" />
+	<input type="submit" name="save" value="<spring:message code="competition.save"/>" onClick="confirm('${confirmation}')" />
 	
 	<acme:cancel code="competition.cancel" url="competition/federation/list.do" />
 

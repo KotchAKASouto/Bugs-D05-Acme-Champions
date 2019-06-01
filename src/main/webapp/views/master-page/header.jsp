@@ -72,7 +72,6 @@
 
 					<li><a href="history/player/display.do"><spring:message code="master.page.history" /></a></li>	
 					<li><a href="signing/player/list.do"><spring:message code="master.page.signing" /></a></li>		
-					<li><a href="history/player/display.do"><spring:message code="master.page.history" /></a></li>		
 					<li><a href="training/player/list.do"><spring:message code="master.page.list.trainings" /></a></li>
 					
 				</ul>

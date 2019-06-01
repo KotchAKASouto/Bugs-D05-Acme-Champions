@@ -78,7 +78,7 @@ public class FinderPresidentController extends AbstractController {
 		Integer numManager = null;
 
 		if (teamId != null) {
-			numPlayers = this.teamService.findPlayersByTeamId(teamId).size();
+			numPlayers = this.signingService.findAllByPresident(actor.getId()).size();
 			final Manager manager = this.teamService.findManagerByTeamId(teamId);
 			if (manager != null)
 				numManager = 1;
