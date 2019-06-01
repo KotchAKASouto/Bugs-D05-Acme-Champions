@@ -264,10 +264,13 @@ public class SponsorshipSponsorController extends AbstractController {
 			result = new ModelAndView("redirect:/welcome/index.do");
 			result.addObject("banner", banner);
 
-		}
+		} else if (binding.hasErrors())
 
-		if (binding.hasErrors())
-			result = this.createEditModelAndView(sponsorship, null);
+			if (sponsorship2.getCreditCard() == null || sponsorship2.getSponsor() == null)
+				result = this.createEditModelAndView(sponsorship, "sponsorship.id.error");
+			else
+				result = this.createEditModelAndView(sponsorship, null);
+
 		else
 			try {
 				this.sponsorshipService.save(sponsorship2);
