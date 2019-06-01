@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.validation.Validator;
 
 import repositories.FormatRepository;
@@ -22,20 +23,19 @@ public class FormatService {
 
 	// Managed Repository --------------------
 	@Autowired
-	private FormatRepository	formatRepository;
+	private FormatRepository formatRepository;
 
 	// Supporting Services -------------------
 	@Autowired
-	private ActorService		actorService;
+	private ActorService actorService;
 
 	@Autowired
-	private FederationService	federationService;
+	private FederationService federationService;
 
 	@Autowired
-	private Validator			validator;
+	private Validator validator;
 
-
-	//Simple CRUD methods
+	// Simple CRUD methods
 
 	public Format create() {
 
@@ -98,20 +98,33 @@ public class FormatService {
 
 	public Format reconstruct(final Format format, final BindingResult binding) {
 
-		//Hay que estar logeado
+		// Hay que estar logeado
 		final Actor actor = this.actorService.findByPrincipal();
 		final Federation fede = this.federationService.findByUserAccount(actor.getUserAccount());
 		Assert.notNull(actor);
 
 		Assert.notNull(format);
 
-		Assert.isTrue(format.getType().equals("TOURNAMENT") || format.getType().equals("LEAGUE"));
-
 		final Format formatBBDD = this.findOne(format.getId());
-		format.setType(format.getType());
-		format.setMinimumTeams(format.getMinimumTeams());
-		format.setMaximumTeams(format.getMaximumTeams());
-		format.setFederation(fede);
+		if (!(format.getType().equals("TOURNAMENT") || format.getType().equals("LEAGUE"))) {
+			binding.addError(new ObjectError("Error","El tipo tiene que ser LEAGUE o TOURNAMENT"));
+		} else {
+			format.setType(format.getType());
+		}
+		if (format.getMaximumTeams() != null && format.getMinimumTeams()!=null) {
+			if (format.getMinimumTeams() <= format.getMaximumTeams()) {
+				format.setMinimumTeams(format.getMinimumTeams());
+				format.setMaximumTeams(format.getMaximumTeams());
+			} else {
+				final Integer actualMinimum = format.getMaximumTeams();
+				final Integer actualMaximum = format.getMinimumTeams();
+				format.setMinimumTeams(actualMinimum);
+				format.setMaximumTeams(actualMaximum);
+			}
+			
+	
+			format.setFederation(fede);
+		}
 
 		this.validator.validate(format, binding);
 

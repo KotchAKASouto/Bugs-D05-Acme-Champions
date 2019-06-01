@@ -37,6 +37,5 @@
 	</jstl:if>
 	
 	<acme:cancel code="back" url="format/federation/list.do" />
-
-
+	
 </form:form>  
