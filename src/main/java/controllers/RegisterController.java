@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import security.Credentials;
+import security.UserAccount;
+import security.UserAccountService;
 import services.ConfigurationService;
 import services.FederationService;
 import services.ManagerService;
@@ -56,6 +58,9 @@ public class RegisterController extends AbstractController {
 	@Autowired
 	private ConfigurationService	configurationService;
 
+	@Autowired
+	private UserAccountService		userAccountService;
+
 
 	//Manager
 	@RequestMapping(value = "/createManager", method = RequestMethod.GET)
@@ -75,8 +80,12 @@ public class RegisterController extends AbstractController {
 
 		manager = this.managerService.reconstruct(form, binding);
 
+		final UserAccount ua = this.userAccountService.findByUsername(form.getUsername());
+
 		if (binding.hasErrors())
 			result = this.createEditModelAndViewManager(form);
+		else if (ua != null)
+			result = this.createEditModelAndViewManager(form, "username.commit.error");
 		else
 			try {
 				Assert.isTrue(form.getCheckbox());
@@ -133,8 +142,12 @@ public class RegisterController extends AbstractController {
 
 		player = this.playerService.reconstruct(form, binding);
 
+		final UserAccount ua = this.userAccountService.findByUsername(form.getUsername());
+
 		if (binding.hasErrors())
 			result = this.createEditModelAndViewPlayer(form);
+		else if (ua != null)
+			result = this.createEditModelAndViewPlayer(form, "username.commit.error");
 		else
 			try {
 				Assert.isTrue(form.getCheckbox());
@@ -195,10 +208,14 @@ public class RegisterController extends AbstractController {
 
 		sponsor = this.sponsorService.reconstruct(form, binding);
 
+		final UserAccount ua = this.userAccountService.findByUsername(form.getUsername());
+
 		final Collection<String> makes = this.configurationService.findConfiguration().getMakes();
 
 		if (binding.hasErrors())
 			result = this.createEditModelAndViewSponsor(form);
+		else if (ua != null)
+			result = this.createEditModelAndViewSponsor(form, "username.commit.error");
 		else
 			try {
 				Assert.isTrue(makes.contains(form.getCreditCard().getMake()));
@@ -259,8 +276,12 @@ public class RegisterController extends AbstractController {
 
 		referee = this.refereeService.reconstruct(form, binding);
 
+		final UserAccount ua = this.userAccountService.findByUsername(form.getUsername());
+
 		if (binding.hasErrors())
 			result = this.createEditModelAndViewReferee(form);
+		else if (ua != null)
+			result = this.createEditModelAndViewReferee(form, "username.commit.error");
 		else
 			try {
 				Assert.isTrue(form.getCheckbox());
@@ -317,10 +338,12 @@ public class RegisterController extends AbstractController {
 
 		federation = this.federationService.reconstruct(form, binding);
 
-		final Collection<String> makes = this.configurationService.findConfiguration().getMakes();
+		final UserAccount ua = this.userAccountService.findByUsername(form.getUsername());
 
 		if (binding.hasErrors())
 			result = this.createEditModelAndViewFederation(form);
+		else if (ua != null)
+			result = this.createEditModelAndViewFederation(form, "username.commit.error");
 		else
 			try {
 				Assert.isTrue(form.getCheckbox());

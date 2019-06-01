@@ -30,6 +30,14 @@
 
 <h3><spring:message code="player" /></h3>
 
+<br>
+
+<security:authorize access="hasRole('PRESIDENT')">
+	<jstl:if test="${teamNow != null}">
+		<spring:message code="signings1" /> <jstl:out value="${numPlayers}" /> <spring:message code="signings2" />
+	</jstl:if>
+</security:authorize>
+
 <display:table name="players" id="row1" requestURI="${requestURI }" pagesize="${pagesize}" >
 
 	<acme:column property="surnames" titleKey="actor.surnames" value= "${row1.surnames}"/>

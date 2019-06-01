@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import security.UserAccount;
+import security.UserAccountService;
 import services.AdministratorService;
 import services.ConfigurationService;
 import services.PresidentService;
@@ -33,6 +35,9 @@ public class RegisterAdministratorController extends AbstractController {
 	@Autowired
 	private ConfigurationService	configurationService;
 
+	@Autowired
+	private UserAccountService		userAccountService;
+
 
 	// Methods
 
@@ -53,12 +58,14 @@ public class RegisterAdministratorController extends AbstractController {
 
 		final Administrator adminReconstruct = this.administratorService.reconstruct(form, binding);
 
+		final UserAccount ua = this.userAccountService.findByUsername(form.getUsername());
+
 		if (binding.hasErrors())
 			result = this.createEditModelAndView(form);
 		else if (!form.checkPassword() || !form.getCheckbox())
-			result = this.createEditModelAndView(form, "administrator.commit.error");
-		else if (!form.checkPassword() || !form.getCheckbox())
-			result = this.createEditModelAndView(form, "administrator.commit.error.username");
+			result = this.createEditModelAndView(form, "actor.commit.error");
+		else if (ua != null)
+			result = this.createEditModelAndView(form, "username.commit.error");
 		else
 			try {
 				this.administratorService.save(adminReconstruct);
@@ -86,12 +93,14 @@ public class RegisterAdministratorController extends AbstractController {
 
 		final President presidentReconstruct = this.presidentService.reconstruct(form, binding);
 
+		final UserAccount ua = this.userAccountService.findByUsername(form.getUsername());
+
 		if (binding.hasErrors())
 			result = this.createEditModelAndViewPresident(form);
 		else if (!form.checkPassword() || !form.getCheckbox())
-			result = this.createEditModelAndViewPresident(form, "administrator.commit.error");
-		else if (!form.checkPassword() || !form.getCheckbox())
-			result = this.createEditModelAndViewPresident(form, "administrator.commit.error.username");
+			result = this.createEditModelAndViewPresident(form, "actor.commit.error");
+		else if (ua != null)
+			result = this.createEditModelAndViewPresident(form, "username.commit.error");
 		else
 			try {
 				this.presidentService.save(presidentReconstruct);
