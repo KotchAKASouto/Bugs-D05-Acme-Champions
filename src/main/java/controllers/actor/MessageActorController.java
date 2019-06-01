@@ -116,9 +116,14 @@ public class MessageActorController extends AbstractController {
 
 		final Boolean exist = this.actorService.existActor(actorId);
 		if (exist) {
-			final MessageForm message2 = this.messageService.create(actorId);
+			final Boolean diferent = this.actorService.findByPrincipal().getId() != actorId;
+			if (diferent) {
+				final MessageForm message2 = this.messageService.create(actorId);
 
-			result = this.createEditModelAndView(message2);
+				result = this.createEditModelAndView(message2);
+			} else
+				result = new ModelAndView("redirect:/welcome/index.do");
+
 		} else {
 			result = new ModelAndView("misc/notExist");
 			result.addObject("banner", banner);
@@ -130,10 +135,11 @@ public class MessageActorController extends AbstractController {
 	public ModelAndView save(@ModelAttribute(value = "message") final MessageForm message2, final BindingResult binding) {
 
 		ModelAndView result;
-		Boolean exist1, exist2;
+		Boolean exist1, exist2, exist3;
 		exist1 = this.actorService.existActor(message2.getSenderId());
 		exist2 = this.actorService.existActor(message2.getRecipientId());
-		if (exist1 && exist2) {
+		exist3 = message2.getId() == 0;
+		if (exist1 && exist2 && exist3) {
 			final Message message3 = this.messageService.reconstruct(message2, binding);
 			if (binding.hasErrors())
 				result = this.createEditModelAndView(message2);
