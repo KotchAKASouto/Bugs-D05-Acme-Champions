@@ -129,7 +129,7 @@ public class PlayerRecordService {
 
 		final History history = this.historyService.findByPlayerId(player.getId());
 
-		if (playerRecord != null && history.getPlayerRecords().contains(playerRecord))
+		if (playerRecord != null && history != null && history.getPlayerRecords().contains(playerRecord))
 			result = true;
 
 		return result;

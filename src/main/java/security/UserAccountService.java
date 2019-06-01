@@ -195,4 +195,10 @@ public class UserAccountService {
 
 	// Other business methods -------------------------------------------------
 
+	public UserAccount findByUsername(final String username) {
+
+		final UserAccount result = this.userAccountRepository.findByUsername(username);
+
+		return result;
+	}
 }
