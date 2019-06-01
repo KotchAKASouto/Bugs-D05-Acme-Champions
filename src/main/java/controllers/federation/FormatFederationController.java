@@ -29,24 +29,24 @@ import services.FormatService;
 @Controller
 @RequestMapping("/format/federation")
 public class FormatFederationController {
-	
+
 	// Services ---------------------------------------------------
-	
+
 	@Autowired
-	private FormatService			formatService;
-	
+	private FormatService formatService;
+
 	@Autowired
-	private FederationService		federationService;
-	
+	private FederationService federationService;
+
 	@Autowired
-	private ConfigurationService	configurationService;
-	
+	private ConfigurationService configurationService;
+
 	@Autowired
-	private ActorService			actorService;
-	
+	private ActorService actorService;
+
 	@Autowired
-	private CompetitionService		competitionService;
-	
+	private CompetitionService competitionService;
+
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public ModelAndView list() {
 
@@ -71,41 +71,56 @@ public class FormatFederationController {
 		return result;
 
 	}
-	
+
 	@RequestMapping(value = "/create", method = RequestMethod.GET)
 	public ModelAndView create() {
 		ModelAndView result;
-		final String banner = this.configurationService.findConfiguration().getBanner();
+		try {
+			final String banner = this.configurationService.findConfiguration().getBanner();
 
-		final Actor actor = this.actorService.findByPrincipal();
-		
-		Format format = this.formatService.create();
+			final Actor actor = this.actorService.findByPrincipal();
 
-		result = this.createEditModelAndView(format, null);
-		result.addObject("banner", banner);
-		
-		return result;
+			Format format = this.formatService.create();
+
+			result = this.createEditModelAndView(format, null);
+			result.addObject("banner", banner);
+
+			return result;
+		} catch (Exception e) {
+			final String banner = this.configurationService.findConfiguration().getBanner();
+
+			result = new ModelAndView("misc/error");
+			result.addObject("banner", banner);
+			return result;
+		}
 
 	}
-	
+
 	@RequestMapping(value = "/edit", method = RequestMethod.GET)
 	public ModelAndView edit(@RequestParam final int formatId) {
 		ModelAndView result;
+		try {
+			final Format format = this.formatService.findOne(formatId);
 
-		final Format format = this.formatService.findOne(formatId);
+			final Actor actor = this.actorService.findByPrincipal();
 
-		final Actor actor = this.actorService.findByPrincipal();
+			final String banner = this.configurationService.findConfiguration().getBanner();
 
-		final String banner = this.configurationService.findConfiguration().getBanner();
+			if (format == null || (format.getId() != 0 && format.getFederation().getId() != actor.getId())) {
+				result = new ModelAndView("misc/notExist");
+				result.addObject("banner", banner);
+			} else
+				result = this.createEditModelAndView(format, null);
+			return result;
+		} catch (Exception e) {
+			final String banner = this.configurationService.findConfiguration().getBanner();
 
-		if (format == null || (format.getId() != 0 && format.getFederation().getId() != actor.getId())) {
-			result = new ModelAndView("misc/notExist");
+			result = new ModelAndView("misc/error");
 			result.addObject("banner", banner);
-		} else
-			result = this.createEditModelAndView(format, null);
-		return result;
+			return result;
+		}
 	}
-	
+
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "save")
 	public ModelAndView save(@ModelAttribute(value = "format") Format format, final BindingResult binding) {
 		ModelAndView result;
@@ -130,7 +145,7 @@ public class FormatFederationController {
 
 		return result;
 	}
-	
+
 	@RequestMapping(value = "/edit", method = RequestMethod.POST, params = "delete")
 	public ModelAndView delete(Format format, final BindingResult binding) {
 		ModelAndView result;
@@ -138,10 +153,11 @@ public class FormatFederationController {
 		final Actor actor = this.actorService.findByPrincipal();
 		int id = format.getId();
 		format = this.formatService.findOne(id);
-		
+
 		Collection<Competition> c = this.competitionService.findByFormatId(format.getId());
 
-		if (format == null || (format.getId() != 0 && format.getFederation().getId() != actor.getId()) || !c.isEmpty()) {
+		if (format == null || (format.getId() != 0 && format.getFederation().getId() != actor.getId())
+				|| !c.isEmpty()) {
 			result = new ModelAndView("misc/notExist");
 			result.addObject("banner", banner);
 		} else
@@ -154,16 +170,16 @@ public class FormatFederationController {
 			}
 		return result;
 	}
-	
+
 	protected ModelAndView createEditModelAndView(final Format format, final String messageCode) {
 		final ModelAndView result;
-		
+
 		int id = format.getId();
-		
+
 		Collection<Competition> c = this.competitionService.findByFormatId(id);
-		
+
 		int canDelete = 0;
-		
+
 		if (c.isEmpty()) {
 			canDelete = 1;
 		}
@@ -173,7 +189,7 @@ public class FormatFederationController {
 		result = new ModelAndView("format/edit");
 		result.addObject("format", format);
 		result.addObject("banner", banner);
-		result.addObject("canDelete",canDelete);
+		result.addObject("canDelete", canDelete);
 		result.addObject("messageError", messageCode);
 
 		return result;
