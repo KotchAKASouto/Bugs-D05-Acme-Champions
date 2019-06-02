@@ -17,6 +17,7 @@ import services.BoxService;
 import services.ConfigurationService;
 import services.MessageService;
 import controllers.AbstractController;
+import domain.Actor;
 import domain.Message;
 import forms.MessageForm;
 
@@ -169,7 +170,9 @@ public class MessageActorController extends AbstractController {
 
 		ModelAndView result;
 		final Message message1;
-		final Boolean security;
+		final Boolean security1, security2;
+
+		final Actor actor = this.actorService.findByPrincipal();
 
 		final Boolean existMessage = this.messageService.existId(messageId);
 		final Boolean existBox = this.boxService.existId(boxId);
@@ -177,16 +180,25 @@ public class MessageActorController extends AbstractController {
 
 		if (existMessage && existBox) {
 
-			security = this.messageService.securityMessage(boxId);
+			security1 = this.messageService.securityMessage(boxId);
 
-			if (security) {
+			if (security1) {
 
 				message1 = this.messageService.findOne(messageId);
 
-				this.messageService.delete(message1);
+				security2 = message1.getRecipient().equals(actor) || message1.getSender().equals(actor);
 
-				result = new ModelAndView("redirect:/welcome/index.do");
-				result.addObject("banner", banner);
+				if (security2) {
+
+					this.messageService.delete(message1);
+
+					result = new ModelAndView("redirect:/box/actor/list.do");
+					result.addObject("banner", banner);
+				} else {
+
+					result = new ModelAndView("redirect:/welcome/index.do");
+					result.addObject("banner", banner);
+				}
 
 			} else
 				result = new ModelAndView("redirect:/welcome/index.do");
