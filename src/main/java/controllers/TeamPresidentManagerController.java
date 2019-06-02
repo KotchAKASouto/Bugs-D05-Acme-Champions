@@ -110,7 +110,7 @@ public class TeamPresidentManagerController extends AbstractController {
 		if (team != null) {
 
 			goalPrediction = this.configurationService.goalPrediction(team.getId());
-			players = this.playerService.findPlayersOfTeam(team.getId());
+			players = this.playerService.findAll();
 			if (manager != null)
 				managers.add(manager);
 

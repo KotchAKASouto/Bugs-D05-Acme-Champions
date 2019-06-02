@@ -57,13 +57,9 @@
 	<acme:column property="positionSpanish" titleKey="player.positionSpanish" value= "${row1.positionSpanish}"/>
 	</jstl:if>
 	
-	<display:column titleKey="player.injured"> 
-		<spring:message code="player.${row1.injured }" />
-	</display:column>
+	<acme:column property="injured" titleKey="player.injured" value= "${row1.injured}"/>
 	
-	<display:column titleKey="player.punished"> 
-		<spring:message code="player.${row1.punished }" />
-	</display:column>
+	<acme:column property="punished" titleKey="player.punished" value= "${row1.punished}"/>
 	
 	<acme:url href="player/display.do?playerId=${row1.id}" code="actor.display"/>
 	

@@ -150,9 +150,6 @@ public class SponsorshipService {
 
 		final Date now = new Date(System.currentTimeMillis() - 1000);
 
-		final String newBanner = this.configurationService.checkURL(sponsorship.getBanner());
-		sponsorship.setBanner(newBanner);
-
 		final String newTarjet = this.configurationService.checkURL(sponsorship.getTarget());
 		sponsorship.setTarget(newTarjet);
 

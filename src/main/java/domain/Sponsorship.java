@@ -36,7 +36,6 @@ public class Sponsorship extends DomainEntity {
 	}
 
 	@NotBlank
-	@URL
 	@SafeHtml
 	public String getBanner() {
 		return this.banner;

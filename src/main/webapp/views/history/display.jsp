@@ -58,14 +58,13 @@
 	<acme:column property="squadNumber" titleKey="history.squadNumber" value= "${row1.squadNumber} "/>
 	
 	
-	<acme:url href="playerRecord/player/edit.do?playerRecordId=${row1.id}" code="history.edit"/>
+	<acme:url href="welcome/index.do" code="history.edit"/>
 
 	
 </display:table>
 
 <br/>
 
-<a href="playerRecord/player/create.do"><spring:message code="history.create"/></a>
 
 </fieldset>
 
