@@ -17,8 +17,8 @@
 	<spring:message code="dateFormat" var="format"/>
 	<spring:message code="timeFormat" var="formatTime"/>
 	<display:column titleKey="training.startDate"> 
-		<fmt:formatDate type="date" value="${row.startDate }" pattern="${format}" />
-		<fmt:formatDate type="time" value="${row.startDate }" pattern="${formatTime}" />
+		<fmt:formatDate type="date" value="${row.startDate }" pattern="MM/yyyy/dd" />
+
 	</display:column>
 	
 	<display:column titleKey="training.endingDate"> 
