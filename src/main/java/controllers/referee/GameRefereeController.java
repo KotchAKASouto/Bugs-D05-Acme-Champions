@@ -148,6 +148,7 @@ public class GameRefereeController extends AbstractController {
 		result.addObject("game", game);
 		result.addObject("banner", banner);
 		result.addObject("messageError", messageCode);
+		result.addObject("language", LocaleContextHolder.getLocale().getLanguage());
 
 		return result;
 	}
